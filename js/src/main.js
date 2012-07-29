@@ -1,5 +1,12 @@
-require(['js/lib/underscore.js', 'util', 'graphics', 'tilemap', 'battle', 'keyboard-input', 'game'], function() {
+require.config({
+    urlArgs: "bust=" + Date.now()
+});
+
+require(['../../js/lib/underscore', 'util', 'graphics', 'tilemap', 'keyboard-input', 'game'], function() {
     "use strict";
+    
+    installMixins();
+
     var game = new Game(new Graphics(640, 480)),
         startFrame,
         endFrame = Date.now(),
@@ -10,7 +17,10 @@ require(['js/lib/underscore.js', 'util', 'graphics', 'tilemap', 'battle', 'keybo
             window.webkitRequestAnimationFrame ||
             window.mozRequestAnimationFrame ||
             window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame;
+            window.msRequestAnimationFrame ||
+            function(callback) {
+                setTimeout(callback, 16);
+            };
         fun(callback);
     };
 
