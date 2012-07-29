@@ -1,8 +1,4 @@
-require.config({
-
-});
-
-require(['graphics', 'battle', 'keyboard-input', 'game'], function() {
+require(['js/lib/underscore.js', 'util', 'graphics', 'tilemap', 'battle', 'keyboard-input', 'game'], function() {
     "use strict";
     var game = new Game(new Graphics(640, 480)),
         startFrame,
