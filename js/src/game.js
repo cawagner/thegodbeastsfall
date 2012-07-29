@@ -3,11 +3,10 @@ function Hero() {
 }
 
 function Game(graphics) {
-    var theHero = new Hero();
-    var input = new KeyboardInput().setup();
-
-    var tilemap = new Tilemap(20, 20);
-    var tilemapView = new TilemapView(tilemap, 32, graphics);
+    var theHero = new Hero(),
+        input = new KeyboardInput().setup(),
+        tilemap = new Tilemap(20, 20),
+        tilemapView = new TilemapView(tilemap, 32, graphics);
 
     tilemap.rect(2, 1, 1, 13, 1);
 
