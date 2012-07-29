@@ -5,6 +5,7 @@ function KeyboardInput() {
         up: false,
         down: false
     };
+    var _keys = _(keys);
 
     var keyCodesToKeys = {
         37: "left",
@@ -15,10 +16,8 @@ function KeyboardInput() {
 
     var setKeyTo = function(state) {
         return function(e) {
-            var key;
             if (e.keyCode in keyCodesToKeys) {
-                key = keyCodesToKeys[e.keyCode];
-                keys[key] = state;
+                keys[keyCodesToKeys[e.keyCode]] = state;
             }
         };
     }
@@ -32,21 +31,10 @@ function KeyboardInput() {
         return this;
     };
 
-    this.isLeftDown = function() {
-        return keys.left;
-    };
-
-    this.isRightDown = function() {
-        return keys.right;
-    };
-
-    this.isUpDown = function() {
-        return keys.up;
-    };
-
-    this.isDownDown = function() {
-        return keys.down;
-    };
+    this.isLeftDown = _keys.getter("left");
+    this.isRightDown = _keys.getter("right");
+    this.isUpDown = _keys.getter("up");
+    this.isDownDown = _keys.getter("down");
 
     this.dirX = function() {
         return this.isRightDown() - this.isLeftDown();

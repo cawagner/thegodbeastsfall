@@ -7,5 +7,10 @@ _.mixin({
                 func.call(self, x, y);
             }
         }
+    },
+    getter: function(obj, key) {
+        return function() {
+            return obj[key];
+        };
     }
 });
