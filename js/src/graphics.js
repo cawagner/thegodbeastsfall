@@ -1,8 +1,7 @@
 function Graphics(width, height) {
     var bufferElements = [document.getElementById("buffer0"), document.getElementById("buffer1")],
         bufferContexts = [bufferElements[0].getContext("2d"), bufferElements[1].getContext("2d")],
-        drawingBuffer = 1,
-        graphicsInfo = { width: width, height: height };
+        drawingBuffer = 1;
 
     this.context = function() {
         return bufferContexts[drawingBuffer];
