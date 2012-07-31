@@ -48,12 +48,11 @@ function TilemapView(tilemap, tileSize, graphics) {
 
     this.draw = function(scrollX, scrollY) {
         var originTileX = (scrollX / tileSize)|0,
-            originTileY = (scrollY / tileSize)|0,
-            z;
+            originTileY = (scrollY / tileSize)|0;
 
         graphics.setOrigin(-scrollX, -scrollY);
 
-        for (z = 0; z < tilemap.layers(); ++z) {
+        _(tilemap.layers()).times(function(z) {
             _.each2d(screenWidthInTiles + 1, screenHeightInTiles + 1, function(ix, iy) {
                 var x = originTileX - 1 + ix,
                     y = originTileY - 1 + iy,
@@ -64,6 +63,6 @@ function TilemapView(tilemap, tileSize, graphics) {
                     graphics.drawFilledRect(x * tileSize, y * tileSize, tileSize, tileSize);
                 }
             }, this);
-        }
+        });
     };
 }
