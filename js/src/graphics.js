@@ -1,16 +1,15 @@
 function Graphics(width, height) {
     var bufferElements = [document.getElementById("buffer0"), document.getElementById("buffer1")],
         bufferContexts = [bufferElements[0].getContext('2d'), bufferElements[1].getContext('2d')],
-        drawingBuffer = 1,
-        origin = { x: 0, y: 0 };
+        drawingBuffer = 1;
 
     this.context = function() {
         return bufferContexts[drawingBuffer];
     };
 
     this.setOrigin = function(x, y) {
-        origin.x = x;
-        origin.y = y;
+        this.context().setTransform(1, 0, 0, 1, 0, 0);
+        this.context().translate(x, y);
     };
 
     this.swapBuffers = function() {
@@ -30,11 +29,11 @@ function Graphics(width, height) {
     };
 
     this.drawFilledRect = function(x, y, width, height) {
-        this.context().fillRect((x + origin.x)|0, (y + origin.y)|0, width, height);
+        this.context().fillRect(x|0, y|0, width, height);
     };
 
     this.drawText = function(x, y, text) {
-        this.context().fillText(text, x + origin.x, y + origin.y);
+        this.context().fillText(text, x, y);
     };
 
     this.width = function() { return width; };
