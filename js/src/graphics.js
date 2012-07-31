@@ -1,6 +1,6 @@
 function Graphics(width, height) {
     var bufferElements = [document.getElementById("buffer0"), document.getElementById("buffer1")],
-        bufferContexts = [bufferElements[0].getContext("2d"), bufferElements[1].getContext("2d")],
+        bufferContexts = [bufferElements[0].getContext('2d'), bufferElements[1].getContext('2d')],
         drawingBuffer = 1,
         origin = { x: 0, y: 0 };
 
@@ -33,6 +33,14 @@ function Graphics(width, height) {
         this.context().fillRect((x + origin.x)|0, (y + origin.y)|0, width, height);
     };
 
+    this.drawText = function(x, y, text) {
+        this.context().fillText(text, x + origin.x, y + origin.y);
+    };
+
     this.width = function() { return width; };
     this.height = function() { return height; };
+
+    _(bufferContexts).each(function initializeContext(context) {
+        context.font = "12px Arial";
+    });
 }
