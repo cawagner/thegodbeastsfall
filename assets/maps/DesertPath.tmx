@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="60" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="Desert" tilewidth="16" tileheight="16">
+  <image source="../img/desert_1.png" width="208" height="384"/>
+ </tileset>
+ <layer name="Base" width="20" height="60">
+  <data encoding="base64" compression="zlib">
+   eJztljkOAjEMRVMNa8fesXcsJ0jvUwFTs1yZ30Sy0DAkxHIYlOIVX+mevu0UxpgWaIMOKCLzAAzBCIwF8hwswBKsBPIO7MEBHAVyrK/sL/vT8EfZn2r/uqAH+h6+yMPfBEzBTMjfGmzA9kf9afePXvIFlDX+Qn3dwUPZn1X0V5X5DEjML58BCX98Bj71jxL4a/L+i5nfEzgL+ruC25/4o0CfEv40++f2ro8v6+HP7d2Y/ef6KOXP9TFV/6jmPf//0u+/Kn/8lkr447dUwh+/paH+7Jf+6M17vh9hvpo8v0/HTohY
+  </data>
+ </layer>
+ <layer name="Dunes" width="20" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt1sENwCAMQ9EwCZUovbWF7j8c3oEgQP1P8tUnK4oZgBlSMDuVrFyhv6+ooyqfQxf2FrWBw3kHt/oetgUAw4263y83HD+UnbbPnw2soQGhKwNl
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="20" height="60">
+  <object name="default" type="Entrance" x="153" y="774"/>
+ </objectgroup>
+</map>
