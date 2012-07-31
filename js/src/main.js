@@ -1,5 +1,5 @@
 require.config({
-    urlArgs: "bust=" + Date.now()
+    //urlArgs: "bust=" + Date.now()
 });
 
 require(['../../js/lib/underscore', 'util', 'graphics', 'tilemap', 'keyboard-input', 'game'], function() {

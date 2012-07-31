@@ -10,7 +10,7 @@ function Game(graphics) {
         scrollX = 0,
         scrollY = 0;
 
-    tilemap.rect(2, 1, 1, 13, 1);
+    tilemap.rect({ x: 2, y: 1, width: 1, height: 13, layer: 0, tile: 1});
 
     theHero.x = 320;
     theHero.y = 200;
