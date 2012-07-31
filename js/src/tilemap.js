@@ -30,17 +30,9 @@ function Tilemap(width, height, layers) {
         }, this);
     };
 
-    this.width = function() {
-        return width;
-    };
-
-    this.height = function() {
-        return height;
-    };
-
-    this.layers = function() {
-        return layers;
-    };
+    this.width = function() { return width; };
+    this.height = function() { return height; };
+    this.layers = function() { return layers; };
 
     layers = layers || 1;
     tiles = [];
@@ -55,21 +47,23 @@ function TilemapView(tilemap, tileSize, graphics) {
     var screenHeightInTiles = 480 / tileSize;
 
     this.draw = function(scrollX, scrollY) {
-        var tile, x, y, z,
-            originTileX = (scrollX / tileSize)|0,
-            originTileY = (scrollY / tileSize)|0;
+        var originTileX = (scrollX / tileSize)|0,
+            originTileY = (scrollY / tileSize)|0,
+            z;
 
         graphics.setOrigin(-scrollX, -scrollY);
 
         for (z = 0; z < tilemap.layers(); ++z) {
-            for (x = originTileX - 1; x < originTileX + screenWidthInTiles + 1; ++x) {
-                for (y = originTileY - 1; y < originTileY + screenHeightInTiles + 1; ++y) {
-                    if (tile = tilemap.getAt(x, y, z)) {
-                        graphics.setFillColorRGB(255, 255, 255);
-                        graphics.drawFilledRect(x * tileSize, y * tileSize, tileSize, tileSize);
-                    }
+            _.each2d(screenWidthInTiles + 1, screenHeightInTiles + 1, function(ix, iy) {
+                var x = originTileX - 1 + ix,
+                    y = originTileY - 1 + iy,
+                    tile;
+
+                if (tile = tilemap.getAt(x, y, z)) {
+                    graphics.setFillColorRGB(255, 255, 255);
+                    graphics.drawFilledRect(x * tileSize, y * tileSize, tileSize, tileSize);
                 }
-            }
+            }, this);
         }
     };
 }
