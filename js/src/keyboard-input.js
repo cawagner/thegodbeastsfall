@@ -8,10 +8,10 @@ function KeyboardInput() {
     var uKeys = _(keys);
 
     var keyCodesToKeys = {
-        37: "left",
-        39: "right",
-        38: "up",
-        40: "down"
+        37: 'left',
+        39: 'right',
+        38: 'up',
+        40: 'down'
     };
 
     var setKeyTo = function(state) {
@@ -31,10 +31,10 @@ function KeyboardInput() {
         return this;
     };
 
-    this.isLeftDown = uKeys.getter("left");
-    this.isRightDown = uKeys.getter("right");
-    this.isUpDown = uKeys.getter("up");
-    this.isDownDown = uKeys.getter("down");
+    this.isLeftDown = uKeys.getter('left');
+    this.isRightDown = uKeys.getter('right');
+    this.isUpDown = uKeys.getter('up');
+    this.isDownDown = uKeys.getter('down');
 
     this.dirX = function() {
         return this.isRightDown() - this.isLeftDown();
