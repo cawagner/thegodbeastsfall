@@ -62,6 +62,8 @@ function TilemapView(tilemap, tileSize, graphics) {
                     graphics.setFillColorRGB(255, 255, 255);
                     graphics.drawFilledRect(x * tileSize, y * tileSize, tileSize, tileSize);
                 }
+                graphics.setFillColorRGB(128, 128, 128);
+                graphics.drawText(x * tileSize, y * tileSize, tile);
             }, this);
         });
     };
