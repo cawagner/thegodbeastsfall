@@ -13,6 +13,10 @@ function installMixins() {
             return function() {
                 return obj[key];
             };
+        },
+        noop: function() {},
+        give: function(value) {
+            return function() { return value; };
         }
     });
 };

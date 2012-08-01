@@ -2,16 +2,21 @@ function Hero() {
 
 }
 
-function Game(graphics) {
-    var theHero = new Hero(),
-        input = new KeyboardInput().setup(),
-        tilemap = new Tilemap(20, 20),
-        tilemapView = new TilemapView(tilemap, 32, graphics),
-        scrollX = 0,
-        scrollY = 0,
-        speed = 6;
+function NoopState() {
+    this.update = _.noop;
+    this.draw = _.noop;
+    this.shouldDrawParent = _.give(true);
+}
 
-    tilemap.rect({ x: 2, y: 1, width: 1, height: 13, layer: 0, tile: 1});
+function FieldState(graphics, tilemap) {
+    //GameState.apply(this);
+
+    var tilemapView = new TilemapView(tilemap, 32, graphics)
+        theHero = new Hero(),
+        input = new KeyboardInput().setup(),
+        scrollX,
+        scrollY,
+        speed = 6;
 
     theHero.x = 320;
     theHero.y = 200;
@@ -25,20 +30,51 @@ function Game(graphics) {
     };
 
     this.draw = function(timeScale) {
-        graphics.setOrigin(0, 0);
-        graphics.cls();
-
         tilemapView.draw(scrollX, scrollY);
 
         graphics.setFillColorRGB(255, 0, 0);
         graphics.drawFilledRect(theHero.x, theHero.y, 32, 32);
+    };
+
+    this.shouldDrawParent = _.give(false);
+}
+
+function Game(graphics) {
+    var gameStates = [ new NoopState() ];
+
+    this.update = function(timeScale) {
+        var i;
+        for (i = gameStates.length - 1; i > 0; --i) {
+            if (gameStates[i].update(timeScale) === false) {
+                break;
+            }
+        }
+    };
+
+    function drawState(index, timeScale) {
+        var state = gameStates[index], undefined;
+        if (state !== undefined) {
+            if (state.shouldDrawParent()) {
+                drawState(index - 1, timeScale);
+            }
+            state.draw(timeScale);
+        }
+    }
+
+    this.draw = function(timeScale) {
+        graphics.setOrigin(0, 0);
+        graphics.cls();
+
+        drawState(gameStates.length - 1, timeScale);
+
         graphics.swapBuffers();
     };
 
     (function(){
         var mapLoader = new MapLoader();
         mapLoader.load('DesertPath').done(function(data){
-            tilemapView = new TilemapView(data.tilemap, 32, graphics);
+            var fieldState = new FieldState(graphics, data.tilemap);
+            gameStates.push(fieldState);
         });
     })();
 }
