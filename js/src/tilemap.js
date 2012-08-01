@@ -54,8 +54,8 @@ function TilemapView(tilemap, tileSize, graphics) {
 
         _(tilemap.layers()).times(function(z) {
             _.each2d(screenWidthInTiles + 1, screenHeightInTiles + 1, function(ix, iy) {
-                var x = originTileX - 1 + ix,
-                    y = originTileY - 1 + iy,
+                var x = originTileX + ix,
+                    y = originTileY + iy,
                     tile;
 
                 if (tile = tilemap.getAt(x, y, z)) {

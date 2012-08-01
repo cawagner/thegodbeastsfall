@@ -41,6 +41,15 @@ function FieldState(graphics, tilemap) {
 
 function Game(graphics) {
     var gameStates = [ new NoopState() ];
+    var drawState = function(index, timeScale) {
+        var state = gameStates[index], undefined;
+        if (state !== undefined) {
+            if (state.shouldDrawParent()) {
+                drawState(index - 1, timeScale);
+            }
+            state.draw(timeScale);
+        }
+    }
 
     this.update = function(timeScale) {
         var i;
@@ -50,16 +59,6 @@ function Game(graphics) {
             }
         }
     };
-
-    function drawState(index, timeScale) {
-        var state = gameStates[index], undefined;
-        if (state !== undefined) {
-            if (state.shouldDrawParent()) {
-                drawState(index - 1, timeScale);
-            }
-            state.draw(timeScale);
-        }
-    }
 
     this.draw = function(timeScale) {
         graphics.setOrigin(0, 0);
