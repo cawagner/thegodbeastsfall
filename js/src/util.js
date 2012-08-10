@@ -17,6 +17,9 @@ function installMixins() {
         noop: function() {},
         give: function(value) {
             return function() { return value; };
+        },
+        boundWithin: function(number, min, max) {
+            return Math.min(Math.max(min, number), max);
         }
     });
 };

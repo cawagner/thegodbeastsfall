@@ -41,9 +41,7 @@ function FieldState(graphics, tilemap, tilesets) {
         }
     }
 
-    this.update = function(timeScale) {
-        moveTowardNewSquare();
-
+    function takeWalkInput() {
         if (moveRemaining === 0) {
             moveX = input.dirX();
             moveY = input.dirY();
@@ -59,9 +57,14 @@ function FieldState(graphics, tilemap, tilesets) {
                 }
             }
         }
+    }
 
-        scrollX = Math.max(0, theHero.x*TILE_SIZE - 320);
-        scrollY = Math.max(0, theHero.y*TILE_SIZE - 240);
+    this.update = function(timeScale) {
+        moveTowardNewSquare();
+        takeWalkInput();
+
+        scrollX = _(theHero.x * TILE_SIZE - graphics.width() / 2).boundWithin(0, tilemap.width() * TILE_SIZE - graphics.width());
+        scrollY = _(theHero.y * TILE_SIZE - graphics.height() / 2).boundWithin(0, tilemap.height() * TILE_SIZE - graphics.height());
     };
 
     this.draw = function(timeScale) {
