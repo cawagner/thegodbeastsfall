@@ -38,13 +38,32 @@ function Tilemap(width, height, layers) {
     tiles = [];
     _(layers).times(function() {
         tiles.push(new Array(width * height));
-    });
+    }); 
 }
 
-function TilemapView(tilemap, tileSize, graphics) {
+function TilemapView(tilemap, tilesets, tileSize, graphics) {
     // TODO: don't hardcode these sizes
     var screenWidthInTiles = 640 / tileSize;
     var screenHeightInTiles = 480 / tileSize;
+
+    // TODO: support multiple tilesets!
+    var ts = tilesets[0];
+
+    var srcRect = { x: 0, y: 0, width: ts.tileWidth, height: ts.tileHeight };
+    var destRect = { x : 0, y: 0, width: tileSize, height: tileSize };
+
+    var drawTile = function(x, y, tile) {
+        tile -= 1;
+        var tx = tile % ts.width;
+        var ty = Math.floor(tile / ts.width);
+        srcRect.x = tx * ts.tileWidth;
+        srcRect.y = ty * ts.tileHeight;
+
+        destRect.x = x * tileSize;
+        destRect.y = y * tileSize;
+
+        graphics.drawImageRect(tilesets[0].image, srcRect, destRect);
+    };
 
     this.draw = function(scrollX, scrollY) {
         var originTileX = (scrollX / tileSize)|0,
@@ -56,14 +75,12 @@ function TilemapView(tilemap, tileSize, graphics) {
             _.each2d(screenWidthInTiles + 1, screenHeightInTiles + 1, function(ix, iy) {
                 var x = originTileX + ix,
                     y = originTileY + iy,
+                    srcRect,
                     tile;
 
                 if (tile = tilemap.getAt(x, y, z)) {
-                    graphics.setFillColorRGB(255, 255, 255);
-                    graphics.drawFilledRect(x * tileSize, y * tileSize, tileSize, tileSize);
+                    drawTile(x, y, tile);
                 }
-                graphics.setFillColorRGB(128, 128, 128);
-                graphics.drawText(x * tileSize, y * tileSize, tile);
             }, this);
         });
     };

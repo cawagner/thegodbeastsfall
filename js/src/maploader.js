@@ -17,6 +17,25 @@ function MapLoader() {
         var tileLayers = _(data.layers).filter(function(layer) { return layer.type === "tilelayer"; });
         var objectLayers = _(data.layers).filter(function(layer) { return layer.type === "objectgroup"; })
         var tilemap = new Tilemap(data.width, data.height, tileLayers.length);
+
+        var tilesets = [];
+
+        _(data.tilesets).each(function(tilesetData) {
+            var path = 'assets/' + tilesetData.image.replace("\/", "/").replace(/..\//, '');
+            var image = new Image();
+            var tileset = {
+                image: image,
+                name: tilesetData.name,
+                width: tilesetData.imagewidth / tilesetData.tilewidth,
+                height: tilesetData.imageheight / tilesetData.tileheight,
+                tileWidth: tilesetData.tilewidth,
+                tileHeight: tilesetData.tileheight,
+                length: (tilesetData.imagewidth / tilesetData.tilewidth) * (tilesetData.imageheight / tilesetData.tileheight)
+            };
+            image.src = path;
+
+            tilesets.push(tileset);
+        });
         
         _(tileLayers.length).times(function(z) {
             _.each2d(data.width, data.height, function(x, y) {
@@ -25,7 +44,8 @@ function MapLoader() {
         });
 
         return {
-            tilemap: tilemap
+            tilemap: tilemap,
+            tilesets: tilesets
         };
     };
 

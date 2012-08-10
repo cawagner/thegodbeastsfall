@@ -8,10 +8,8 @@ function NoopState() {
     this.shouldDrawParent = _.give(true);
 }
 
-function FieldState(graphics, tilemap) {
-    //GameState.apply(this);
-
-    var tilemapView = new TilemapView(tilemap, 32, graphics)
+function FieldState(graphics, tilemap, tilesets) {
+    var tilemapView = new TilemapView(tilemap, tilesets, 32, graphics)
         theHero = new Hero(),
         input = new KeyboardInput().setup(),
         scrollX,
@@ -72,7 +70,7 @@ function Game(graphics) {
     (function(){
         var mapLoader = new MapLoader();
         mapLoader.load('DesertPath').done(function(data){
-            var fieldState = new FieldState(graphics, data.tilemap);
+            var fieldState = new FieldState(graphics, data.tilemap, data.tilesets);
             gameStates.push(fieldState);
         });
     })();

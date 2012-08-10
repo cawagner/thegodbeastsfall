@@ -32,8 +32,8 @@ function Graphics(width, height) {
         this.context().fillRect(x|0, y|0, width, height);
     };
 
-    this.drawImageRect = function(image, x, y, rect) {
-        this.context().drawImage(image, rect.x, rect.y, rect.width, rect.height, x, y, rect.width, rect.height);
+    this.drawImageRect = function(image, sourceRect, destRect) {
+        this.context().drawImage(image, sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height, destRect.x, destRect.y, destRect.width, destRect.height);
     };
 
     this.drawText = function(x, y, text) {
