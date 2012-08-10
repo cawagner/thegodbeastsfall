@@ -1,3 +1,5 @@
+var TILE_SIZE = 32;
+
 function Hero() {
 
 }
@@ -9,29 +11,59 @@ function NoopState() {
 }
 
 function FieldState(graphics, tilemap, tilesets) {
-    var tilemapView = new TilemapView(tilemap, tilesets, 32, graphics)
+    var tilemapView = new TilemapView(tilemap, tilesets, TILE_SIZE, graphics)
         theHero = new Hero(),
         input = new KeyboardInput().setup(),
         scrollX,
         scrollY,
-        speed = 6;
+        speed = 0.1;
 
-    theHero.x = 320;
-    theHero.y = 200;
+    var newX = 0, newY = 0;
+
+    theHero.x = 0;
+    theHero.y = 0;
+
+    var moveRemaining = 0;
+    var moveX = 0, moveY = 0, amountToMove;
+
+    function moveTowardNewSquare() {
+        if (moveRemaining > 0) {
+            theHero.x += speed * moveX;
+            theHero.y += speed * moveY;
+            moveRemaining -= speed;
+            if (moveRemaining < 0) {
+                moveRemaining = 0;
+                theHero.x = newX;
+                theHero.y = newY;
+                moveX = 0;
+                moveY = 0;
+            }
+        }
+    }
 
     this.update = function(timeScale) {
-        theHero.x += speed * input.dirX() * timeScale;
-        theHero.y += speed * input.dirY() * timeScale;
+        moveTowardNewSquare();
 
-        scrollX = Math.max(0, theHero.x - 320);
-        scrollY = Math.max(0, theHero.y - 240);
+        if (moveRemaining === 0) {
+            if (input.dirX() || input.dirY()) {
+                moveRemaining = 1;
+                moveX = input.dirX();
+                moveY = input.dirY();
+                newX += moveX;
+                newY += moveY;
+                moveTowardNewSquare();
+            }
+        }
+
+        scrollX = Math.max(0, theHero.x*TILE_SIZE - 320);
+        scrollY = Math.max(0, theHero.y*TILE_SIZE - 240);
     };
 
     this.draw = function(timeScale) {
         tilemapView.draw(scrollX, scrollY);
 
         graphics.setFillColorRGB(255, 0, 0);
-        graphics.drawFilledRect(theHero.x, theHero.y, 32, 32);
+        graphics.drawFilledRect(theHero.x * TILE_SIZE, theHero.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     };
 
     this.shouldDrawParent = _.give(false);
@@ -72,6 +104,6 @@ function Game(graphics) {
         mapLoader.load('DesertPath').done(function(data){
             var fieldState = new FieldState(graphics, data.tilemap, data.tilesets);
             gameStates.push(fieldState);
-        });
+        }); 
     })();
 }
