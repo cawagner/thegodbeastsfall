@@ -24,7 +24,7 @@ function FieldState(graphics, tilemap, tilesets) {
     theHero.y = 0;
 
     var moveRemaining = 0;
-    var moveX = 0, moveY = 0, amountToMove;
+    var moveX = 0, moveY = 0, dx, dy, amountToMove;
 
     function moveTowardNewSquare() {
         if (moveRemaining > 0) {
@@ -45,13 +45,18 @@ function FieldState(graphics, tilemap, tilesets) {
         moveTowardNewSquare();
 
         if (moveRemaining === 0) {
-            if (input.dirX() || input.dirY()) {
-                moveRemaining = 1;
-                moveX = input.dirX();
-                moveY = input.dirY();
-                newX += moveX;
-                newY += moveY;
-                moveTowardNewSquare();
+            moveX = input.dirX();
+            moveY = input.dirY();
+            if (moveX || moveY) {
+                if (tilemap.isWalkable(theHero.x + moveX, theHero.y + moveY)) {
+                    moveRemaining = 1;
+                    newX += moveX;
+                    newY += moveY;
+                    moveTowardNewSquare();
+                } else {
+                    moveX = 0;
+                    moveY = 0;
+                }
             }
         }
 

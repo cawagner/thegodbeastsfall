@@ -5,6 +5,11 @@ function Tilemap(width, height, layers) {
         return x + y * width;
     };
 
+    this.isWalkable = function(x, y) {
+        // TODO: not necessarily true!
+        return this.isInBounds(x, y) && this.getAt(x, y, 1) === 0;
+    };
+
     this.isInBounds = function(x, y) {
         return !(x < 0 || x >= width || y <0 || y >= height);
     };
