@@ -47,9 +47,8 @@ function Tilemap(width, height, layers) {
 }
 
 function TilemapView(tilemap, tilesets, graphics) {
-    // TODO: don't hardcode these sizes
-    var screenWidthInTiles = 640 / TILE_SIZE;
-    var screenHeightInTiles = 480 / TILE_SIZE;
+    var screenWidthInTiles = graphics.width() / TILE_SIZE;
+    var screenHeightInTiles = graphics.height() / TILE_SIZE;
 
     // TODO: support multiple tilesets!
     var ts = tilesets[0];
