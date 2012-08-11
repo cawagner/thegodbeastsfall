@@ -6,9 +6,9 @@ function NoopState() {
 function FieldState(graphics, tilemap, tilesets) {
     var HERO_HEIGHT = 18;
     var tilemapView = new TilemapView(tilemap, tilesets, TILE_SIZE, graphics)
-        input = new KeyboardInput().setup();
-        hero = new Hero(tilemap, input),
-        scrollX,
+        input = new KeyboardInput().setup(),
+        hero = new Hero(tilemap, input);
+    var scrollX,
         scrollY,
         heroImage = new Image(),
         heroSrcRect = { x: 0, y: 0, width: 16, height: 18 },
