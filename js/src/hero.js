@@ -1,8 +1,7 @@
 function Character(tilemap) {
     var self = this;
     var destX = 0, destY = 0, moveX = 0, moveY = 0;
-    var moveRemaining = 0;
-    
+    var moveRemaining = 0;    
 
     var resetMove = function() {
         moveRemaining = 0;
