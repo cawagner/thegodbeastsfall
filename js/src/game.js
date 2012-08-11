@@ -6,25 +6,38 @@ function NoopState() {
 function FieldState(graphics, tilemap, tilesets) {
     var tilemapView = new TilemapView(tilemap, tilesets, TILE_SIZE, graphics)
         input = new KeyboardInput().setup();
-        theHero = new Hero(tilemap, input),
+        hero = new Hero(tilemap, input),
         scrollX,
         scrollY,
-        speed = 0.1;
+        speed = 0.1,
+        heroImage = new Image(),
+        heroSrcRect = { x: 0, y: 0, width: 16, height: 18 },
+        heroDestRect = { x: 0, y: 0, width: 16*2, height: 18*2 };
 
-    theHero.warpTo(0, 0);
+    // TODO: don't load here...
+    heroImage.src = 'assets/img/hero.png';
+
+    hero.warpTo(0, 0);
+
+    this.updateScroll = function() {
+        scrollX = _(hero.x * TILE_SIZE - graphics.width() / 2).boundWithin(0, tilemap.width() * TILE_SIZE - graphics.width());
+        scrollY = _(hero.y * TILE_SIZE - graphics.height() / 2).boundWithin(0, tilemap.height() * TILE_SIZE - graphics.height());
+    };
 
     this.update = function(timeScale, previousState) {
-        theHero.update();
+        hero.update();
 
-        scrollX = _(theHero.x * TILE_SIZE - graphics.width() / 2).boundWithin(0, tilemap.width() * TILE_SIZE - graphics.width());
-        scrollY = _(theHero.y * TILE_SIZE - graphics.height() / 2).boundWithin(0, tilemap.height() * TILE_SIZE - graphics.height());
+        this.updateScroll();
     };
 
     this.draw = function(timeScale, previousState) {
         tilemapView.draw(scrollX, scrollY);
 
-        graphics.setFillColorRGB(255, 0, 0);
-        graphics.drawFilledRect(theHero.x * TILE_SIZE, theHero.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        heroDestRect.x = hero.x * TILE_SIZE;
+        heroDestRect.y = hero.y * TILE_SIZE;
+        graphics.drawImageRect(heroImage, heroSrcRect, heroDestRect);
+
+        //graphics.drawFilledRect(theHero.x * TILE_SIZE, theHero.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     };
 }
 
@@ -54,7 +67,7 @@ function Game(graphics) {
 
     (function(){
         var mapLoader = new MapLoader();
-        mapLoader.load('DesertPath').done(function(data){
+        mapLoader.load('DesertPath').done(function(data) {
             var fieldState = new FieldState(graphics, data.tilemap, data.tilesets);
             game.pushState(fieldState);
         }); 
