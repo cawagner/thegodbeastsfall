@@ -23,3 +23,6 @@ function installMixins() {
         }
     });
 };
+
+// TODO: move somewhere better.
+var TILE_SIZE = 32;

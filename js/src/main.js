@@ -2,7 +2,7 @@ require.config({
     //urlArgs: "bust=" + Date.now()
 });
 
-require(['../../js/lib/zepto', '../../js/lib/underscore', 'util', 'graphics', 'tilemap', 'keyboard-input', 'maploader', 'game'], function() {
+require(['../../js/lib/zepto', '../../js/lib/underscore', 'util', 'graphics', 'tilemap', 'keyboard-input', 'maploader', 'hero', 'game'], function() {
     "use strict";
     
     installMixins();
