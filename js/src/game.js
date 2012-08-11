@@ -3,18 +3,33 @@ function NoopState() {
     this.draw = _.noop;
 }
 
+// TODO: move somewhere...
+function CharacterRenderer(graphics) {
+    var walkFrames = [1,0,1,2];
+
+    var srcRect = { x: 0, y: 0, width: 16, height: 18 };
+    var destRect = { x: 0, y: 0, width: 16*2, height: 18*2 };
+
+    this.drawCharacter = function(character, image, frame) {
+        srcRect.y = 18 * character.direction;
+        srcRect.x = 16 * walkFrames[Math.floor(frame)];
+
+        destRect.x = character.x * TILE_SIZE;
+        destRect.y = character.y * TILE_SIZE;
+
+        graphics.drawImageRect(image, srcRect, destRect);
+    };
+}
+
 function FieldState(graphics, tilemap, tilesets) {
-    var HERO_HEIGHT = 18;
-    var tilemapView = new TilemapView(tilemap, tilesets, TILE_SIZE, graphics)
+    var tilemapView = new TilemapView(tilemap, tilesets, graphics)
         input = new KeyboardInput().setup(),
-        hero = new Hero(tilemap, input);
-    var scrollX,
+        hero = new Hero(tilemap, input),
+        scrollX,
         scrollY,
         heroImage = new Image(),
-        heroSrcRect = { x: 0, y: 0, width: 16, height: 18 },
-        heroDestRect = { x: 0, y: 0, width: 16*2, height: 18*2 },
         frame = 0,
-        frames = [1,0,1,2];
+        characterRenderer = new CharacterRenderer(graphics);
 
     // TODO: don't load here...
     heroImage.src = 'assets/img/hero.png';
@@ -37,13 +52,7 @@ function FieldState(graphics, tilemap, tilesets) {
     this.draw = function(timeScale, previousState) {
         tilemapView.draw(scrollX, scrollY);
 
-        heroSrcRect.y = 18 * hero.direction;
-        heroSrcRect.x = 16 * frames[Math.floor(frame)];
-
-        heroDestRect.x = hero.x * TILE_SIZE;
-        heroDestRect.y = hero.y * TILE_SIZE;
-
-        graphics.drawImageRect(heroImage, heroSrcRect, heroDestRect);
+        characterRenderer.drawCharacter(hero, heroImage, frame);
     };
 }
 

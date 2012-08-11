@@ -26,12 +26,13 @@ function Character(tilemap) {
     };
 
     this.moveBy = function(dx, dy) {
-        // does not perform collision detection!
+        // does not perform collision detection or check that moving is possible!
+        // todo: should check that moving is possible.
         moveX = dx;
         moveY = dy;
         moveRemaining = 1;
-        destX = this.x + moveX;
-        destY = this.y + moveY;
+        destX = this.x + dx;
+        destY = this.y + dy;
         this.update();
         return true;
     };

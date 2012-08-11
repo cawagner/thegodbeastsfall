@@ -46,16 +46,16 @@ function Tilemap(width, height, layers) {
     }); 
 }
 
-function TilemapView(tilemap, tilesets, tileSize, graphics) {
+function TilemapView(tilemap, tilesets, graphics) {
     // TODO: don't hardcode these sizes
-    var screenWidthInTiles = 640 / tileSize;
-    var screenHeightInTiles = 480 / tileSize;
+    var screenWidthInTiles = 640 / TILE_SIZE;
+    var screenHeightInTiles = 480 / TILE_SIZE;
 
     // TODO: support multiple tilesets!
     var ts = tilesets[0];
 
     var srcRect = { x: 0, y: 0, width: ts.tileWidth, height: ts.tileHeight };
-    var destRect = { x : 0, y: 0, width: tileSize, height: tileSize };
+    var destRect = { x : 0, y: 0, width: TILE_SIZE, height: TILE_SIZE };
 
     var drawTile = function(x, y, tile) {
         tile -= 1;
@@ -64,15 +64,15 @@ function TilemapView(tilemap, tilesets, tileSize, graphics) {
         srcRect.x = tx * ts.tileWidth;
         srcRect.y = ty * ts.tileHeight;
 
-        destRect.x = x * tileSize;
-        destRect.y = y * tileSize;
+        destRect.x = x * TILE_SIZE;
+        destRect.y = y * TILE_SIZE;
 
         graphics.drawImageRect(tilesets[0].image, srcRect, destRect);
     };
 
     this.draw = function(scrollX, scrollY) {
-        var originTileX = (scrollX / tileSize)|0,
-            originTileY = (scrollY / tileSize)|0;
+        var originTileX = (scrollX / TILE_SIZE)|0,
+            originTileY = (scrollY / TILE_SIZE)|0;
 
         graphics.setOrigin(-scrollX, -scrollY);
 
