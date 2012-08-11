@@ -33,6 +33,8 @@ message({
 message({
     speaker: mirv,
     text: [
-        // ...
+        "So you are Held... you look just like I thought you would.",
+        "Thank you for releasing me. We can talk later but for now we need",
+        "to return to the surface.",
     ]
 })
