@@ -19,7 +19,7 @@ function FieldState(graphics, tilemap, tilesets) {
     // TODO: don't load here...
     heroImage.src = 'assets/img/hero.png';
 
-    hero.warpTo(0, 0);
+    hero.warpTo(2, 2);
 
     this.updateScroll = function() {
         scrollX = _(hero.x * TILE_SIZE - graphics.width() / 2).boundWithin(0, tilemap.width() * TILE_SIZE - graphics.width());
