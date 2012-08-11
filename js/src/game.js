@@ -4,6 +4,7 @@ function NoopState() {
 }
 
 function FieldState(graphics, tilemap, tilesets) {
+    var HERO_HEIGHT = 18;
     var tilemapView = new TilemapView(tilemap, tilesets, TILE_SIZE, graphics)
         input = new KeyboardInput().setup();
         hero = new Hero(tilemap, input),
@@ -32,6 +33,8 @@ function FieldState(graphics, tilemap, tilesets) {
 
     this.draw = function(timeScale, previousState) {
         tilemapView.draw(scrollX, scrollY);
+
+        heroSrcRect.y = 18 * hero.direction;
 
         heroDestRect.x = hero.x * TILE_SIZE;
         heroDestRect.y = hero.y * TILE_SIZE;

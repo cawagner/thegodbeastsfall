@@ -1,3 +1,19 @@
+direction = {
+    UP: 0,
+    RIGHT: 1,
+    DOWN: 2,
+    LEFT: 3,
+    getFromXY: function(x, y) {
+        switch(true) {
+            case y > 0: return direction.DOWN;
+            case y < 0: return direction.UP;
+            case x < 0: return direction.LEFT;
+            case x > 0: return direction.RIGHT;
+            default: return direction.UP;
+        }
+    }
+};
+
 function Hero(tilemap, input) {
     var SPEED = 0.1;
     var destX = 0, destY = 0,
@@ -31,6 +47,7 @@ function Hero(tilemap, input) {
 
     this.x = 0;
     this.y = 0;
+    this.direction = direction.UP;
 
     this.update = function(timeScale) {
         moveTowardNewSquare();
@@ -47,14 +64,17 @@ function Hero(tilemap, input) {
     };
 
     this.moveBy = function(dx, dy) {
-        if ((dx || dy) && tilemap.isWalkable(this.x + dx, this.y + dy)) {
-            moveX = dx;
-            moveY = dy;
-            moveRemaining = 1;
-            destX = this.x + moveX;
-            destY = this.y + moveY;
-            moveTowardNewSquare();
-            return true;
+        if (dx || dy) {
+            this.direction = direction.getFromXY(dx, dy);
+            if (tilemap.isWalkable(this.x + dx, this.y + dy)) {
+                moveX = dx;
+                moveY = dy;
+                moveRemaining = 1;
+                destX = this.x + moveX;
+                destY = this.y + moveY;
+                moveTowardNewSquare();
+                return true;
+            }
         }
         return false;
     };
