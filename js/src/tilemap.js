@@ -70,8 +70,13 @@ function TilemapView(tilemap, tilesets, graphics) {
         graphics.drawImageRect(tilesets[0].image, srcRect, destRect);
     };
 
-    this.draw = function(scrollX, scrollY) {
-        var originTileX = (scrollX / TILE_SIZE)|0,
+    this.scrollX = 0;
+    this.scrollY = 0;
+
+    this.draw = function() {
+        var scrollX = this.scrollX,
+            scrollY = this.scrollY,
+            originTileX = (scrollX / TILE_SIZE)|0,
             originTileY = (scrollY / TILE_SIZE)|0;
 
         graphics.setOrigin(-scrollX, -scrollY);
@@ -88,5 +93,10 @@ function TilemapView(tilemap, tilesets, graphics) {
                 }
             }, this);
         });
+    };
+
+    this.focusOn = function(x, y) {
+        this.scrollX = _(x * TILE_SIZE - graphics.width() / 2).boundWithin(0, tilemap.width() * TILE_SIZE - graphics.width());
+        this.scrollY = _(y * TILE_SIZE - graphics.height() / 2).boundWithin(0, tilemap.height() * TILE_SIZE - graphics.height());
     };
 }
