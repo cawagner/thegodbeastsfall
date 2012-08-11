@@ -75,13 +75,6 @@ function Game(graphics) {
         var mapLoader = new MapLoader();
         mapLoader.load('DesertPath').done(function(data) {
             var fieldState = new FieldState(graphics, data.tilemap, data.tilesets);
-
-            // todo: move to audio player, use data.properties.music
-            var music = new Audio("assets/mus/town.ogg");
-            music.loop = true;
-            music.volume = 0.5;
-            music.play();
-
             game.pushState(fieldState);
         }); 
     })();
