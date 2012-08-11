@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="60" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="music" value="opening"/>
+ </properties>
  <tileset firstgid="1" name="Desert" tilewidth="16" tileheight="16">
   <image source="../img/desert_1.png" width="208" height="384"/>
  </tileset>

@@ -48,7 +48,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-
+     "music":"opening"
     },
  "tileheight":16,
  "tilesets":[
