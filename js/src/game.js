@@ -29,13 +29,13 @@ function FieldState(graphics, tilemap, tilesets) {
     this.update = function(timeScale, previousState) {
         hero.update();
 
+        frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
+
         this.updateScroll();
     };
 
     this.draw = function(timeScale, previousState) {
         tilemapView.draw(scrollX, scrollY);
-
-        frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
 
         heroSrcRect.y = 18 * hero.direction;
         heroSrcRect.x = 16 * frames[Math.floor(frame)];
@@ -44,8 +44,6 @@ function FieldState(graphics, tilemap, tilesets) {
         heroDestRect.y = hero.y * TILE_SIZE;
 
         graphics.drawImageRect(heroImage, heroSrcRect, heroDestRect);
-
-        //graphics.drawFilledRect(theHero.x * TILE_SIZE, theHero.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     };
 }
 
@@ -77,6 +75,13 @@ function Game(graphics) {
         var mapLoader = new MapLoader();
         mapLoader.load('DesertPath').done(function(data) {
             var fieldState = new FieldState(graphics, data.tilemap, data.tilesets);
+
+            // todo: move to audio player, use data.properties.music
+            var music = new Audio("assets/mus/town.ogg");
+            music.loop = true;
+            music.volume = 0.5;
+            music.play();
+
             game.pushState(fieldState);
         }); 
     })();

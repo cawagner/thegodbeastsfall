@@ -45,7 +45,8 @@ function MapLoader() {
 
         return {
             tilemap: tilemap,
-            tilesets: tilesets
+            tilesets: tilesets,
+            properties: data.properties
         };
     };
 
