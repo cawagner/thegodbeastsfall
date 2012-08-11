@@ -45,5 +45,8 @@ function Graphics(width, height) {
 
     _(bufferContexts).each(function initializeContext(context) {
         context.font = "12px Arial";
+        context.webkitImageSmoothingEnabled = false;
+        context.mozImageSmoothingEnabled = false;
+        context.imageSmoothingEnabled = false;
     });
 }
