@@ -1,7 +1,65 @@
 var TILE_SIZE = 32;
 
-function Hero() {
+function Hero(tilemap, input) {
+    var SPEED = 0.1;
+    var destX = 0, destY = 0,
+        moveX = 0, moveY = 0;
+    var moveRemaining = 0;
+    var self = this;
 
+    var moveTowardNewSquare = function() {
+        if (self.canMove()) {
+            return;
+        }
+
+        self.x += SPEED * moveX;
+        self.y += SPEED * moveY;
+
+        moveRemaining -= SPEED;
+        if (moveRemaining < 0) {
+            moveRemaining = 0;
+            self.x = destX;
+            self.y = destY;
+            moveX = 0;
+            moveY = 0;
+        }
+    };
+
+    var takeWalkInput = function() {
+        if (self.canMove()) {
+            self.moveBy(input.dirX(), input.dirY());
+        }
+    };
+
+    this.x = 0;
+    this.y = 0;
+
+    this.update = function(timeScale) {
+        moveTowardNewSquare();
+        takeWalkInput();
+    };
+
+    this.warpTo = function(newX, newY) {
+        this.x = newX;
+        this.y = newY;
+    };
+
+    this.canMove = function() {
+        return moveRemaining === 0;
+    };
+
+    this.moveBy = function(dx, dy) {
+        if ((dx || dy) && tilemap.isWalkable(this.x + dx, this.y + dy)) {
+            moveX = dx;
+            moveY = dy;
+            moveRemaining = 1;
+            destX = this.x + moveX;
+            destY = this.y + moveY;
+            moveTowardNewSquare();
+            return true;
+        }
+        return false;
+    };
 }
 
 function NoopState() {
@@ -12,56 +70,16 @@ function NoopState() {
 
 function FieldState(graphics, tilemap, tilesets) {
     var tilemapView = new TilemapView(tilemap, tilesets, TILE_SIZE, graphics)
-        theHero = new Hero(),
-        input = new KeyboardInput().setup(),
+        input = new KeyboardInput().setup();
+        theHero = new Hero(tilemap, input),
         scrollX,
         scrollY,
         speed = 0.1;
 
-    var newX = 0, newY = 0;
-
-    theHero.x = 0;
-    theHero.y = 0;
-
-    var moveRemaining = 0;
-    var moveX = 0, moveY = 0, dx, dy, amountToMove;
-
-    function moveTowardNewSquare() {
-        if (moveRemaining > 0) {
-            theHero.x += speed * moveX;
-            theHero.y += speed * moveY;
-            moveRemaining -= speed;
-            if (moveRemaining < 0) {
-                moveRemaining = 0;
-                theHero.x = newX;
-                theHero.y = newY;
-                moveX = 0;
-                moveY = 0;
-            }
-        }
-    }
-
-    function takeWalkInput() {
-        if (moveRemaining === 0) {
-            moveX = input.dirX();
-            moveY = input.dirY();
-            if (moveX || moveY) {
-                if (tilemap.isWalkable(theHero.x + moveX, theHero.y + moveY)) {
-                    moveRemaining = 1;
-                    newX += moveX;
-                    newY += moveY;
-                    moveTowardNewSquare();
-                } else {
-                    moveX = 0;
-                    moveY = 0;
-                }
-            }
-        }
-    }
+    theHero.warpTo(0, 0);
 
     this.update = function(timeScale) {
-        moveTowardNewSquare();
-        takeWalkInput();
+        theHero.update();
 
         scrollX = _(theHero.x * TILE_SIZE - graphics.width() / 2).boundWithin(0, tilemap.width() * TILE_SIZE - graphics.width());
         scrollY = _(theHero.y * TILE_SIZE - graphics.height() / 2).boundWithin(0, tilemap.height() * TILE_SIZE - graphics.height());
