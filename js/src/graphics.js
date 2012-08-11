@@ -9,7 +9,7 @@ function Graphics(width, height) {
 
     this.setOrigin = function(x, y) {
         this.context().setTransform(1, 0, 0, 1, 0, 0);
-        this.context().translate(x, y);
+        this.context().translate((x + .5) << 0, (y + .5) << 0);
     };
 
     this.swapBuffers = function() {
@@ -29,15 +29,17 @@ function Graphics(width, height) {
     };
 
     this.drawFilledRect = function(x, y, width, height) {
-        this.context().fillRect(x|0, y|0, width, height);
+        this.context().fillRect((x + .5) << 0, (y + .5) << 0, width, height);
     };
 
     this.drawImageRect = function(image, sourceRect, destRect) {
-        this.context().drawImage(image, sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height, destRect.x, destRect.y, destRect.width, destRect.height);
+        this.context().drawImage(image,
+                (sourceRect.x + .5) << 0, (sourceRect.y + .5) << 0, sourceRect.width, sourceRect.height,
+                (destRect.x + .5) << 0, (destRect.y + .5) << 0, destRect.width, destRect.height);
     };
 
     this.drawText = function(x, y, text) {
-        this.context().fillText(text, x, y);
+        this.context().fillText(text, (x + .5) << 0, (y + .5) << 0);
     };
 
     this.width = function() { return width; };
