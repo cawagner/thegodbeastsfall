@@ -49,6 +49,10 @@ function Hero(tilemap, input) {
     this.y = 0;
     this.direction = direction.UP;
 
+    this.isMoving = function() {
+        return moveRemaining > 0;
+    };
+
     this.update = function(timeScale) {
         moveTowardNewSquare();
         takeWalkInput();

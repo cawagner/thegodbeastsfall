@@ -10,10 +10,11 @@ function FieldState(graphics, tilemap, tilesets) {
         hero = new Hero(tilemap, input),
         scrollX,
         scrollY,
-        speed = 0.1,
         heroImage = new Image(),
         heroSrcRect = { x: 0, y: 0, width: 16, height: 18 },
-        heroDestRect = { x: 0, y: 0, width: 16*2, height: 18*2 };
+        heroDestRect = { x: 0, y: 0, width: 16*2, height: 18*2 },
+        frame = 0,
+        frames = [1,0,1,2];
 
     // TODO: don't load here...
     heroImage.src = 'assets/img/hero.png';
@@ -34,10 +35,14 @@ function FieldState(graphics, tilemap, tilesets) {
     this.draw = function(timeScale, previousState) {
         tilemapView.draw(scrollX, scrollY);
 
+        frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
+
         heroSrcRect.y = 18 * hero.direction;
+        heroSrcRect.x = 16 * frames[Math.floor(frame)];
 
         heroDestRect.x = hero.x * TILE_SIZE;
         heroDestRect.y = hero.y * TILE_SIZE;
+
         graphics.drawImageRect(heroImage, heroSrcRect, heroDestRect);
 
         //graphics.drawFilledRect(theHero.x * TILE_SIZE, theHero.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
