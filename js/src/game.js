@@ -56,7 +56,7 @@ function FieldState(graphics, tilemap, tilesets) {
     this.draw = function(timeScale, previousState) {
         tilemapView.draw();
 
-        _(actors).each(function(actor) {
+        _(actors).chain().sortBy("y").each(function(actor) {
             characterRenderer.drawCharacter(actor, heroImage, frame);
         });
     };
