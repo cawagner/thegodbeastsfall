@@ -1,7 +1,7 @@
 function Character(tilemap) {
     var self = this;
     var destX = 0, destY = 0, moveX = 0, moveY = 0;
-    var moveRemaining = 0;    
+    var moveRemaining = 0;
 
     var resetMove = function() {
         moveRemaining = 0;
@@ -25,15 +25,19 @@ function Character(tilemap) {
         }
     };
 
-    this.moveBy = function(dx, dy) {
+    this.moveBy = function(dx, dy, update) {
         // does not perform collision detection or check that moving is possible!
-        // todo: should check that moving is possible.
+        // todo: should check that moving is possible?
+        this.direction = direction.getFromXY(dx, dy);
         moveX = dx;
         moveY = dy;
         moveRemaining = 1;
         destX = this.x + dx;
         destY = this.y + dy;
-        this.update();
+        // HACK: this is not cool.
+        if (update !== false) {
+            this.update();
+        }
         return true;
     };
 
@@ -76,6 +80,7 @@ Character.prototype.tryMoveBy = function(dx, dy) {
         this.direction = direction.getFromXY(dx, dy);
         if (this.canMoveBy(dx, dy)) {
             this.moveBy(dx, dy);
+            return true;
         }
     }
     return false;
@@ -84,10 +89,26 @@ Character.prototype.tryMoveBy = function(dx, dy) {
 function Hero(tilemap, input) {
     var self = this;
 
+    var moveHistory = [];
+    var followers = [];
+
+    // TODO: generalize for more followers
+    var updateFollowers = function() {
+        var lastMove;
+        if (moveHistory.length > 0) {
+            lastMove = moveHistory.pop();
+            followers[0].moveBy(lastMove.x, lastMove.y, false);
+        }
+    };
+
     var takeInput = function() {
+        var dx = input.dirX(),
+            dy = input.dirY();
         if (self.canMove()) {
-            if (self.tryMoveBy(input.dirX(), input.dirY())) {
+            if (self.tryMoveBy(dx, dy)) {
+                updateFollowers();
                 // trigger step taken (check for random encounters, maybe update heros, etc)
+                moveHistory.push({x: dx, y: dy});
             } else {
                 // trigger "bump"
             }
@@ -99,12 +120,12 @@ function Hero(tilemap, input) {
     this.update = (function(baseUpdate) {
         return function(timeScale) {
             baseUpdate.call(this, timeScale);
-            takeInput();    
+            takeInput();
         };
     })(this.update);
 
     this.addFollower = function(character) {
-
+        followers.push(character);
     };
 };
 

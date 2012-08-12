@@ -37,6 +37,12 @@ function FieldState(graphics, tilemap, tilesets) {
 
     actors.push(hero);
 
+    // TODO: characters should probably not take in a tilemap...
+    var follower = new Character(tilemap);
+    follower.warpTo(2, 2);
+    actors.push(follower);
+    hero.addFollower(follower);
+
     this.update = function(timeScale, previousState) {
         _(actors).each(function(actor) {
             actor.update();
