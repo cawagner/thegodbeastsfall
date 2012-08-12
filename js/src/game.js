@@ -10,7 +10,19 @@ function CharacterRenderer(graphics) {
     var srcRect = { x: 0, y: 0, width: 16, height: 18 };
     var destRect = { x: 0, y: 0, width: 16*2, height: 18*2 };
 
-    this.drawCharacter = function(character, image, frame) {
+    // TODO: don't load here...
+    var images = {
+        "hero": "assets/img/hero.png",
+        "heroine": "assets/img/heroine.png"
+    };
+    _(images).each(function(value, key) {
+        images[key] = new Image();
+        images[key].src = value;
+    });
+
+    this.drawCharacter = function(character, frame) {
+        var image = images[character.archetype];
+
         srcRect.y = 18 * character.direction;
         srcRect.x = 16 * walkFrames[Math.floor(frame)];
 
@@ -29,22 +41,14 @@ function FieldState(graphics, tilemap, tilesets) {
         frame = 0,
         characterRenderer = new CharacterRenderer(graphics);
 
-    // TODO: don't load here...
-    var heroImage = new Image();
-    heroImage.src = 'assets/img/hero.png';
-
     hero.warpTo(2, 2);
 
     actors.push(hero);
 
-    // TODO: characters should probably not take in a tilemap...
     var follower = new Character(tilemap);
+    follower.archetype = "heroine";
     follower.warpTo(2, 2);
-    actors.push(follower);
-    hero.addFollower(follower);
 
-    follower = new Character(tilemap);
-    follower.warpTo(2, 2);
     actors.push(follower);
     hero.addFollower(follower);
 
@@ -62,7 +66,7 @@ function FieldState(graphics, tilemap, tilesets) {
         tilemapView.draw();
 
         _(actors).chain().sortBy("y").each(function(actor) {
-            characterRenderer.drawCharacter(actor, heroImage, frame);
+            characterRenderer.drawCharacter(actor, frame);
         });
     };
 }

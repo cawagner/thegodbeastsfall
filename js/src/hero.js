@@ -133,6 +133,8 @@ function Hero(tilemap, input) {
     this.addFollower = function(character) {
         followers.push(character);
     };
+
+    this.archetype = "hero";
 };
 
 Hero.prototype = new Character();
