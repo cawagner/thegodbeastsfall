@@ -25,6 +25,7 @@ function FieldState(graphics, tilemap, tilesets) {
     var tilemapView = new TilemapView(tilemap, tilesets, graphics)
         input = new KeyboardInput().setup(),
         hero = new Hero(tilemap, input),
+        actors = [],
         frame = 0,
         characterRenderer = new CharacterRenderer(graphics);
 
@@ -34,8 +35,12 @@ function FieldState(graphics, tilemap, tilesets) {
 
     hero.warpTo(2, 2);
 
+    actors.push(hero);
+
     this.update = function(timeScale, previousState) {
-        hero.update();
+        _(actors).each(function(actor) {
+            actor.update();
+        });
 
         frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
 
@@ -45,7 +50,9 @@ function FieldState(graphics, tilemap, tilesets) {
     this.draw = function(timeScale, previousState) {
         tilemapView.draw();
 
-        characterRenderer.drawCharacter(hero, heroImage, frame);
+        _(actors).each(function(actor) {
+            characterRenderer.drawCharacter(actor, heroImage, frame);
+        });
     };
 }
 
@@ -78,6 +85,6 @@ function Game(graphics) {
         mapLoader.load('DesertPath').done(function(data) {
             var fieldState = new FieldState(graphics, data.tilemap, data.tilesets);
             game.pushState(fieldState);
-        }); 
+        });
     })();
 }
