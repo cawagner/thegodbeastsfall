@@ -95,9 +95,15 @@ function Hero(tilemap, input) {
     // TODO: generalize for more followers
     var updateFollowers = function() {
         var lastMove;
-        if (moveHistory.length > 0) {
-            lastMove = moveHistory.pop();
-            followers[0].moveBy(lastMove.x, lastMove.y, false);
+        var i;
+        if (moveHistory.length > followers.length) {
+            moveHistory.shift(1);
+        }
+        for (i = 0; i < followers.length; ++i) {
+            lastMove = moveHistory[moveHistory.length - i - 1];
+            if (lastMove !== undefined) {
+                followers[i].moveBy(lastMove.x, lastMove.y, false);
+            }
         }
     };
 
