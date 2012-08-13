@@ -32,4 +32,8 @@ require(['../../js/lib/jquery-1.8.0.min', '../../js/lib/underscore', 'util', 'so
         timeScale = Math.min(3, (timeScale + (endFrame - startFrame) / 30) * 0.5);
         addOnRequestAnimationFrame(mainLoop);
     });
+
+    if ($.browser.msie) {
+        alert("Pro tip: Internet Explorer hates this thing, and the feeling is reciprocated.");
+    }
 });
