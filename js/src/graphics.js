@@ -22,6 +22,10 @@ function Graphics(width, height) {
         this.drawFilledRect(0, 0, width, height);
     };
 
+    this.setFillColor = function(color) {
+        context.fillStyle = color;
+    };
+
     this.setFillColorRGB = function(r, g, b) {
         context.fillStyle = ["rgb(", r, ",", g, ",", b, ")"].join("");
     };

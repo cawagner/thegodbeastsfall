@@ -44,18 +44,24 @@ function DialogueState(game, messages) {
 
     this.draw = function(timeScale) {
         this.previousState.draw(timeScale);
+
+        game.graphics.setOrigin(0, 0);
+        game.graphics.setFillColor("#000");
+        game.graphics.drawFilledRect(5, 5, 400, 100);
+        game.graphics.setFillColor("#fff");
+        game.graphics.drawText(10, 20, "Hi mom!");
     };
 
     this.update = function(timeScale) {
-
+        if (game.input.wasConfirmPressed()) {
+            game.popState();
+        }
     };
-
-    graphics.drawFilledRect()
 }
 
 // TODO: make some function to open the state instead of having such a horrible constructor
 function FieldState(game, map, entrance) {
-    var tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics)
+    var tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
         hero = new Hero(map.tilemap, game.input),
         actors = [],
         frame = 0,
@@ -88,7 +94,11 @@ function FieldState(game, map, entrance) {
         tilemapView.focusOn(hero.x, hero.y);
 
         if (game.input.wasConfirmPressed()) {
-            alert("hi");
+            game.pushState(new DialogueState(game, [
+                {
+                    speaker: "Held",
+                    text: "Hi, mom!"
+                }]));
         }
     };
 
