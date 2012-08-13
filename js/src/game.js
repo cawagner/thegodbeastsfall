@@ -108,22 +108,26 @@ function Game(graphics) {
     this.input = new KeyboardInput().setup();
     this.graphics = graphics;
 
+    this.currentState = function() {
+        return _(gameStates).last();
+    }
+
     this.pushState = function(newState) {
         if ("start" in newState) {
-            newState.start(_(gameStates).last());
+            newState.start(this.currentState());
         }
         gameStates.push(newState);
     };
 
     this.update = function(timeScale) {
-        _(gameStates).last().update(timeScale);
+        this.currentState().update(timeScale);
     };
 
     this.draw = function(timeScale) {
         graphics.setOrigin(0, 0);
         graphics.cls();
 
-        _(gameStates).last().draw(timeScale);
+        this.currentState().draw(timeScale);
 
         graphics.swapBuffers();
     };
