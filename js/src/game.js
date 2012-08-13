@@ -119,6 +119,17 @@ function Game(graphics) {
         gameStates.push(newState);
     };
 
+    this.popState = function() {
+        var result;
+        if ("end" in this.currentState()) {
+            result = this.currentState().end();
+        }
+        gameStates.pop();
+        if ("reactivate" in this.currentState()) {
+            this.currentState().reactivate(result);
+        }
+    };
+
     this.update = function(timeScale) {
         this.currentState().update(timeScale);
     };
