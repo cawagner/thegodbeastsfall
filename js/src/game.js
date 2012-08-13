@@ -33,7 +33,7 @@ function ActorRenderer(graphics) {
     };
 }
 
-function DialogueState(graphics, messages) {
+function DialogueState(game, messages) {
     var message = _(messages).first();
 
     this.previousState = new NoopState();
@@ -46,17 +46,20 @@ function DialogueState(graphics, messages) {
         this.previousState.draw(timeScale);
     };
 
+    this.update = function(timeScale) {
+
+    };
+
     graphics.drawFilledRect()
 }
 
 // TODO: make some function to open the state instead of having such a horrible constructor
-function FieldState(graphics, map, entrance) {
-    var tilemapView = new TilemapView(map.tilemap, map.tilesets, graphics)
-        input = new KeyboardInput().setup(),
-        hero = new Hero(map.tilemap, input),
+function FieldState(game, map, entrance) {
+    var tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics)
+        hero = new Hero(map.tilemap, game.input),
         actors = [],
         frame = 0,
-        actorRenderer = new ActorRenderer(graphics);
+        actorRenderer = new ActorRenderer(game.graphics);
 
     entrance = entrance || "default";
     if (entrance in map.entrances) {
@@ -97,6 +100,9 @@ function FieldState(graphics, map, entrance) {
 function Game(graphics) {
     var gameStates = [ new NoopState() ];
     var game = this;
+
+    this.input = new KeyboardInput().setup();
+    this.graphics = graphics;
 
     this.pushState = function(newState) {
         if ("start" in newState) {

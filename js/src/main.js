@@ -28,7 +28,7 @@ require(['../../js/lib/jquery-1.8.0.min', '../../js/lib/underscore', 'util', 'so
     (function(){
         var mapLoader = new MapLoader();
         mapLoader.load('DesertPath').done(function(map) {
-            var fieldState = new FieldState(graphics, map);
+            var fieldState = new FieldState(game, map);
             game.pushState(fieldState);
 
             // TODO: send message, don't directly play music...
