@@ -89,7 +89,6 @@ function Hero(tilemap, input) {
     var moveHistory = [];
     var followers = [];
 
-    // TODO: generalize for more followers
     var updateFollowers = function() {
         var lastMove;
         var i;
