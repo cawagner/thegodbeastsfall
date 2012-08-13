@@ -110,7 +110,7 @@ function Game(graphics) {
 
     this.currentState = function() {
         return _(gameStates).last();
-    }
+    };
 
     this.pushState = function(newState) {
         if ("start" in newState) {
