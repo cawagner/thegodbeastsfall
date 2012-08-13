@@ -4,7 +4,7 @@ function NoopState() {
 }
 
 // TODO: move somewhere...
-function CharacterRenderer(graphics) {
+function ActorRenderer(graphics) {
     var walkFrames = [1,0,1,2];
 
     var srcRect = { x: 0, y: 0, width: 16, height: 18 };
@@ -20,14 +20,14 @@ function CharacterRenderer(graphics) {
         images[key].src = value;
     });
 
-    this.drawCharacter = function(character, frame) {
-        var image = images[character.archetype];
+    this.drawActor = function(actor, frame) {
+        var image = images[actor.archetype];
 
-        srcRect.y = 18 * character.direction;
+        srcRect.y = 18 * actor.direction;
         srcRect.x = 16 * walkFrames[Math.floor(frame)];
 
-        destRect.x = character.x * TILE_SIZE;
-        destRect.y = character.y * TILE_SIZE - 4;
+        destRect.x = actor.x * TILE_SIZE;
+        destRect.y = actor.y * TILE_SIZE - 4;
 
         graphics.drawImageRect(image, srcRect, destRect);
     };
@@ -42,7 +42,7 @@ function FieldState(graphics, map, entrance) {
         hero = new Hero(tilemap, input),
         actors = [],
         frame = 0,
-        characterRenderer = new CharacterRenderer(graphics);
+        actorRenderer = new ActorRenderer(graphics);
 
     entrance = entrance || "default";
     if (entrance in map.entrances) {
@@ -50,12 +50,14 @@ function FieldState(graphics, map, entrance) {
     }
 
     // followers need to be on the map before the hero, so the hero will draw on top and so update order will be right
-    var follower = new Character(tilemap);
-    follower.archetype = "heroine";
-    follower.warpTo(hero.x, hero.y);
+    _(5).times(function() {
+        var follower = new Actor(tilemap);
+        follower.archetype = "heroine";
+        follower.warpTo(hero.x, hero.y);
 
-    actors.push(follower);
-    hero.addFollower(follower);
+        actors.push(follower);
+        hero.addFollower(follower);
+    });
 
     actors.push(hero);
 
@@ -73,7 +75,7 @@ function FieldState(graphics, map, entrance) {
         tilemapView.draw();
 
         _(actors).chain().sortBy("y").each(function(actor) {
-            characterRenderer.drawCharacter(actor, frame);
+            actorRenderer.drawActor(actor, frame);
         });
     };
 }
@@ -105,13 +107,11 @@ function Game(graphics) {
     (function(){
         var mapLoader = new MapLoader();
         mapLoader.load('DesertPath').done(function(map) {
-            console.log(map);
-
             var fieldState = new FieldState(graphics, map);
             game.pushState(fieldState);
 
             // TODO: send message, don't directly play music...
-            //SoundManager.playMusic('battle');
+            //SoundManager.playMusic('town' /*map.properties.music*/);
         });
     })();
 }

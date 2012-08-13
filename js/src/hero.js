@@ -1,4 +1,4 @@
-function Character(tilemap) {
+function Actor(tilemap) {
     var self = this;
     var destX = 0, destY = 0, moveX = 0, moveY = 0;
     var moveRemaining = 0;
@@ -16,10 +16,10 @@ function Character(tilemap) {
             return;
         }
 
-        self.x += Character.MOVE_SPEED * moveX;
-        self.y += Character.MOVE_SPEED * moveY;
+        self.x += Actor.MOVE_SPEED * moveX;
+        self.y += Actor.MOVE_SPEED * moveY;
 
-        moveRemaining -= Character.MOVE_SPEED;
+        moveRemaining -= Actor.MOVE_SPEED;
         if (moveRemaining < 0) {
             resetMove();
         }
@@ -64,14 +64,14 @@ function Character(tilemap) {
     this.tilemap = tilemap;
 }
 
-Character.MOVE_SPEED = 0.1;
+Actor.MOVE_SPEED = 0.1;
 
-Character.prototype.warpTo = function(x, y) {
+Actor.prototype.warpTo = function(x, y) {
     this.x = x;
     this.y = y;
 };
 
-Character.prototype.tryMoveBy = function(dx, dy) {
+Actor.prototype.tryMoveBy = function(dx, dy) {
     // TODO: seems like it is doing too much...
     if (dx || dy) {
         this.direction = direction.getFromXY(dx, dy);
@@ -118,7 +118,7 @@ function Hero(tilemap, input) {
         }
     };
 
-    Character.call(this, tilemap);
+    Actor.call(this, tilemap);
 
     this.update = (function(baseUpdate) {
         return function(timeScale) {
@@ -127,12 +127,12 @@ function Hero(tilemap, input) {
         };
     })(this.update);
 
-    this.addFollower = function(character) {
-        followers.push(character);
+    this.addFollower = function(actor) {
+        followers.push(actor);
     };
 
     this.archetype = "hero";
 };
 
-Hero.prototype = new Character();
+Hero.prototype = new Actor();
 
