@@ -1,16 +1,13 @@
 function MapLoader() {
-    var isDone = false, doneHandlers = [], self = this;
+    var self = this;
 
     this.load = function(mapName) {
+        var deferred = $.Deferred();
         $.getJSON("assets/maps/" + mapName + ".json", function(data) {
             var map = self.createMap(data);
-            isDone = true;
-
-            _(doneHandlers).each(function(doneHandler) {
-                doneHandler(map);
-            });
+            deferred.resolve(map);
         });
-        return this;
+        return deferred.promise();
     };
 
     this.createMap = function(data) {
@@ -47,9 +44,9 @@ function MapLoader() {
         _(objectLayers).each(function(objectLayer) {
             _(objectLayer.objects).each(function(object) {
                 switch (object.type) {
-                    case "Entrance":
-                        entrances[object.name] = { x: (object.x / tilesets[0].tileWidth) | 0, y: (object.y / tilesets[0].tileHeight) | 0 };
-                        break;
+                case "Entrance":
+                    entrances[object.name] = { x: (object.x / tilesets[0].tileWidth) | 0, y: (object.y / tilesets[0].tileHeight) | 0 };
+                    break;
                 }
             });
         });
@@ -60,13 +57,5 @@ function MapLoader() {
             properties: data.properties,
             entrances: entrances
         };
-    };
-
-    this.done = function(callback) {
-        if (isDone) {
-            throw "to implement";
-        } else {
-            doneHandlers.push(callback);
-        }
     };
 }

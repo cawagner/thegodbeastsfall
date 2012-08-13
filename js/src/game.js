@@ -49,16 +49,15 @@ function FieldState(graphics, map, entrance) {
         hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
     }
 
-    actors.push(hero);
-
-    /*
+    // followers need to be on the map before the hero, so the hero will draw on top and so update order will be right
     var follower = new Character(tilemap);
     follower.archetype = "heroine";
-    follower.warpTo(2, 2);
+    follower.warpTo(hero.x, hero.y);
 
     actors.push(follower);
     hero.addFollower(follower);
-    */
+
+    actors.push(hero);
 
     this.update = function(timeScale, previousState) {
         _(actors).each(function(actor) {
