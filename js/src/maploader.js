@@ -19,6 +19,7 @@ function MapLoader() {
         var tilemap = new Tilemap(data.width, data.height, tileLayers.length);
 
         var tilesets = [];
+        var entrances = {};
 
         _(data.tilesets).each(function(tilesetData) {
             var path = 'assets/' + tilesetData.image.replace("\/", "/").replace(/..\//, '');
@@ -36,17 +37,28 @@ function MapLoader() {
 
             tilesets.push(tileset);
         });
-        
+
         _(tileLayers.length).times(function(z) {
             _.each2d(data.width, data.height, function(x, y) {
                 tilemap.setAt(x, y, z, tileLayers[z].data[x + y * data.width]);
             });
         });
 
+        _(objectLayers).each(function(objectLayer) {
+            _(objectLayer.objects).each(function(object) {
+                switch (object.type) {
+                    case "Entrance":
+                        entrances[object.name] = { x: (object.x / TILE_SIZE) | 0, y: (object.y / TILE_SIZE) | 0 };
+                        break;
+                }
+            });
+        });
+
         return {
             tilemap: tilemap,
             tilesets: tilesets,
-            properties: data.properties
+            properties: data.properties,
+            entrances: entrances
         };
     };
 

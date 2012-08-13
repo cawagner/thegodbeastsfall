@@ -2,9 +2,9 @@ require.config({
     //urlArgs: "bust=" + Date.now()
 });
 
-require(['../../js/lib/jquery-1.8.0.min', '../../js/lib/underscore', 'util', 'graphics', 'tilemap', 'keyboard-input', 'maploader', 'hero', 'game'], function() {
+require(['../../js/lib/jquery-1.8.0.min', '../../js/lib/underscore', 'util', 'sound', 'graphics', 'tilemap', 'keyboard-input', 'maploader', 'hero', 'game'], function() {
     "use strict";
-    
+
     installMixins();
 
     var game = new Game(new Graphics(640, 480)),

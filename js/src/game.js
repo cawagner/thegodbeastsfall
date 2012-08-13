@@ -27,14 +27,16 @@ function CharacterRenderer(graphics) {
         srcRect.x = 16 * walkFrames[Math.floor(frame)];
 
         destRect.x = character.x * TILE_SIZE;
-        destRect.y = character.y * TILE_SIZE;
+        destRect.y = character.y * TILE_SIZE - 4;
 
         graphics.drawImageRect(image, srcRect, destRect);
     };
 }
 
-function FieldState(graphics, tilemap, tilesets) {
-    var tilemapView = new TilemapView(tilemap, tilesets, graphics)
+function FieldState(graphics, map) {
+    var tilesets = map.tilesets,
+        tilemap = map.tilemap,
+        tilemapView = new TilemapView(tilemap, tilesets, graphics)
         input = new KeyboardInput().setup(),
         hero = new Hero(tilemap, input),
         actors = [],
@@ -97,9 +99,14 @@ function Game(graphics) {
 
     (function(){
         var mapLoader = new MapLoader();
-        mapLoader.load('DesertPath').done(function(data) {
-            var fieldState = new FieldState(graphics, data.tilemap, data.tilesets);
+        mapLoader.load('DesertPath').done(function(map) {
+            console.log(map);
+
+            var fieldState = new FieldState(graphics, map);
             game.pushState(fieldState);
+
+            // TODO: send message, don't directly play music...
+            //SoundManager.playMusic('battle');
         });
     })();
 }
