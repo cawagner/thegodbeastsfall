@@ -7,7 +7,8 @@ require(['../../js/lib/jquery-1.8.0.min', '../../js/lib/underscore', 'util', 'so
 
     installMixins();
 
-    var game = new Game(new Graphics(640, 480)),
+    var graphics = new Graphics(640, 480),
+        game = new Game(graphics),
         startFrame,
         endFrame = Date.now(),
         timeScale = 1;
@@ -23,6 +24,17 @@ require(['../../js/lib/jquery-1.8.0.min', '../../js/lib/underscore', 'util', 'so
             };
         fun(callback);
     };
+
+    (function(){
+        var mapLoader = new MapLoader();
+        mapLoader.load('DesertPath').done(function(map) {
+            var fieldState = new FieldState(graphics, map);
+            game.pushState(fieldState);
+
+            // TODO: send message, don't directly play music...
+            SoundManager.playMusic('tombworld' /*map.properties.music*/);
+        });
+    })();
 
     addOnRequestAnimationFrame(function mainLoop() {
         startFrame = endFrame;

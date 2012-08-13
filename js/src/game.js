@@ -33,13 +33,27 @@ function ActorRenderer(graphics) {
     };
 }
 
+function DialogueState(graphics, messages) {
+    var message = _(messages).first();
+
+    this.previousState = new NoopState();
+
+    this.start = function(previousState) {
+        this.previousState = previousState;
+    }
+
+    this.draw = function(timeScale) {
+        this.previousState.draw(timeScale);
+    };
+
+    graphics.drawFilledRect()
+}
+
 // TODO: make some function to open the state instead of having such a horrible constructor
 function FieldState(graphics, map, entrance) {
-    var tilesets = map.tilesets,
-        tilemap = map.tilemap,
-        tilemapView = new TilemapView(tilemap, tilesets, graphics)
+    var tilemapView = new TilemapView(map.tilemap, map.tilesets, graphics)
         input = new KeyboardInput().setup(),
-        hero = new Hero(tilemap, input),
+        hero = new Hero(map.tilemap, input),
         actors = [],
         frame = 0,
         actorRenderer = new ActorRenderer(graphics);
@@ -50,8 +64,8 @@ function FieldState(graphics, map, entrance) {
     }
 
     // followers need to be on the map before the hero, so the hero will draw on top and so update order will be right
-    _(5).times(function() {
-        var follower = new Actor(tilemap);
+    _(0).times(function() {
+        var follower = new Actor(map.tilemap);
         follower.archetype = "heroine";
         follower.warpTo(hero.x, hero.y);
 
@@ -103,15 +117,4 @@ function Game(graphics) {
 
         graphics.swapBuffers();
     };
-
-    (function(){
-        var mapLoader = new MapLoader();
-        mapLoader.load('DesertPath').done(function(map) {
-            var fieldState = new FieldState(graphics, map);
-            game.pushState(fieldState);
-
-            // TODO: send message, don't directly play music...
-            //SoundManager.playMusic('town' /*map.properties.music*/);
-        });
-    })();
 }
