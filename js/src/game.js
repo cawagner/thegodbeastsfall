@@ -33,7 +33,8 @@ function CharacterRenderer(graphics) {
     };
 }
 
-function FieldState(graphics, map) {
+// TODO: make some function to open the state instead of having such a horrible constructor
+function FieldState(graphics, map, entrance) {
     var tilesets = map.tilesets,
         tilemap = map.tilemap,
         tilemapView = new TilemapView(tilemap, tilesets, graphics)
@@ -43,16 +44,21 @@ function FieldState(graphics, map) {
         frame = 0,
         characterRenderer = new CharacterRenderer(graphics);
 
-    hero.warpTo(2, 2);
+    entrance = entrance || "default";
+    if (entrance in map.entrances) {
+        hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
+    }
 
     actors.push(hero);
 
+    /*
     var follower = new Character(tilemap);
     follower.archetype = "heroine";
     follower.warpTo(2, 2);
 
     actors.push(follower);
     hero.addFollower(follower);
+    */
 
     this.update = function(timeScale, previousState) {
         _(actors).each(function(actor) {

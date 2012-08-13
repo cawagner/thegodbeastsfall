@@ -48,7 +48,7 @@ function MapLoader() {
             _(objectLayer.objects).each(function(object) {
                 switch (object.type) {
                     case "Entrance":
-                        entrances[object.name] = { x: (object.x / TILE_SIZE) | 0, y: (object.y / TILE_SIZE) | 0 };
+                        entrances[object.name] = { x: (object.x / tilesets[0].tileWidth) | 0, y: (object.y / tilesets[0].tileHeight) | 0 };
                         break;
                 }
             });
