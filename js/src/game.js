@@ -86,6 +86,10 @@ function FieldState(game, map, entrance) {
         frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
 
         tilemapView.focusOn(hero.x, hero.y);
+
+        if (game.input.wasConfirmPressed()) {
+            alert("hi");
+        }
     };
 
     this.draw = function(timeScale, previousState) {

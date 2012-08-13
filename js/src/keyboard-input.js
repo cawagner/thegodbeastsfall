@@ -3,24 +3,41 @@ function KeyboardInput() {
         left: false,
         right: false,
         up: false,
-        down: false
+        down: false,
+        confirm: false,
+        cancel: false
+    };
+    var pressed = {
     };
     var uKeys = _(keys);
+
+    var isConfirmDown;
 
     var keyCodesToKeys = {
         37: 'left',
         39: 'right',
         38: 'up',
-        40: 'down'
+        40: 'down',
+        90: 'confirm',
+        88: 'cancel'
     };
 
     var setKeyTo = function(state) {
         return function(e) {
             if (e.keyCode in keyCodesToKeys) {
                 keys[keyCodesToKeys[e.keyCode]] = state;
+                pressed[keyCodesToKeys[e.keyCode]] = state;
             }
         };
     }
+
+    var wasPressed = function(key) {
+        return function() {
+            var result = pressed[key];
+            pressed[key] = false;
+            return result;
+        };
+    };
 
     this.onKeyDown = setKeyTo(true);
     this.onKeyUp = setKeyTo(false);
@@ -35,6 +52,9 @@ function KeyboardInput() {
     this.isRightDown = uKeys.getter('right');
     this.isUpDown = uKeys.getter('up');
     this.isDownDown = uKeys.getter('down');
+    this.isConfirmDown = uKeys.getter('confirm');
+
+    this.wasConfirmPressed = wasPressed('confirm');
 
     this.dirX = function() {
         return this.isRightDown() - this.isLeftDown();
