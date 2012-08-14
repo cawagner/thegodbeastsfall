@@ -1,8 +1,18 @@
-require.config({
-    //urlArgs: "bust=" + Date.now()
-});
+var requirements = ['../lib/underscore', 'util', 'sound', 'graphics', 'tilemap', 'keyboard-input', 'maploader', 'hero', 'game'];
 
-require(['../../js/lib/jquery-1.8.0.min', '../../js/lib/underscore', 'util', 'sound', 'graphics', 'tilemap', 'keyboard-input', 'maploader', 'hero', 'game'], function() {
+function includeAll(scripts, done) {
+    var index = 0;
+    var getScript = function() {
+        if (index >= scripts.length) {
+            return done();
+        }
+        $.getScript("js/src/" + scripts[index] + ".js").done(getScript);
+        ++index;
+    };
+    getScript();
+}
+
+includeAll(requirements, function() {
     "use strict";
 
     installMixins();
