@@ -60,4 +60,3 @@ direction = {
 
 // TODO: move somewhere better.
 var TILE_SIZE = 16;
-var GRAPHICS_SCALE = 2
