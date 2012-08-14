@@ -48,7 +48,8 @@ function Graphics(width, height, scale) {
     this.height = function() { return height; };
 
     _(bufferContexts).each(function initializeContext(context) {
-        context.font = "12px Arial";
+        context.font = (12 * scale) + "px Arial";
+        context.textBaseline = 'top';
         context.webkitImageSmoothingEnabled = false;
         context.mozImageSmoothingEnabled = false;
         context.imageSmoothingEnabled = false;
