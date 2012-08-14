@@ -1,4 +1,4 @@
-function Graphics(width, height) {
+function Graphics(width, height, scale) {
     var bufferElements = [document.getElementById("buffer0"), document.getElementById("buffer1")],
         bufferContexts = [bufferElements[0].getContext('2d'), bufferElements[1].getContext('2d')],
         drawingBuffer = 1,
@@ -6,7 +6,7 @@ function Graphics(width, height) {
 
     this.setOrigin = function(x, y) {
         context.setTransform(1, 0, 0, 1, 0, 0);
-        context.translate((x + .5) << 0, (y + .5) << 0);
+        context.translate((scale * x + .5) << 0, (scale * y + .5) << 0);
     };
 
     this.swapBuffers = function() {
@@ -19,7 +19,7 @@ function Graphics(width, height) {
 
     this.cls = function() {
         this.setFillColorRGB(0, 0, 0);
-        this.drawFilledRect(0, 0, width, height);
+        this.drawFilledRect(0, 0, scale * width, scale * height);
     };
 
     this.setFillColor = function(color) {
@@ -31,17 +31,17 @@ function Graphics(width, height) {
     };
 
     this.drawFilledRect = function(x, y, width, height) {
-        context.fillRect((x + .5) << 0, (y + .5) << 0, width, height);
+        context.fillRect((scale * x + .5) << 0, (scale * y + .5) << 0, scale * width, scale * height);
     };
 
     this.drawImageRect = function(image, sourceRect, destRect) {
         context.drawImage(image,
                 (sourceRect.x + .5) << 0, (sourceRect.y + .5) << 0, sourceRect.width, sourceRect.height,
-                (destRect.x + .5) << 0, (destRect.y + .5) << 0, destRect.width, destRect.height);
+                (scale * destRect.x + .5) << 0, (scale * destRect.y + .5) << 0, scale * destRect.width, scale * destRect.height);
     };
 
     this.drawText = function(x, y, text) {
-        context.fillText(text, (x + .5) << 0, (y + .5) << 0);
+        context.fillText(text, (scale * x + .5) << 0, (scale * y + .5) << 0);
     };
 
     this.width = function() { return width; };

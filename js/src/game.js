@@ -8,7 +8,7 @@ function ActorRenderer(graphics) {
     var walkFrames = [1,0,1,2];
 
     var srcRect = { x: 0, y: 0, width: 16, height: 18 };
-    var destRect = { x: 0, y: 0, width: 16*2, height: 18*2 };
+    var destRect = { x: 0, y: 0, width: 16, height: 18 };
 
     // TODO: don't load here...
     var images = {
@@ -38,6 +38,15 @@ function DialogueState(game, messages) {
 
     this.previousState = new NoopState();
 
+    var drawWindowRect = function(x, y, width, height) {
+        // game.graphics.setFillColor("#000");
+        // game.graphics.drawFilledRect(x - 8, y - 8, width + 16, height + 16);
+        // game.graphics.setFillColor("#fff");
+        // game.graphics.drawFilledRect(x - 6, y - 6, width + 12, height + 12);
+        // game.graphics.setFillColor("#000");
+        // game.graphics.drawFilledRect(x - 4, y - 4, width + 8, height + 8);
+    };
+
     this.start = function(previousState) {
         this.previousState = previousState;
     }
@@ -45,11 +54,9 @@ function DialogueState(game, messages) {
     this.draw = function(timeScale) {
         this.previousState.draw(timeScale);
 
-        game.graphics.setOrigin(0, 0);
-        game.graphics.setFillColor("#000");
-        game.graphics.drawFilledRect(5, 5, 400, 100);
-        game.graphics.setFillColor("#fff");
-        game.graphics.drawText(10, 20, "Hi mom!");
+        // game.graphics.setOrigin(0, 0);
+        // drawWindowRect(10, 20, 280, 60);
+        // game.graphics.drawText(10, 50, message.text);
     };
 
     this.update = function(timeScale) {

@@ -7,7 +7,7 @@ require(['../../js/lib/jquery-1.8.0.min', '../../js/lib/underscore', 'util', 'so
 
     installMixins();
 
-    var graphics = new Graphics(640, 480),
+    var graphics = new Graphics(320, 240, 2),
         game = new Game(graphics),
         startFrame,
         endFrame = Date.now(),
