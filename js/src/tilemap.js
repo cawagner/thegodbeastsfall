@@ -87,7 +87,6 @@ function TilemapView(tilemap, tilesets, graphics) {
             _.each2d(screenWidthInTiles + 1, screenHeightInTiles + 1, function(ix, iy) {
                 var x = originTileX + ix,
                     y = originTileY + iy,
-                    srcRect,
                     tile;
 
                 if (tile = tilemap.getAt(x, y, z)) {
