@@ -1,4 +1,16 @@
-var requirements = ['../lib/underscore', 'util', 'sound', 'graphics', 'tilemap', 'keyboard-input', 'maploader', 'hero', 'game'];
+var requirements = [
+    '../lib/underscore',
+    'util',
+    'sound',
+    'graphics',
+    'tilemap',
+    'keyboard-input',
+    'maploader',
+    'hero',
+    'states/field-state',
+    'states/dialogue-state',
+    'game'
+];
 
 function includeAll(scripts, done) {
     var index = 0;
