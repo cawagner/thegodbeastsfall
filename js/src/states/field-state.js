@@ -99,6 +99,7 @@ function testMirv(game, map, hero) {
             npc.unlockMovement();
             npc.wander = $.noop;
             npc.occupiesSpace = false;
+            npc.clearFollowers();
             hero.addFollower(npc);
         }));
     };

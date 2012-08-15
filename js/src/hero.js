@@ -96,6 +96,18 @@ function Actor(map) {
         followers.push(actor);
     };
 
+    this.removeFollower = function(actor) {
+        var actorIndex = followers.indexOf(actor);
+        if (actorIndex >= 0) {
+            followers.splice(actorIndex, 1);
+        }
+    };
+
+    this.clearFollowers = function() {
+        followers = [];
+        moveHistory = [];
+    };
+
     var updateFollowers = function() {
         var lastMove;
         var i;
