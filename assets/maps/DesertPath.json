@@ -37,6 +37,30 @@
                  "width":0,
                  "x":153,
                  "y":774
+                }, 
+                {
+                 "height":16,
+                 "name":"to town",
+                 "properties":
+                    {
+                     "map":"Town"
+                    },
+                 "type":"Exit",
+                 "width":320,
+                 "x":1,
+                 "y":2
+                }, 
+                {
+                 "height":0,
+                 "name":"fromTown",
+                 "properties":
+                    {
+
+                    },
+                 "type":"Entrance",
+                 "width":0,
+                 "x":147,
+                 "y":29
                 }],
          "opacity":1,
          "type":"objectgroup",

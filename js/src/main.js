@@ -25,6 +25,19 @@ function includeAll(scripts, done) {
     getScript();
 }
 
+
+function goToMap(game, mapName, entrance) {
+    var mapLoader = new MapLoader();
+    mapLoader.load(mapName).done(function(map) {
+        // TODO: replace top state instead of always pushing new one...
+        var fieldState = new FieldState(game, map);
+        game.pushState(fieldState);
+
+        // TODO: send message, don't directly play music...
+        SoundManager.playMusic(map.properties.music);
+    });
+}
+
 includeAll(requirements, function() {
     "use strict";
 
@@ -48,16 +61,7 @@ includeAll(requirements, function() {
         fun(callback);
     };
 
-    (function(){
-        var mapLoader = new MapLoader();
-        mapLoader.load('DesertPath').done(function(map) {
-            var fieldState = new FieldState(game, map);
-            game.pushState(fieldState);
-
-            // TODO: send message, don't directly play music...
-            SoundManager.playMusic('tombworld' /*map.properties.music*/);
-        });
-    })();
+    goToMap(game, 'DesertPath');
 
     addOnRequestAnimationFrame(function mainLoop() {
         startFrame = endFrame;

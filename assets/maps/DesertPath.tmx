@@ -18,6 +18,12 @@
  </layer>
  <objectgroup name="Objects" width="20" height="60">
   <object name="default" type="Entrance" x="153" y="774"/>
+  <object name="to town" type="Exit" x="1" y="2" width="320" height="16">
+   <properties>
+    <property name="map" value="Town"/>
+   </properties>
+  </object>
+  <object name="fromTown" type="Entrance" x="147" y="29"/>
  </objectgroup>
  <layer name="Mask" width="20" height="60">
   <data encoding="base64" compression="zlib">

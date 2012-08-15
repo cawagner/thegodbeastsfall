@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="30" height="30" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="music" value="town"/>
+ </properties>
+ <tileset firstgid="1" name="town" tilewidth="16" tileheight="16">
+  <image source="../img/town_tiles.png" width="160" height="48"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="30" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt0DkKACAQBME18/iAx///6QRGYuyCdlAwWcMUMysAAMBVlSZBuoxL3bDs+9Wut/xZN0pavL8HcDYBm5UmhA==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="30" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt18sKgCAQBVCNNr2g96r6/89sAheD9JB0bgRz4SIqctCd1hhjPyo66qqrblq3Dqi6/3WRCXUbgDtRZ+pCXakbwO28Palw9zB7sFsxM3djxuYtdRRwz1ImdJ7c4cLl6xIuD/K+fgpXtHuXmPdQV11J9+2fKub8DpwVA9M=
+  </data>
+ </layer>
+ <layer name="Mask" width="30" height="30">
+  <data encoding="base64" compression="zlib">
+   eJwTZmBgEB4gTG8wau+ovaP2jto7au/QtpfabsNmLz3qLHQz6VVPIptLz/oZ3V58bqGVvfQE2OIXlzpa2ksvMGrvqL2j9lLPXnL7VJToBwBxUwqe
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="30" height="30">
+  <object name="default" type="Entrance" x="228" y="454"/>
+  <object name="toDesert" type="Exit" x="223" y="467" width="16" height="16">
+   <properties>
+    <property name="entrance" value="fromTown"/>
+    <property name="map" value="DesertPath"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -19,6 +19,7 @@ function MapLoader() {
 
         var tilesets = [];
         var entrances = {};
+        var exits = {};
         var result;
 
         _(data.tilesets).each(function(tilesetData) {
@@ -27,11 +28,11 @@ function MapLoader() {
             var tileset = {
                 image: image,
                 name: tilesetData.name,
-                width: tilesetData.imagewidth / tilesetData.tilewidth,
-                height: tilesetData.imageheight / tilesetData.tileheight,
+                width: tilesetData.imagewidth / TILE_SIZE,
+                height: tilesetData.imageheight / TILE_SIZE,
                 tileWidth: tilesetData.tilewidth,
                 tileHeight: tilesetData.tileheight,
-                length: (tilesetData.imagewidth / tilesetData.tilewidth) * (tilesetData.imageheight / tilesetData.tileheight)
+                length: (tilesetData.imagewidth / TILE_SIZE) * (tilesetData.imageheight / TILE_SIZE)
             };
             image.src = path;
 
@@ -50,15 +51,27 @@ function MapLoader() {
             _(objectLayer.objects).each(function(object) {
                 switch (object.type) {
                 case "Entrance":
-                    entrances[object.name] = { x: (object.x / tilesets[0].tileWidth) | 0, y: (object.y / tilesets[0].tileHeight) | 0 };
+                    entrances[object.name] = { x: (object.x / TILE_SIZE) | 0, y: (object.y / TILE_SIZE) | 0 };
+                    break;
+                case "Exit":
+                    exits[object.name] = {
+                        x: (object.x / TILE_SIZE) | 0,
+                        y: (object.y / TILE_SIZE) | 0,
+                        width: (object.width / TILE_SIZE) | 0,
+                        height: (object.height / TILE_SIZE) | 0,
+                        entrance: object.properties.entrance,
+                        map: object.properties.map
+                    };
                     break;
                 }
-            });
+            })
         });
+
 
         result = new Map(tilemap, mask.data);
         result.tilesets = tilesets;
         result.entrances = entrances;
+        result.exits = exits;
         result.properties = data.properties;
         return result;
     };

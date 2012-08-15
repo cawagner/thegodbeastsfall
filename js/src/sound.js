@@ -5,7 +5,7 @@ SoundManager = (function() {
     return {
         playMusic: function(music) {
             if (musicAudio !== undefined) {
-                musicAudio.stop();
+                musicAudio.pause();
             }
             musicAudio = new Audio('assets/mus/' + music + '.ogg');
             musicAudio.volume = 0.5;

@@ -24,6 +24,15 @@ function FieldState(game, map, entrance) {
             actor.update(timeScale);
         });
 
+        // handle switching maps...
+        _(map.exits).each(function(exit) {
+            if (hero.x >= exit.x && hero.x <= exit.x + exit.width) {
+                if (hero.y >= exit.y && hero.y <= exit.y + exit.height) {
+                    goToMap(game, exit.map, exit.entrance);
+                }
+            }
+        });
+
         frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
 
         tilemapView.focusOn(hero.x, hero.y);
