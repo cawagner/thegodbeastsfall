@@ -1,6 +1,6 @@
 function Actor(map) {
     var self = this;
-    var destX = 0, destY = 0, moveX = 0, moveY = 0;
+    var moveX = 0, moveY = 0;
     var moveRemaining = 0;
     var isMovementLocked = false;
 
@@ -23,8 +23,8 @@ function Actor(map) {
 
     this.resetMove = function() {
         moveRemaining = 0;
-        self.x = destX;
-        self.y = destY;
+        self.x = this.destX;
+        self.y = this.destY;
         moveX = 0;
         moveY = 0;
     };
@@ -36,13 +36,8 @@ function Actor(map) {
         moveX = dx;
         moveY = dy;
         moveRemaining = 1;
-        destX = this.x + dx;
-        destY = this.y + dy;
-
-        this.map.clearActor(this.x, this.y);
-        if (this.occupiesSpace) {
-            this.map.setActor(destX, destY, this);
-        }
+        this.destX = this.x + dx;
+        this.destY = this.y + dy;
 
         updateFollowers();
         if (followers.length) {
@@ -93,6 +88,7 @@ function Actor(map) {
         actor.warpTo(this.x, this.y);
         actor.direction = this.direction;
         actor.isPushable = false;
+        this.isPushable = false;
 
         followers.push(actor);
     };
@@ -123,6 +119,8 @@ function Actor(map) {
 
     this.x = 0;
     this.y = 0;
+    this.destX = 0;
+    this.destY = 0;
     this.direction = direction.UP;
     this.map = map;
     this.occupiesSpace = true;
@@ -132,12 +130,8 @@ function Actor(map) {
 Actor.MOVE_SPEED = 0.1;
 
 Actor.prototype.warpTo = function(x, y) {
-    this.map.clearActor(this.x, this.y);
     this.x = x;
     this.y = y;
-    if (this.occupiesSpace) {
-        this.map.setActor(this.x, this.y, this);
-    }
 };
 
 Actor.prototype.tryMoveBy = function(dx, dy) {

@@ -49,7 +49,7 @@ function Hero(map, input) {
             if (otherGuy.onShove) {
                 otherGuy.onShove();
             }
-            otherGuy.tryMoveBy(d.x, d.y);
+            otherGuy.moveBy(d.x, d.y);
         }
     };
 
