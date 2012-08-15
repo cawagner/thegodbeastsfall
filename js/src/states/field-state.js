@@ -10,30 +10,8 @@ function FieldState(game, map, entrance) {
         hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
     }
 
+    map.actors.push(testMirv(game, map, hero));
     map.actors.push(hero);
-
-    var npc = new Npc(map);
-    npc.warpTo(5, 20);
-    npc.archetype = "heroine";
-    npc.onTalk = function() {
-        var messages = [
-            {
-                speaker: "mirv",
-                text: [
-                    "So you are Held...",
-                    "you look just like I thought you would."
-                ]
-            }
-        ];
-        hero.lockMovement();
-        npc.lockMovement();
-        npc.direction = direction.oppositeOf(hero.direction);
-        game.pushState(new DialogueState(game, messages, function() {
-            hero.unlockMovement();
-            npc.unlockMovement();
-        }));
-    };
-    map.actors.push(npc);
 
     this.update = function(timeScale) {
         _(map.actors).each(function(actor) {
@@ -52,4 +30,48 @@ function FieldState(game, map, entrance) {
             actorRenderer.drawActor(actor, frame);
         });
     };
+}
+
+function testMirv(game, map, hero) {
+    var npc = new Npc(map);
+    npc.warpTo(5, 20);
+    npc.archetype = "heroine";
+    npc.onTalk = function() {
+        var messages = [
+            {
+                speaker: "mirv",
+                text: [
+                    "So you are Held...",
+                    "you look just like I thought you would.",
+                    "Thank you for releasing me."
+                ]
+            },
+            {
+                speaker: "mirv",
+                text: [
+                    "But we can't stay here. We need to return",
+                    "to the surface."
+                ]
+            },
+            {
+                speaker: "held",
+                text: [
+                    "YOUR MOM IS A SURFACE DUR HURR",
+                    "",
+                    "i'm a paladin"
+                ]
+            }
+        ];
+        hero.lockMovement();
+        npc.lockMovement();
+        npc.direction = direction.oppositeOf(hero.direction);
+        game.pushState(new DialogueState(game, messages, function() {
+            hero.unlockMovement();
+            npc.unlockMovement();
+            npc.wander = $.noop;
+            npc.occupiesSpace = false;
+            hero.addFollower(npc);
+        }));
+    };
+    return npc;
 }

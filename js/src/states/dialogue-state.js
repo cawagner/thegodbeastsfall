@@ -1,5 +1,6 @@
 function DialogueState(game, messages, doneFn) {
-    var message = _(messages).first();
+    var messageIndex = 0,
+        message = _(messages).first();
 
     // TODO: do not load this here, or always assume held is talking...
     var facesImage = new Image();
@@ -20,10 +21,6 @@ function DialogueState(game, messages, doneFn) {
             image: facesImage,
             frame: 4
         }
-    }
-
-    if (message.text.constructor === String) {
-        message.text = [message.text];
     }
 
     this.previousState = new NoopState();
@@ -64,6 +61,12 @@ function DialogueState(game, messages, doneFn) {
         }
 
         game.graphics.setFillColor("#fff");
+
+        if (messageIndex == messages.length - 1 || messages[messageIndex+1].speaker !== speakerId) {
+            // last message in chain... draw a slug or something?
+        } else {
+            // draw an arrow or something?
+        }
     };
 
     this.start = function(previousState) {
@@ -91,7 +94,12 @@ function DialogueState(game, messages, doneFn) {
 
     this.update = function(timeScale) {
         if (game.input.wasConfirmPressed()) {
-            game.popState();
+            if (messageIndex < messages.length - 1) {
+                ++messageIndex;
+                message = messages[messageIndex];
+            } else {
+                game.popState();
+            }
         }
 
         this.previousState.update(timeScale, false);

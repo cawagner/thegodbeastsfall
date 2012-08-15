@@ -4,14 +4,6 @@ function Actor(map) {
     var moveRemaining = 0;
     var isMovementLocked = false;
 
-    var resetMove = function() {
-        moveRemaining = 0;
-        self.x = destX;
-        self.y = destY;
-        moveX = 0;
-        moveY = 0;
-    };
-
     var moveTowardNewSquare = function() {
         if (self.canMove()) {
             return;
@@ -22,8 +14,16 @@ function Actor(map) {
 
         moveRemaining -= Actor.MOVE_SPEED;
         if (moveRemaining < 0) {
-            resetMove();
+            self.resetMove();
         }
+    };
+
+    this.resetMove = function() {
+        moveRemaining = 0;
+        self.x = destX;
+        self.y = destY;
+        moveX = 0;
+        moveY = 0;
     };
 
     this.moveBy = function(dx, dy) {
@@ -37,7 +37,9 @@ function Actor(map) {
         destY = this.y + dy;
 
         this.map.clearActor(this.x, this.y);
-        this.map.setActor(destX, destY, this);
+        if (this.occupiesSpace) {
+            this.map.setActor(destX, destY, this);
+        }
 
         this.update();
         return true;
@@ -79,13 +81,18 @@ function Actor(map) {
     this.y = 0;
     this.direction = direction.UP;
     this.map = map;
+    this.occupiesSpace = true;
 }
 
 Actor.MOVE_SPEED = 0.1;
 
 Actor.prototype.warpTo = function(x, y) {
+    this.map.clearActor(this.x, this.y);
     this.x = x;
     this.y = y;
+    if (this.occupiesSpace) {
+        this.map.setActor(this.x, this.y, this);
+    }
 };
 
 Actor.prototype.tryMoveBy = function(dx, dy) {
@@ -100,29 +107,35 @@ Actor.prototype.tryMoveBy = function(dx, dy) {
     return false;
 };
 
+function wanderlust(self) {
+    var waitForNextMove = 0;
+    return function() {
+        var dx = 0, dy = 0, dir;
+        if (!(self.isMoving() || self.isMovementLocked())) {
+            if (waitForNextMove < 0) {
+                dir = Math.random() >= 0.5;
+                if (dir) {
+                    dy = Math.floor(Math.random()*3)-1;
+                } else {
+                    dx = Math.floor(Math.random()*3)-1;
+                }
+                self.tryMoveBy(dx, dy);
+                waitForNextMove = 20 + Math.random() * 40;
+            }
+            --waitForNextMove;
+        }
+    };
+}
+
 function Npc(map) {
     Actor.call(this, map);
 
-    var waitForNextMove = 0;
+    this.wander = wanderlust(this);
 
     this.update = (function(baseUpdate) {
         return function(timeScale) {
-            var dx = 0, dy = 0, dir;
             baseUpdate.call(this, timeScale);
-
-            if (!(this.isMoving() || this.isMovementLocked())) {
-                if (waitForNextMove < 0) {
-                    dir = Math.random() >= 0.5;
-                    if (dir) {
-                        dy = Math.floor(Math.random()*3)-1;
-                    } else {
-                        dx = Math.floor(Math.random()*3)-1;
-                    }
-                    this.tryMoveBy(dx, dy);
-                    waitForNextMove = 20 + Math.random() * 40;
-                }
-                --waitForNextMove;
-            }
+            this.wander();
         };
     })(this.update);
 };
@@ -155,7 +168,9 @@ function Hero(map, input) {
             if (self.tryMoveBy(dx, dy)) {
                 updateFollowers();
                 // trigger step taken (check for random encounters, maybe update heros, etc)
-                moveHistory.push({x: dx, y: dy});
+                if (followers && followers.length) {
+                    moveHistory.push({x: dx, y: dy});
+                }
             } else {
                 // trigger "bump"
             }
@@ -187,6 +202,13 @@ function Hero(map, input) {
     })(this.update);
 
     this.addFollower = function(actor) {
+        var followerDirection = direction.oppositeOf(this.direction);
+        var d = direction.convertToXY(followerDirection);
+
+        actor.resetMove();
+        actor.warpTo(this.x, this.y);
+        actor.direction = direction;
+
         followers.push(actor);
     };
 
