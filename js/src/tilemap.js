@@ -22,22 +22,16 @@ function Map(tilemap, mask) {
     }
 
     this.setActor = function(x, y, actor) {
-        if (actor.occupiesSpace) {
-            this.setMask(x, y);
-        }
         actorMap[indexFor(x, y)] = actor;
     };
 
     this.clearActor = function(x, y) {
         var actor = actorMap[indexFor(x, y)];
-        if (actor !== undefined && actor.occupiesSpace) {
-            this.unsetMask(x, y);
-        }
         delete actorMap[indexFor(x, y)];
     };
 
     this.isWalkable = function(x, y) {
-        return tilemap.isInBounds(x, y) && !mask[indexFor(x, y)];
+        return tilemap.isInBounds(x, y) && !mask[indexFor(x, y)] && !(indexFor(x, y) in actorMap);
     };
 
     this.addActor = function(actor) {

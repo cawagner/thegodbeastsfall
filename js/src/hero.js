@@ -79,7 +79,6 @@ function Actor(map) {
     this.y = 0;
     this.direction = direction.UP;
     this.map = map;
-    this.occupiesSpace = false;
 }
 
 Actor.MOVE_SPEED = 0.1;
@@ -105,8 +104,6 @@ function Npc(map) {
     Actor.call(this, map);
 
     var waitForNextMove = 0;
-
-    this.occupiesSpace = true;
 
     this.update = (function(baseUpdate) {
         return function(timeScale) {
@@ -136,9 +133,6 @@ function Hero(map, input) {
 
     var moveHistory = [];
     var followers = [];
-    var isInteractive = true;
-
-    this.occupiesSpace = true;
 
     var updateFollowers = function() {
         var lastMove;
