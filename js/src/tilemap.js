@@ -1,4 +1,4 @@
-function Tilemap(width, height, layers) {
+function Tilemap(width, height, layers, mask) {
     var tiles;
 
     var indexFor = function(x, y) {
@@ -7,7 +7,7 @@ function Tilemap(width, height, layers) {
 
     this.isWalkable = function(x, y) {
         // TODO: not necessarily true!
-        return this.isInBounds(x, y) && this.getAt(x, y, 1) === 0;
+        return this.isInBounds(x, y) && mask[indexFor(x, y)] === 0;
     };
 
     this.isInBounds = function(x, y) {

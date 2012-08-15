@@ -19,4 +19,9 @@
  <objectgroup name="Objects" width="20" height="60">
   <object name="default" type="Entrance" x="153" y="774"/>
  </objectgroup>
+ <layer name="Mask" width="20" height="60">
+  <data encoding="base64" compression="zlib">
+   eJzt1bsJACAMBUCncv/RbOwEUXmF6B2kDeRHSgEgrfZI5krlY06fM9wAu8z4XzfOPb2P9psTfumaV+ti1ABmsAVH
+  </data>
+ </layer>
 </map>

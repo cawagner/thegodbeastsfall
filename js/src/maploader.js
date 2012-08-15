@@ -13,7 +13,9 @@ function MapLoader() {
     this.createMap = function(data) {
         var tileLayers = _(data.layers).filter(function(layer) { return layer.type === "tilelayer"; });
         var objectLayers = _(data.layers).filter(function(layer) { return layer.type === "objectgroup"; })
-        var tilemap = new Tilemap(data.width, data.height, tileLayers.length);
+        var mask = _(tileLayers).filter(function(layer) { return layer.name === "Mask"; })[0];
+        // TODO: don't use mask data directly?
+        var tilemap = new Tilemap(data.width, data.height, tileLayers.length, mask.data);
 
         var tilesets = [];
         var entrances = {};
@@ -35,10 +37,12 @@ function MapLoader() {
             tilesets.push(tileset);
         });
 
-        _(tileLayers.length).times(function(z) {
-            _.each2d(data.width, data.height, function(x, y) {
-                tilemap.setAt(x, y, z, tileLayers[z].data[x + y * data.width]);
-            });
+        _(tileLayers.length - (mask !== undefined)).times(function(z) {
+            if (tileLayers[z] !== mask) {
+                _.each2d(data.width, data.height, function(x, y) {
+                    tilemap.setAt(x, y, z, tileLayers[z].data[x + y * data.width]);
+                });
+            }
         });
 
         _(objectLayers).each(function(objectLayer) {
