@@ -43,7 +43,7 @@ function Tilemap(width, height, layers) {
     tiles = [];
     _(layers).times(function() {
         tiles.push(new Array(width * height));
-    }); 
+    });
 }
 
 function TilemapView(tilemap, tilesets, graphics) {
@@ -55,6 +55,9 @@ function TilemapView(tilemap, tilesets, graphics) {
 
     var srcRect = { x: 0, y: 0, width: ts.tileWidth, height: ts.tileHeight };
     var destRect = { x : 0, y: 0, width: TILE_SIZE, height: TILE_SIZE };
+
+    var maxScrollX = tilemap.width() * TILE_SIZE - graphics.width();
+    var maxScrollY = tilemap.height() * TILE_SIZE - graphics.height();
 
     var drawTile = function(x, y, tile) {
         tile -= 1;
@@ -75,8 +78,8 @@ function TilemapView(tilemap, tilesets, graphics) {
     this.draw = function() {
         var scrollX = this.scrollX,
             scrollY = this.scrollY,
-            originTileX = (scrollX / TILE_SIZE)|0,
-            originTileY = (scrollY / TILE_SIZE)|0;
+            originTileX = (scrollX / TILE_SIZE) | 0,
+            originTileY = (scrollY / TILE_SIZE) | 0;
 
         graphics.setOrigin(-scrollX, -scrollY);
 
@@ -95,7 +98,9 @@ function TilemapView(tilemap, tilesets, graphics) {
     };
 
     this.focusOn = function(x, y) {
-        this.scrollX = _(x * TILE_SIZE - graphics.width() / 2).boundWithin(0, tilemap.width() * TILE_SIZE - graphics.width());
-        this.scrollY = _(y * TILE_SIZE - graphics.height() / 2).boundWithin(0, tilemap.height() * TILE_SIZE - graphics.height());
+        var scrollX = x * TILE_SIZE - graphics.width() / 2;
+        var scrollY = y * TILE_SIZE - graphics.height() / 2;
+        this.scrollX = _(scrollX).boundWithin(0, maxScrollX);
+        this.scrollY = _(scrollY).boundWithin(0, maxScrollY);
     };
 }
