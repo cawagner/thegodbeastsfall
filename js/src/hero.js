@@ -2,6 +2,7 @@ function Actor(map) {
     var self = this;
     var destX = 0, destY = 0, moveX = 0, moveY = 0;
     var moveRemaining = 0;
+    var isMovementLocked = false;
 
     var resetMove = function() {
         moveRemaining = 0;
@@ -40,6 +41,18 @@ function Actor(map) {
 
         this.update();
         return true;
+    };
+
+    this.isMovementLocked = function() {
+        return isMovementLocked;
+    };
+
+    this.lockMovement = function() {
+        isMovementLocked = true;
+    };
+
+    this.unlockMovement = function() {
+        isMovementLocked = false;
     };
 
     this.isMoving = function() {
@@ -100,7 +113,7 @@ function Npc(map) {
             var dx = 0, dy = 0, dir;
             baseUpdate.call(this, timeScale);
 
-            if (!this.isMoving()) {
+            if (!(this.isMoving() || this.isMovementLocked())) {
                 if (waitForNextMove < 0) {
                     dir = Math.random() >= 0.5;
                     if (dir) {
@@ -151,14 +164,27 @@ function Hero(map, input) {
                 // trigger "bump"
             }
         }
+
+        if (input.wasConfirmPressed()) {
+            self.talk();
+        }
     };
 
     Actor.call(this, map);
 
+    this.talk = function() {
+        var d = direction.convertToXY(this.direction);
+        var otherGuy = map.getActor(this.x + d.x, this.y + d.y);
+        // TODO: pass anything in to this? Call less directly?
+        if (otherGuy && otherGuy.onTalk) {
+            otherGuy.onTalk();
+        }
+    };
+
     this.update = (function(baseUpdate) {
         return function(timeScale) {
             baseUpdate.call(this, timeScale);
-            if (isInteractive) {
+            if (!this.isMovementLocked()) {
                 takeInput();
             }
         };
@@ -166,14 +192,6 @@ function Hero(map, input) {
 
     this.addFollower = function(actor) {
         followers.push(actor);
-    };
-
-    this.lockMovement = function() {
-        isInteractive = false;
-    };
-
-    this.unlockMovement = function() {
-        isInteractive = true;
     };
 
     this.archetype = "hero";

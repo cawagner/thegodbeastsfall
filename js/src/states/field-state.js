@@ -26,24 +26,25 @@ function FieldState(game, map, entrance) {
     var npc = new Npc(map);
     npc.warpTo(5, 20);
     npc.archetype = "heroine";
-    actors.push(npc);
-
-    this.talk = function() {
+    npc.onTalk = function() {
         var messages = [
             {
                 speaker: "mirv",
                 text: [
-                    "You look around.",
-                    "There is an abundance of nothing there.",
-                    "I'm not kidding."
+                    "So you are Held...",
+                    "you look just like I thought you would."
                 ]
             }
         ];
         hero.lockMovement();
+        npc.lockMovement();
+        npc.direction = direction.oppositeOf(hero.direction);
         game.pushState(new DialogueState(game, messages, function() {
             hero.unlockMovement();
+            npc.unlockMovement();
         }));
     };
+    actors.push(npc);
 
     this.update = function(timeScale) {
         _(actors).each(function(actor) {
@@ -53,10 +54,6 @@ function FieldState(game, map, entrance) {
         frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
 
         tilemapView.focusOn(hero.x, hero.y);
-
-        if (game.input.wasConfirmPressed()) {
-            this.talk();
-        }
     };
 
     this.draw = function(timeScale) {
