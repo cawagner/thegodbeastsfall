@@ -1,16 +1,10 @@
-function DialogueState(game, messages, doneFn) {
-    var messageIndex = 0,
-        message = _(messages).first();
-
+SPEAKERS = (function() {
     // TODO: do not load this here, or always assume held is talking...
     var facesImage = new Image();
     facesImage.src = "assets/img/faces1.png";
 
-    var faceWidth = 48;
-    var faceHeight = 48;
-
     // TODO: doesn't go here...
-    var speakers = {
+    return {
         "held": {
             name: "Held",
             image: facesImage,
@@ -20,8 +14,21 @@ function DialogueState(game, messages, doneFn) {
             name: "Mirv",
             image: facesImage,
             frame: 4
+        },
+        "oldman": {
+            name: "Old Man",
+            image: facesImage,
+            frame: 2
         }
     }
+}());
+
+function DialogueState(game, messages, doneFn) {
+    var messageIndex = 0,
+        message = _(messages).first();
+
+    var faceWidth = 48;
+    var faceHeight = 48;
 
     this.previousState = new NoopState();
 
@@ -35,7 +42,7 @@ function DialogueState(game, messages, doneFn) {
     };
 
     var drawSpeaker = function(speakerId, x, y) {
-        var speaker = speakers[speakerId];
+        var speaker = SPEAKERS[speakerId];
         var speakerImage, speakerSrcRect, speakerDestRect;
         var facesInRow;
 

@@ -13,7 +13,8 @@ function ActorRenderer(graphics) {
     // TODO: don't load here...
     var images = {
         "hero": "assets/img/hero.png",
-        "heroine": "assets/img/heroine.png"
+        "heroine": "assets/img/heroine.png",
+        "oldman": "assets/img/oldman.png"
     };
     _(images).each(function(value, key) {
         images[key] = new Image();

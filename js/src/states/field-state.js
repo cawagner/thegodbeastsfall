@@ -11,9 +11,11 @@ function FieldState(game, map, entrance) {
     }
 
     var mirv = testMirv(game, map, hero);
-    var mirv2 = testMirv2(game, map, mirv, hero);
 
-    map.actors.push(mirv2);
+    _(10).times(function(){
+        var mirv2 = testMirv2(game, map, mirv, hero);
+        map.actors.push(mirv2);
+    });
     map.actors.push(mirv);
     map.actors.push(hero);
 
@@ -36,26 +38,46 @@ function FieldState(game, map, entrance) {
     };
 }
 
+function haveConversation(game, messages, hero, npc) {
+    var deferred = $.Deferred();
+    hero.lockMovement();
+    npc.lockMovement();
+    npc.direction = direction.oppositeOf(hero.direction);
+    game.pushState(new DialogueState(game, messages, function() {
+        hero.unlockMovement();
+        npc.unlockMovement();
+        deferred.resolve();
+    }));
+    return deferred.promise();
+}
+
 function testMirv2(game, map, mirv, hero) {
     var npc = new Npc(map);
-    npc.archetype = "heroine";
+    npc.archetype = "oldman";
     npc.onTalk = function() {
         var messages = [
             {
-                speaker: "mirv",
+                speaker: "oldman",
                 text: [
-                    "I'm following myself"
+                    "Mirv is appealing to me"
                 ]
             }
         ];
-        hero.lockMovement();
-        npc.lockMovement();
-        npc.direction = direction.oppositeOf(hero.direction);
-        game.pushState(new DialogueState(game, messages, function() {
-            hero.unlockMovement();
-            npc.unlockMovement();
-        }));
+        haveConversation(game, messages, hero, npc);
     };
+    npc.onShove = function() {
+        var messages = [
+            {
+                speaker: "oldman",
+                text: [
+                    "I might break my hip"
+                ]
+            }
+        ];
+        if (Math.random() < 0.2) {
+            haveConversation(game, messages, hero, npc);
+        }
+    }
     npc.wander = $.noop;
     mirv.addFollower(npc);
     return npc;
@@ -91,17 +113,12 @@ function testMirv(game, map, hero) {
                 ]
             }
         ];
-        hero.lockMovement();
-        npc.lockMovement();
-        npc.direction = direction.oppositeOf(hero.direction);
-        game.pushState(new DialogueState(game, messages, function() {
-            hero.unlockMovement();
-            npc.unlockMovement();
+        haveConversation(game, messages, hero, npc).done(function() {
             npc.wander = $.noop;
             npc.occupiesSpace = false;
             npc.clearFollowers();
             hero.addFollower(npc);
-        }));
+        })
     };
     return npc;
 }

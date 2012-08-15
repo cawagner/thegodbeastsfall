@@ -17,12 +17,22 @@ function Hero(map, input) {
 
     var moveHistory = [];
     var followers = [];
+    var failedMoves = 0, pushAfter = 15;
 
     var takeInput = function() {
-        var dx = input.dirX(),
-            dy = input.dirY();
+        var dx = input.dirX(), dy = input.dirY();
+
         if (self.canMove()) {
-            self.tryMoveBy(dx, dy);
+            if (self.tryMoveBy(dx, dy)) {
+                failedMoves = 0;
+            } else {
+                if (dx || dy) {
+                    ++failedMoves;
+                    if (failedMoves > pushAfter) {
+                        self.shove();
+                    }
+                }
+            }
         }
 
         if (input.wasConfirmPressed()) {
@@ -31,6 +41,17 @@ function Hero(map, input) {
     };
 
     Actor.call(this, map);
+
+    this.shove = function() {
+        var d = direction.convertToXY(this.direction);
+        var otherGuy = map.getActor(this.x + d.x, this.y + d.y);
+        if (otherGuy && otherGuy.isPushable && otherGuy.canMove()) {
+            if (otherGuy.onShove) {
+                otherGuy.onShove();
+            }
+            otherGuy.tryMoveBy(d.x, d.y);
+        }
+    };
 
     this.talk = function() {
         var d = direction.convertToXY(this.direction);

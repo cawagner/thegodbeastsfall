@@ -92,18 +92,17 @@ function Actor(map) {
         actor.resetMove();
         actor.warpTo(this.x, this.y);
         actor.direction = this.direction;
+        actor.isPushable = false;
 
         followers.push(actor);
     };
 
-    this.removeFollower = function(actor) {
-        var actorIndex = followers.indexOf(actor);
-        if (actorIndex >= 0) {
-            followers.splice(actorIndex, 1);
-        }
-    };
-
     this.clearFollowers = function() {
+        _(followers).each(function(actor) {
+            // TODO: don't assume this is the correct behavior!
+            actor.wander = wanderlust(actor);
+            actor.isPushable = true;
+        });
         followers = [];
         moveHistory = [];
     };
@@ -127,6 +126,7 @@ function Actor(map) {
     this.direction = direction.UP;
     this.map = map;
     this.occupiesSpace = true;
+    this.isPushable = true;
 }
 
 Actor.MOVE_SPEED = 0.1;
