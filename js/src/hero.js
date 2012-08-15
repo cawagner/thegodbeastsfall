@@ -138,6 +138,8 @@ function Hero(map, input) {
     var followers = [];
     var isInteractive = true;
 
+    this.occupiesSpace = true;
+
     var updateFollowers = function() {
         var lastMove;
         var i;

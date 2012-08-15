@@ -56,7 +56,7 @@ function MapLoader() {
             });
         });
 
-        result = new Map(tilemap, mask);
+        result = new Map(tilemap, mask.data);
         result.tilesets = tilesets;
         result.entrances = entrances;
         result.properties = data.properties;
