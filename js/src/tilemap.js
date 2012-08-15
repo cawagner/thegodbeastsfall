@@ -1,13 +1,42 @@
-function Tilemap(width, height, layers, mask) {
+function Map(tilemap, mask) {
+    // TODO: don't duplicate...
+    var indexFor = function(x, y) {
+        return x + y * tilemap.width();
+    };
+
+    this.tilemap = tilemap;
+    this.actors = [];
+
+    this.setMask = function(x, y) {
+        mask[indexFor(x, y)] = true;
+    };
+
+    this.unsetMask = function(x, y) {
+        mask[indexFor(x, y)] = false;
+    };
+
+    this.isWalkable = function(x, y) {
+        return tilemap.isInBounds(x, y) && !mask[indexFor(x, y)];
+    };
+
+    this.addActor = function(actor) {
+        this.actors.push(actor);
+    };
+}
+
+Map.prototype.width = function() {
+    return this.tilemap.width();
+};
+
+Map.prototype.height = function() {
+    return this.tilemap.height();
+};
+
+function Tilemap(width, height, layers) {
     var tiles;
 
     var indexFor = function(x, y) {
         return x + y * width;
-    };
-
-    this.isWalkable = function(x, y) {
-        // TODO: not necessarily true!
-        return this.isInBounds(x, y) && mask[indexFor(x, y)] === 0;
     };
 
     this.isInBounds = function(x, y) {

@@ -1,4 +1,4 @@
-function Actor(tilemap) {
+function Actor(map) {
     var self = this;
     var destX = 0, destY = 0, moveX = 0, moveY = 0;
     var moveRemaining = 0;
@@ -34,6 +34,12 @@ function Actor(tilemap) {
         moveRemaining = 1;
         destX = this.x + dx;
         destY = this.y + dy;
+
+        if (this.occupiesSpace) {
+            this.map.unsetMask(this.x, this.y);
+            this.map.setMask(destX, destY);
+        }
+
         this.update();
         return true;
     };
@@ -51,7 +57,7 @@ function Actor(tilemap) {
     };
 
     this.canMoveTo = function(x, y) {
-        return this.tilemap.isWalkable(x, y);
+        return this.map.isWalkable(x, y);
     }
 
     this.canMoveBy = function(dx, dy) {
@@ -61,7 +67,8 @@ function Actor(tilemap) {
     this.x = 0;
     this.y = 0;
     this.direction = direction.UP;
-    this.tilemap = tilemap;
+    this.map = map;
+    this.occupiesSpace = false;
 }
 
 Actor.MOVE_SPEED = 0.1;
@@ -83,7 +90,37 @@ Actor.prototype.tryMoveBy = function(dx, dy) {
     return false;
 };
 
-function Hero(tilemap, input) {
+function Npc(map) {
+    Actor.call(this, map);
+
+    var waitForNextMove = 0;
+
+    this.occupiesSpace = true;
+
+    this.update = (function(baseUpdate) {
+        return function(timeScale) {
+            var dx = 0, dy = 0, dir;
+            baseUpdate.call(this, timeScale);
+
+            if (!this.isMoving()) {
+                if (waitForNextMove < 0) {
+                    dir = Math.random() >= 0.5;
+                    if (dir) {
+                        dy = Math.floor(Math.random()*3)-1;
+                    } else {
+                        dx = Math.floor(Math.random()*3)-1;
+                    }
+                    this.tryMoveBy(dx, dy);
+                    waitForNextMove = 20 + Math.random() * 40;
+                }
+                --waitForNextMove;
+            }
+        };
+    })(this.update);
+};
+Npc.prototype = new Actor();
+
+function Hero(map, input) {
     var self = this;
 
     var moveHistory = [];
@@ -118,7 +155,7 @@ function Hero(tilemap, input) {
         }
     };
 
-    Actor.call(this, tilemap);
+    Actor.call(this, map);
 
     this.update = (function(baseUpdate) {
         return function(timeScale) {

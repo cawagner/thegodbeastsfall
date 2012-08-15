@@ -19,6 +19,7 @@ function MapLoader() {
 
         var tilesets = [];
         var entrances = {};
+        var result;
 
         _(data.tilesets).each(function(tilesetData) {
             var path = 'assets/' + tilesetData.image.replace("\/", "/").replace(/..\//, '');
@@ -55,11 +56,10 @@ function MapLoader() {
             });
         });
 
-        return {
-            tilemap: tilemap,
-            tilesets: tilesets,
-            properties: data.properties,
-            entrances: entrances
-        };
+        result = new Map(tilemap, mask);
+        result.tilesets = tilesets;
+        result.entrances = entrances;
+        result.properties = data.properties;
+        return result;
     };
 }

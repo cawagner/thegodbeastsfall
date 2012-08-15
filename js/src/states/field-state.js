@@ -1,7 +1,7 @@
 // TODO: make some function to open the state instead of having such a horrible constructor
 function FieldState(game, map, entrance) {
     var tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
-        hero = new Hero(map.tilemap, game.input),
+        hero = new Hero(map, game.input),
         actors = [],
         frame = 0,
         actorRenderer = new ActorRenderer(game.graphics);
@@ -13,7 +13,7 @@ function FieldState(game, map, entrance) {
 
     // followers need to be on the map before the hero, so the hero will draw on top and so update order will be right
     _(0).times(function() {
-        var follower = new Actor(map.tilemap);
+        var follower = new Actor(map);
         follower.archetype = "heroine";
         follower.warpTo(hero.x, hero.y);
 
@@ -22,6 +22,11 @@ function FieldState(game, map, entrance) {
     });
 
     actors.push(hero);
+
+    var npc = new Npc(map);
+    npc.warpTo(5, 20);
+    npc.archetype = "heroine";
+    actors.push(npc);
 
     this.talk = function() {
         var messages = [
