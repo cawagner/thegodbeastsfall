@@ -124,6 +124,8 @@ function DialogueState(game, messages) {
         if (game.input.wasConfirmPressed()) {
             game.popState();
         }
+
+        this.previousState.update(timeScale, false);
     };
 }
 
@@ -152,9 +154,11 @@ function FieldState(game, map, entrance) {
 
     actors.push(hero);
 
-    this.update = function(timeScale, previousState) {
+    this.update = function(timeScale, interactive) {
+        interactive = !!(interactive || interactive === undefined);
+
         _(actors).each(function(actor) {
-            actor.update();
+            actor.update(timeScale, interactive);
         });
 
         frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
@@ -174,7 +178,7 @@ function FieldState(game, map, entrance) {
         }
     };
 
-    this.draw = function(timeScale, previousState) {
+    this.draw = function(timeScale) {
         tilemapView.draw();
 
         _(actors).chain().sortBy("y").each(function(actor) {

@@ -120,9 +120,11 @@ function Hero(tilemap, input) {
     Actor.call(this, tilemap);
 
     this.update = (function(baseUpdate) {
-        return function(timeScale) {
+        return function(timeScale, interactive) {
             baseUpdate.call(this, timeScale);
-            takeInput();
+            if (interactive) {
+                takeInput();
+            }
         };
     })(this.update);
 
