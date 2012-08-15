@@ -2,7 +2,6 @@
 function FieldState(game, map, entrance) {
     var tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
         hero = new Hero(map, game.input),
-        actors = [],
         frame = 0,
         actorRenderer = new ActorRenderer(game.graphics);
 
@@ -11,17 +10,7 @@ function FieldState(game, map, entrance) {
         hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
     }
 
-    // followers need to be on the map before the hero, so the hero will draw on top and so update order will be right
-    _(0).times(function() {
-        var follower = new Actor(map);
-        follower.archetype = "heroine";
-        follower.warpTo(hero.x, hero.y);
-
-        actors.push(follower);
-        hero.addFollower(follower);
-    });
-
-    actors.push(hero);
+    map.actors.push(hero);
 
     var npc = new Npc(map);
     npc.warpTo(5, 20);
@@ -44,10 +33,10 @@ function FieldState(game, map, entrance) {
             npc.unlockMovement();
         }));
     };
-    actors.push(npc);
+    map.actors.push(npc);
 
     this.update = function(timeScale) {
-        _(actors).each(function(actor) {
+        _(map.actors).each(function(actor) {
             actor.update(timeScale);
         });
 
@@ -59,7 +48,7 @@ function FieldState(game, map, entrance) {
     this.draw = function(timeScale) {
         tilemapView.draw();
 
-        _(actors).chain().sortBy("y").each(function(actor) {
+        _(map.actors).chain().sortBy("y").each(function(actor) {
             actorRenderer.drawActor(actor, frame);
         });
     };
