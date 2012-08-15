@@ -4,6 +4,9 @@ function Actor(map) {
     var moveRemaining = 0;
     var isMovementLocked = false;
 
+    var moveHistory = [];
+    var followers = [];
+
     var moveTowardNewSquare = function() {
         if (self.canMove()) {
             return;
@@ -41,6 +44,11 @@ function Actor(map) {
             this.map.setActor(destX, destY, this);
         }
 
+        updateFollowers();
+        if (followers.length) {
+            moveHistory.push({x: dx, y: dy});
+        }
+
         this.update();
         return true;
     };
@@ -75,6 +83,31 @@ function Actor(map) {
 
     this.canMoveBy = function(dx, dy) {
         return this.canMoveTo(this.x + dx, this.y + dy);
+    };
+
+    this.addFollower = function(actor) {
+        var followerDirection = direction.oppositeOf(this.direction);
+        var d = direction.convertToXY(followerDirection);
+
+        actor.resetMove();
+        actor.warpTo(this.x, this.y);
+        actor.direction = this.direction;
+
+        followers.push(actor);
+    };
+
+    var updateFollowers = function() {
+        var lastMove;
+        var i;
+        if (moveHistory.length > followers.length) {
+            moveHistory.shift(1);
+        }
+        for (i = 0; i < followers.length; ++i) {
+            lastMove = moveHistory[moveHistory.length - i - 1];
+            if (lastMove !== undefined) {
+                followers[i].moveBy(lastMove.x, lastMove.y, false);
+            }
+        }
     };
 
     this.x = 0;
@@ -147,33 +180,11 @@ function Hero(map, input) {
     var moveHistory = [];
     var followers = [];
 
-    var updateFollowers = function() {
-        var lastMove;
-        var i;
-        if (moveHistory.length > followers.length) {
-            moveHistory.shift(1);
-        }
-        for (i = 0; i < followers.length; ++i) {
-            lastMove = moveHistory[moveHistory.length - i - 1];
-            if (lastMove !== undefined) {
-                followers[i].moveBy(lastMove.x, lastMove.y, false);
-            }
-        }
-    };
-
     var takeInput = function() {
         var dx = input.dirX(),
             dy = input.dirY();
         if (self.canMove()) {
-            if (self.tryMoveBy(dx, dy)) {
-                updateFollowers();
-                // trigger step taken (check for random encounters, maybe update heros, etc)
-                if (followers && followers.length) {
-                    moveHistory.push({x: dx, y: dy});
-                }
-            } else {
-                // trigger "bump"
-            }
+            self.tryMoveBy(dx, dy);
         }
 
         if (input.wasConfirmPressed()) {
@@ -200,17 +211,6 @@ function Hero(map, input) {
             }
         };
     })(this.update);
-
-    this.addFollower = function(actor) {
-        var followerDirection = direction.oppositeOf(this.direction);
-        var d = direction.convertToXY(followerDirection);
-
-        actor.resetMove();
-        actor.warpTo(this.x, this.y);
-        actor.direction = direction;
-
-        followers.push(actor);
-    };
 
     this.archetype = "hero";
 };

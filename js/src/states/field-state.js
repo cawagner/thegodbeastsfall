@@ -10,7 +10,11 @@ function FieldState(game, map, entrance) {
         hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
     }
 
-    map.actors.push(testMirv(game, map, hero));
+    var mirv = testMirv(game, map, hero);
+    var mirv2 = testMirv2(game, map, mirv, hero);
+
+    map.actors.push(mirv2);
+    map.actors.push(mirv);
     map.actors.push(hero);
 
     this.update = function(timeScale) {
@@ -30,6 +34,31 @@ function FieldState(game, map, entrance) {
             actorRenderer.drawActor(actor, frame);
         });
     };
+}
+
+function testMirv2(game, map, mirv, hero) {
+    var npc = new Npc(map);
+    npc.archetype = "heroine";
+    npc.onTalk = function() {
+        var messages = [
+            {
+                speaker: "mirv",
+                text: [
+                    "I'm following myself"
+                ]
+            }
+        ];
+        hero.lockMovement();
+        npc.lockMovement();
+        npc.direction = direction.oppositeOf(hero.direction);
+        game.pushState(new DialogueState(game, messages, function() {
+            hero.unlockMovement();
+            npc.unlockMovement();
+        }));
+    };
+    npc.wander = $.noop;
+    mirv.addFollower(npc);
+    return npc;
 }
 
 function testMirv(game, map, hero) {
