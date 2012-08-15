@@ -12,7 +12,7 @@ function FieldState(game, map, entrance) {
 
     var mirv = testMirv(game, map, hero);
 
-    _(10).times(function(){
+    _(1).times(function(){
         var mirv2 = testMirv2(game, map, mirv, hero);
         map.actors.push(mirv2);
     });
