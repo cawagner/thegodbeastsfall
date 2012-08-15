@@ -1,4 +1,6 @@
 function Map(tilemap, mask) {
+    var actorMap = {};
+
     // TODO: don't duplicate...
     var indexFor = function(x, y) {
         return x + y * tilemap.width();
@@ -13,6 +15,25 @@ function Map(tilemap, mask) {
 
     this.unsetMask = function(x, y) {
         mask[indexFor(x, y)] = false;
+    };
+
+    this.getActor = function(x, y) {
+        return actorMap[indexFor(x, y)];
+    }
+
+    this.setActor = function(x, y, actor) {
+        if (actor.occupiesSpace) {
+            this.setMask(x, y);
+        }
+        actorMap[indexFor(x, y)] = actor;
+    };
+
+    this.clearActor = function(x, y) {
+        var actor = actorMap[indexFor(x, y)];
+        if (actor !== undefined && actor.occupiesSpace) {
+            this.unsetMask(x, y);
+        }
+        delete actorMap[indexFor(x, y)];
     };
 
     this.isWalkable = function(x, y) {

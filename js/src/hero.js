@@ -35,10 +35,8 @@ function Actor(map) {
         destX = this.x + dx;
         destY = this.y + dy;
 
-        if (this.occupiesSpace) {
-            this.map.unsetMask(this.x, this.y);
-            this.map.setMask(destX, destY);
-        }
+        this.map.clearActor(this.x, this.y);
+        this.map.setActor(destX, destY, this);
 
         this.update();
         return true;
