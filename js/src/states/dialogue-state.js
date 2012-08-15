@@ -1,4 +1,4 @@
-function DialogueState(game, messages) {
+function DialogueState(game, messages, doneFn) {
     var message = _(messages).first();
 
     // TODO: do not load this here, or always assume held is talking...
@@ -68,6 +68,10 @@ function DialogueState(game, messages) {
 
     this.start = function(previousState) {
         this.previousState = previousState;
+    };
+
+    this.end = function() {
+        doneFn();
     }
 
     this.draw = function(timeScale) {

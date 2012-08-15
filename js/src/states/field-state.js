@@ -23,11 +23,26 @@ function FieldState(game, map, entrance) {
 
     actors.push(hero);
 
-    this.update = function(timeScale, interactive) {
-        interactive = !!(interactive || interactive === undefined);
+    this.talk = function() {
+        var messages = [
+            {
+                speaker: "mirv",
+                text: [
+                    "You look around.",
+                    "There is an abundance of nothing there.",
+                    "I'm not kidding."
+                ]
+            }
+        ];
+        hero.lockMovement();
+        game.pushState(new DialogueState(game, messages, function() {
+            hero.unlockMovement();
+        }));
+    };
 
+    this.update = function(timeScale) {
         _(actors).each(function(actor) {
-            actor.update(timeScale, interactive);
+            actor.update(timeScale);
         });
 
         frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
@@ -35,15 +50,7 @@ function FieldState(game, map, entrance) {
         tilemapView.focusOn(hero.x, hero.y);
 
         if (game.input.wasConfirmPressed()) {
-            game.pushState(new DialogueState(game, [
-                {
-                    speaker: "mirv",
-                    text: [
-                        "You look around.",
-                        "There is an abundance of nothing there.",
-                        "I'm not kidding."
-                    ]
-                }]));
+            this.talk();
         }
     };
 

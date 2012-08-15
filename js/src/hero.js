@@ -88,6 +88,7 @@ function Hero(tilemap, input) {
 
     var moveHistory = [];
     var followers = [];
+    var isInteractive = true;
 
     var updateFollowers = function() {
         var lastMove;
@@ -120,9 +121,9 @@ function Hero(tilemap, input) {
     Actor.call(this, tilemap);
 
     this.update = (function(baseUpdate) {
-        return function(timeScale, interactive) {
+        return function(timeScale) {
             baseUpdate.call(this, timeScale);
-            if (interactive) {
+            if (isInteractive) {
                 takeInput();
             }
         };
@@ -130,6 +131,14 @@ function Hero(tilemap, input) {
 
     this.addFollower = function(actor) {
         followers.push(actor);
+    };
+
+    this.lockMovement = function() {
+        isInteractive = false;
+    };
+
+    this.unlockMovement = function() {
+        isInteractive = true;
     };
 
     this.archetype = "hero";
