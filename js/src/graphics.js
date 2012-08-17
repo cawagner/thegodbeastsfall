@@ -48,7 +48,7 @@ function Graphics(width, height, scale) {
     this.width = function() { return width; };
     this.height = function() { return height; };
 
-    context.font = "12px Arial";
+    context.font = "8px 'Press Start 2P'";
     context.textBaseline = 'top';
 
     visibleContext.webkitImageSmoothingEnabled = false;

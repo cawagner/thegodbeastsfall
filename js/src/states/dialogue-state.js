@@ -49,9 +49,9 @@ function DialogueState(game, messages, doneFn) {
         if (speaker === undefined)
             return;
 
-        drawWindowRect(x + 5, y - 30, 100, 14);
+        drawWindowRect(x + 5, y - 23, 100, 8);
         game.graphics.setFillColor("#fff");
-        game.graphics.drawText(x + 5, y - 30, speaker.name);
+        game.graphics.drawText(x + 5, y - 23, speaker.name);
 
         if (speaker.image) {
             facesInRow = speaker.image.width / faceWidth;
