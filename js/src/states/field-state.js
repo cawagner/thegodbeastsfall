@@ -1,23 +1,16 @@
 // TODO: make some function to open the state instead of having such a horrible constructor
 function FieldState(game, map, entrance) {
     var tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
-        hero = new Hero(map, game.input),
+        hero = new Hero(game.input),
         frame = 0,
         actorRenderer = new ActorRenderer(game.graphics);
+
+    map.addActor(hero);
 
     entrance = entrance || "default";
     if (entrance in map.entrances) {
         hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
     }
-
-    var mirv = testMirv(game, map, hero);
-
-    _(1).times(function(){
-        var mirv2 = testMirv2(game, map, mirv, hero);
-        map.actors.push(mirv2);
-    });
-    map.actors.push(mirv);
-    map.actors.push(hero);
 
     this.update = function(timeScale) {
         _(map.actors).each(function(actor) {
@@ -47,87 +40,27 @@ function FieldState(game, map, entrance) {
     };
 }
 
-function haveConversation(game, messages, hero, npc) {
+function haveConversation(messages, hero, npc) {
+    var game = Game.instance;
     var deferred = $.Deferred();
-    hero.lockMovement();
-    npc.lockMovement();
-    npc.direction = direction.oppositeOf(hero.direction);
+    // TODO: send message that we're locking movement instead...?
+    if (hero) {
+        hero.lockMovement();
+    }
+
+    if (npc) {
+        npc.lockMovement();
+        npc.direction = direction.oppositeOf(hero.direction);
+    }
     game.pushState(new DialogueState(game, messages, function() {
-        hero.unlockMovement();
-        npc.unlockMovement();
+        // TODO: send message that we're locking the NPC instead...
+        if (hero) {
+            hero.unlockMovement();
+        }
+        if (npc) {
+            npc.unlockMovement();
+        }
         deferred.resolve();
     }));
     return deferred.promise();
-}
-
-function testMirv2(game, map, mirv, hero) {
-    var npc = new Npc(map);
-    npc.archetype = "oldman";
-    npc.onTalk = function() {
-        var messages = [
-            {
-                speaker: "oldman",
-                text: [
-                    "Mirv is appealing to me"
-                ]
-            }
-        ];
-        haveConversation(game, messages, hero, npc);
-    };
-    npc.onShove = function() {
-        var messages = [
-            {
-                speaker: "oldman",
-                text: [
-                    "I might break my hip"
-                ]
-            }
-        ];
-        if (Math.random() < 0.2) {
-            haveConversation(game, messages, hero, npc);
-        }
-    }
-    npc.wander = $.noop;
-    mirv.addFollower(npc);
-    return npc;
-}
-
-function testMirv(game, map, hero) {
-    var npc = new Npc(map);
-    npc.warpTo(5, 20);
-    npc.archetype = "heroine";
-    npc.onTalk = function() {
-        var messages = [
-            {
-                speaker: "mirv",
-                text: [
-                    "So you are Held...",
-                    "you look just like I thought you would.",
-                    "Thank you for releasing me."
-                ]
-            },
-            {
-                speaker: "mirv",
-                text: [
-                    "But we can't stay here. We need to return",
-                    "to the surface."
-                ]
-            },
-            {
-                speaker: "held",
-                text: [
-                    "YOUR MOM IS A SURFACE DUR HURR",
-                    "",
-                    "i'm a paladin"
-                ]
-            }
-        ];
-        haveConversation(game, messages, hero, npc).done(function() {
-            npc.wander = $.noop;
-            npc.occupiesSpace = false;
-            npc.clearFollowers();
-            hero.addFollower(npc);
-        })
-    };
-    return npc;
 }

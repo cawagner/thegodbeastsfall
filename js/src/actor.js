@@ -1,4 +1,4 @@
-function Actor(map) {
+function Actor(archetype) {
     var self = this;
     var moveX = 0, moveY = 0;
     var moveRemaining = 0;
@@ -7,7 +7,7 @@ function Actor(map) {
     var moveHistory = [];
     var followers = [];
 
-    var moveTowardNewSquare = function() {
+    var moveTowardNewSquare = function(timeScale) {
         if (self.canMove()) {
             return;
         }
@@ -64,9 +64,12 @@ function Actor(map) {
         return moveRemaining > 0;
     };
 
-    this.update = function() {
-        moveTowardNewSquare();
+    this.update = function(timeScale) {
+        moveTowardNewSquare(timeScale);
+        this.onUpdate(timeScale);
     };
+
+    this.onUpdate = $.noop;
 
     this.canMove = function() {
         return moveRemaining === 0;
@@ -122,9 +125,9 @@ function Actor(map) {
     this.destX = 0;
     this.destY = 0;
     this.direction = direction.UP;
-    this.map = map;
     this.occupiesSpace = true;
     this.isPushable = true;
+    this.archetype = archetype;
 }
 
 Actor.MOVE_SPEED = 0.1;
@@ -145,23 +148,3 @@ Actor.prototype.tryMoveBy = function(dx, dy) {
     }
     return false;
 };
-
-function wanderlust(self) {
-    var waitForNextMove = 0;
-    return function() {
-        var dx = 0, dy = 0, dir;
-        if (!(self.isMoving() || self.isMovementLocked())) {
-            if (waitForNextMove < 0) {
-                dir = Math.random() >= 0.5;
-                if (dir) {
-                    dy = Math.floor(Math.random()*3)-1;
-                } else {
-                    dx = Math.floor(Math.random()*3)-1;
-                }
-                self.tryMoveBy(dx, dy);
-                waitForNextMove = 20 + Math.random() * 40;
-            }
-            --waitForNextMove;
-        }
-    };
-}

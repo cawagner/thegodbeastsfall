@@ -1,18 +1,35 @@
-function Npc(map) {
-    Actor.call(this, map);
+function Npc(archetype) {
+    Actor.call(this, archetype);
 
     this.wander = wanderlust(this);
 
-    this.update = (function(baseUpdate) {
-        return function(timeScale) {
-            baseUpdate.call(this, timeScale);
-            this.wander();
-        };
-    })(this.update);
+    this.onUpdate = function(timeScale) {
+        this.wander();
+    };
 };
 Npc.prototype = new Actor();
 
-function Hero(map, input) {
+function wanderlust(self) {
+    var waitForNextMove = 0;
+    return function() {
+        var dx = 0, dy = 0, dir;
+        if (!(self.isMoving() || self.isMovementLocked())) {
+            if (waitForNextMove < 0) {
+                dir = Math.random() >= 0.5;
+                if (dir) {
+                    dy = Math.floor(Math.random()*3)-1;
+                } else {
+                    dx = Math.floor(Math.random()*3)-1;
+                }
+                self.tryMoveBy(dx, dy);
+                waitForNextMove = 20 + Math.random() * 40;
+            }
+            --waitForNextMove;
+        }
+    };
+}
+
+function Hero(input) {
     var self = this;
 
     var moveHistory = [];
@@ -40,7 +57,7 @@ function Hero(map, input) {
         }
     };
 
-    Actor.call(this, map);
+    Actor.call(this, "hero");
 
     this.shove = function() {
         var d = direction.convertToXY(this.direction);
@@ -62,17 +79,11 @@ function Hero(map, input) {
         }
     };
 
-    this.update = (function(baseUpdate) {
-        return function(timeScale) {
-            baseUpdate.call(this, timeScale);
-            if (!this.isMovementLocked()) {
-                takeInput();
-            }
-        };
-    })(this.update);
-
-    this.archetype = "hero";
+    this.onUpdate = function(timeScale) {
+        if (!this.isMovementLocked()) {
+            takeInput();
+        }
+    };
 };
 
 Hero.prototype = new Actor();
-

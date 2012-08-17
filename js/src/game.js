@@ -35,11 +35,17 @@ function ActorRenderer(graphics) {
 }
 
 function Game(graphics) {
+    if (Game.instance) {
+        throw "too many games!";
+    }
+
     var gameStates = [ new NoopState() ];
     var game = this;
 
     this.input = new KeyboardInput().setup();
     this.graphics = graphics;
+
+    Game.instance = this;
 
     this.currentState = function() {
         return _(gameStates).last();

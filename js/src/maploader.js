@@ -5,7 +5,12 @@ function MapLoader() {
         var deferred = $.Deferred();
         $.getJSON("assets/maps/" + mapName + ".json", function(data) {
             var map = self.createMap(data);
-            deferred.resolve(map);
+            window.setupMap = function(fn) {
+                fn(map);
+            };
+            $.getScript("assets/maps/" + mapName + ".js", function() {
+                deferred.resolve(map);
+            });
         });
         return deferred.promise();
     };
@@ -20,6 +25,7 @@ function MapLoader() {
         var tilesets = [];
         var entrances = {};
         var exits = {};
+        var npcs = {};
         var result;
 
         _(data.tilesets).each(function(tilesetData) {
@@ -64,9 +70,8 @@ function MapLoader() {
                     };
                     break;
                 }
-            })
+            });
         });
-
 
         result = new Map(tilemap, mask.data);
         result.tilesets = tilesets;

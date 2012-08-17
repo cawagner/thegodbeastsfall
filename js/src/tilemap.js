@@ -29,6 +29,7 @@ function Map(tilemap, mask) {
 
     this.addActor = function(actor) {
         this.actors.push(actor);
+        actor.map = this;
     };
 }
 
