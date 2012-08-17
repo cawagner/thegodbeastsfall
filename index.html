@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Held des g&ouml;ttlichen Funken</title>
-	<link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/press-start-2p" rel="stylesheet" type="text/css"/>
-	<style type="text/css">
-		body {
-			background: #103;
-		}
-		canvas {
-			position: absolute;
-			margin-left: -320px;
-			margin-top: -240px;
-			top: 50%;
-			left: 50%;
-			image-rendering: optimizeSpeed;
-			-ms-interpolation-mode: nearest-neighbor;
-		}
-	</style>
+    <title>Held des g&ouml;ttlichen Funken</title>
+    <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/press-start-2p" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        body {
+            background: #103;
+        }
+        @font-face {
+            font-family: 'Press Start 2P';
+            src: url('assets/PressStart2PRegular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            image-rendering: optimizeSpeed;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+        h1 { font-size: 14px; color: white; text-align: center; }
+    </style>
 </head>
 <body>
-	<canvas id="gameCanvas" width="640" height="480"></canvas>
-	<script type="text/javascript" src="js/lib/jquery-1.8.0.min.js"></script>
-	<script type="text/javascript" src="js/src/main.js"></script>
+    <h1 style="font-family: 'Press Start 2P';">HI THERE HERO</h1>
+    <canvas id="gameCanvas" width="640" height="480"></canvas>
+    <script type="text/javascript" src="js/lib/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="js/src/main.js"></script>
 </body>
 </html>

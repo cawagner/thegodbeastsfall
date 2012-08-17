@@ -46,32 +46,34 @@ includeAll(requirements, function() {
 
     installMixins();
 
-    var graphics = new Graphics(320, 240, 2),
-        game = new Game(graphics),
-        startFrame,
-        endFrame = Date.now(),
-        timeScale = 1;
+    $(function() {
+        var graphics = new Graphics(320, 240, 2),
+            game = new Game(graphics),
+            startFrame,
+            endFrame = Date.now(),
+            timeScale = 1;
 
-    var addOnRequestAnimationFrame = function(callback, canvas) {
-        var fun = window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame ||
-            function(callback) {
-                setTimeout(callback, 16);
-            };
-        fun(callback, canvas);
-    };
+        var addOnRequestAnimationFrame = function(callback, canvas) {
+            var fun = window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function(callback) {
+                    setTimeout(callback, 16);
+                };
+            fun(callback, canvas);
+        };
 
-    goToMap(game, 'DesertPath');
+        goToMap(game, 'DesertPath');
 
-    addOnRequestAnimationFrame(function mainLoop() {
-        startFrame = endFrame;
-        game.update(timeScale);
-        game.draw(timeScale);
-        endFrame = Date.now();
-        timeScale = Math.min(3, (timeScale + (endFrame - startFrame) / 30) * 0.5);
-        addOnRequestAnimationFrame(mainLoop);
-    }, document.getElementById("gameCanvas"));
+        addOnRequestAnimationFrame(function mainLoop() {
+            startFrame = endFrame;
+            game.update(timeScale);
+            game.draw(timeScale);
+            endFrame = Date.now();
+            timeScale = Math.min(3, (timeScale + (endFrame - startFrame) / 30) * 0.5);
+            addOnRequestAnimationFrame(mainLoop);
+        }, document.getElementById("gameCanvas"));
+    });
 });
