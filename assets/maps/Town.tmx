@@ -31,7 +31,7 @@
   </object>
   <object name="oldman" type="NPC" x="320" y="400">
    <properties>
-    <property name="archetype" value="oldmap"/>
+    <property name="archetype" value="oldman"/>
     <property name="behavior" value="wanderlust"/>
    </properties>
   </object>

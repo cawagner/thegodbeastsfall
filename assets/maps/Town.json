@@ -61,6 +61,19 @@
                  "width":16,
                  "x":223,
                  "y":467
+                }, 
+                {
+                 "height":0,
+                 "name":"oldman",
+                 "properties":
+                    {
+                     "archetype":"oldman",
+                     "behavior":"wanderlust"
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":320,
+                 "y":400
                 }],
          "opacity":1,
          "type":"objectgroup",

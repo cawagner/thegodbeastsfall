@@ -28,8 +28,11 @@ function includeAll(scripts, done) {
 
 function goToMap(game, mapName, entrance) {
     var mapLoader = new MapLoader();
+    // TODO: really hackish...
+    if (game.currentState() instanceof FieldState) {
+        game.popState();
+    }
     mapLoader.load(mapName).done(function(map) {
-        // TODO: replace top state instead of always pushing new one...
         var fieldState = new FieldState(game, map);
         game.pushState(fieldState);
 

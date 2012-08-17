@@ -56,19 +56,29 @@ function MapLoader() {
         _(objectLayers).each(function(objectLayer) {
             _(objectLayer.objects).each(function(object) {
                 switch (object.type) {
-                case "Entrance":
-                    entrances[object.name] = { x: (object.x / TILE_SIZE) | 0, y: (object.y / TILE_SIZE) | 0 };
-                    break;
-                case "Exit":
-                    exits[object.name] = {
-                        x: (object.x / TILE_SIZE) | 0,
-                        y: (object.y / TILE_SIZE) | 0,
-                        width: (object.width / TILE_SIZE) | 0,
-                        height: (object.height / TILE_SIZE) | 0,
-                        entrance: object.properties.entrance,
-                        map: object.properties.map
-                    };
-                    break;
+                    case "Entrance": {
+                        entrances[object.name] = { x: (object.x / TILE_SIZE) | 0, y: (object.y / TILE_SIZE) | 0 };
+                        break;
+                    }
+                    case "Exit": {
+                        exits[object.name] = {
+                            x: (object.x / TILE_SIZE) | 0,
+                            y: (object.y / TILE_SIZE) | 0,
+                            width: (object.width / TILE_SIZE) | 0,
+                            height: (object.height / TILE_SIZE) | 0,
+                            entrance: object.properties.entrance,
+                            map: object.properties.map
+                        };
+                        break;
+                    }
+                    case "NPC": {
+                        npcs[object.name] = new Npc(object.properties.archetype);
+                        npcs[object.name].warpTo((object.x / TILE_SIZE) | 0, (object.y / TILE_SIZE) | 0);
+                        break;
+                    }
+                    default: {
+                        console.log("object type" + object.type + " not recognized");
+                    }
                 }
             });
         });
@@ -78,6 +88,12 @@ function MapLoader() {
         result.entrances = entrances;
         result.exits = exits;
         result.properties = data.properties;
+        result.npcs = npcs;
+
+        _(npcs).each(function(npc) {
+            result.addActor(npc);
+        });
+
         return result;
     };
 }

@@ -1,11 +1,11 @@
 setupMap(function(map) {
-    map.npcs["oldman"].onTalk = function() {
+    map.npcs["oldman"].onTalk = function(hero) {
         var message = {
             speaker: "oldman",
             text: [
                 "Mirv is appealing to me"
             ]
         };
-        haveConversation([message]);
+        haveConversation([message], hero, this);
     };
 });
