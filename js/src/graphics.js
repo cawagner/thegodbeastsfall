@@ -15,7 +15,7 @@ function Graphics(width, height, scale) {
     };
 
     this.swapBuffers = function() {
-        visibleContext.drawImage(offScreenCanvas, 0, 0, width, height, 0, 0, width * scale, height * scale);
+        visibleContext.drawImage(offScreenCanvas, 0, 0);
     };
 
     this.cls = function() {
@@ -54,4 +54,5 @@ function Graphics(width, height, scale) {
     visibleContext.webkitImageSmoothingEnabled = false;
     visibleContext.mozImageSmoothingEnabled = false;
     visibleContext.imageSmoothingEnabled = false;
+    visibleContext.scale(2, 2);
 }
