@@ -51,8 +51,16 @@ function Graphics(width, height, scale) {
     context.font = "8px 'Press Start 2P', Fixedsys, Courier";
     context.textBaseline = 'top';
 
-    visibleContext.webkitImageSmoothingEnabled = false;
-    visibleContext.mozImageSmoothingEnabled = false;
-    visibleContext.imageSmoothingEnabled = false;
-    visibleContext.scale(2, 2);
+    this.setScale = function(newScale) {
+        scale = newScale;
+        visibleCanvas.width = newScale * width;
+        visibleCanvas.height = newScale * height;
+        visibleContext.restore();
+        visibleContext.webkitImageSmoothingEnabled = false;
+        visibleContext.mozImageSmoothingEnabled = false;
+        visibleContext.imageSmoothingEnabled = false;
+        visibleContext.scale(newScale, newScale);
+    };
+
+    this.setScale(scale);
 }
