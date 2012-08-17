@@ -52,7 +52,7 @@ includeAll(requirements, function() {
         endFrame = Date.now(),
         timeScale = 1;
 
-    var addOnRequestAnimationFrame = function(callback) {
+    var addOnRequestAnimationFrame = function(callback, canvas) {
         var fun = window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
             window.mozRequestAnimationFrame ||
@@ -61,7 +61,7 @@ includeAll(requirements, function() {
             function(callback) {
                 setTimeout(callback, 16);
             };
-        fun(callback);
+        fun(callback, canvas);
     };
 
     goToMap(game, 'DesertPath');
@@ -73,9 +73,5 @@ includeAll(requirements, function() {
         endFrame = Date.now();
         timeScale = Math.min(3, (timeScale + (endFrame - startFrame) / 30) * 0.5);
         addOnRequestAnimationFrame(mainLoop);
-    });
-
-    if ($.browser.msie) {
-        alert("Pro tip: Internet Explorer hates this thing, and the feeling is reciprocated.");
-    }
+    }, document.getElementById("gameCanvas"));
 });

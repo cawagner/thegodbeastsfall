@@ -1,18 +1,26 @@
 function Graphics(width, height, scale) {
-    var gameCanvas = document.getElementById("gameCanvas"),
-        context = gameCanvas.getContext('2d');
+    var visibleCanvas = document.getElementById("gameCanvas"),
+        offScreenCanvas = document.createElement("canvas"),
+        visibleContext = visibleCanvas.getContext('2d'),
+        context;
+
+    offScreenCanvas.width = width;
+    offScreenCanvas.height = height;
+
+    context = offScreenCanvas.getContext('2d');
 
     this.setOrigin = function(x, y) {
         context.setTransform(1, 0, 0, 1, 0, 0);
-        context.translate((scale * x + .5) << 0, (scale * y + .5) << 0);
+        context.translate(x | 0, y | 0);
     };
 
     this.swapBuffers = function() {
+        visibleContext.drawImage(offScreenCanvas, 0, 0, width, height, 0, 0, width * scale, height * scale);
     };
 
     this.cls = function() {
         this.setFillColorRGB(0, 0, 0);
-        this.drawFilledRect(0, 0, scale * width, scale * height);
+        this.drawFilledRect(0, 0, width, height);
     };
 
     this.setFillColor = function(color) {
@@ -24,25 +32,26 @@ function Graphics(width, height, scale) {
     };
 
     this.drawFilledRect = function(x, y, width, height) {
-        context.fillRect((scale * x + .5) << 0, (scale * y + .5) << 0, scale * width, scale * height);
+        context.fillRect(x, y, width, height);
     };
 
     this.drawImageRect = function(image, sourceRect, destRect) {
         context.drawImage(image,
-                (sourceRect.x + .5) << 0, (sourceRect.y + .5) << 0, sourceRect.width, sourceRect.height,
-                (scale * destRect.x + .5) << 0, (scale * destRect.y + .5) << 0, scale * destRect.width, scale * destRect.height);
+                sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height,
+                destRect.x | 0, destRect.y | 0, destRect.width, destRect.height);
     };
 
     this.drawText = function(x, y, text) {
-        context.fillText(text, (scale * x + .5) << 0, (scale * y + .5) << 0);
+        context.fillText(text, (x + .5) << 0, (y + .5) << 0);
     };
 
     this.width = function() { return width; };
     this.height = function() { return height; };
 
-    context.font = (12 * scale) + "px Arial";
+    context.font = "12px Arial";
     context.textBaseline = 'top';
-    context.webkitImageSmoothingEnabled = false;
-    context.mozImageSmoothingEnabled = false;
-    context.imageSmoothingEnabled = false;
+
+    visibleContext.webkitImageSmoothingEnabled = false;
+    visibleContext.mozImageSmoothingEnabled = false;
+    visibleContext.imageSmoothingEnabled = false;
 }
