@@ -1,8 +1,6 @@
 function Graphics(width, height, scale) {
-    var bufferElements = [document.getElementById("buffer0"), document.getElementById("buffer1")],
-        bufferContexts = [bufferElements[0].getContext('2d'), bufferElements[1].getContext('2d')],
-        drawingBuffer = 1,
-        context = bufferContexts[drawingBuffer];
+    var gameCanvas = document.getElementById("gameCanvas"),
+        context = gameCanvas.getContext('2d');
 
     this.setOrigin = function(x, y) {
         context.setTransform(1, 0, 0, 1, 0, 0);
@@ -10,11 +8,6 @@ function Graphics(width, height, scale) {
     };
 
     this.swapBuffers = function() {
-        bufferElements[1-drawingBuffer].style.visibility = 'hidden';
-        bufferElements[drawingBuffer].style.visibility = 'visible';
-
-        drawingBuffer = 1 - drawingBuffer;
-        context = bufferContexts[drawingBuffer];
     };
 
     this.cls = function() {
@@ -47,11 +40,9 @@ function Graphics(width, height, scale) {
     this.width = function() { return width; };
     this.height = function() { return height; };
 
-    _(bufferContexts).each(function initializeContext(context) {
-        context.font = (12 * scale) + "px Arial";
-        context.textBaseline = 'top';
-        context.webkitImageSmoothingEnabled = false;
-        context.mozImageSmoothingEnabled = false;
-        context.imageSmoothingEnabled = false;
-    });
+    context.font = (12 * scale) + "px Arial";
+    context.textBaseline = 'top';
+    context.webkitImageSmoothingEnabled = false;
+    context.mozImageSmoothingEnabled = false;
+    context.imageSmoothingEnabled = false;
 }
