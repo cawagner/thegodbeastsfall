@@ -26,7 +26,7 @@ function FieldState(game, map, entrance) {
             }
         });
 
-        frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
+        frame = (frame + 0.025 + hero.isMoving() * 0.05) % 4;
 
         tilemapView.focusOn(hero.x, hero.y);
     };

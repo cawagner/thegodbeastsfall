@@ -50,6 +50,8 @@ includeAll(requirements, function() {
         game = new Game(graphics),
         startFrame,
         endFrame = Date.now(),
+        delta,
+        collected = 0,
         timeScale = 1;
 
     var addOnRequestAnimationFrame = function(callback, canvas) {
@@ -68,10 +70,16 @@ includeAll(requirements, function() {
 
     addOnRequestAnimationFrame(function mainLoop() {
         startFrame = endFrame;
-        game.update(timeScale);
+
+        while (collected >= 8) {
+            game.update(timeScale);
+            collected -= 8;
+        }
         game.draw(timeScale);
         endFrame = Date.now();
-        timeScale = Math.min(3, (timeScale + (endFrame - startFrame) / 30) * 0.5);
+        delta = endFrame - startFrame;
+        collected += Math.min(16 * 3, delta);
+
         addOnRequestAnimationFrame(mainLoop);
     }, document.getElementById("gameCanvas"));
 

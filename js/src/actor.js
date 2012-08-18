@@ -130,7 +130,7 @@ function Actor(archetype) {
     this.archetype = archetype;
 }
 
-Actor.MOVE_SPEED = 0.1;
+Actor.MOVE_SPEED = 0.05;
 
 Actor.prototype.warpTo = function(x, y) {
     this.x = x;
