@@ -6,8 +6,9 @@ var requirements = [
     'tilemap',
     'keyboard-input',
     'map-loader',
-    'actor',
-    'hero',
+    'actors/actor',
+    'actors/hero',
+    'actors/npc',
     'states/field-state',
     'states/dialogue-state',
     'game'
