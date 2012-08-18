@@ -1,0 +1,98 @@
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+body {
+    background: #103;
+    color: white;
+    overflow: hidden;
+}
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('assets/PressStart2PRegular.eot');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('assets/PressStart2PRegular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+#container {
+    margin: auto;
+    position: relative;
+}
+canvas {
+    display: block;
+    margin: auto;
+    image-rendering: optimizeSpeed;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+h1, .buttons a {
+    font-size: 14px;
+    color: white;
+}
+
+h1 { text-align: center; }
+.scales { text-align: center; }
+
+.dpad {
+    position: fixed;
+    bottom: 140px;
+    left: 20px;
+    display: none;
+}
+.dpad a {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid gray;
+    background: silver;
+    display: block;
+}
+.dpad .up {
+    top: -60px;
+    left: 60px;
+}
+.dpad .left {
+    top:  0;
+    left: 0;
+}
+.dpad .down {
+    top: 60px;
+    left: 60px;
+}
+.dpad .right {
+    top:  0;
+    left: 120px;
+}
+.buttons {
+    bottom: 60px;
+    right: 20px;
+    position: fixed;
+    display: none;
+}
+.buttons a {
+    background-color: maroon;
+    display: inline-block;
+    -webkit-border-radius: 33px;
+    width: 66px;
+    height: 66px;
+    margin: 10px;
+    line-height: 66px;
+    text-align: center;
+    font-family: 'Press Start 2P';
+}
+
+body.touchControls .dpad,
+body.touchControls .buttons {
+    display: block;
+}
