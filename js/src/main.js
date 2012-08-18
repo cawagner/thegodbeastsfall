@@ -75,13 +75,6 @@ includeAll(requirements, function() {
     });
 
     // todo: move elsewhere
-    var mouseDown = 0;
-    document.body.onmousedown = function() {
-      mouseDown = 1;
-    }
-    document.body.onmouseup = function() {
-      --mouseDown;
-    }
     $("[data-keycode]").on("touchstart", function() {
         document.onkeydown({ keyCode: parseInt($(this).data("keycode"), 10) });
     }).on("touchend", function() {
@@ -93,10 +86,6 @@ includeAll(requirements, function() {
     $("#touchControls").change(function(){
         $("body").toggleClass("touchControls", $(this).is(":checked"));
     });
-
-    document.ontouchmove = function(e) {
-        e.preventDefault();
-    };
 
     document.body.ontouchmove = function(e) {
         e.preventDefault();
