@@ -23,9 +23,15 @@ SPEAKERS = (function() {
     }
 }());
 
+function splitLines(str) {
+    return str.split('~');
+}
+
 function DialogueState(game, messages, doneFn) {
     var messageIndex = 0,
-        message = _(messages).first();
+        lineIndex = 0,
+        message = _(messages).first(),
+        lines = splitLines(message.text[0]);
 
     var faceWidth = 48;
     var faceHeight = 48;
@@ -68,12 +74,6 @@ function DialogueState(game, messages, doneFn) {
         }
 
         game.graphics.setFillColor("#fff");
-
-        if (messageIndex == messages.length - 1 || messages[messageIndex+1].speaker !== speakerId) {
-            // last message in chain... draw a slug or something?
-        } else {
-            // draw an arrow or something?
-        }
     };
 
     this.start = function(previousState) {
@@ -94,19 +94,24 @@ function DialogueState(game, messages, doneFn) {
 
         drawSpeaker(message.speaker, x, y);
 
-        _(message.text).each(function(text, line) {
+        _(lines).each(function(text, line) {
             game.graphics.drawText(x + 2, y + 2 + line * 16, text);
         });
     };
 
     this.update = function(timeScale) {
         if (game.input.wasConfirmPressed()) {
-            if (messageIndex < messages.length - 1) {
-                ++messageIndex;
-                message = messages[messageIndex];
-            } else {
-                game.popState();
+            ++lineIndex;
+            if (lineIndex >= message.text.length) {
+                lineIndex = 0;
+                if (messageIndex < messages.length - 1) {
+                    ++messageIndex;
+                    message = messages[messageIndex];
+                } else {
+                    game.popState();
+                }
             }
+            lines = splitLines(message.text[lineIndex]);
         }
 
         this.previousState.update(timeScale, false);

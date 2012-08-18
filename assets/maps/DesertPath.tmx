@@ -23,7 +23,11 @@
     <property name="map" value="Town"/>
    </properties>
   </object>
-  <object name="fromTown" type="Entrance" x="147" y="29"/>
+  <object name="fromTown" type="Entrance" x="145" y="47">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="Mask" width="20" height="60">
   <data encoding="base64" compression="zlib">

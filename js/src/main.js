@@ -33,7 +33,7 @@ function goToMap(game, mapName, entrance) {
         game.popState();
     }
     mapLoader.load(mapName).done(function(map) {
-        var fieldState = new FieldState(game, map);
+        var fieldState = new FieldState(game, map, entrance);
         game.pushState(fieldState);
 
         // TODO: send message, don't directly play music...
