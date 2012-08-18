@@ -1,6 +1,22 @@
 function MapLoader() {
     var self = this;
 
+    var createTileSet = function(tilesetData) {
+        var path = 'assets/' + tilesetData.image.replace("\/", "/").replace(/..\//, '');
+        var image = new Image();
+        var tileset = {
+            image: image,
+            name: tilesetData.name,
+            width: tilesetData.imagewidth / TILE_SIZE,
+            height: tilesetData.imageheight / TILE_SIZE,
+            tileWidth: tilesetData.tilewidth,
+            tileHeight: tilesetData.tileheight,
+            length: (tilesetData.imagewidth / TILE_SIZE) * (tilesetData.imageheight / TILE_SIZE)
+        };
+        image.src = path;
+        return tileset;
+    };
+
     this.load = function(mapName) {
         var deferred = $.Deferred();
         $.getJSON("assets/maps/" + mapName + ".json", function(data) {
@@ -18,32 +34,16 @@ function MapLoader() {
     this.createMap = function(data) {
         var tileLayers = _(data.layers).filter(function(layer) { return layer.type === "tilelayer"; });
         var objectLayers = _(data.layers).filter(function(layer) { return layer.type === "objectgroup"; })
+
         var mask = _(tileLayers).filter(function(layer) { return layer.name === "Mask"; })[0];
         // TODO: don't use mask data directly?
         var tilemap = new Tilemap(data.width, data.height, tileLayers.length, mask.data);
 
-        var tilesets = [];
+        var tilesets = _(data.tilesets).map(createTileSet);
         var entrances = {};
         var exits = {};
         var npcs = {};
         var result;
-
-        _(data.tilesets).each(function(tilesetData) {
-            var path = 'assets/' + tilesetData.image.replace("\/", "/").replace(/..\//, '');
-            var image = new Image();
-            var tileset = {
-                image: image,
-                name: tilesetData.name,
-                width: tilesetData.imagewidth / TILE_SIZE,
-                height: tilesetData.imageheight / TILE_SIZE,
-                tileWidth: tilesetData.tilewidth,
-                tileHeight: tilesetData.tileheight,
-                length: (tilesetData.imagewidth / TILE_SIZE) * (tilesetData.imageheight / TILE_SIZE)
-            };
-            image.src = path;
-
-            tilesets.push(tileset);
-        });
 
         _(tileLayers.length - (mask !== undefined)).times(function(z) {
             if (tileLayers[z] !== mask) {
@@ -96,4 +96,20 @@ function MapLoader() {
 
         return result;
     };
+}
+
+function goToMap(mapName, entrance) {
+    var mapLoader = new MapLoader(),
+        game = Game.instance;
+    // TODO: really hackish...
+    if (game.currentState() instanceof FieldState) {
+        game.popState();
+    }
+    mapLoader.load(mapName).done(function(map) {
+        var fieldState = new FieldState(map, entrance);
+        game.pushState(fieldState);
+
+        // TODO: send message, don't directly play music...
+        SoundManager.playMusic(map.properties.music);
+    });
 }

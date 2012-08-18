@@ -1,6 +1,7 @@
 // TODO: make some function to open the state instead of having such a horrible constructor
-function FieldState(game, map, entrance) {
-    var tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
+function FieldState(map, entrance) {
+    var game = Game.instance,
+        tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
         hero = new Hero(game.input),
         frame = 0,
         actorRenderer = new ActorRenderer(game.graphics);
@@ -21,7 +22,7 @@ function FieldState(game, map, entrance) {
         _(map.exits).each(function(exit) {
             if (hero.x >= exit.x && hero.x <= exit.x + exit.width) {
                 if (hero.y >= exit.y && hero.y <= exit.y + exit.height) {
-                    goToMap(game, exit.map, exit.entrance);
+                    goToMap(exit.map, exit.entrance);
                 }
             }
         });

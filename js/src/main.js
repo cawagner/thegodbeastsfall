@@ -26,22 +26,6 @@ function includeAll(scripts, done) {
     getScript();
 }
 
-
-function goToMap(game, mapName, entrance) {
-    var mapLoader = new MapLoader();
-    // TODO: really hackish...
-    if (game.currentState() instanceof FieldState) {
-        game.popState();
-    }
-    mapLoader.load(mapName).done(function(map) {
-        var fieldState = new FieldState(game, map, entrance);
-        game.pushState(fieldState);
-
-        // TODO: send message, don't directly play music...
-        SoundManager.playMusic(map.properties.music);
-    });
-}
-
 includeAll(requirements, function() {
     "use strict";
 
@@ -67,7 +51,7 @@ includeAll(requirements, function() {
         fun(callback, canvas);
     };
 
-    goToMap(game, 'DesertPath');
+    goToMap('DesertPath');
 
     addOnRequestAnimationFrame(function mainLoop() {
         startFrame = endFrame;
