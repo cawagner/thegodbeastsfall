@@ -76,6 +76,26 @@ includeAll(requirements, function() {
     }, document.getElementById("gameCanvas"));
 
     $("[data-scale]").on("click", function() {
-        graphics.setScale(parseInt($(this).data("scale"), 10));
+        var scale = parseInt($(this).data("scale"), 10);
+        graphics.setScale(scale);
+        $("#container").width(320 * scale).height(240 * scale);
+    });
+
+    // todo: move elsewhere
+    var mouseDown = 0;
+    document.body.onmousedown = function() {
+      mouseDown = 1;
+    }
+    document.body.onmouseup = function() {
+      --mouseDown;
+    }
+    $("[data-keycode]").on("mousedown", function() {
+        document.onkeydown({ keyCode: parseInt($(this).data("keycode"), 10) });
+    }).on("mouseup mouseout", function() {
+        document.onkeyup({ keyCode: parseInt($(this).data("keycode"), 10) });
+    });
+
+    $("#touchControls").change(function(){
+        $("body").toggleClass("touchControls", $(this).is(":checked"));
     });
 });

@@ -4,8 +4,17 @@
     <title>Held des g&ouml;ttlichen Funken</title>
     <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/press-start-2p" rel="stylesheet" type="text/css"/>
     <style type="text/css">
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
         body {
             background: #103;
+            color: white;
         }
         @font-face {
             font-family: 'Press Start 2P';
@@ -19,24 +28,111 @@
             font-weight: normal;
             font-style: normal;
         }
+        #container {
+            margin: auto;
+            position: relative;
+        }
         canvas {
             display: block;
             margin: auto;
             image-rendering: optimizeSpeed;
             -ms-interpolation-mode: nearest-neighbor;
         }
-        h1 { font-size: 14px; color: white; text-align: center; }
+
+        h1, .buttons span {
+            font-size: 14px;
+            color: white;
+        }
+
+        h1 { text-align: center; }
         .scales { text-align: center; }
+
+        .dpad {
+            position: fixed;
+            bottom: 100px;
+            left: 0;
+            display: none;
+        }
+        .dpad span {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            margin: 0;
+            padding: 0;
+            border: 1px solid gray;
+            background: silver;
+            display: block;
+        }
+        .dpad .up {
+            top: -48px;
+            left: 48px;
+        }
+        .dpad .left {
+            top:  0;
+            left: 0;
+        }
+        .dpad .down {
+            top: 48px;
+            left: 48px;
+        }
+        .dpad .right {
+            top:  0;
+            left: 96px;
+        }
+        .buttons {
+            top: 90%;
+            right: 5%;
+            position: absolute;
+            display: none;
+        }
+        .buttons span {
+            background-color: maroon;
+            display: inline-block;
+            -webkit-border-radius: 30px;
+            width: 60px;
+            height: 60px;
+            margin: 10px;
+            line-height: 60px;
+            text-align: center;
+            font-family: 'Press Start 2P';
+        }
+
+        body.touchControls .dpad,
+        body.touchControls .buttons {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <!--
+    var keyCodesToKeys = {
+        37: 'left',
+        39: 'right',
+        38: 'up',
+        40: 'down',
+        90: 'confirm',
+        88: 'cancel'
+    };-->
     <h1 style="font-family: 'Press Start 2P';">HI THERE HERO</h1>
-    <canvas id="gameCanvas" width="640" height="480"></canvas>
+    <div id="container">
+        <canvas id="gameCanvas" width="640" height="480"></canvas>
+        <div class="dpad">
+            <span class="up" data-keycode="38"></span>
+            <span class="down" data-keycode="40"></span>
+            <span class="left" data-keycode="37"></span>
+            <span class="right" data-keycode="39"></span>
+        </div>
+        <div class="buttons">
+            <span class="b" data-keycode="88">B</span>
+            <span class="a" data-keycode="90">A</span>
+        </div>
+    </div>
     <div class="scales">
         <button data-scale="1">1x</button>
         <button data-scale="2">2x</button>
         <button data-scale="3">3x</button>
         <button data-scale="4">4x</button>
+        <label><input type="checkbox" id="touchControls"> Touch Controls</label>
     </div>
     <script type="text/javascript" src="js/lib/jquery-1.8.0.min.js"></script>
     <script type="text/javascript" src="js/src/main.js"></script>
