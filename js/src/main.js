@@ -5,7 +5,7 @@ var requirements = [
     'graphics',
     'tilemap',
     'keyboard-input',
-    'maploader',
+    'map-loader',
     'actor',
     'hero',
     'states/field-state',
