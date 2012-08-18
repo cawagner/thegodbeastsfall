@@ -3,6 +3,7 @@
 <head>
     <title>Held des g&ouml;ttlichen Funken</title>
     <link rel="stylesheet" media="screen" href="http://openfontlibrary.org/face/press-start-2p" rel="stylesheet" type="text/css"/>
+    <meta name="viewport" content="user-scalable=no">
     <style type="text/css">
         * {
             -webkit-touch-callout: none;
@@ -39,7 +40,7 @@
             -ms-interpolation-mode: nearest-neighbor;
         }
 
-        h1, .buttons span {
+        h1, .buttons a {
             font-size: 14px;
             color: white;
         }
@@ -53,7 +54,7 @@
             left: 0;
             display: none;
         }
-        .dpad span {
+        .dpad a {
             position: absolute;
             width: 48px;
             height: 48px;
@@ -82,10 +83,10 @@
         .buttons {
             top: 90%;
             right: 5%;
-            position: absolute;
+            position: fixed;
             display: none;
         }
-        .buttons span {
+        .buttons a {
             background-color: maroon;
             display: inline-block;
             -webkit-border-radius: 30px;
@@ -117,14 +118,14 @@
     <div id="container">
         <canvas id="gameCanvas" width="640" height="480"></canvas>
         <div class="dpad">
-            <span class="up" data-keycode="38"></span>
-            <span class="down" data-keycode="40"></span>
-            <span class="left" data-keycode="37"></span>
-            <span class="right" data-keycode="39"></span>
+            <a class="up" data-keycode="38">U</a>
+            <a class="down" data-keycode="40">D</a>
+            <a class="left" data-keycode="37">L</a>
+            <a class="right" data-keycode="39">R</a>
         </div>
         <div class="buttons">
-            <span class="b" data-keycode="88">B</span>
-            <span class="a" data-keycode="90">A</span>
+            <a class="b" data-keycode="88">B</a>
+            <a class="a" data-keycode="90">A</a>
         </div>
     </div>
     <div class="scales">

@@ -89,10 +89,12 @@ includeAll(requirements, function() {
     document.body.onmouseup = function() {
       --mouseDown;
     }
-    $("[data-keycode]").on("mousedown", function() {
+    $("[data-keycode]").on("touchstart", function() {
         document.onkeydown({ keyCode: parseInt($(this).data("keycode"), 10) });
-    }).on("mouseup mouseout", function() {
+    }).on("touchend", function() {
         document.onkeyup({ keyCode: parseInt($(this).data("keycode"), 10) });
+    }).on("click", function(){
+        return false;
     });
 
     $("#touchControls").change(function(){
