@@ -93,4 +93,12 @@ includeAll(requirements, function() {
     $("#touchControls").change(function(){
         $("body").toggleClass("touchControls", $(this).is(":checked"));
     });
+
+    document.ontouchmove = function(e) {
+        e.preventDefault();
+    };
+
+    document.body.ontouchmove = function(e) {
+        e.preventDefault();
+    };
 });
