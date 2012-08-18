@@ -74,6 +74,30 @@
                  "width":0,
                  "x":320,
                  "y":400
+                }, 
+                {
+                 "height":0,
+                 "name":"littlegirl",
+                 "properties":
+                    {
+                     "archetype":"littlegirl"
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":276,
+                 "y":351
+                }, 
+                {
+                 "height":0,
+                 "name":"earl",
+                 "properties":
+                    {
+                     "archetype":"earl"
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":133,
+                 "y":422
                 }],
          "opacity":1,
          "type":"objectgroup",

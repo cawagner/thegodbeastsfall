@@ -14,7 +14,9 @@ function ActorRenderer(graphics) {
     var images = {
         "hero": "assets/img/hero.png",
         "heroine": "assets/img/heroine.png",
-        "oldman": "assets/img/oldman.png"
+        "oldman": "assets/img/oldman.png",
+        "littlegirl": "assets/img/littlegirl.png",
+        "earl": "assets/img/earl.png"
     };
     _(images).each(function(value, key) {
         images[key] = new Image();

@@ -16,9 +16,13 @@ SPEAKERS = (function() {
             frame: 4
         },
         "oldman": {
-            name: "Old Man",
-            image: facesImage,
-            frame: 2
+            name: "Old Man"
+        },
+        "littlegirl": {
+            name: "Little Girl"
+        },
+        "earl": {
+            name: "Man"
         }
     }
 }());

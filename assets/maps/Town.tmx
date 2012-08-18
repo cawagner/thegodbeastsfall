@@ -35,5 +35,15 @@
     <property name="behavior" value="wanderlust"/>
    </properties>
   </object>
+  <object name="littlegirl" type="NPC" x="276" y="351">
+   <properties>
+    <property name="archetype" value="littlegirl"/>
+   </properties>
+  </object>
+  <object name="earl" type="NPC" x="133" y="422">
+   <properties>
+    <property name="archetype" value="earl"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
