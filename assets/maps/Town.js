@@ -9,7 +9,7 @@ setupMap(function(map) {
                 ]
             }
         ];
-        haveConversation(messages, hero, this);
+        this.say(messages, hero);
     };
 
     map.npcs.littlegirl.onTalk = function(hero) {
@@ -22,7 +22,7 @@ setupMap(function(map) {
                 ]
             }
         ];
-        haveConversation(messages, hero, this);
+        this.say(messages, hero);
     };
 
     map.npcs.earl.onTalk = function(hero) {
@@ -35,6 +35,6 @@ setupMap(function(map) {
                 ]
             }
         ];
-        haveConversation(messages, hero, this);
+        this.say(messages, hero);
     };
 });

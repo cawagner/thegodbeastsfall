@@ -21,6 +21,20 @@ function Actor(archetype) {
         }
     };
 
+    var updateFollowers = function() {
+        var lastMove;
+        var i;
+        if (moveHistory.length > followers.length) {
+            moveHistory.shift(1);
+        }
+        for (i = 0; i < followers.length; ++i) {
+            lastMove = moveHistory[moveHistory.length - i - 1];
+            if (lastMove !== undefined) {
+                followers[i].moveBy(lastMove.x, lastMove.y, false);
+            }
+        }
+    };
+
     this.resetMove = function() {
         moveRemaining = 0;
         self.x = this.destX;
@@ -106,20 +120,6 @@ function Actor(archetype) {
         moveHistory = [];
     };
 
-    var updateFollowers = function() {
-        var lastMove;
-        var i;
-        if (moveHistory.length > followers.length) {
-            moveHistory.shift(1);
-        }
-        for (i = 0; i < followers.length; ++i) {
-            lastMove = moveHistory[moveHistory.length - i - 1];
-            if (lastMove !== undefined) {
-                followers[i].moveBy(lastMove.x, lastMove.y, false);
-            }
-        }
-    };
-
     this.x = 0;
     this.y = 0;
     this.destX = 0;
@@ -147,4 +147,20 @@ Actor.prototype.tryMoveBy = function(dx, dy) {
         }
     }
     return false;
+};
+
+Actor.prototype.say = function(messages, hero) {
+    var self = this;
+    var game = Game.instance;
+    var deferred = $.Deferred();
+
+    this.lockMovement();
+    if (hero) {
+        this.direction = direction.oppositeOf(hero.direction);
+    }
+    game.pushState(new DialogueState(game, messages, function() {
+        self.unlockMovement();
+        deferred.resolve();
+    }));
+    return deferred.promise();
 };

@@ -32,6 +32,14 @@ function FieldState(map, entrance) {
         tilemapView.focusOn(hero.x, hero.y);
     };
 
+    this.suspend = function() {
+        hero.lockMovement();
+    };
+
+    this.reactivate = function() {
+        hero.unlockMovement();
+    }
+
     this.draw = function(timeScale) {
         tilemapView.draw();
 
@@ -39,29 +47,4 @@ function FieldState(map, entrance) {
             actorRenderer.drawActor(actor, frame);
         });
     };
-}
-
-function haveConversation(messages, hero, npc) {
-    var game = Game.instance;
-    var deferred = $.Deferred();
-    // TODO: send message that we're locking movement instead...?
-    if (hero) {
-        hero.lockMovement();
-    }
-
-    if (npc) {
-        npc.lockMovement();
-        npc.direction = direction.oppositeOf(hero.direction);
-    }
-    game.pushState(new DialogueState(game, messages, function() {
-        // TODO: send message that we're locking the NPC instead...
-        if (hero) {
-            hero.unlockMovement();
-        }
-        if (npc) {
-            npc.unlockMovement();
-        }
-        deferred.resolve();
-    }));
-    return deferred.promise();
 }

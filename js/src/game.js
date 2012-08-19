@@ -57,6 +57,9 @@ function Game(graphics) {
         if ("start" in newState) {
             newState.start(this.currentState());
         }
+        if ("suspend" in this.currentState()) {
+            this.currentState().suspend();
+        }
         gameStates.push(newState);
     };
 
