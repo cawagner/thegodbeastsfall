@@ -4,7 +4,8 @@ function FieldState(map, entrance) {
         tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
         hero = new Hero(game.input),
         frame = 0,
-        actorRenderer = new ActorRenderer(game.graphics);
+        actorRenderer = new ActorRenderer(game.graphics),
+        firstRun = true;
 
     map.addActor(hero);
 
@@ -14,6 +15,13 @@ function FieldState(map, entrance) {
     }
 
     this.update = function(timeScale) {
+        if (firstRun) {
+            if (_.isFunction(map.onLoad)) {
+               map.onLoad(hero);
+            }
+            firstRun = false;
+        }
+
         _(map.actors).each(function(actor) {
             actor.update(timeScale);
         });

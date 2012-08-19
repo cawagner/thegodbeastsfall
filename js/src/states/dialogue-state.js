@@ -76,8 +76,6 @@ function DialogueState(game, messages, doneFn) {
             drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
             game.graphics.drawImageRect(speaker.image, speakerSrcRect, speakerDestRect);
         }
-
-        game.graphics.setFillColor("#fff");
     };
 
     this.start = function(previousState) {
@@ -97,6 +95,8 @@ function DialogueState(game, messages, doneFn) {
         drawWindowRect(x, y, 230, 48);
 
         drawSpeaker(message.speaker, x, y);
+
+        game.graphics.setFillColor("#fff");
 
         _(lines).each(function(text, line) {
             game.graphics.drawText(x + 2, y + 2 + line * 16, text);
