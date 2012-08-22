@@ -1,15 +1,14 @@
 setupMap(function(map) {
-    map.onLoad = function(hero) {
-        var messages = [
-            {
-                text: [
-                    "Ma seln au ansiapta sen~Held bnani.",
-                    "(You, whom I have made~from sand, I name~Held.)"/*,
-                    "Tai seln si Held...~aris ses unuan mu gisu.",
-                    "(Held, the walking sand...~pour your love upon all.)"*/
-                ]
-            }
-        ];
-        new Actor().say(messages);
+    map.onLoad = function(hero, entrance) {
+        if (entrance === "default") {
+            var messages = [
+                {
+                    text: [
+                        "Seo ii si Ropo nani ma seln au ansiapta sen Held bnani.",
+                    ]
+                }
+            ];
+            new Actor().say(messages);
+        }
     };
 });

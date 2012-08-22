@@ -31,11 +31,27 @@ function splitLines(str) {
     return str.split('~');
 }
 
+function wordWrap(str, maxLength) {
+    var lines = [], line = "", i;
+    _(str.split(' ')).each(function(word) {
+        if (line.length + word.length >= maxLength) {
+            lines.push(line);
+            line = "";
+        }
+        line += word + " ";
+    });
+    if (line !== "")
+        lines.push(line);
+
+    return lines;
+}
+
 function DialogueState(game, messages, doneFn) {
-    var messageIndex = 0,
+    var lineLength = 30,
+        messageIndex = 0,
         lineIndex = 0,
         message = _(messages).first(),
-        lines = splitLines(message.text[0]);
+        lines = wordWrap(message.text[0], lineLength);
 
     var faceWidth = 48;
     var faceHeight = 48;
@@ -115,7 +131,7 @@ function DialogueState(game, messages, doneFn) {
                     game.popState();
                 }
             }
-            lines = splitLines(message.text[lineIndex]);
+            lines = wordWrap(message.text[lineIndex], lineLength);
         }
 
         this.previousState.update(timeScale, false);

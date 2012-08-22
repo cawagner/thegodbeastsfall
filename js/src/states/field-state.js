@@ -17,7 +17,7 @@ function FieldState(map, entrance) {
     this.update = function(timeScale) {
         if (firstRun) {
             if (_.isFunction(map.onLoad)) {
-               map.onLoad(hero);
+               map.onLoad(hero, entrance);
             }
             firstRun = false;
         }
