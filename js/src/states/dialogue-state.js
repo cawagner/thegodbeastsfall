@@ -40,14 +40,7 @@ function DialogueState(messages, doneFn) {
 
     var drawPortrait = function(x, y, image, frame) {
         var faceWidth = 48, faceHeight = 48;
-
-        var facesInRow = image.width / faceWidth;
-        var speakerSrcRect = {
-            x: faceWidth * (frame % facesInRow),
-            y: Math.floor(frame / facesInRow) * faceHeight,
-            width: faceWidth,
-            height: faceHeight
-        };
+        var speakerSrcRect = game.graphics.getRectForFrame(frame, image.width, faceWidth, faceHeight);
         var speakerDestRect = { x: x, y: y, width: faceWidth, height: faceHeight };
 
         gui.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);

@@ -14,6 +14,16 @@ function Graphics(width, height, scale) {
         context.translate(x | 0, y | 0);
     };
 
+    this.getRectForFrame = function(frame, imageWidth, frameWidth, frameHeight) {
+        var framesInRow = imageWidth / frameWidth;
+        return {
+            x: frameWidth * (frame % framesInRow),
+            y: Math.floor(frame / framesInRow) * frameHeight,
+            width: frameWidth,
+            height: frameHeight
+        };
+    };
+
     this.swapBuffers = function() {
         visibleContext.drawImage(offScreenCanvas, 0, 0);
     };
