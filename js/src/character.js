@@ -13,23 +13,25 @@ Character.create = function(options) {
     var character = new Character(options);
 
     character.level = 1;
-    character.hp = 10 + this.strength;
-    character.maxHp = this.hp;
+    character.hp = 10 + character.strength;
+    character.maxHp = character.hp;
 
-    character.mp = this.intelligence;
-    character.maxMp = this.mp;
+    character.mp = character.intelligence;
+    character.maxMp = character.mp;
 
     character.xp = 0;
     character.xpNext = 100;
+
+    return character;
 }
 
 Character.prototype.gainLevel = function(statToBoost) {
     // TODO: extract these things!
-    var hpGain = this.level + Math.max(2, this.strength - 10) / 2 + Math.floor(Math.random(0, this.luck / 4));
+    var hpGain = this.level + Math.floor(Math.max(2, this.strength - 10) / 2 + Math.random(0, this.luck / 4));
     var mpGain = Math.ceil(Math.max(4, this.intelligence - 6) / 4);
 
-    this.hpMax += hpGain;
-    this.mpMax += mpGain;
+    this.maxHp += hpGain;
+    this.maxMp += mpGain;
 
     this.hp = this.hpMax;
     this.mp = this.mpMax;
@@ -55,7 +57,7 @@ function GameState() {
             luck: 10
         });
 
-        this.party.push(held);
+        this.party = [held];
 
         goToMap('DesertPath');
     };

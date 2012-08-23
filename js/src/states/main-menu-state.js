@@ -3,7 +3,7 @@ function MainMenuState() {
 
     };
 
-    this.update = function() {
+    this.update = _.once(function() {
         GameState.instance.newGame();
-    };
+    });
 }
