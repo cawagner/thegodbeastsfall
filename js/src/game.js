@@ -54,10 +54,10 @@ function Game(graphics) {
     };
 
     this.pushState = function(newState) {
-        if ("start" in newState) {
+        if (_.isFunction(newState.start)) {
             newState.start(this.currentState());
         }
-        if ("suspend" in this.currentState()) {
+        if (_.isFunction(this.currentState().suspend)) {
             this.currentState().suspend();
         }
         gameStates.push(newState);
@@ -65,11 +65,11 @@ function Game(graphics) {
 
     this.popState = function() {
         var result;
-        if ("end" in this.currentState()) {
+        if (_.isFunction(this.currentState().end)) {
             result = this.currentState().end();
         }
         gameStates.pop();
-        if ("reactivate" in this.currentState()) {
+        if (_.isFunction(this.currentState().reactivate)) {
             this.currentState().reactivate(result);
         }
     };
