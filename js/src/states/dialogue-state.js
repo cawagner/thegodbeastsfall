@@ -36,19 +36,26 @@ function DialogueState(messages, doneFn) {
         lines = _.wordWrap(message.text[0], lineLength),
         gui = new GuiRenderer(game.graphics);
 
-    var faceWidth = 48;
-    var faceHeight = 48;
-
     this.previousState = new NoopState();
 
-    var drawWindowRect = function(x, y, width, height) {
+    var drawPortrait = function(x, y, image, frame) {
+        var faceWidth = 48, faceHeight = 48;
 
+        var facesInRow = image.width / faceWidth;
+        var speakerSrcRect = {
+            x: faceWidth * (frame % facesInRow),
+            y: Math.floor(frame / facesInRow) * faceHeight,
+            width: faceWidth,
+            height: faceHeight
+        };
+        var speakerDestRect = { x: x, y: y, width: faceWidth, height: faceHeight };
+
+        gui.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
+        game.graphics.drawImageRect(speaker.image, speakerSrcRect, speakerDestRect);
     };
 
     var drawSpeaker = function(speakerId, x, y) {
         var speaker = SPEAKERS[speakerId];
-        var speakerImage, speakerSrcRect, speakerDestRect;
-        var facesInRow;
 
         if (speaker === undefined)
             return;
@@ -58,17 +65,7 @@ function DialogueState(messages, doneFn) {
         game.graphics.drawText(x + 5, y - 23, speaker.name);
 
         if (speaker.image) {
-            facesInRow = speaker.image.width / faceWidth;
-            speakerSrcRect = {
-                x: faceWidth * (speaker.frame % facesInRow),
-                y: Math.floor(speaker.frame / facesInRow) * faceHeight,
-                width: faceWidth,
-                height: faceHeight
-            };
-            speakerDestRect = { x: x + 250, y: y, width: 48, height: 48 };
-
-            gui.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
-            game.graphics.drawImageRect(speaker.image, speakerSrcRect, speakerDestRect);
+            drawPortrait(x + 250, y, speaker.image, speaker.frame);
         }
     };
 
@@ -97,19 +94,23 @@ function DialogueState(messages, doneFn) {
         });
     };
 
+    this.advanceText = function() {
+        ++lineIndex;
+        if (lineIndex >= message.text.length) {
+            lineIndex = 0;
+            if (messageIndex < messages.length - 1) {
+                ++messageIndex;
+                message = messages[messageIndex];
+            } else {
+                game.popState();
+            }
+        }
+        lines = _.wordWrap(message.text[lineIndex], lineLength);
+    };
+
     this.update = function(timeScale) {
         if (game.input.wasConfirmPressed()) {
-            ++lineIndex;
-            if (lineIndex >= message.text.length) {
-                lineIndex = 0;
-                if (messageIndex < messages.length - 1) {
-                    ++messageIndex;
-                    message = messages[messageIndex];
-                } else {
-                    game.popState();
-                }
-            }
-            lines = _.wordWrap(message.text[lineIndex], lineLength);
+            this.advanceText();
         }
 
         this.previousState.update(timeScale, false);
