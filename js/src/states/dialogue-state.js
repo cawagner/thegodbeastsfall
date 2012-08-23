@@ -27,32 +27,13 @@ SPEAKERS = (function() {
     }
 }());
 
-function splitLines(str) {
-    return str.split('~');
-}
-
-function wordWrap(str, maxLength) {
-    var lines = [], line = "", i;
-    _(str.split(' ')).each(function(word) {
-        if (line.length + word.length >= maxLength) {
-            lines.push(line);
-            line = "";
-        }
-        line += word + " ";
-    });
-    if (line !== "")
-        lines.push(line);
-
-    return lines;
-}
-
 function DialogueState(messages, doneFn) {
     var game = Game.instance,
         lineLength = 30,
         messageIndex = 0,
         lineIndex = 0,
         message = _(messages).first(),
-        lines = wordWrap(message.text[0], lineLength),
+        lines = _.wordWrap(message.text[0], lineLength),
         gui = new GuiRenderer(game.graphics);
 
     var faceWidth = 48;
@@ -128,7 +109,7 @@ function DialogueState(messages, doneFn) {
                     game.popState();
                 }
             }
-            lines = wordWrap(message.text[lineIndex], lineLength);
+            lines = _.wordWrap(message.text[lineIndex], lineLength);
         }
 
         this.previousState.update(timeScale, false);

@@ -20,6 +20,20 @@ function installMixins() {
         },
         boundWithin: function(number, min, max) {
             return Math.min(Math.max(min, number), max);
+        },
+        wordWrap: function(str, maxLength) {
+            var lines = [], line = "", i;
+            _(str.split(' ')).each(function(word) {
+                if (line.length + word.length >= maxLength) {
+                    lines.push(line);
+                    line = "";
+                }
+                line += word + " ";
+            });
+            if (line !== "")
+                lines.push(line);
+
+            return lines;
         }
     });
 };
