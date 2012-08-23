@@ -41,7 +41,7 @@ function Game(graphics) {
         throw "too many games!";
     }
 
-    var gameStates = [ new NoopState() ];
+    var gameStates = [ new MainMenuState() ];
     var game = this;
 
     this.input = new KeyboardInput().setup();

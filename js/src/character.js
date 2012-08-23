@@ -56,6 +56,8 @@ function GameState() {
         });
 
         this.party.push(held);
+
+        goToMap('DesertPath');
     };
 }
 

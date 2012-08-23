@@ -13,6 +13,7 @@ var requirements = [
     'states/field-state',
     'states/dialogue-state',
     'states/field-menu-state',
+    'states/main-menu-state',
     'game'
 ];
 
@@ -52,8 +53,6 @@ includeAll(requirements, function() {
             };
         fun(callback, canvas);
     };
-
-    goToMap('DesertPath');
 
     addOnRequestAnimationFrame(function mainLoop() {
         startFrame = endFrame;
