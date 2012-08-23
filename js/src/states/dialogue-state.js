@@ -46,13 +46,27 @@ function wordWrap(str, maxLength) {
     return lines;
 }
 
+function GuiRenderer(graphics) {
+    this.graphics = graphics;
+}
+
+GuiRenderer.prototype.drawWindowRect = function(x, y, width, height) {
+    this.graphics.setFillColor("#000");
+    this.graphics.drawFilledRect(x - 7, y - 7, width + 14, height + 14);
+    this.graphics.setFillColor("#fff");
+    this.graphics.drawFilledRect(x - 5, y - 5, width + 10, height + 10);
+    this.graphics.setFillColor("#000");
+    this.graphics.drawFilledRect(x - 3, y - 3, width + 6, height + 6);
+};
+
 function DialogueState(messages, doneFn) {
     var game = Game.instance,
         lineLength = 30,
         messageIndex = 0,
         lineIndex = 0,
         message = _(messages).first(),
-        lines = wordWrap(message.text[0], lineLength);
+        lines = wordWrap(message.text[0], lineLength),
+        gui = new GuiRenderer(game.graphics);
 
     var faceWidth = 48;
     var faceHeight = 48;
@@ -60,12 +74,7 @@ function DialogueState(messages, doneFn) {
     this.previousState = new NoopState();
 
     var drawWindowRect = function(x, y, width, height) {
-        game.graphics.setFillColor("#000");
-        game.graphics.drawFilledRect(x - 7, y - 7, width + 14, height + 14);
-        game.graphics.setFillColor("#fff");
-        game.graphics.drawFilledRect(x - 5, y - 5, width + 10, height + 10);
-        game.graphics.setFillColor("#000");
-        game.graphics.drawFilledRect(x - 3, y - 3, width + 6, height + 6);
+
     };
 
     var drawSpeaker = function(speakerId, x, y) {
@@ -76,7 +85,7 @@ function DialogueState(messages, doneFn) {
         if (speaker === undefined)
             return;
 
-        drawWindowRect(x + 5, y - 23, 100, 8);
+        gui.drawWindowRect(x + 5, y - 23, 100, 8);
         game.graphics.setFillColor("#fff");
         game.graphics.drawText(x + 5, y - 23, speaker.name);
 
@@ -90,7 +99,7 @@ function DialogueState(messages, doneFn) {
             };
             speakerDestRect = { x: x + 250, y: y, width: 48, height: 48 };
 
-            drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
+            gui.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
             game.graphics.drawImageRect(speaker.image, speakerSrcRect, speakerDestRect);
         }
     };
@@ -109,7 +118,7 @@ function DialogueState(messages, doneFn) {
         this.previousState.draw(timeScale);
 
         game.graphics.setOrigin(0, 0);
-        drawWindowRect(x, y, 230, 48);
+        gui.drawWindowRect(x, y, 230, 48);
 
         drawSpeaker(message.speaker, x, y);
 

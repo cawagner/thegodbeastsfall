@@ -7,6 +7,8 @@
     Original is (c) Dojo Foundation 2004-2009. Released under either AFL or new BSD, see:
     http://dojofoundation.org/license for more information.
 
+    subscribeOnce added by cwagner
+
 */
 
 ;(function(d){
@@ -54,6 +56,15 @@
         }
         cache[topic].push(callback);
         return [topic, callback]; // Array
+    };
+
+    d.subscribeOnce = function(topic, callback) {
+        var token;
+        var wrappedCallback = function() {
+            this.call(callback, arguments);
+            d.unsubscribe(token);
+        };
+        token = d.subscribe(topic, wrappedCallback);
     };
 
     d.unsubscribe = function(/* Array */handle){
