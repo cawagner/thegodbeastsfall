@@ -30,16 +30,20 @@ function DialogueState(messages, doneFn) {
         gui.drawTextWindow(x, y, 230, 48, lines);
     };
 
+    this.advanceMessage = function() {
+        lineIndex = 0;
+        if (messageIndex < messages.length - 1) {
+            ++messageIndex;
+            message = messages[messageIndex];
+        } else {
+            game.popState();
+        }
+    };
+
     this.advanceText = function() {
         ++lineIndex;
         if (lineIndex >= message.text.length) {
-            lineIndex = 0;
-            if (messageIndex < messages.length - 1) {
-                ++messageIndex;
-                message = messages[messageIndex];
-            } else {
-                game.popState();
-            }
+            this.advanceMessage();
         }
         lines = _.wordWrap(message.text[lineIndex], lineLength);
     };
