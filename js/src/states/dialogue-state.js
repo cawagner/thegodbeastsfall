@@ -19,7 +19,9 @@ SPEAKERS = (function() {
             name: "Old Man"
         },
         "littlegirl": {
-            name: "Little Girl"
+            name: "Little Girl",
+            image: facesImage,
+            frame: 4
         },
         "earl": {
             name: "Man"
@@ -38,15 +40,6 @@ function DialogueState(messages, doneFn) {
 
     this.previousState = new NoopState();
 
-    var drawPortrait = function(x, y, image, frame) {
-        var faceWidth = 48, faceHeight = 48;
-        var speakerSrcRect = game.graphics.getRectForFrame(frame, image.width, faceWidth, faceHeight);
-        var speakerDestRect = { x: x, y: y, width: faceWidth, height: faceHeight };
-
-        gui.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
-        game.graphics.drawImageRect(speaker.image, speakerSrcRect, speakerDestRect);
-    };
-
     var drawSpeaker = function(speakerId, x, y) {
         var speaker = SPEAKERS[speakerId];
 
@@ -57,9 +50,7 @@ function DialogueState(messages, doneFn) {
         game.graphics.setFillColor("#fff");
         game.graphics.drawText(x + 5, y - 23, speaker.name);
 
-        if (speaker.image) {
-            drawPortrait(x + 250, y, speaker.image, speaker.frame);
-        }
+        gui.drawPortrait(x + 250, y, speaker.image, speaker.frame, true);
     };
 
     this.start = function(previousState) {

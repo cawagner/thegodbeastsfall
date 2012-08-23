@@ -10,3 +10,17 @@ GuiRenderer.prototype.drawWindowRect = function(x, y, width, height) {
     this.graphics.setFillColor("#000");
     this.graphics.drawFilledRect(x - 3, y - 3, width + 6, height + 6);
 };
+
+GuiRenderer.prototype.drawPortrait = function(x, y, image, frame, withBorder) {
+    if (!image)
+        return;
+
+    var faceWidth = 48, faceHeight = 48;
+    var speakerSrcRect = this.graphics.getRectForFrame(frame, image.width, faceWidth, faceHeight);
+    var speakerDestRect = { x: x, y: y, width: faceWidth, height: faceHeight };
+
+    if (withBorder) {
+        this.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
+    }
+    this.graphics.drawImageRect(image, speakerSrcRect, speakerDestRect);
+};
