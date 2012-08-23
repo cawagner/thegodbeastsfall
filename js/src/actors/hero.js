@@ -24,6 +24,10 @@ function Hero(input) {
         if (input.wasConfirmPressed()) {
             self.talk();
         }
+
+        // if (input.wasCancelPressed()) {
+        //     Game.instance.pushState(new FieldMenuState());
+        // }
     };
 
     Actor.call(this, "hero");

@@ -9,6 +9,7 @@ var requirements = [
     'actors/actor',
     'actors/hero',
     'actors/npc',
+    'character',
     'states/field-state',
     'states/dialogue-state',
     'game'

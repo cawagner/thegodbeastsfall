@@ -158,7 +158,7 @@ Actor.prototype.say = function(messages, hero) {
     if (hero) {
         this.direction = direction.oppositeOf(hero.direction);
     }
-    game.pushState(new DialogueState(game, messages, function() {
+    game.pushState(new DialogueState(messages, function() {
         self.unlockMovement();
         deferred.resolve();
     }));

@@ -46,8 +46,9 @@ function wordWrap(str, maxLength) {
     return lines;
 }
 
-function DialogueState(game, messages, doneFn) {
-    var lineLength = 30,
+function DialogueState(messages, doneFn) {
+    var game = Game.instance,
+        lineLength = 30,
         messageIndex = 0,
         lineIndex = 0,
         message = _(messages).first(),
