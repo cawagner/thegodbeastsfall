@@ -1,5 +1,4 @@
 var requirements = [
-    '../lib/underscore',
     'util',
     'sound',
     'graphics',
@@ -12,6 +11,7 @@ var requirements = [
     'character',
     'states/field-state',
     'states/dialogue-state',
+    'states/field-menu-state',
     'game'
 ];
 
