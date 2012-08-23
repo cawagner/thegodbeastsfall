@@ -40,19 +40,6 @@ function DialogueState(messages, doneFn) {
 
     this.previousState = new NoopState();
 
-    var drawSpeaker = function(speakerId, x, y) {
-        var speaker = SPEAKERS[speakerId];
-
-        if (speaker === undefined)
-            return;
-
-        gui.drawWindowRect(x + 5, y - 23, 100, 8);
-        game.graphics.setFillColor("#fff");
-        game.graphics.drawText(x + 5, y - 23, speaker.name);
-
-        gui.drawPortrait(x + 250, y, speaker.image, speaker.frame, true);
-    };
-
     this.start = function(previousState) {
         this.previousState = previousState;
     };
@@ -62,11 +49,14 @@ function DialogueState(messages, doneFn) {
     }
 
     this.draw = function(timeScale) {
-        var x = 10, y = 180;
+        var x = 10, y = 180, speaker = SPEAKERS[message.speaker];
 
         this.previousState.draw(timeScale);
 
-        drawSpeaker(message.speaker, x, y);
+        if (speaker) {
+            gui.drawTextWindow(x + 5, y - 23, 100, 10, [speaker.name]);
+            gui.drawPortrait(x + 250, y, speaker.image, speaker.frame, true);
+        }
 
         gui.drawTextWindow(x, y, 230, 48, lines);
     };
