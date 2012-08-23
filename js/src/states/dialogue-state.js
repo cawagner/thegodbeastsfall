@@ -66,16 +66,9 @@ function DialogueState(messages, doneFn) {
 
         this.previousState.draw(timeScale);
 
-        game.graphics.setOrigin(0, 0);
-        gui.drawWindowRect(x, y, 230, 48);
-
         drawSpeaker(message.speaker, x, y);
 
-        game.graphics.setFillColor("#fff");
-
-        _(lines).each(function(text, line) {
-            game.graphics.drawText(x + 2, y + 2 + line * 16, text);
-        });
+        gui.drawTextWindow(x, y, 230, 48, lines);
     };
 
     this.advanceText = function() {

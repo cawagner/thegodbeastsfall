@@ -11,6 +11,16 @@ GuiRenderer.prototype.drawWindowRect = function(x, y, width, height) {
     this.graphics.drawFilledRect(x - 3, y - 3, width + 6, height + 6);
 };
 
+GuiRenderer.prototype.drawTextWindow = function(x, y, width, height, lines) {
+    var self = this;
+    this.drawWindowRect(x, y, width, height);
+
+    this.graphics.setFillColor("#fff");
+    _(lines).each(function(text, line) {
+        self.graphics.drawText(x + 2, y + 2 + line * 16, text);
+    });
+};
+
 GuiRenderer.prototype.drawPortrait = function(x, y, image, frame, withBorder) {
     if (!image)
         return;

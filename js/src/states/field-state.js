@@ -54,5 +54,7 @@ function FieldState(map, entrance) {
         _(map.actors).chain().sortBy("y").each(function(actor) {
             actorRenderer.drawActor(actor, frame);
         });
+
+        game.graphics.setOrigin(0, 0);
     };
 }
