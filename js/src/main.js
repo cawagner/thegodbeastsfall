@@ -2,6 +2,7 @@ var requirements = [
     'util',
     'sound',
     'graphics',
+    'gui',
     'tilemap',
     'keyboard-input',
     'map-loader',
