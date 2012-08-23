@@ -1,34 +1,3 @@
-SPEAKERS = (function() {
-    // TODO: do not load this here, or always assume held is talking...
-    var facesImage = new Image();
-    facesImage.src = "assets/img/faces1.png";
-
-    // TODO: doesn't go here...
-    return {
-        "held": {
-            name: "Held",
-            image: facesImage,
-            frame: 0
-        },
-        "mirv": {
-            name: "Mirv",
-            image: facesImage,
-            frame: 4
-        },
-        "oldman": {
-            name: "Old Man"
-        },
-        "littlegirl": {
-            name: "Little Girl",
-            image: facesImage,
-            frame: 4
-        },
-        "earl": {
-            name: "Man"
-        }
-    }
-}());
-
 function DialogueState(messages, doneFn) {
     var game = Game.instance,
         lineLength = 30,
@@ -83,3 +52,34 @@ function DialogueState(messages, doneFn) {
         this.previousState.update(timeScale, false);
     };
 }
+
+SPEAKERS = (function() {
+    // TODO: do not load this here, or always assume held is talking...
+    var facesImage = new Image();
+    facesImage.src = "assets/img/faces1.png";
+
+    // TODO: doesn't go here...
+    return {
+        "held": {
+            name: "Held",
+            image: facesImage,
+            frame: 0
+        },
+        "mirv": {
+            name: "Mirv",
+            image: facesImage,
+            frame: 4
+        },
+        "oldman": {
+            name: "Old Man"
+        },
+        "littlegirl": {
+            name: "Little Girl",
+            image: facesImage,
+            frame: 4
+        },
+        "earl": {
+            name: "Man"
+        }
+    }
+}());
