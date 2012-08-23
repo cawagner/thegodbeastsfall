@@ -5,7 +5,8 @@ function FieldState(map, entrance) {
         hero = new Hero(game.input),
         frame = 0,
         actorRenderer = new ActorRenderer(game.graphics),
-        firstRun = true;
+        firstRun = true,
+        gui = new GuiRenderer(game.graphics);
 
     map.addActor(hero);
 
@@ -56,5 +57,7 @@ function FieldState(map, entrance) {
         });
 
         game.graphics.setOrigin(0, 0);
+
+        //gui.drawTextWindow(8, 8, 36, 44, ["HELD", "\u2665 25", "\u2605 10"]);
     };
 }
