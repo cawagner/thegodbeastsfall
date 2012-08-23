@@ -21,7 +21,8 @@ SkillEffects = {
         var results = [];
 
         _(targets).each(function(target) {
-            var damage = (target.defense() / user.attack()) * skill.power;
+            // TODO: random element... weapon?
+            var damage = Math.floor((target.defense() / user.attack()) * skill.power);
         });
     }
 };
