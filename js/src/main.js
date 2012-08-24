@@ -14,7 +14,8 @@ var requirements = [
     'states/dialogue-state',
     'states/field-menu-state',
     'states/main-menu-state',
-    'game'
+    'game',
+    'dice'
 ];
 
 function includeAll(scripts, done) {

@@ -34,6 +34,16 @@ function installMixins() {
                 lines.push(line);
 
             return lines;
+        },
+        sum: function(collection, field) {
+            if (field === undefined) {
+                return _(collection).reduce(function(memo, num) { return memo + num; }, 0);
+            } else {
+                return _(collection).reduce(function(memo, item) { return memo + _(item).result(field); }, 0);
+            }
+        },
+        pluckResult: function(collection, field) {
+            return _(collection).map(function(item) { return _(item).result(field); });
         }
     });
 };
