@@ -6,7 +6,8 @@ function FieldState(map, entrance) {
         frame = 0,
         actorRenderer = new ActorRenderer(game.graphics),
         firstRun = true,
-        gui = new GuiRenderer(game.graphics);
+        gui = new GuiRenderer(game.graphics),
+        talkSubscription;
 
     map.addActor(hero);
 
@@ -17,6 +18,19 @@ function FieldState(map, entrance) {
             hero.direction = direction.fromName(map.entrances[entrance].direction);
         }
     }
+
+    talkSubscription = $.subscribe("talk", function(messages, npc) {
+        var deferred = $.Deferred();
+
+        npc.lockMovement();
+        npc.direction = direction.oppositeOf(hero.direction);
+
+        game.pushState(new DialogueState(messages, function() {
+            npc.unlockMovement();
+            deferred.resolve();
+        }));
+        return deferred.promise();
+    });
 
     this.update = function(timeScale) {
         if (firstRun) {
@@ -50,7 +64,11 @@ function FieldState(map, entrance) {
 
     this.reactivate = function() {
         hero.unlockMovement();
-    }
+    };
+
+    this.end = function() {
+        $.unsubscribe(talkSubscription);
+    };
 
     this.draw = function(timeScale) {
         tilemapView.draw();

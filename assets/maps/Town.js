@@ -1,5 +1,5 @@
 setupMap(function(map) {
-    map.npcs.oldman.onTalk = function(hero) {
+    map.npcs.oldman.onTalk = function() {
         var messages = [
             {
                 speaker: "oldman",
@@ -9,10 +9,10 @@ setupMap(function(map) {
                 ]
             }
         ];
-        this.say(messages, hero);
+        this.say(messages);
     };
 
-    map.npcs.littlegirl.onTalk = function(hero) {
+    map.npcs.littlegirl.onTalk = function() {
         var messages = [
             {
                 speaker: "littlegirl",
@@ -22,10 +22,10 @@ setupMap(function(map) {
                 ]
             }
         ];
-        this.say(messages, hero);
+        this.say(messages);
     };
 
-    map.npcs.earl.onTalk = function(hero) {
+    map.npcs.earl.onTalk = function() {
         var messages = [
             {
                 speaker: "earl",
@@ -35,10 +35,10 @@ setupMap(function(map) {
                 ]
             }
         ];
-        this.say(messages, hero);
+        this.say(messages);
     };
 
-    map.npcs.barrel1.onTalk = function(hero) {
+    map.npcs.barrel1.onTalk = function() {
         var messages = [
             {
                 text: [
@@ -46,6 +46,6 @@ setupMap(function(map) {
                 ]
             }
         ];
-        this.say(messages, hero);
+        this.say(messages);
     };
 });

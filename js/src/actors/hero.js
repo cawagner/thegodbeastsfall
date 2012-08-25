@@ -48,7 +48,7 @@ function Hero(input) {
         var otherGuy = this.map.getActor(this.x + d.x, this.y + d.y);
         // TODO: pass anything in to this? Call less directly?
         if (otherGuy && otherGuy.onTalk) {
-            otherGuy.onTalk(this);
+            otherGuy.onTalk();
         }
     };
 

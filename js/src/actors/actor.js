@@ -151,18 +151,6 @@ Actor.prototype.tryMoveBy = function(dx, dy) {
     return false;
 };
 
-Actor.prototype.say = function(messages, hero) {
-    var self = this;
-    var game = Game.instance;
-    var deferred = $.Deferred();
-
-    this.lockMovement();
-    if (hero) {
-        this.direction = direction.oppositeOf(hero.direction);
-    }
-    game.pushState(new DialogueState(messages, function() {
-        self.unlockMovement();
-        deferred.resolve();
-    }));
-    return deferred.promise();
+Actor.prototype.say = function(messages) {
+    $.publish("talk", [messages, this]);
 };
