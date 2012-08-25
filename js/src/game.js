@@ -7,7 +7,6 @@ function NoopState() {
 function ActorRenderer(graphics) {
     var walkFrames = [1,0,1,2];
 
-    var srcRect = { x: 0, y: 0, width: 16, height: 18 };
     var destRect = { x: 0, y: 0, width: 16, height: 18 };
 
     // TODO: don't load here...
@@ -36,9 +35,9 @@ function ActorRenderer(graphics) {
 
     this.drawActor = function(actor, frame) {
         var image = images[actor.archetype];
+        var frameToDraw = actor.direction * 3 + walkFrames[Math.floor(frame)];
 
-        srcRect.y = 18 * actor.direction;
-        srcRect.x = 16 * walkFrames[Math.floor(frame)];
+        var srcRect = graphics.getRectForFrame(frameToDraw, image.width, 16, 18);
 
         destRect.x = actor.x * TILE_SIZE;
         destRect.y = actor.y * TILE_SIZE - 4;

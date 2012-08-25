@@ -15,7 +15,7 @@ function Graphics(width, height, scale) {
     };
 
     this.getRectForFrame = function(frame, imageWidth, frameWidth, frameHeight) {
-        var framesInRow = imageWidth / frameWidth;
+        var framesInRow = Math.floor(imageWidth / frameWidth);
         return {
             x: frameWidth * (frame % framesInRow),
             y: Math.floor(frame / framesInRow) * frameHeight,
