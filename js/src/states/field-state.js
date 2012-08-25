@@ -13,6 +13,9 @@ function FieldState(map, entrance) {
     entrance = entrance || "default";
     if (entrance in map.entrances) {
         hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
+        if (map.entrances[entrance].direction !== undefined) {
+            hero.direction = direction.fromName(map.entrances[entrance].direction);
+        }
     }
 
     this.update = function(timeScale) {

@@ -55,7 +55,7 @@
                  "name":"fromTown",
                  "properties":
                     {
-
+                     "direction":"down"
                     },
                  "type":"Entrance",
                  "width":0,
