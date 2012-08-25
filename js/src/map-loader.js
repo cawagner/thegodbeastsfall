@@ -61,7 +61,7 @@ function MapLoader() {
             _(objectLayer.objects).each(function(object) {
                 switch (object.type) {
                     case "Entrance": {
-                        entrances[object.name] = { x: (object.x / TILE_SIZE) | 0, y: (object.y / TILE_SIZE) | 0, direction: object.direction };
+                        entrances[object.name] = { x: (object.x / TILE_SIZE) | 0, y: (object.y / TILE_SIZE) | 0, direction: object.properties.direction };
                         break;
                     }
                     case "Exit": {
