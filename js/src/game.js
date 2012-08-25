@@ -26,11 +26,16 @@ function ActorRenderer(graphics) {
         },
         "earl": {
             imagePath: "assets/img/earl.png"
+        },
+        "bgobj": {
+            isHidden: true
         }
     };
-    _(archetypes).chain().each(function(archetype, key) {
-        images[key] = new Image();
-        images[key].src = archetype.imagePath;
+    _(archetypes).each(function(archetype, key) {
+        if (archetype.imagePath !== undefined) {
+            images[key] = new Image();
+            images[key].src = archetype.imagePath;
+        }
     });
 
     this.drawActor = function(actor, frame) {

@@ -101,6 +101,19 @@
                  "width":0,
                  "x":133,
                  "y":422
+                }, 
+                {
+                 "height":0,
+                 "name":"barrel1",
+                 "properties":
+                    {
+                     "archetype":"bgobj",
+                     "behavior":"stationary"
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":152,
+                 "y":248
                 }],
          "opacity":1,
          "type":"objectgroup",

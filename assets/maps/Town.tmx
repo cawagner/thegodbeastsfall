@@ -48,5 +48,11 @@
     <property name="behavior" value="wanderlust"/>
    </properties>
   </object>
+  <object name="barrel1" type="NPC" x="152" y="248">
+   <properties>
+    <property name="archetype" value="bgobj"/>
+    <property name="behavior" value="stationary"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

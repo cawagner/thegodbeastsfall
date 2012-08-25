@@ -37,4 +37,15 @@ setupMap(function(map) {
         ];
         this.say(messages, hero);
     };
+
+    map.npcs.barrel1.onTalk = function(hero) {
+        var messages = [
+            {
+                text: [
+                    "This barrel is full of nothing but hatred and lies."
+                ]
+            }
+        ];
+        this.say(messages, hero);
+    };
 });
