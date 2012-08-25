@@ -68,7 +68,7 @@
                  "properties":
                     {
                      "archetype":"oldman",
-                     "behavior":"wanderlust"
+                     "behavior":"stationary"
                     },
                  "type":"NPC",
                  "width":0,
@@ -80,7 +80,8 @@
                  "name":"littlegirl",
                  "properties":
                     {
-                     "archetype":"littlegirl"
+                     "archetype":"littlegirl",
+                     "behavior":"wanderlust"
                     },
                  "type":"NPC",
                  "width":0,
@@ -92,7 +93,8 @@
                  "name":"earl",
                  "properties":
                     {
-                     "archetype":"earl"
+                     "archetype":"earl",
+                     "behavior":"wanderlust"
                     },
                  "type":"NPC",
                  "width":0,

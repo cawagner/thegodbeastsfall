@@ -113,7 +113,7 @@ function Actor(archetype) {
     this.clearFollowers = function() {
         _(followers).each(function(actor) {
             // TODO: don't assume this is the correct behavior!
-            actor.wander = wanderlust(actor);
+            actor.wander = Npc.behaviors.wanderlust(actor);
             actor.isPushable = true;
         });
         followers = [];
@@ -135,6 +135,8 @@ Actor.MOVE_SPEED = 0.05;
 Actor.prototype.warpTo = function(x, y) {
     this.x = x;
     this.y = y;
+    this.destX = x;
+    this.destY = y;
 };
 
 Actor.prototype.tryMoveBy = function(dx, dy) {

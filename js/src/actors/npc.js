@@ -1,7 +1,12 @@
-function Npc(archetype) {
-    Actor.call(this, archetype);
+function Npc(properties) {
+    _.defaults(properties, {
+        "archetype": "oldman",
+        "behavior": "wanderlust"
+    });
 
-    this.wander = Npc.behaviors.wanderlust(this);
+    Actor.call(this, properties.archetype);
+
+    this.wander = Npc.behaviors[properties.behavior](this);
 
     this.onUpdate = function(timeScale) {
         this.wander();

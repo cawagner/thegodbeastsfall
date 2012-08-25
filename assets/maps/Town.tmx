@@ -32,17 +32,19 @@
   <object name="oldman" type="NPC" x="320" y="400">
    <properties>
     <property name="archetype" value="oldman"/>
-    <property name="behavior" value="wanderlust"/>
+    <property name="behavior" value="stationary"/>
    </properties>
   </object>
   <object name="littlegirl" type="NPC" x="276" y="351">
    <properties>
     <property name="archetype" value="littlegirl"/>
+    <property name="behavior" value="wanderlust"/>
    </properties>
   </object>
   <object name="earl" type="NPC" x="133" y="422">
    <properties>
     <property name="archetype" value="earl"/>
+    <property name="behavior" value="wanderlust"/>
    </properties>
   </object>
  </objectgroup>

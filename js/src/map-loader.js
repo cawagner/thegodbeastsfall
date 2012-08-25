@@ -72,8 +72,9 @@ function MapLoader() {
                         break;
                     }
                     case "NPC": {
-                        npcs[object.name] = new Npc(object.properties.archetype);
+                        npcs[object.name] = new Npc(object.properties);
                         npcs[object.name].warpTo((object.x / TILE_SIZE) | 0, (object.y / TILE_SIZE) | 0);
+                        console.log(npcs[object.name]);
                         break;
                     }
                     default: {

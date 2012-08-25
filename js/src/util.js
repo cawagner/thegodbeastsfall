@@ -79,6 +79,14 @@ direction = {
             case direction.LEFT: return { x: -1, y: 0 };
             default: return { x: 0, y: 0 };
         }
+    },
+    fromName: function(name) {
+        switch (name.toLowerCase()) {
+            case "up": return direction.UP;
+            case "down": return direction.DOWN;
+            case "left": return direction.LEFT;
+            case "right": return direction.RIGHT;
+        }
     }
 };
 
