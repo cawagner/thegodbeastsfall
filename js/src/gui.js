@@ -34,3 +34,41 @@ GuiRenderer.prototype.drawPortrait = function(x, y, image, frame, withBorder) {
     }
     this.graphics.drawImageRect(image, speakerSrcRect, speakerDestRect);
 };
+
+function Menu(options) {
+    this.cols = 1;
+    this.rows = 5;
+    this.options = options;
+
+    this.x = 0;
+    this.y = 0;
+
+    this.selectHandlers = [];
+    this.cancelHandlers = [];
+}
+
+Menu.prototype.position = function(x, y) {
+    this.x = x;
+    this.y = y;
+    return this;
+};
+
+Menu.prototype.size = function(rows, cols) {
+    this.rows = rows;
+    this.cols = cols || 1;
+    return this;
+};
+
+Menu.prototype.select = function(fn) {
+    this.selectHandlers.push(fn);
+    return this;
+};
+
+Menu.prototype.cancel = function(fn) {
+    this.cancelHandlers.push(fn);
+    return this;
+};
+
+Menu.prototype.show = function() {
+    $.publish("/menu/show", [this]);
+};
