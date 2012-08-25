@@ -63,4 +63,8 @@ function KeyboardInput() {
     this.dirY = function() {
         return this.isDownDown() - this.isUpDown();
     };
+
+    this.anyInput = function() {
+        return uKeys.any(function(value) { return value === true });
+    };
 }

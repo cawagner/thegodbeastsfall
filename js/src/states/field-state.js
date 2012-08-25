@@ -7,7 +7,21 @@ function FieldState(map, entrance) {
         actorRenderer = new ActorRenderer(game.graphics),
         firstRun = true,
         gui = new GuiRenderer(game.graphics),
-        talkSubscription;
+        talkSubscription,
+        subscribeToTalk = function() {
+            talkSubscription = $.subscribe("/npc/talk", function(messages, npc) {
+                var deferred = $.Deferred();
+
+                npc.lockMovement();
+                npc.direction = direction.oppositeOf(hero.direction);
+
+                game.pushState(new DialogueState(messages, function() {
+                    npc.unlockMovement();
+                    deferred.resolve();
+                }));
+                return deferred.promise();
+            })
+        };
 
     map.addActor(hero);
 
@@ -18,19 +32,6 @@ function FieldState(map, entrance) {
             hero.direction = direction.fromName(map.entrances[entrance].direction);
         }
     }
-
-    talkSubscription = $.subscribe("/npc/talk", function(messages, npc) {
-        var deferred = $.Deferred();
-
-        npc.lockMovement();
-        npc.direction = direction.oppositeOf(hero.direction);
-
-        game.pushState(new DialogueState(messages, function() {
-            npc.unlockMovement();
-            deferred.resolve();
-        }));
-        return deferred.promise();
-    });
 
     this.update = function(timeScale) {
         if (firstRun) {
@@ -79,6 +80,8 @@ function FieldState(map, entrance) {
 
         game.graphics.setOrigin(0, 0);
 
-        //gui.drawTextWindow(8, 8, 36, 44, ["HELD", "\u2665 25", "\u2605 10"]);
+        // gui.drawTextWindow(8, 8, 36, 44, ["HELD", "\u2665 25", "\u2605 10"]);
     };
+
+    subscribeToTalk();
 }
