@@ -20,6 +20,7 @@ Npc.prototype = new Actor();
 
 Npc.behaviors = {
     wanderlust: function(self) {
+        self.isPushable = true;
         var waitForNextMove = 0;
         return function() {
             var dx = 0, dy = 0, dir;
@@ -39,6 +40,11 @@ Npc.behaviors = {
         };
     },
     stationary: function(self) {
-        return function() { };
+        self.isPushable = false;
+        return _.noop;
+    },
+    boulder: function(self) {
+        self.isPushable = true;
+        return _.noop;
     }
 }
