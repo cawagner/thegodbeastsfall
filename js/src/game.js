@@ -34,10 +34,15 @@ function ActorRenderer(graphics) {
     });
 
     this.drawActor = function(actor, frame) {
-        var image = images[actor.archetype];
-        var frameToDraw = actor.direction * 3 + walkFrames[Math.floor(frame)];
+        var image, frameToDraw, srcRect;
 
-        var srcRect = graphics.getRectForFrame(frameToDraw, image.width, 16, 18);
+        if (archetypes[actor.archetype].isHidden)
+            return;
+
+        image = images[actor.archetype];
+        frameToDraw = actor.direction * 3 + walkFrames[Math.floor(frame)];
+
+        srcRect = graphics.getRectForFrame(frameToDraw, image.width, 16, 18);
 
         destRect.x = actor.x * TILE_SIZE;
         destRect.y = actor.y * TILE_SIZE - 4;
