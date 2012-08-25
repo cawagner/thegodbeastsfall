@@ -152,5 +152,5 @@ Actor.prototype.tryMoveBy = function(dx, dy) {
 };
 
 Actor.prototype.say = function(messages) {
-    $.publish("talk", [messages, this]);
+    $.publish("/npc/talk", [messages, this]);
 };

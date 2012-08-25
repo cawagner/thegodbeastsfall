@@ -19,7 +19,7 @@ function FieldState(map, entrance) {
         }
     }
 
-    talkSubscription = $.subscribe("talk", function(messages, npc) {
+    talkSubscription = $.subscribe("/npc/talk", function(messages, npc) {
         var deferred = $.Deferred();
 
         npc.lockMovement();
