@@ -1,5 +1,5 @@
-function Graphics(width, height, scale) {
-    var visibleCanvas = document.getElementById("gameCanvas"),
+function Graphics(canvasId, width, height, scale) {
+    var visibleCanvas = document.getElementById(canvasId),
         offScreenCanvas = document.createElement("canvas"),
         visibleContext = visibleCanvas.getContext('2d'),
         context;

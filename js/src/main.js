@@ -35,7 +35,7 @@ includeAll(requirements, function() {
 
     installMixins();
 
-    var graphics = new Graphics(320, 240, 2),
+    var graphics = new Graphics("gameCanvas", 320, 240, 2),
         game = new Game(graphics),
         startFrame,
         endFrame = Date.now(),
