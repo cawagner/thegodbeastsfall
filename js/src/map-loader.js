@@ -19,7 +19,11 @@ function MapLoader() {
 
     this.load = function(mapName) {
         var deferred = $.Deferred();
-        $.getJSON("assets/maps/" + mapName + ".json", function(data) {
+        $.ajax({
+            url: "assets/maps/" + mapName + ".json",
+            dataType: "json",
+            cache: false
+        }).success(function(data) {
             var map = self.createMap(data);
             window.setupMap = function(fn) {
                 fn(map);
@@ -27,7 +31,7 @@ function MapLoader() {
             $.getScript("assets/maps/" + mapName + ".js", function() {
                 deferred.resolve(map);
             });
-        });
+        })
         return deferred.promise();
     };
 
@@ -74,7 +78,6 @@ function MapLoader() {
                     case "NPC": {
                         npcs[object.name] = new Npc(object.properties);
                         npcs[object.name].warpTo((object.x / TILE_SIZE) | 0, (object.y / TILE_SIZE) | 0);
-                        console.log(npcs[object.name]);
                         break;
                     }
                     default: {
