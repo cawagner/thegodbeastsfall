@@ -30,7 +30,10 @@
         //      with a function signature like: function(a,b,c){ ... }
         //
         //  |       $.publish("/some/topic", ["a","b","c"]);
-        d.each(cache[topic], function(){
+        if (cache[topic] === undefined) {
+            console.log(topic + " was published but has no subscribers");
+        }
+        d.each(cache[topic] || [], function(){
             this.apply(d, args || []);
         });
     };
