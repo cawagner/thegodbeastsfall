@@ -33,6 +33,7 @@
    <properties>
     <property name="archetype" value="oldman"/>
     <property name="behavior" value="stationary"/>
+    <property name="direction" value="down"/>
    </properties>
   </object>
   <object name="littlegirl" type="NPC" x="276" y="351">

@@ -8,6 +8,10 @@ function Npc(properties) {
 
     this.wander = Npc.behaviors[properties.behavior](this);
 
+    if ("direction" in properties) {
+        this.direction = direction.fromName(properties.direction);
+    }
+
     this.onUpdate = function(timeScale) {
         this.wander();
     };

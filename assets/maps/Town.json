@@ -68,7 +68,8 @@
                  "properties":
                     {
                      "archetype":"oldman",
-                     "behavior":"stationary"
+                     "behavior":"stationary",
+                     "direction":"down"
                     },
                  "type":"NPC",
                  "width":0,
