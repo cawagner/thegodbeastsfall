@@ -11,16 +11,27 @@ function ActorRenderer(graphics) {
     var destRect = { x: 0, y: 0, width: 16, height: 18 };
 
     // TODO: don't load here...
-    var images = {
-        "hero": "assets/img/hero.png",
-        "heroine": "assets/img/heroine.png",
-        "oldman": "assets/img/oldman.png",
-        "littlegirl": "assets/img/littlegirl.png",
-        "earl": "assets/img/earl.png"
+    var images = {};
+    var archetypes = {
+        "hero": {
+            imagePath: "assets/img/hero.png"
+        },
+        "heroine": {
+            imagePath: "assets/img/heroine.png"
+        },
+        "oldman": {
+            imagePath: "assets/img/oldman.png"
+        },
+        "littlegirl": {
+            imagePath: "assets/img/littlegirl.png"
+        },
+        "earl": {
+            imagePath: "assets/img/earl.png"
+        }
     };
-    _(images).each(function(value, key) {
+    _(archetypes).chain().each(function(archetype, key) {
         images[key] = new Image();
-        images[key].src = value;
+        images[key].src = archetype.imagePath;
     });
 
     this.drawActor = function(actor, frame) {
