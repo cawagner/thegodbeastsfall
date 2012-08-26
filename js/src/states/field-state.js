@@ -54,6 +54,15 @@ function FieldState(map, entrance) {
             }
         });
 
+        if (game.input.wasCancelPressed()) {
+            new Menu([
+                { text: "Status" },
+                { text: "Items" },
+                { text: "Magie" },
+                { text: "Options" }
+            ]).show();
+        }
+
         frame = (frame + 0.025 + hero.isMoving() * 0.05) % 4;
 
         tilemapView.focusOn(hero.x, hero.y);

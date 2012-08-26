@@ -12,7 +12,7 @@ var requirements = [
     'character',
     'states/field-state',
     'states/dialogue-state',
-    'states/field-menu-state',
+    'states/menu-state',
     'states/main-menu-state',
     'game',
     'dice'
