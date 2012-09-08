@@ -13,6 +13,7 @@ var requirements = [
     'states/field-state',
     'states/dialogue-state',
     'states/menu-state',
+    'states/field-menu-state',
     'states/main-menu-state',
     'game',
     'dice'
@@ -87,6 +88,11 @@ includeAll(requirements, function() {
 
     $("#touchControls").change(function(){
         $("body").toggleClass("touchControls", $(this).is(":checked"));
+    });
+
+    // TODO: elsewhere?
+    $.subscribe("/menu/open", function(menu) {
+        game.pushState(new MenuState(menu));
     });
 
     document.body.ontouchmove = function(e) {

@@ -58,6 +58,9 @@ function KeyboardInput() {
     this.wasConfirmPressed = wasPressed('confirm');
     this.wasCancelPressed = wasPressed('cancel');
 
+    this.wasUpPressed = wasPressed('up');
+    this.wasDownPressed = wasPressed('down');
+
     this.dirX = function() {
         return this.isRightDown() - this.isLeftDown();
     };

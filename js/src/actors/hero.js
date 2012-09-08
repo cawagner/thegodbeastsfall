@@ -25,14 +25,9 @@ function Hero(input) {
             self.talk();
         }
 
+        // TODO: move this elsewhere?
         if (input.wasCancelPressed()) {
-            new Menu([
-                "Status",
-                "Items",
-                "System"
-            ]).select(function(){
-                this.close();
-            }).show();
+            Game.instance.pushState(new FieldMenuState());
         }
     };
 

@@ -21,12 +21,6 @@ function FieldState(map, entrance) {
                 }));
                 return deferred.promise();
             })
-        },
-        subscribeToMenu = function() {
-            // TODO: does not go here!
-            var menuSubscription = $.subscribe("/menu/show", function(menu) {
-                game.pushState(new MenuState(menu));
-            });
         };
 
     map.addActor(hero);
@@ -60,15 +54,6 @@ function FieldState(map, entrance) {
             }
         });
 
-        if (game.input.wasCancelPressed()) {
-            new Menu([
-                { text: "Status" },
-                { text: "Items" },
-                { text: "Magie" },
-                { text: "Options" }
-            ]).show();
-        }
-
         frame = (frame + 0.025 + hero.isMoving() * 0.05) % 4;
 
         tilemapView.focusOn(hero.x, hero.y);
@@ -94,10 +79,7 @@ function FieldState(map, entrance) {
         });
 
         game.graphics.setOrigin(0, 0);
-
-        // gui.drawTextWindow(8, 8, 36, 44, ["HELD", "\u2665 25", "\u2605 10"]);
     };
 
     subscribeToTalk();
-    subscribeToMenu();
 }
