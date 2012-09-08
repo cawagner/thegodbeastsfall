@@ -21,6 +21,12 @@ function FieldState(map, entrance) {
                 }));
                 return deferred.promise();
             })
+        },
+        subscribeToMenu = function() {
+            // TODO: does not go here!
+            var menuSubscription = $.subscribe("/menu/show", function(menu) {
+                game.pushState(new MenuState(menu));
+            });
         };
 
     map.addActor(hero);
@@ -93,4 +99,5 @@ function FieldState(map, entrance) {
     };
 
     subscribeToTalk();
+    subscribeToMenu();
 }

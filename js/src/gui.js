@@ -1,5 +1,6 @@
 function GuiRenderer(graphics) {
     this.graphics = graphics;
+    this.lineHeight = 16;
 }
 
 GuiRenderer.prototype.drawWindowRect = function(x, y, width, height) {
@@ -17,7 +18,7 @@ GuiRenderer.prototype.drawTextWindow = function(x, y, width, height, lines) {
 
     this.graphics.setFillColor("#fff");
     _(lines).each(function(text, line) {
-        self.graphics.drawText(x + 2, y + 2 + line * 16, text);
+        self.graphics.drawText(x + 2, y + 2 + line * self.lineHeight, text);
     });
 };
 
@@ -37,11 +38,11 @@ GuiRenderer.prototype.drawPortrait = function(x, y, image, frame, withBorder) {
 
 function Menu(options) {
     this.cols = 1;
-    this.rows = 5;
+    this.rows = options.length;
     this.options = options;
 
-    this.x = 0;
-    this.y = 0;
+    this.x = 20;
+    this.y = 20;
 
     this.selectHandlers = [];
     this.cancelHandlers = [];
@@ -55,7 +56,7 @@ Menu.prototype.position = function(x, y) {
 
 Menu.prototype.size = function(rows, cols) {
     this.rows = rows;
-    this.cols = cols || 1;
+    this.cols = cols || this.cols;
     return this;
 };
 
@@ -69,6 +70,12 @@ Menu.prototype.cancel = function(fn) {
     return this;
 };
 
+Menu.prototype.close = function() {
+    $.publish("/menu/close", [this]);
+    return this;
+};
+
 Menu.prototype.show = function() {
     $.publish("/menu/show", [this]);
+    return this;
 };

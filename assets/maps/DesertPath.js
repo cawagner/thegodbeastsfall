@@ -4,7 +4,7 @@ setupMap(function(map) {
             var messages = [
                 {
                     text: [
-                        "Seo ii si Ropo nani ma seln au ansiapta sen Held bnani.",
+                        "Seo ii si Ropo nani ma seln au ansiefta sen Held bnani.",
                     ]
                 }
             ];
