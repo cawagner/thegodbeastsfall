@@ -10,6 +10,7 @@ body {
     background: #103;
     color: white;
     overflow: hidden;
+    font: 10pt sans-serif;
 }
 @font-face {
     font-family: 'Press Start 2P';
@@ -95,4 +96,5 @@ h1 { text-align: center; }
 body.touchControls .dpad,
 body.touchControls .buttons {
     display: block;
+    opacity: 0.25;
 }

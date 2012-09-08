@@ -5,6 +5,7 @@ var requirements = [
     'gui',
     'tilemap',
     'keyboard-input',
+    'touch-input',
     'map-loader',
     'actors/actor',
     'actors/hero',
@@ -77,18 +78,7 @@ includeAll(requirements, function() {
         $("#container").width(320 * scale).height(240 * scale);
     });
 
-    // todo: move elsewhere
-    $("[data-keycode]").on("touchstart", function() {
-        document.onkeydown({ keyCode: parseInt($(this).data("keycode"), 10) });
-    }).on("touchend", function() {
-        document.onkeyup({ keyCode: parseInt($(this).data("keycode"), 10) });
-    }).on("click", function(){
-        return false;
-    });
-
-    $("#touchControls").change(function(){
-        $("body").toggleClass("touchControls", $(this).is(":checked"));
-    });
+    initTouchInput();
 
     // TODO: elsewhere?
     $.subscribe("/menu/open", function(menu) {
