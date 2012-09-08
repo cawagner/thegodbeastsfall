@@ -30,15 +30,15 @@ CharacterPawn.prototype.defense = function() {
 
 CharacterPawn.prototype.priority = function() {
     return this.character.level + this.character.level;
-}
+};
 
 CharacterPawn.prototype.accuracy = function() {
-    return this.character.level + this.character.strength + (this.character.luck / 2) + 50;
+    return this.character.level + this.character.strength + (this.character.luck / 2) + 55;
 };
 
 CharacterPawn.prototype.evade = function() {
     return this.character.level + this.character.agility + (this.character.luck / 2);
-}
+};
 
 CharacterPawn.prototype.criticalChance = function() {
     return this.character.luck;

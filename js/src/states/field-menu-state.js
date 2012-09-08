@@ -1,23 +1,33 @@
 function FieldMenuState(menu) {
-	var self = this;
+    var self = this;
 
     this.menu = new Menu([
-        "Status",
+        {
+            text: "Status",
+            childMenu: function() {
+                var options = _(GameState.instance.party).map(function(member){
+                    return { text: member.name, member: member };
+                });
+                return new Menu(options).select(function(){
+
+                });
+            }
+        },
         "Zauber",
         "Items",
         {
-        	text: "System",
-        	childMenu: new Menu([
-        		"Save",
-        		"Load",
-        		"Options"
-    		])
+            text: "System",
+            childMenu: new Menu([
+                "Save",
+                "Load",
+                "Options"
+            ])
         }
     ]).select(function(index, item) {
-    	if (item.childMenu) {
-    		_(item).result("childMenu").open();
-    	} else {
-        	this.close();
+        if (item.childMenu) {
+            _(item).result("childMenu").open();
+        } else {
+            this.close();
         }
     }).size(2, 2);
 
@@ -31,15 +41,15 @@ FieldMenuState.prototype.start = function(previousState) {
 };
 
 FieldMenuState.prototype.update = function(delta) {
-	this.previousState.update(delta);
-	this.menuState.update(delta);
+    this.previousState.update(delta);
+    this.menuState.update(delta);
 };
 
 FieldMenuState.prototype.draw = function(delta) {
-	this.previousState.draw(delta);
-	this.menuState.draw(delta);
+    this.previousState.draw(delta);
+    this.menuState.draw(delta);
 
-	this.gui.drawTextWindow(260, 180, 36, 44, ["HELD", "\u2665 25", "\u2605 10"])
+    this.gui.drawTextWindow(260, 180, 36, 44, ["HELD", "\u2665 25", "\u2605 10"])
 };
 
 FieldMenuState.prototype.suspend = function() {

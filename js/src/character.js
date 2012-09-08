@@ -16,7 +16,7 @@ Character.create = function(options) {
     character.hp = 10 + character.strength;
     character.maxHp = character.hp;
 
-    character.mp = character.intelligence;
+    character.mp = Math.max(0, character.intelligence - 5);
     character.maxMp = character.mp;
 
     character.xp = 0;
@@ -64,3 +64,4 @@ function GameState() {
 }
 
 GameState.instance = new GameState();
+console.log (GameState.instance);
