@@ -60,6 +60,8 @@ function KeyboardInput() {
 
     this.wasUpPressed = wasPressed('up');
     this.wasDownPressed = wasPressed('down');
+    this.wasLeftPressed = wasPressed('left');
+    this.wasRightPressed = wasPressed('right');
 
     this.dirX = function() {
         return this.isRightDown() - this.isLeftDown();

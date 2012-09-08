@@ -19,7 +19,7 @@ function FieldMenuState(menu) {
     	} else {
         	this.close();
         }
-    });
+    }).size(2, 2);
 
     this.menuState = new MenuState(this.menu);
     this.gui = this.menuState.gui;

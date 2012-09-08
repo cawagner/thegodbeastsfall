@@ -25,6 +25,12 @@ MenuState.prototype.update = function() {
     if (this.input.wasDownPressed()) {
         this.selectionIndex = Math.min(this.menu.options.length - 1, this.selectionIndex + this.menu.cols);
     }
+    if (this.input.wasLeftPressed()) {
+        this.selectionIndex = Math.max(0, this.selectionIndex - 1);
+    }
+    if (this.input.wasRightPressed()) {
+        this.selectionIndex = Math.min(this.menu.options.length - 1, this.selectionIndex + 1);
+    }
     if (this.input.wasConfirmPressed()) {
         this.menu.triggerSelect(this.selectionIndex, this.menu.options[this.selectionIndex]);
     }
