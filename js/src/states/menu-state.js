@@ -37,7 +37,6 @@ MenuState.prototype.update = function() {
     if (this.input.wasCancelPressed()) {
         this.menu.triggerCancel();
     }
-    // TODO: horizontal movement
 
     this.previousState.update();
 };
