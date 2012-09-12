@@ -43,25 +43,3 @@ Character.prototype.gainLevel = function(statToBoost) {
     this.xpNext = (this.level + 1) * this.level * 100;
     this.level += 1;
 };
-
-function GameState() {
-    this.party = [];
-
-    this.newGame = function() {
-        var held = Character.create({
-            name: "Held",
-            title: "Walking Sand",
-            strength: 15,
-            agility: 10,
-            intelligence: 10,
-            luck: 10
-        });
-
-        this.party = [held];
-
-        goToMap('DesertPath');
-    };
-}
-
-GameState.instance = new GameState();
-console.log (GameState.instance);

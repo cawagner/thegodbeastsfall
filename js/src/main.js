@@ -11,13 +11,14 @@ var requirements = [
     'actors/hero',
     'actors/npc',
     'character',
+    'pawns/character-pawn',
+    'game-state',
     'states/field-state',
     'states/dialogue-state',
     'states/menu-state',
     'states/field-menu-state',
     'states/main-menu-state',
     'states/status-state',
-    'pawns/character-pawn',
     'game',
     'dice'
 ];
