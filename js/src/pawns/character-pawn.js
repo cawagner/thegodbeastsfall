@@ -29,15 +29,27 @@ CharacterPawn.prototype.defense = function() {
 };
 
 CharacterPawn.prototype.priority = function() {
-    return this.character.level + this.character.level;
+    return this.character.level + this.character.agility;
 };
 
 CharacterPawn.prototype.accuracy = function() {
-    return this.character.level + this.character.strength + (this.character.luck / 2) + 55;
+    return Math.floor(this.character.level + (3*(this.character.strength + this.character.agility) + this.character.luck) / 7 + 50);
 };
 
 CharacterPawn.prototype.evade = function() {
-    return this.character.level + this.character.agility + (this.character.luck / 2);
+    return Math.floor(this.character.level + (3 * this.character.agility + this.character.luck) / 4);
+};
+
+CharacterPawn.prototype.force = function() {
+    return Math.floor(this.character.level + (2 * this.character.intelligence + this.character.agility) / 3);
+};
+
+CharacterPawn.prototype.support = function() {
+    return Math.floor(this.character.level + (2 * this.character.intelligence + this.character.luck) / 3);
+};
+
+CharacterPawn.prototype.resist = function() {
+    return Math.floor(this.character.level + (this.character.intelligence + this.character.strength) / 2);
 };
 
 CharacterPawn.prototype.criticalChance = function() {

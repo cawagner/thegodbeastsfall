@@ -13,13 +13,17 @@ GuiRenderer.prototype.drawWindowRect = function(x, y, width, height) {
 };
 
 GuiRenderer.prototype.drawTextWindow = function(x, y, width, height, lines) {
-    var self = this;
     this.drawWindowRect(x, y, width, height);
+    this.drawTextLines(x, y, lines);
+};
 
+GuiRenderer.prototype.drawTextLines = function(x, y, lines) {
+    var self = this;
     this.graphics.setFillColor("#fff");
     _(lines).each(function(text, line) {
         self.graphics.drawText(x + 2, y + 2 + line * self.lineHeight, text);
     });
+    return y + 2 + lines.length * self.lineHeight;
 };
 
 GuiRenderer.prototype.drawPortrait = function(x, y, image, frame, withBorder) {

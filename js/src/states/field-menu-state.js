@@ -12,7 +12,8 @@ function FieldMenuState(menu) {
         {
             text: "Status",
             childMenu: function() {
-                return getPartyMenu().select(function(menuItem) {
+                return getPartyMenu().select(function(index, menuItem) {
+                    console.log(menuItem.member);
                     Game.instance.pushState(new StatusState(menuItem.member));
                 });
             }
