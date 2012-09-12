@@ -46,10 +46,12 @@ FieldMenuState.prototype.update = function(delta) {
 };
 
 FieldMenuState.prototype.draw = function(delta) {
+    var party = GameState.instance.party;
+
     this.previousState.draw(delta);
     this.menuState.draw(delta);
 
-    this.gui.drawTextWindow(260, 180, 36, 44, ["HELD", "\u2665 25", "\u2605 10"])
+    this.gui.drawTextWindow(260, 180, 36, 44, ["HELD", "\u2665" + (""+party[0].hp).rset(3), "\u2605" + (""+party[0].mp).rset(3)]);
 };
 
 FieldMenuState.prototype.suspend = function() {
