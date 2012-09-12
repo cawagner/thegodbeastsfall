@@ -26,8 +26,9 @@ GuiRenderer.prototype.drawTextLines = function(x, y, lines) {
     return y + 2 + lines.length * self.lineHeight;
 };
 
-GuiRenderer.prototype.drawPortrait = function(x, y, image, frame, withBorder) {
-    if (!image)
+GuiRenderer.prototype.drawPortrait = function(x, y, name, withBorder) {
+    var speaker = SPEAKERS[name], image = SPEAKERS[name] && SPEAKERS[name].image, frame = SPEAKERS[name] && SPEAKERS[name].frame;
+    if (!speaker || !image || frame === undefined)
         return;
 
     var faceWidth = 48, faceHeight = 48;

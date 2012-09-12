@@ -4,6 +4,7 @@ function GameState() {
     this.newGame = function() {
         var held = Character.create({
             name: "Held",
+            face: "held",
             title: "Walking Sand",
             strength: 15,
             agility: 10,

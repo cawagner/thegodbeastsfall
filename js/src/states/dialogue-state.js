@@ -22,10 +22,8 @@ function DialogueState(messages, doneFn) {
 
         this.previousState.draw(timeScale);
 
-        if (speaker) {
-            gui.drawTextWindow(x + 5, y - 23, 100, 10, [speaker.name]);
-            gui.drawPortrait(x + 250, y, speaker.image, speaker.frame, true);
-        }
+        gui.drawTextWindow(x + 5, y - 23, 100, 10, [speaker.name]);
+        gui.drawPortrait(x + 250, y, message.speaker, true);
 
         gui.drawTextWindow(x, y, 230, 48, lines);
     };
@@ -78,9 +76,7 @@ SPEAKERS = (function() {
             name: "Old Man"
         },
         "littlegirl": {
-            name: "Little Girl",
-            image: facesImage,
-            frame: 4
+            name: "Little Girl"
         },
         "earl": {
             name: "Man"

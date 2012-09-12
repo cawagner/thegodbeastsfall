@@ -22,12 +22,14 @@ Character.create = function(options) {
     character.xp = 0;
     character.xpNext = 100;
 
+    character.face = options.face;
+
     return character;
 }
 
 Character.prototype.gainLevel = function(statToBoost) {
-    var d6 = Dice.parse("d6");
-    var hpGain = d6.roll() + Math.floor(Math.max(4, this.strength - 10) / 4);
+    var d4 = Dice.parse("d4");
+    var hpGain = d4.roll() + Math.floor(Math.max(4, this.strength - 10) / 4);
     var mpGain = Math.ceil(Math.max(4, this.intelligence - 6) / 4);
 
     this.maxHp += hpGain;
@@ -40,6 +42,11 @@ Character.prototype.gainLevel = function(statToBoost) {
         this[statToBoost] += 1;
     }
 
+    // if level was gained through non-XP means...
+    if (this.xp < this.xpNext) {
+        this.xp = this.xpNext;
+    }
+    
     this.xpNext = (this.level + 1) * this.level * 100;
     this.level += 1;
 };

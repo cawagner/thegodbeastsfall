@@ -59,6 +59,11 @@ function installMixins() {
     };
 };
 
+CHAR = {
+    heart: "\u2665",
+    star: "\u2605"
+};
+
 direction = {
     UP: 0,
     RIGHT: 1,
