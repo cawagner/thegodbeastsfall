@@ -16,6 +16,8 @@ var requirements = [
     'states/menu-state',
     'states/field-menu-state',
     'states/main-menu-state',
+    'states/status-state',
+    'pawns/character-pawn',
     'game',
     'dice'
 ];

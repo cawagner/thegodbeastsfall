@@ -1,15 +1,19 @@
 function FieldMenuState(menu) {
     var self = this;
 
+    var getPartyMenu = function() {
+         var options = _(GameState.instance.party).map(function(member){
+            return { text: member.name, member: member };
+        });
+        return new Menu(options);
+    };
+
     this.menu = new Menu([
         {
             text: "Status",
             childMenu: function() {
-                var options = _(GameState.instance.party).map(function(member){
-                    return { text: member.name, member: member };
-                });
-                return new Menu(options).select(function(){
-
+                return getPartyMenu().select(function(menuItem) {
+                    Game.instance.pushState(new StatusState(menuItem.member));
                 });
             }
         },
