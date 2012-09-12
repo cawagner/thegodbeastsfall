@@ -31,7 +31,7 @@ StatusState.prototype.formatSkill = function(fieldName, abbreviation) {
 StatusState.prototype.draw = function(delta) {
     var top = 20,
         lines = 0,
-        statTop,
+        statTop, xpTop,
         self = this,
         statMapping = {
             STR: "strength",
@@ -70,13 +70,25 @@ StatusState.prototype.draw = function(delta) {
     ]);
     this.gui.drawPortrait(250, top, this.character.face);
 
-
     this.gui.drawWindowRect(20, statTop, 60, 4*this.gui.lineHeight);
     this.gui.drawTextLines(20, statTop, _(statMapping).map(_.bind(this.formatStat, this)));
 
-    this.gui.drawWindowRect(120, statTop, 180, 5*this.gui.lineHeight);
-    this.gui.drawTextLines(120, statTop, _(skillMapping).map(_.bind(this.formatSkill, this)));
-    this.gui.drawTextLines(220, statTop, _(skillMapping2).map(_.bind(this.formatSkill, this)));
+    this.gui.drawTextWindow(100, statTop, 200, 2*this.gui.lineHeight, [
+        "W: SBronze    H: Nothing",
+        "B: Nothing    A: Nothing",
+    ]);
 
+    statTop += 4 * this.gui.lineHeight;
 
+    this.gui.drawWindowRect(150, statTop, 150, 5*this.gui.lineHeight);
+    this.gui.drawTextLines(150, statTop, _(skillMapping).map(_.bind(this.formatSkill, this)));
+    xpTop = this.gui.drawTextLines(230, statTop, _(skillMapping2).map(_.bind(this.formatSkill, this))) + this.gui.lineHeight;
+
+    xpTop -= 4 * this.gui.lineHeight
+
+    this.gui.drawWindowRect(20, xpTop, this.graphics.width() / 2 - 45, 2 * this.gui.lineHeight);
+    this.gui.drawTextLines(20, xpTop, [
+        "XP to advance:",
+        ("" + (this.character.xp + "/" + this.character.xpNext)).rset(14)
+    ]);
 };
