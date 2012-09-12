@@ -26,15 +26,15 @@ Character.create = function(options) {
 }
 
 Character.prototype.gainLevel = function(statToBoost) {
-    // TODO: extract these things!
-    var hpGain = this.level + Math.floor(Math.max(2, this.strength - 10) / 2 + Math.random(0, this.luck / 4));
+    var d6 = Dice.parse("d6");
+    var hpGain = d6.roll() + Math.floor(Math.max(4, this.strength - 10) / 4);
     var mpGain = Math.ceil(Math.max(4, this.intelligence - 6) / 4);
 
     this.maxHp += hpGain;
     this.maxMp += mpGain;
 
-    this.hp = this.hpMax;
-    this.mp = this.mpMax;
+    this.hp = this.maxHp;
+    this.mp = this.maxMp;
 
     if (statToBoost !== undefined) {
         this[statToBoost] += 1;
