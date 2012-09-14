@@ -44,6 +44,16 @@ function installMixins() {
         },
         pluckResult: function(collection, field) {
             return _(collection).map(function(item) { return _(item).result(field); });
+        },
+        disjunction: function(a, b) {
+            return function() {
+                return a.apply(null, arguments) || b.apply(null, arguments);
+            };
+        },
+        conjunction: function(a, b) {
+            return function() {
+                return a.apply(null, arguments) && b.apply(null, arguments);
+            };
         }
     });
 

@@ -29,7 +29,7 @@ function KeyboardInput() {
                 pressed[keyCodesToKeys[e.keyCode]] = state;
             }
         };
-    }
+    };
 
     var wasPressed = function(key) {
         return function() {
