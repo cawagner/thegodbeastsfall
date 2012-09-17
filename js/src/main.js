@@ -20,7 +20,8 @@ var requirements = [
     'states/main-menu-state',
     'states/status-state',
     'game',
-    'dice'
+    'dice',
+    'skill-effects'
 ];
 
 function includeAll(scripts, done) {
