@@ -20,36 +20,36 @@ CharacterPawn.prototype.luck = function() {
 
 CharacterPawn.prototype.attack = function() {
     // TODO: factor in weapon / buffs!
-    return this.character.level + this.character.strength;
+    return this.character.level + this.character.strength - 1;
 };
 
 CharacterPawn.prototype.defense = function() {
     // TODO: factor in armor / buffs!
-    return this.character.level + this.character.strength;
+    return this.character.level + this.character.strength - 1;
 };
 
 CharacterPawn.prototype.priority = function() {
-    return this.character.level + this.character.agility;
+    return this.character.level + this.character.agility - 1;
 };
 
 CharacterPawn.prototype.accuracy = function() {
-    return Math.floor(this.character.level + (3*(this.character.strength + this.character.agility) + this.character.luck) / 7 + 50);
+    return Math.floor(this.character.level + (3*(this.character.strength + this.character.agility) + this.character.luck) / 7 + 50) + 2;
 };
 
 CharacterPawn.prototype.evade = function() {
-    return Math.floor(this.character.level + (3 * this.character.agility + this.character.luck) / 4);
+    return Math.floor(this.character.level + (3 * this.character.agility + this.character.luck) / 4) - 1;
 };
 
 CharacterPawn.prototype.force = function() {
-    return Math.floor(this.character.level + (2 * this.character.intelligence + this.character.agility) / 3);
+    return Math.floor(this.character.level + (2 * this.character.intelligence + this.character.agility) / 3) - 1;
 };
 
 CharacterPawn.prototype.support = function() {
-    return Math.floor(this.character.level + (2 * this.character.intelligence + this.character.luck) / 3);
+    return Math.floor(this.character.level + (2 * this.character.intelligence + this.character.luck) / 3) - 1;
 };
 
 CharacterPawn.prototype.resist = function() {
-    return Math.floor(this.character.level + (this.character.intelligence + this.character.strength) / 2);
+    return Math.floor(this.character.level + (this.character.intelligence + this.character.strength) / 2) - 1;
 };
 
 CharacterPawn.prototype.criticalChance = function() {
