@@ -32,6 +32,8 @@
         "criticalChance": 1,
         "criticalMultiplier": 1,
         "priorityBoost": 0,
-        "cooldown": 0
+        "cooldown": 0,
+        "isFieldUsable": false,
+        "cost": {}
     }
 }
