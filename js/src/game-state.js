@@ -5,11 +5,15 @@ function GameState() {
         var held = Character.create({
             name: "Held",
             face: "held",
-            title: "Walking Sand",
+            title: "Mysterious Hero",
             strength: 15,
             agility: 10,
             intelligence: 10,
-            luck: 10
+            luck: 10,
+            skills: {
+                "Fight": [ "slash", "hard" ],
+                "Saint": [ "heal1" ]
+            }
         });
 
         this.party = [held];

@@ -61,3 +61,4 @@ SkillEffects = (function() {
         }
     }
 })();
+

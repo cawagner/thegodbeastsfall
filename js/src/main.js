@@ -41,6 +41,11 @@ includeAll(requirements, function() {
 
     installMixins();
 
+    $.getJSON("assets/data/skills.json").done(function (data) {
+        window.Skills = data;
+        console.log(window.Skills);
+    });
+
     var graphics = new Graphics("gameCanvas", 320, 240, 2),
         game = new Game(graphics),
         startFrame,

@@ -1,7 +1,7 @@
 {
     "slash": {
         "name": "Slash",
-        "target": "enemy", // enemy, enemies, ally, allies
+        "target": "enemy",
         "effect": "damage/melee",
         "power": "2d6"
     },
@@ -10,7 +10,7 @@
         "target": "enemy",
         "effect": "damage/melee",
         "power": "4d6k3",
-        "cooldown": 1
+        "cooldown": 2
     },
     "ooze": {
         "name": "Ooze",
@@ -22,7 +22,8 @@
         "name": "LayHands",
         "target": "ally",
         "effect": "heal/normal",
-        "power": "2d6"
+        "power": "2d6",
+        "cost": { "mp": 2 }
     },
     "default": {
         "name": "Default",
@@ -30,6 +31,7 @@
         "accuracy": 1,
         "criticalChance": 1,
         "criticalMultiplier": 1,
-        "priorityBoost": 0
+        "priorityBoost": 0,
+        "cooldown": 0
     }
 }
