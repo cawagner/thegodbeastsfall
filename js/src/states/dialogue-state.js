@@ -22,7 +22,9 @@ function DialogueState(messages, doneFn) {
 
         this.previousState.draw(timeScale);
 
-        gui.drawTextWindow(x + 5, y - 23, 100, 10, [speaker.name]);
+        if (speaker) {
+            gui.drawTextWindow(x + 5, y - 23, 100, 10, [speaker.name]);
+        }
         gui.drawPortrait(x + 250, y, message.speaker, true);
 
         gui.drawTextWindow(x, y, 230, 48, lines);
