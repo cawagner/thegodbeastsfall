@@ -71,7 +71,8 @@ function installMixins() {
 
 CHAR = {
     heart: "\u2665",
-    star: "\u2605"
+    star: "\u2605",
+    pointer: "*"
 };
 
 direction = {

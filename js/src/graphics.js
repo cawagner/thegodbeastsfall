@@ -1,9 +1,47 @@
+function DeathwakeFont() {
+    var rows = [
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "abcdefghijklmnopqrstuvwxyz",
+        "0123456789.:,;+-*/=^_?",
+        "!\"#$%`'(){@"
+    ];
+
+    var table = (function() {
+        var result = {};
+        var row, col, chars, c;
+        for (row = 0; row < rows.length; ++row) {
+            chars = rows[row];
+            for (col = 0; col < chars.length; ++col) {
+                c = chars[col];
+                result[c] = { x: col * 8, y: row * 16, width: 6, height: 18 };
+            }
+        }
+        return result;
+    })();
+
+    var image = new Image();
+    image.src = "assets/img/deathwake.png";
+
+    this.drawText = function(graphics, x, y, text) {
+        var i, srcRect, dstRect = { x: x, y: y, width: 6, height: 18 };
+
+        for (i = 0; i < text.length; ++i) {
+            srcRect = table[text[i]];
+            if (srcRect) {
+                graphics.drawImageRect(image, srcRect, dstRect);
+            }
+            dstRect.x += 6;
+        }
+    };
+};
+
 function Graphics(canvasId, width, height, scale) {
     var visibleCanvas = document.getElementById(canvasId),
         offScreenCanvas = document.createElement("canvas"),
         visibleContext = visibleCanvas.getContext('2d'),
         context;
     var originOffset = { x: 0, y : 0 };
+    var font = new DeathwakeFont();
 
     offScreenCanvas.width = width;
     offScreenCanvas.height = height;
@@ -60,7 +98,7 @@ function Graphics(canvasId, width, height, scale) {
     };
 
     this.drawText = function(x, y, text) {
-        context.fillText(text, (x + .5) << 0, (y + .5) << 0);
+        font.drawText(this, x | 0, (y | 0) - 6, text);
     };
 
     this.width = function() { return width; };

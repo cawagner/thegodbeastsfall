@@ -43,7 +43,7 @@ MenuState.prototype.update = function() {
 
 MenuState.prototype.draw = function(delta) {
     var i, x, y, item, colWidth = 80;
-    
+
     this.previousState.draw(delta);
 
     this.gui.drawWindowRect(this.menu.x, this.menu.y, this.menu.cols * colWidth, this.menu.rows * this.gui.lineHeight);
@@ -59,7 +59,7 @@ MenuState.prototype.draw = function(delta) {
     x = this.selectionIndex % this.menu.cols;
     y = Math.floor(this.selectionIndex / this.menu.cols);
 
-    this.graphics.drawText(this.menu.x + x * colWidth, 4 + this.menu.y + y * this.gui.lineHeight, "\u25b6");
+    this.graphics.drawText(this.menu.x + x * colWidth, 4 + this.menu.y + y * this.gui.lineHeight, CHAR.pointer);
 };
 
 MenuState.prototype.suspend = function() {
