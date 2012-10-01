@@ -70,8 +70,8 @@ function installMixins() {
 };
 
 CHAR = {
-    heart: "\u2665",
-    star: "\u2605",
+    heart: "HP",
+    star: "MP",
     pointer: "*"
 };
 
