@@ -6,7 +6,7 @@ function StatusState(character) {
     this.gui = new GuiRenderer(this.graphics);
 
     this.input = Game.instance.input;
-    
+
     this.previousState = new NoopState();
 }
 
@@ -25,7 +25,7 @@ StatusState.prototype.formatStat = function(fieldName, abbreviation) {
 };
 
 StatusState.prototype.formatSkill = function(fieldName, abbreviation) {
-    return abbreviation + " " + _(this.pawn).result(fieldName);
+    return abbreviation + " " + ("" + _(this.pawn).result(fieldName)).rset(3);
 };
 
 StatusState.prototype.draw = function(delta) {
@@ -34,24 +34,24 @@ StatusState.prototype.draw = function(delta) {
         statTop, xpTop,
         self = this,
         statMapping = {
-            STR: "strength",
-            AGI: "agility",
-            INT: "intelligence",
-            LUK: "luck"
+            "STR": "strength",
+            "AGI": "agility",
+            "INT": "intelligence",
+            "LUK": "luck"
         },
         skillMapping = {
-            "Atk. ": "attack",
-            "Def. ": "defense",
-            "Force": "force",
-            "Helps": "support",
-            "M.Def": "resist"
+            "Attack ": "attack",
+            "Defense": "defense",
+            "Force  ": "force",
+            "Support": "support",
+            "Resist ": "resist"
         },
         skillMapping2 = {
-            "Acc. ": "accuracy",
-            "Evade": "evade",
-            "Init.": "priority",
-            "Crit%": "criticalChance",
-            "CritX": "criticalMultiplier"
+            "Hitting": "accuracy",
+            "Evasion": "evade",
+            "Init.  ": "priority",
+            "Panache": "criticalChance",
+            "Crit. X": "criticalMultiplier"
         };
 
     this.previousState.draw(delta);
