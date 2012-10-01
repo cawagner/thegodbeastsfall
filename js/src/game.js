@@ -70,7 +70,7 @@ function Game(graphics) {
     Game.instance = this;
 
     this.currentState = function() {
-        return _(gameStates).last();
+        return gameStates[gameStates.length - 1];
     };
 
     this.pushState = function(newState) {
