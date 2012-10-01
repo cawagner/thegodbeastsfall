@@ -12,18 +12,6 @@ body {
     overflow: hidden;
     font: 10pt sans-serif;
 }
-@font-face {
-    font-family: 'Press Start 2P';
-    src: url('assets/PressStart2PRegular.eot');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Press Start 2P';
-    src: url('assets/PressStart2PRegular.ttf');
-    font-weight: normal;
-    font-style: normal;
-}
 #container {
     margin: auto;
     position: relative;
@@ -90,7 +78,7 @@ h1 { text-align: center; }
     margin: 10px;
     line-height: 66px;
     text-align: center;
-    font-family: 'Press Start 2P';
+    font: 26px 'Helvetica', 'Arial';
 }
 
 body.touchControls .dpad,
