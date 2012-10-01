@@ -13,6 +13,7 @@ var requirements = [
     'character',
     'pawns/character-pawn',
     'game-state',
+    'states/transitions/scroll-transition-state',
     'states/field-state',
     'states/dialogue-state',
     'states/menu-state',
