@@ -78,7 +78,7 @@ function FieldState(map, entrance) {
             actorRenderer.drawActor(actor, frame);
         });
 
-        game.graphics.setOrigin(0, 0);
+        game.graphics.setOrigin();
     };
 
     subscribeToTalk();

@@ -99,8 +99,8 @@ function Game(graphics) {
     };
 
     this.draw = function(timeScale) {
-        graphics.setOrigin(0, 0);
-        graphics.cls();
+        graphics.setOrigin();
+        // graphics.cls();
 
         this.currentState().draw(timeScale);
 

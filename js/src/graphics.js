@@ -3,6 +3,7 @@ function Graphics(canvasId, width, height, scale) {
         offScreenCanvas = document.createElement("canvas"),
         visibleContext = visibleCanvas.getContext('2d'),
         context;
+    var originOffset = { x: 0, y : 0 };
 
     offScreenCanvas.width = width;
     offScreenCanvas.height = height;
@@ -11,7 +12,14 @@ function Graphics(canvasId, width, height, scale) {
 
     this.setOrigin = function(x, y) {
         context.setTransform(1, 0, 0, 1, 0, 0);
-        context.translate(x | 0, y | 0);
+        context.translate(originOffset.x + x | 0, originOffset.y + y | 0);
+    };
+
+    this.withOriginOffset = function(x, y, fn) {
+        var oldOffset = { x : originOffset.x, y : originOffset.y };
+        originOffset = { x: originOffset.x + x, y : originOffset.y + y };
+        fn();
+        originOffset = oldOffset;
     };
 
     this.getRectForFrame = function(frame, imageWidth, frameWidth, frameHeight) {
