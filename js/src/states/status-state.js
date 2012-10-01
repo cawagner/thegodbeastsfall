@@ -86,9 +86,11 @@ StatusState.prototype.draw = function(delta) {
 
     xpTop -= 4 * this.gui.lineHeight
 
-    this.gui.drawWindowRect(20, xpTop, this.graphics.width() / 2 - 45, 2 * this.gui.lineHeight);
-    this.gui.drawTextLines(20, xpTop, [
-        "XP to advance:",
-        ("" + (this.character.xp + "/" + this.character.xpNext)).rset(14)
-    ]);
+    if (this.character.level < 100) {
+        this.gui.drawWindowRect(20, xpTop, this.graphics.width() / 2 - 45, 2 * this.gui.lineHeight);
+        this.gui.drawTextLines(20, xpTop, [
+            "XP to advance:",
+            ("" + (this.character.xp + "/" + this.character.xpNext)).rset(14)
+        ]);
+    }
 };

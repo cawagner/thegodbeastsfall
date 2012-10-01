@@ -2,6 +2,9 @@ function GameState() {
     this.party = [];
 
     this.newGame = function() {
+        // when skills are learned should be determined based on:
+        // "fight" skills -> max hp
+        // "magic" skills -> max mp (not necessarily cost of spell)
         var held = Character.create({
             name: "Held",
             face: "held",
