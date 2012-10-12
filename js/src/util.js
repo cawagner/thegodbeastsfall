@@ -1,16 +1,3 @@
-function installMixins() {
-    String.prototype.repeat = function(times) {
-        return new Array(times + 1).join(this);
-    };
-
-    String.prototype.rset = function(length) {
-        if (this.length < length) {
-            return " ".repeat(length - this.length) + this;
-        }
-        return this;
-    };
-};
-
 CHAR = {
     heart: "HP",
     star: "MP",

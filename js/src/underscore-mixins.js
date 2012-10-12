@@ -1,6 +1,8 @@
 define(["underscore"], function(_) {
     "use strict";
 
+    console.log("installing mixins...");
+
     _.mixin({
         each2d: function(width, height, func, self) {
             var x, y, undefined;
@@ -22,20 +24,6 @@ define(["underscore"], function(_) {
         },
         boundWithin: function(number, min, max) {
             return Math.min(Math.max(min, number), max);
-        },
-        wordWrap: function(str, maxLength) {
-            var lines = [], line = "", i;
-            _(str.split(' ')).each(function(word) {
-                if (line.length + word.length >= maxLength) {
-                    lines.push(line);
-                    line = "";
-                }
-                line += word + " ";
-            });
-            if (line !== "")
-                lines.push(line);
-
-            return lines;
         },
         sum: function(collection, field) {
             if (field === undefined) {

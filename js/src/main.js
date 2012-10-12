@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'pubsub', 'underscore-mixins'], function($, _, pubsub) {
+define(['jquery', 'underscore', 'pubsub', 'underscore-mixins', 'string'], function($, _) {
     "use strict";
 
     var requirements = [
@@ -41,8 +41,6 @@ define(['jquery', 'underscore', 'pubsub', 'underscore-mixins'], function($, _, p
     };
 
     var allIncluded = function() {
-        installMixins();
-
         $.getJSON("assets/data/skills.json").done(function (data) {
             window.Skills = data;
             console.log(window.Skills);

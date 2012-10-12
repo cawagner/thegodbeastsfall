@@ -3,8 +3,8 @@ function DialogueState(messages, doneFn) {
         lineLength = 38,
         messageIndex = 0,
         lineIndex = 0,
-        message = _(messages).first(),
-        lines = _.wordWrap(message.text[0], lineLength),
+        message = messages[0],
+        lines = message.text[0].wordWrap(lineLength),
         gui = new GuiRenderer(game.graphics);
 
     this.previousState = new NoopState();
@@ -45,7 +45,7 @@ function DialogueState(messages, doneFn) {
         if (lineIndex >= message.text.length) {
             this.advanceMessage();
         }
-        lines = _.wordWrap(message.text[lineIndex], lineLength);
+        lines = message.text[lineIndex].wordWrap(lineLength);
     };
 
     this.update = function(timeScale) {
