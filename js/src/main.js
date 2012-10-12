@@ -4,8 +4,9 @@ var dependencies = [
     // Classes
     'graphics',
     'dice',
+    'display/actor-renderer',
     // Just return objects
-    'fonts',
+    'display/fonts',
     'keyboard-input',
     'touch-input',
     // After this point, other objects are extended
@@ -13,10 +14,11 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, Dice, fonts, input, touchInput) {
+define(dependencies, function($, _, Graphics, Dice, ActorRenderer, fonts, input, touchInput) {
     "use strict";
 
     window.Dice = Dice;
+    window.ActorRenderer = ActorRenderer;
 
     var requirements = [
         'util',

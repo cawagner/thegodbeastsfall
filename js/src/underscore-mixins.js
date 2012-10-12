@@ -1,8 +1,6 @@
 define(["underscore"], function(_) {
     "use strict";
 
-    console.log("installing mixins...");
-
     _.mixin({
         each2d: function(width, height, func, self) {
             var x, y, undefined;
