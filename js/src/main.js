@@ -43,10 +43,7 @@ define(dependencies, function($, _, Graphics, ActorRenderer, TilemapView, Menu, 
         'states/transitions/scroll-transition-state',
         'states/field-state',
         'states/dialogue-state',
-        'states/menu-state',
-        'states/field-menu-state',
         'states/main-menu-state',
-        'states/status-state',
         'game'
     ];
 
