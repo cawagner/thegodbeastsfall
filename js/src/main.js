@@ -52,11 +52,6 @@ define(dependencies, function($, _, Graphics, fonts, input, touchInput) {
     };
 
     var allIncluded = function() {
-        $.getJSON("assets/data/skills.json").done(function (data) {
-            window.Skills = data;
-            console.log(window.Skills);
-        });
-
         var graphics = new Graphics("gameCanvas", 320, 240, 2),
             game = new Game(graphics, input),
             startFrame,
