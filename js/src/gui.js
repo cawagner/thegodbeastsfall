@@ -1,4 +1,4 @@
-define([], function() {
+define(["display/speakers"], function(speakers) {
     function GuiRenderer(graphics) {
         this.graphics = graphics;
         this.lineHeight = 16;
@@ -28,7 +28,7 @@ define([], function() {
     };
 
     GuiRenderer.prototype.drawPortrait = function(x, y, name, withBorder) {
-        var speaker = SPEAKERS[name], image = SPEAKERS[name] && SPEAKERS[name].image, frame = SPEAKERS[name] && SPEAKERS[name].frame;
+        var speaker = speakers[name], image = speakers[name] && speakers[name].image, frame = speakers[name] && speakers[name].frame;
         if (!speaker || !image || frame === undefined)
             return;
 
