@@ -1,5 +1,9 @@
 // This is awful. I was actually drunk when I wrote it, unfortunately.
 define(["jquery", "underscore", "tilemap", "pubsub"], function($, _, tilemap) {
+    // TODO: HACK
+    var Tilemap = tilemap.Tilemap;
+    var Map = tilemap.Map;
+
     function MapLoader() {
         var self = this;
 
@@ -119,6 +123,7 @@ define(["jquery", "underscore", "tilemap", "pubsub"], function($, _, tilemap) {
         });
     }
 
-    window.goToMap = goToMap;
-    return MapLoader;
+    return {
+        goToMap: goToMap
+    };
 });

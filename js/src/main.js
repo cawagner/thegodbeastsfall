@@ -8,9 +8,9 @@ var dependencies = [
     'display/actor-renderer',
     'display/tilemap-view',
     'menu',
-    'map-loader',
+    'game-state',
     // Just return objects
-    'tilemap',
+    'map-loader',
     'pawns/pawns',
     'keyboard-input',
     'touch-input',
@@ -20,7 +20,7 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, Dice, Character, ActorRenderer, TilemapView, Menu, MapLoader, tilemap, pawns, input, touchInput, sound) {
+define(dependencies, function($, _, Graphics, Dice, Character, ActorRenderer, TilemapView, Menu, GameState, mapLoader, pawns, input, touchInput, sound) {
     "use strict";
 
     // TODO: we'll fix this madness ASAP...
@@ -29,10 +29,11 @@ define(dependencies, function($, _, Graphics, Dice, Character, ActorRenderer, Ti
     window.Character = Character;
     window.CharacterPawn = pawns.CharacterPawn;
     window.Menu = Menu;
+    window.GameState = GameState;
+
     window.TilemapView = TilemapView;
-    window.Tilemap = tilemap.Tilemap;
-    window.Map = tilemap.Map;
-    window.MapLoader = MapLoader;
+
+    window.goToMap = mapLoader.goToMap;
 
     var requirements = [
         'util',
@@ -41,7 +42,6 @@ define(dependencies, function($, _, Graphics, Dice, Character, ActorRenderer, Ti
         'actors/hero',
         'actors/npc',
         'pawns/character-pawn',
-        'game-state',
         'states/transitions/scroll-transition-state',
         'states/field-state',
         'states/dialogue-state',
