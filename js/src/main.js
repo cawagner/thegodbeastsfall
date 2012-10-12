@@ -1,15 +1,18 @@
 var dependencies = [
     'jquery',
     'underscore',
-    // After this point, no module object is returned...
+    // Classes
     'graphics',
+    // Just return objects
     'fonts',
+    'keyboard-input',
+    'touch-input',
     // After this point, other objects are extended
     'pubsub',
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, fonts) {
+define(dependencies, function($, _, Graphics, fonts, input, touchInput) {
     "use strict";
 
     var requirements = [
@@ -17,8 +20,6 @@ define(dependencies, function($, _, Graphics, fonts) {
         'sound',
         'gui',
         'tilemap',
-        'keyboard-input',
-        'touch-input',
         'map-loader',
         'actors/actor',
         'actors/hero',
@@ -57,7 +58,7 @@ define(dependencies, function($, _, Graphics, fonts) {
         });
 
         var graphics = new Graphics("gameCanvas", 320, 240, 2),
-            game = new Game(graphics),
+            game = new Game(graphics, input),
             startFrame,
             endFrame = Date.now(),
             collected = 0,
@@ -94,7 +95,8 @@ define(dependencies, function($, _, Graphics, fonts) {
             $("#container").width(320 * scale).height(240 * scale);
         });
 
-        initTouchInput();
+        input.init();
+        touchInput.init(input);
 
         // TODO: elsewhere?
         $.subscribe("/menu/open", function(menu) {

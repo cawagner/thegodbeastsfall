@@ -56,7 +56,7 @@ function ActorRenderer(graphics) {
     };
 }
 
-function Game(graphics) {
+function Game(graphics, input) {
     if (Game.instance) {
         throw "too many games!";
     }
@@ -64,7 +64,7 @@ function Game(graphics) {
     var gameStates = [ new MainMenuState() ];
     var game = this;
 
-    this.input = new KeyboardInput().setup();
+    this.input = input;
     this.graphics = graphics;
 
     Game.instance = this;
