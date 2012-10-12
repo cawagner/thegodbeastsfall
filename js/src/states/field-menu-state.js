@@ -1,4 +1,4 @@
-define(["underscore", "menu", "states/menu-state", "states/status-state"], function(_, Menu, MenuState, StatusState) {
+define(["underscore", "game-state", "menu", "states/menu-state", "states/status-state"], function(_, GameState, Menu, MenuState, StatusState) {
     "use strict";
 
     function FieldMenuState() {
