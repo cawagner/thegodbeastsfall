@@ -1,4 +1,6 @@
 define(["underscore"], function() {
+    "use strict";
+
     function Map(tilemap, mask) {
         // TODO: don't duplicate...
         var indexFor = function(x, y) {

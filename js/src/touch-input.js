@@ -1,4 +1,6 @@
 define(["jquery", "underscore"], function($, _) {
+    "use strict";
+
     return {
         init: function(input) {
             $("[data-keycode]").on("touchstart", function() {

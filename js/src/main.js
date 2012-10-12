@@ -13,13 +13,12 @@ var dependencies = [
     'pawns/pawns',
     'keyboard-input',
     'touch-input',
-    'sound',
     // After this point, other objects are extended
     'pubsub',
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, Character, ActorRenderer, TilemapView, Menu, GameState, mapLoader, pawns, input, touchInput, sound) {
+define(dependencies, function($, _, Graphics, Character, ActorRenderer, TilemapView, Menu, GameState, mapLoader, pawns, input, touchInput) {
     "use strict";
 
     // TODO: we'll fix this madness ASAP...
@@ -101,8 +100,6 @@ define(dependencies, function($, _, Graphics, Character, ActorRenderer, TilemapV
 
         input.init();
         touchInput.init(input);
-
-        sound.init();
 
         // TODO: elsewhere?
         $.subscribe("/menu/open", function(menu) {

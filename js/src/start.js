@@ -1,4 +1,6 @@
 (function() {
+    "use strict";
+
     require.config({
         shim: {
             jquery: { exports: "$" },

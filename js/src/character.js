@@ -1,4 +1,6 @@
 define(["underscore", "dice"], function(_, Dice) {
+    "use strict";
+
     function Character(options) {
         var defaults = {
             strength: 10,

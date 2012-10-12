@@ -1,5 +1,5 @@
 // This is awful. I was actually drunk when I wrote it, unfortunately.
-define(["jquery", "underscore", "tilemap", "pubsub"], function($, _, tilemap) {
+define(["jquery", "underscore", "tilemap", "sound", "pubsub"], function($, _, tilemap, sound) {
     // TODO: HACK
     var Tilemap = tilemap.Tilemap;
     var Map = tilemap.Map;
@@ -119,7 +119,7 @@ define(["jquery", "underscore", "tilemap", "pubsub"], function($, _, tilemap) {
             var fieldState = new FieldState(map, entrance);
             game.pushState(fieldState);
 
-            $.publish("/music/play", [map.properties.music]);
+            sound.playMusic(map.properties.music);
         });
     }
 

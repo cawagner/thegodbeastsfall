@@ -1,4 +1,6 @@
 define(["jquery", "underscore", "pubsub"], function($, _) {
+    "use strict";
+
     function Menu(options) {
         this.cols = 1;
         this.rows = options.length;

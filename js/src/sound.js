@@ -1,4 +1,8 @@
-define(["jquery"], function($) {
+define([], function() {
+    "use strict";
+
+    var musicAudio;
+
     var soundManager = {
         playMusic: function(music) {
             if (musicAudio !== undefined) {
@@ -8,12 +12,6 @@ define(["jquery"], function($) {
             musicAudio.volume = 0.5;
             musicAudio.loop = true;
             musicAudio.play();
-        },
-
-        init: function() {
-            $.subscribe("/sound/music/play", function(src) {
-                soundManager.playMusic(src);
-            });
         }
     };
 
