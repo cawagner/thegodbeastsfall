@@ -3,16 +3,12 @@ var dependencies = [
     'underscore',
     // Classes
     'graphics',
-    'display/actor-renderer',
-    'display/tilemap-view',
     'menu',
-    'game-state',
-    'gui',
     'states/field-menu-state',
     'states/menu-state',
     'states/main-menu-state',
+    'states/field-state',
     // Just return objects
-    'map-loader',
     'pawns/pawns',
     'keyboard-input',
     'touch-input',
@@ -21,17 +17,13 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, ActorRenderer, TilemapView, Menu, GameState, GuiRenderer, FieldMenuState, MenuState, MainMenuState, mapLoader, pawns, input, touchInput) {
+define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, MainMenuState, FieldState, pawns, input, touchInput) {
     "use strict";
 
     // TODO: we'll fix this madness ASAP...
-    window.ActorRenderer = ActorRenderer;
-    window.TilemapView = TilemapView;
-    window.GuiRenderer = GuiRenderer;
     window.FieldMenuState = FieldMenuState;
     window.MainMenuState = MainMenuState;
-
-    window.goToMap = mapLoader.goToMap;
+    window.FieldState = FieldState;
 
     var requirements = [
         'util',

@@ -1,4 +1,4 @@
-define(["jquery", "pubsub"], function($) {
+define(["jquery", "gui", "pubsub"], function($, GuiRenderer) {
     "use strict";
 
     function MenuState(menu) {

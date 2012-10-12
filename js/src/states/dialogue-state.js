@@ -1,4 +1,6 @@
 define(["gui", "display/speakers"], function(GuiRenderer, speakers) {
+    "use strict";
+
     function DialogueState(messages, doneFn) {
         var game = Game.instance,
             lineLength = 38,
@@ -57,4 +59,6 @@ define(["gui", "display/speakers"], function(GuiRenderer, speakers) {
             this.previousState.update(timeScale, false);
         };
     }
+
+    return DialogueState;
 });
