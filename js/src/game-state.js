@@ -1,4 +1,4 @@
-define(["map-loader"], function(mapLoader) {
+define(["map-loader", "character"], function(mapLoader, Character) {
     function GameState() {
         this.party = [];
 
