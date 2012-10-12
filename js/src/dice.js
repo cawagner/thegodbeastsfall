@@ -1,4 +1,6 @@
 define([], function() {
+    "use strict";
+
     /** @constructor */
     function Dice(dieCollection) {
         this.dieCollection = function() { return dieCollection; };
