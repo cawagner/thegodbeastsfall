@@ -1,13 +1,12 @@
-define([], function() {
+define(["display/fonts"], function(fonts) {
     var Graphics = function(canvasId, width, height, scale) {
         var visibleCanvas = document.getElementById(canvasId),
             offScreenCanvas = document.createElement("canvas"),
             visibleContext = visibleCanvas.getContext('2d'),
             context;
         var originOffset = { x: 0, y : 0 };
-        var font = {
-            drawText: function() {}
-        };
+
+        var font = fonts.deathwake;
 
         offScreenCanvas.width = width;
         offScreenCanvas.height = height;

@@ -6,7 +6,6 @@ var dependencies = [
     'dice',
     'display/actor-renderer',
     // Just return objects
-    'display/fonts',
     'keyboard-input',
     'touch-input',
     // After this point, other objects are extended
@@ -14,7 +13,7 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, Dice, ActorRenderer, fonts, input, touchInput) {
+define(dependencies, function($, _, Graphics, Dice, ActorRenderer, input, touchInput) {
     "use strict";
 
     // TODO: we'll fix it later.
@@ -71,8 +70,6 @@ define(dependencies, function($, _, Graphics, Dice, ActorRenderer, fonts, input,
                 function(callback) {
                     setTimeout(callback, 16);
                 };
-
-        graphics.setFont(fonts.deathwake);
 
         requestAnimationFrame(function mainLoop() {
             startFrame = endFrame;
