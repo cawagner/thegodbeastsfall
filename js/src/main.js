@@ -102,10 +102,6 @@ define(dependencies, function($, _, Graphics, fonts, input, touchInput) {
         $.subscribe("/menu/open", function(menu) {
             game.pushState(new MenuState(menu));
         });
-
-        document.body.ontouchmove = function(e) {
-            e.preventDefault();
-        };
     };
 
     return {

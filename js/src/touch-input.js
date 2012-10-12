@@ -67,6 +67,10 @@ define(["jquery", "underscore"], function($, _) {
             $("#touchControls").change(function(){
                 $("body").toggleClass("touchControls", $(this).is(":checked"));
             });
+
+            document.body.ontouchmove = function(e) {
+                e.preventDefault();
+            };
         }
     }
 });
