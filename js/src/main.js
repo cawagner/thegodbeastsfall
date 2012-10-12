@@ -17,6 +17,7 @@ var dependencies = [
 define(dependencies, function($, _, Graphics, Dice, ActorRenderer, fonts, input, touchInput) {
     "use strict";
 
+    // TODO: we'll fix it later.
     window.Dice = Dice;
     window.ActorRenderer = ActorRenderer;
 
@@ -39,8 +40,7 @@ define(dependencies, function($, _, Graphics, Dice, ActorRenderer, fonts, input,
         'states/field-menu-state',
         'states/main-menu-state',
         'states/status-state',
-        'game',
-        'skill-effects'
+        'game'
     ];
 
     var includeAll = function(scripts, done) {
