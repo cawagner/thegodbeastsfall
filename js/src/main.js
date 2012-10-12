@@ -27,6 +27,7 @@ define(dependencies, function($, _, Graphics, Dice, ActorRenderer, input, touchI
         'gui',
         'tilemap',
         'map-loader',
+        'display/tilemap-view',
         'actors/actor',
         'actors/hero',
         'actors/npc',
