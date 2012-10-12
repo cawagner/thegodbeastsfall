@@ -7,6 +7,7 @@ var dependencies = [
     'character',
     'display/actor-renderer',
     // Just return objects
+    'pawns/pawns',
     'keyboard-input',
     'touch-input',
     'sound',
@@ -15,13 +16,14 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, Dice, Character, ActorRenderer, input, touchInput, sound) {
+define(dependencies, function($, _, Graphics, Dice, Character, ActorRenderer, pawns, input, touchInput, sound) {
     "use strict";
 
     // TODO: we'll fix it later.
     window.Dice = Dice;
     window.ActorRenderer = ActorRenderer;
     window.Character = Character;
+    window.CharacterPawn = pawns.CharacterPawn;
 
     var requirements = [
         'util',
