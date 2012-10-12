@@ -54,8 +54,7 @@ define(['jquery', 'underscore', 'pubsub', 'underscore-mixins', 'string'], functi
             collected = 0,
             timeScale = 1;
 
-        var addOnRequestAnimationFrame = function(callback, canvas) {
-            var fun = window.requestAnimationFrame ||
+        var requestAnimationFrame = window.requestAnimationFrame ||
                 window.webkitRequestAnimationFrame ||
                 window.mozRequestAnimationFrame ||
                 window.oRequestAnimationFrame ||
@@ -63,10 +62,8 @@ define(['jquery', 'underscore', 'pubsub', 'underscore-mixins', 'string'], functi
                 function(callback) {
                     setTimeout(callback, 16);
                 };
-            fun(callback, canvas);
-        };
 
-        addOnRequestAnimationFrame(function mainLoop() {
+        requestAnimationFrame(function mainLoop() {
             startFrame = endFrame;
 
             while (collected >= 8) {
@@ -78,7 +75,7 @@ define(['jquery', 'underscore', 'pubsub', 'underscore-mixins', 'string'], functi
             delta = endFrame - startFrame;
             collected += Math.min(16 * 3, delta);
 
-            addOnRequestAnimationFrame(mainLoop);
+            requestAnimationFrame(mainLoop);
         }, document.getElementById("gameCanvas"));
 
         $("[data-scale]").on("click", function() {
