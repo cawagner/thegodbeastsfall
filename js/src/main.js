@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'pubsub'], function($, _, pubsub) {
+define(['jquery', 'underscore', 'pubsub', 'underscore-mixins'], function($, _, pubsub) {
     "use strict";
 
     var requirements = [
