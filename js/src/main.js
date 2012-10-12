@@ -3,7 +3,6 @@ var dependencies = [
     'underscore',
     // Classes
     'graphics',
-    'dice',
     'character',
     'display/actor-renderer',
     'display/tilemap-view',
@@ -20,11 +19,10 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, Dice, Character, ActorRenderer, TilemapView, Menu, GameState, mapLoader, pawns, input, touchInput, sound) {
+define(dependencies, function($, _, Graphics, Character, ActorRenderer, TilemapView, Menu, GameState, mapLoader, pawns, input, touchInput, sound) {
     "use strict";
 
     // TODO: we'll fix this madness ASAP...
-    window.Dice = Dice;
     window.ActorRenderer = ActorRenderer;
     window.Character = Character;
     window.CharacterPawn = pawns.CharacterPawn;
