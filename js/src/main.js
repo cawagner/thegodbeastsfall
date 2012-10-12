@@ -3,6 +3,7 @@ var dependencies = [
     'underscore',
     // Classes
     'graphics',
+    'dice',
     // Just return objects
     'fonts',
     'keyboard-input',
@@ -12,8 +13,10 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, fonts, input, touchInput) {
+define(dependencies, function($, _, Graphics, Dice, fonts, input, touchInput) {
     "use strict";
+
+    window.Dice = Dice;
 
     var requirements = [
         'util',
@@ -35,7 +38,6 @@ define(dependencies, function($, _, Graphics, fonts, input, touchInput) {
         'states/main-menu-state',
         'states/status-state',
         'game',
-        'dice',
         'skill-effects'
     ];
 
