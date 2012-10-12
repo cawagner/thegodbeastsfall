@@ -1,3 +1,4 @@
+// This is awful. I was actually drunk when I wrote it, unfortunately.
 function MapLoader() {
     var self = this;
 

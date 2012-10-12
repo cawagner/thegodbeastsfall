@@ -110,5 +110,5 @@ define(dependencies, function($, _, Graphics, fonts) {
         init: function() {
             includeAll(requirements, allIncluded);
         }
-    }
+    };
 });
