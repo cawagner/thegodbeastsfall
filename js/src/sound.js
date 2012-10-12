@@ -1,8 +1,5 @@
-// TODO: move elsewhere...
-SoundManager = (function() {
-    var musicAudio;
-
-    return {
+define(["jquery"], function($) {
+    var soundManager = {
         playMusic: function(music) {
             if (musicAudio !== undefined) {
                 musicAudio.pause();
@@ -11,6 +8,14 @@ SoundManager = (function() {
             musicAudio.volume = 0.5;
             musicAudio.loop = true;
             musicAudio.play();
+        },
+
+        init: function() {
+            $.subscribe("/sound/music/play", function(src) {
+                soundManager.playMusic(src);
+            });
         }
     };
-})();
+
+    return soundManager;
+});

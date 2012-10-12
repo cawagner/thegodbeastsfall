@@ -8,12 +8,13 @@ var dependencies = [
     // Just return objects
     'keyboard-input',
     'touch-input',
+    'sound',
     // After this point, other objects are extended
     'pubsub',
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, Dice, ActorRenderer, input, touchInput) {
+define(dependencies, function($, _, Graphics, Dice, ActorRenderer, input, touchInput, sound) {
     "use strict";
 
     // TODO: we'll fix it later.
@@ -93,6 +94,8 @@ define(dependencies, function($, _, Graphics, Dice, ActorRenderer, input, touchI
 
         input.init();
         touchInput.init(input);
+
+        sound.init();
 
         // TODO: elsewhere?
         $.subscribe("/menu/open", function(menu) {

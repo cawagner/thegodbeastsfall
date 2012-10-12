@@ -114,7 +114,6 @@ function goToMap(mapName, entrance) {
         var fieldState = new FieldState(map, entrance);
         game.pushState(fieldState);
 
-        // TODO: send message, don't directly play music...
-        SoundManager.playMusic(map.properties.music);
+        $.publish("/music/play", [map.properties.music]);
     });
 }
