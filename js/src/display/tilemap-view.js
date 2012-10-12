@@ -1,4 +1,7 @@
-define([], function() {
+// I think there may be a race condition based on when this loads relative to when other things load...
+define(["constants"], function(constants) {
+    var TILE_SIZE = constants.TILE_SIZE;
+
     var TilemapView = function(tilemap, tilesets, graphics) {
         var screenWidthInTiles = graphics.width() / TILE_SIZE;
         var screenHeightInTiles = graphics.height() / TILE_SIZE;

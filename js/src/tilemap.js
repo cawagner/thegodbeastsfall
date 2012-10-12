@@ -1,86 +1,93 @@
-function Map(tilemap, mask) {
-    // TODO: don't duplicate...
-    var indexFor = function(x, y) {
-        return x + y * tilemap.width();
-    };
+define(["underscore"], function() {
+    function Map(tilemap, mask) {
+        // TODO: don't duplicate...
+        var indexFor = function(x, y) {
+            return x + y * tilemap.width();
+        };
 
-    this.tilemap = tilemap;
-    this.actors = [];
+        this.tilemap = tilemap;
+        this.actors = [];
 
-    this.setMask = function(x, y) {
-        mask[indexFor(x, y)] = true;
-    };
+        this.setMask = function(x, y) {
+            mask[indexFor(x, y)] = true;
+        };
 
-    this.unsetMask = function(x, y) {
-        mask[indexFor(x, y)] = false;
-    };
+        this.unsetMask = function(x, y) {
+            mask[indexFor(x, y)] = false;
+        };
 
-    this.getActor = function(x, y) {
-        var actor = _.last(_(this.actors).filter(function(actor) {
-            return actor.destX === x && actor.destY === y && actor.occupiesSpace;
-        }));
-        return actor;
-        //return actorMap[indexFor(x, y)];
+        this.getActor = function(x, y) {
+            var actor = _.last(_(this.actors).filter(function(actor) {
+                return actor.destX === x && actor.destY === y && actor.occupiesSpace;
+            }));
+            return actor;
+            //return actorMap[indexFor(x, y)];
+        }
+
+        this.isWalkable = function(x, y) {
+            return tilemap.isInBounds(x, y) && !mask[indexFor(x, y)] && !(this.getActor(x, y));
+        };
+
+        this.addActor = function(actor) {
+            this.actors.push(actor);
+            actor.map = this;
+        };
     }
 
-    this.isWalkable = function(x, y) {
-        return tilemap.isInBounds(x, y) && !mask[indexFor(x, y)] && !(this.getActor(x, y));
+    Map.prototype.width = function() {
+        return this.tilemap.width();
     };
 
-    this.addActor = function(actor) {
-        this.actors.push(actor);
-        actor.map = this;
-    };
-}
-
-Map.prototype.width = function() {
-    return this.tilemap.width();
-};
-
-Map.prototype.height = function() {
-    return this.tilemap.height();
-};
-
-function Tilemap(width, height, layers) {
-    var tiles;
-
-    var indexFor = function(x, y) {
-        return x + y * width;
+    Map.prototype.height = function() {
+        return this.tilemap.height();
     };
 
-    this.isInBounds = function(x, y) {
-        return !(x < 0 || x >= width || y <0 || y >= height);
+    function Tilemap(width, height, layers) {
+        var tiles;
+
+        var indexFor = function(x, y) {
+            return x + y * width;
+        };
+
+        this.isInBounds = function(x, y) {
+            return !(x < 0 || x >= width || y <0 || y >= height);
+        };
+
+        this.getAt = function(x, y, layer) {
+            if (x < 0 || x >= width || y < 0 || y >= height) {
+                return undefined;
+            }
+            return tiles[layer][indexFor(x, y)];
+        };
+
+        this.setAt = function(x, y, layer, tile) {
+            if (x < 0 || x >= width || y < 0 || y >= height) {
+                return false;
+            }
+            tiles[layer][indexFor(x, y)] = tile;
+            return true;
+        };
+
+        this.rect = function(opts) {
+            _.each2d(opts.width, opts.height, function(ix, iy) {
+                this.setAt(opts.x + ix, opts.y + iy, opts.layer, opts.tile);
+            }, this);
+        };
+
+        this.width = function() { return width; };
+        this.height = function() { return height; };
+        this.layers = function() { return layers; };
+
+        layers = layers || 1;
+        tiles = [];
+        _(layers).times(function() {
+            tiles.push(new Array(width * height));
+        });
+    }
+
+    // TODO: don't mash together horribly like this...
+    return {
+        Map: Map,
+        Tilemap: Tilemap
     };
-
-    this.getAt = function(x, y, layer) {
-        if (x < 0 || x >= width || y < 0 || y >= height) {
-            return undefined;
-        }
-        return tiles[layer][indexFor(x, y)];
-    };
-
-    this.setAt = function(x, y, layer, tile) {
-        if (x < 0 || x >= width || y < 0 || y >= height) {
-            return false;
-        }
-        tiles[layer][indexFor(x, y)] = tile;
-        return true;
-    };
-
-    this.rect = function(opts) {
-        _.each2d(opts.width, opts.height, function(ix, iy) {
-            this.setAt(opts.x + ix, opts.y + iy, opts.layer, opts.tile);
-        }, this);
-    };
-
-    this.width = function() { return width; };
-    this.height = function() { return height; };
-    this.layers = function() { return layers; };
-
-    layers = layers || 1;
-    tiles = [];
-    _(layers).times(function() {
-        tiles.push(new Array(width * height));
-    });
-}
-
+});

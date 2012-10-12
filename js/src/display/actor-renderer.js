@@ -1,4 +1,4 @@
-define(["display/archetypes"], function(archetypes) {
+define(["display/archetypes", "constants"], function(archetypes, constants) {
     "use strict";
 
     var ActorRenderer = function(graphics) {
@@ -16,8 +16,8 @@ define(["display/archetypes"], function(archetypes) {
 
             srcRect = graphics.getRectForFrame(frameToDraw, archetype.image.width, 16, 18);
 
-            destRect.x = actor.x * TILE_SIZE;
-            destRect.y = actor.y * TILE_SIZE - 4;
+            destRect.x = actor.x * constants.TILE_SIZE;
+            destRect.y = actor.y * constants.TILE_SIZE - 4;
 
             graphics.drawImageRect(archetype.image, srcRect, destRect);
         };
