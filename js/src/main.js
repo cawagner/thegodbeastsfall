@@ -1,10 +1,20 @@
-define(['jquery', 'underscore', 'pubsub', 'underscore-mixins', 'string'], function($, _) {
+var dependencies = [
+    'jquery',
+    'underscore',
+    // After this point, no module object is returned...
+    'graphics',
+    'fonts',
+    // After this point, other objects are extended
+    'pubsub',
+    'underscore-mixins',
+    'string'
+];
+define(dependencies, function($, _, Graphics, fonts) {
     "use strict";
 
     var requirements = [
         'util',
         'sound',
-        'graphics',
         'gui',
         'tilemap',
         'keyboard-input',
@@ -50,7 +60,6 @@ define(['jquery', 'underscore', 'pubsub', 'underscore-mixins', 'string'], functi
             game = new Game(graphics),
             startFrame,
             endFrame = Date.now(),
-            delta,
             collected = 0,
             timeScale = 1;
 
@@ -63,6 +72,8 @@ define(['jquery', 'underscore', 'pubsub', 'underscore-mixins', 'string'], functi
                     setTimeout(callback, 16);
                 };
 
+        graphics.setFont(fonts.deathwake);
+
         requestAnimationFrame(function mainLoop() {
             startFrame = endFrame;
 
@@ -72,8 +83,7 @@ define(['jquery', 'underscore', 'pubsub', 'underscore-mixins', 'string'], functi
             }
             game.draw(timeScale);
             endFrame = Date.now();
-            delta = endFrame - startFrame;
-            collected += Math.min(16 * 3, delta);
+            collected += Math.min(16 * 3, endFrame - startFrame);
 
             requestAnimationFrame(mainLoop);
         }, document.getElementById("gameCanvas"));
