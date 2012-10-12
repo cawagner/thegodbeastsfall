@@ -1,4 +1,6 @@
 define(["map-loader", "character"], function(mapLoader, Character) {
+    "use strict";
+
     function GameState() {
         this.party = [];
 
