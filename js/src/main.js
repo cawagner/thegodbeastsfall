@@ -1,101 +1,109 @@
-var requirements = [
-    'util',
-    'sound',
-    'graphics',
-    'gui',
-    'tilemap',
-    'keyboard-input',
-    'touch-input',
-    'map-loader',
-    'actors/actor',
-    'actors/hero',
-    'actors/npc',
-    'character',
-    'pawns/character-pawn',
-    'game-state',
-    'states/transitions/scroll-transition-state',
-    'states/field-state',
-    'states/dialogue-state',
-    'states/menu-state',
-    'states/field-menu-state',
-    'states/main-menu-state',
-    'states/status-state',
-    'game',
-    'dice',
-    'skill-effects'
-];
-
-function includeAll(scripts, done) {
-    var index = 0;
-    var getScript = function() {
-        if (index >= scripts.length) {
-            return done();
-        }
-        $.getScript("js/src/" + scripts[index] + ".js").done(getScript);
-        ++index;
-    };
-    getScript();
-}
-
-includeAll(requirements, function() {
+define(['jquery', 'underscore', 'pubsub'], function($, _, pubsub) {
     "use strict";
 
-    installMixins();
+    var requirements = [
+        'util',
+        'sound',
+        'graphics',
+        'gui',
+        'tilemap',
+        'keyboard-input',
+        'touch-input',
+        'map-loader',
+        'actors/actor',
+        'actors/hero',
+        'actors/npc',
+        'character',
+        'pawns/character-pawn',
+        'game-state',
+        'states/transitions/scroll-transition-state',
+        'states/field-state',
+        'states/dialogue-state',
+        'states/menu-state',
+        'states/field-menu-state',
+        'states/main-menu-state',
+        'states/status-state',
+        'game',
+        'dice',
+        'skill-effects'
+    ];
 
-    $.getJSON("assets/data/skills.json").done(function (data) {
-        window.Skills = data;
-        console.log(window.Skills);
-    });
-
-    var graphics = new Graphics("gameCanvas", 320, 240, 2),
-        game = new Game(graphics),
-        startFrame,
-        endFrame = Date.now(),
-        delta,
-        collected = 0,
-        timeScale = 1;
-
-    var addOnRequestAnimationFrame = function(callback, canvas) {
-        var fun = window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame ||
-            function(callback) {
-                setTimeout(callback, 16);
-            };
-        fun(callback, canvas);
+    var includeAll = function(scripts, done) {
+        var index = 0;
+        var getScript = function() {
+            if (index >= scripts.length) {
+                return done();
+            }
+            $.getScript("js/src/" + scripts[index] + ".js").done(getScript);
+            ++index;
+        };
+        getScript();
     };
 
-    addOnRequestAnimationFrame(function mainLoop() {
-        startFrame = endFrame;
+    var allIncluded = function() {
+        installMixins();
 
-        while (collected >= 8) {
-            game.update(timeScale);
-            collected -= 8;
+        $.getJSON("assets/data/skills.json").done(function (data) {
+            window.Skills = data;
+            console.log(window.Skills);
+        });
+
+        var graphics = new Graphics("gameCanvas", 320, 240, 2),
+            game = new Game(graphics),
+            startFrame,
+            endFrame = Date.now(),
+            delta,
+            collected = 0,
+            timeScale = 1;
+
+        var addOnRequestAnimationFrame = function(callback, canvas) {
+            var fun = window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function(callback) {
+                    setTimeout(callback, 16);
+                };
+            fun(callback, canvas);
+        };
+
+        addOnRequestAnimationFrame(function mainLoop() {
+            startFrame = endFrame;
+
+            while (collected >= 8) {
+                game.update(timeScale);
+                collected -= 8;
+            }
+            game.draw(timeScale);
+            endFrame = Date.now();
+            delta = endFrame - startFrame;
+            collected += Math.min(16 * 3, delta);
+
+            addOnRequestAnimationFrame(mainLoop);
+        }, document.getElementById("gameCanvas"));
+
+        $("[data-scale]").on("click", function() {
+            var scale = parseInt($(this).data("scale"), 10);
+            graphics.setScale(scale);
+            $("#container").width(320 * scale).height(240 * scale);
+        });
+
+        initTouchInput();
+
+        // TODO: elsewhere?
+        $.subscribe("/menu/open", function(menu) {
+            game.pushState(new MenuState(menu));
+        });
+
+        document.body.ontouchmove = function(e) {
+            e.preventDefault();
+        };
+    };
+
+    return {
+        init: function() {
+            includeAll(requirements, allIncluded);
         }
-        game.draw(timeScale);
-        endFrame = Date.now();
-        delta = endFrame - startFrame;
-        collected += Math.min(16 * 3, delta);
-
-        addOnRequestAnimationFrame(mainLoop);
-    }, document.getElementById("gameCanvas"));
-
-    $("[data-scale]").on("click", function() {
-        var scale = parseInt($(this).data("scale"), 10);
-        graphics.setScale(scale);
-        $("#container").width(320 * scale).height(240 * scale);
-    });
-
-    initTouchInput();
-
-    // TODO: elsewhere?
-    $.subscribe("/menu/open", function(menu) {
-        game.pushState(new MenuState(menu));
-    });
-
-    document.body.ontouchmove = function(e) {
-        e.preventDefault();
-    };
+    }
 });
