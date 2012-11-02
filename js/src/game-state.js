@@ -1,6 +1,10 @@
 define(["map-loader", "character"], function(mapLoader, Character) {
     "use strict";
 
+    if (GameState.instance) {
+        return GameState.instance
+    }
+
     function GameState() {
         this.party = [];
 
@@ -30,5 +34,5 @@ define(["map-loader", "character"], function(mapLoader, Character) {
 
     GameState.instance = new GameState();
 
-    return GameState;
+    return GameState.instance;
 });

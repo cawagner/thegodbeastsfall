@@ -1,11 +1,11 @@
-define(["underscore", "game-state", "menu", "states/menu-state", "states/status-state"], function(_, GameState, Menu, MenuState, StatusState) {
+define(["underscore", "game-state", "menu", "states/menu-state", "states/status-state"], function(_, gameState, Menu, MenuState, StatusState) {
     "use strict";
 
     function FieldMenuState() {
         var self = this;
 
         var getPartyMenu = function() {
-             var options = _(GameState.instance.party).map(function(member){
+             var options = _(gameState.party).map(function(member){
                 return { text: member.name, member: member };
             });
             return new Menu(options);
@@ -16,7 +16,6 @@ define(["underscore", "game-state", "menu", "states/menu-state", "states/status-
                 text: "Status",
                 childMenu: function() {
                     return getPartyMenu().select(function(index, menuItem) {
-                        console.log(menuItem.member);
                         Game.instance.pushState(new StatusState(menuItem.member));
                     });
                 }
@@ -54,7 +53,7 @@ define(["underscore", "game-state", "menu", "states/menu-state", "states/status-
     };
 
     FieldMenuState.prototype.draw = function(delta) {
-        var party = GameState.instance.party;
+        var party = gameState.party;
 
         this.previousState.draw(delta);
         this.menuState.draw(delta);

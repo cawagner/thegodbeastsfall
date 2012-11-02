@@ -1,4 +1,4 @@
-define(["game-state"], function(GameState) {
+define(["game-state"], function(gameState) {
     "use strict";
 
     function MainMenuState() {
@@ -7,7 +7,7 @@ define(["game-state"], function(GameState) {
         };
 
         this.update = _.once(function() {
-            GameState.instance.newGame();
+            gameState.newGame();
         });
     }
 
