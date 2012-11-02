@@ -1,4 +1,4 @@
-define(["jquery"], function($) {
+define(['jquery', 'direction'], function($, direction) {
     function Actor(archetype) {
         var self = this;
         var moveX = 0, moveY = 0;
