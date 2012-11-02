@@ -1,50 +1,24 @@
-function Npc(properties) {
-    _.defaults(properties, {
-        "archetype": "oldman",
-        "behavior": "wanderlust"
-    });
+define(['actors/actor', 'actors/npc-behaviors'], function(Actor, npcBehaviors) {
+    function Npc(properties) {
+        _.defaults(properties, {
+            "archetype": "oldman",
+            "behavior": "wanderlust"
+        });
 
-    Actor.call(this, properties.archetype);
+        Actor.call(this, properties.archetype);
 
-    this.wander = Npc.behaviors[properties.behavior](this);
+        this.wander = npcBehaviors[properties.behavior](this);
 
-    if ("direction" in properties) {
-        this.direction = direction.fromName(properties.direction);
-    }
+        if ("direction" in properties) {
+            this.direction = direction.fromName(properties.direction);
+        }
 
-    this.onUpdate = function(timeScale) {
-        this.wander();
-    };
-};
-Npc.prototype = new Actor();
-
-Npc.behaviors = {
-    wanderlust: function(self) {
-        self.isPushable = true;
-        var waitForNextMove = 0;
-        return function() {
-            var dx = 0, dy = 0, dir;
-            if (!(self.isMoving() || self.isMovementLocked())) {
-                if (waitForNextMove < 0) {
-                    dir = Math.random() >= 0.5;
-                    if (dir) {
-                        dy = Math.floor(Math.random()*3)-1;
-                    } else {
-                        dx = Math.floor(Math.random()*3)-1;
-                    }
-                    self.tryMoveBy(dx, dy);
-                    waitForNextMove = 20 + Math.random() * 40;
-                }
-                --waitForNextMove;
-            }
+        this.onUpdate = function(timeScale) {
+            this.wander();
         };
-    },
-    stationary: function(self) {
-        self.isPushable = false;
-        return _.noop;
-    },
-    boulder: function(self) {
-        self.isPushable = true;
-        return _.noop;
-    }
-}
+    };
+
+    Npc.prototype = new Actor();
+
+    return Npc;
+});

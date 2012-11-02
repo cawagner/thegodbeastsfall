@@ -27,9 +27,6 @@ define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, M
 
     var requirements = [
         'util',
-        'actors/actor',
-        'actors/hero',
-        'actors/npc',
         'pawns/character-pawn',
         'states/transitions/scroll-transition-state',
         'states/field-state',

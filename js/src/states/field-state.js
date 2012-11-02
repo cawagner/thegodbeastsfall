@@ -1,11 +1,21 @@
-define(["jquery", "underscore", "map-loader", "gui", "display/tilemap-view", "display/actor-renderer", "states/dialogue-state", "pubsub"], function($, _, mapLoader, GuiRenderer, TilemapView, ActorRenderer, DialogueState) {
+define([
+    "jquery",
+    "underscore",
+    "map-loader",
+    "gui",
+    "display/tilemap-view",
+    "display/actor-renderer",
+    "states/dialogue-state",
+    "actors/hero",
+    "pubsub"
+], function($, _, mapLoader, GuiRenderer, TilemapView, ActorRenderer, DialogueState, Hero) {
     "use strict";
 
     // TODO: make some function to open the state instead of having such a horrible constructor
     function FieldState(map, entrance) {
         var game = Game.instance,
             tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
-            hero = new Hero(game.input),
+            hero = new Hero(),
             frame = 0,
             actorRenderer = new ActorRenderer(game.graphics),
             firstRun = true,
