@@ -8,16 +8,17 @@ var dependencies = [
     'keyboard-input',
     'touch-input',
     'util',
+    'constants',
     // After this point, other objects are extended
     'pubsub',
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput, util) {
+define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput, util, constants) {
     "use strict";
 
     var init = function() {
-        var graphics = new Graphics("gameCanvas", 320, 240, 2),
+        var graphics = new Graphics("gameCanvas", constants.GAME_WIDTH, constants.GAME_HEIGHT, 2),
             game = new Game(graphics, input),
             startFrame,
             endFrame = Date.now(),
@@ -46,7 +47,7 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
         $("[data-scale]").on("click", function() {
             var scale = parseInt($(this).data("scale"), 10);
             graphics.setScale(scale);
-            $("#container").width(320 * scale).height(240 * scale);
+            $("#container").width(constants.GAME_WIDTH * scale).height(constants.GAME_HEIGHT * scale);
         });
 
         input.init();
@@ -55,7 +56,5 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
         stateEvents.init(game);
     };
 
-    return {
-        init: init
-    };
+    return { init: init };
 });
