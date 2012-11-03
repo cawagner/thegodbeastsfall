@@ -152,6 +152,9 @@ define(['jquery', 'direction'], function($, direction) {
         return false;
     };
 
+    Actor.prototype.onShove = $.noop;
+    Actor.prototype.onTalk = $.noop;
+
     Actor.prototype.say = function(messages) {
         $.publish("/npc/talk", [messages, this]);
     };
