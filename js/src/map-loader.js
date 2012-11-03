@@ -49,8 +49,10 @@ define(["jquery", "underscore", "tilemap", "sound", "actors/npc", "constants", "
             var objectLayers = _(data.layers).filter(function(layer) { return layer.type === "objectgroup"; })
 
             var mask = _(tileLayers).filter(function(layer) { return layer.name === "Mask"; })[0];
+            var layerCount = tileLayers.length - (mask !== undefined);
+
             // TODO: don't use mask data directly?
-            var tilemap = new Tilemap(data.width, data.height, tileLayers.length, mask.data);
+            var tilemap = new Tilemap(data.width, data.height, layerCount, mask ? mask.data : []);
 
             var tilesets = _(data.tilesets).map(createTileSet);
             var entrances = {};
@@ -58,11 +60,13 @@ define(["jquery", "underscore", "tilemap", "sound", "actors/npc", "constants", "
             var npcs = {};
             var result;
 
-            _(tileLayers.length - (mask !== undefined)).times(function(z) {
+            var z = 0;
+            _(tileLayers).each(function() {
                 if (tileLayers[z] !== mask) {
                     _.each2d(data.width, data.height, function(x, y) {
                         tilemap.setAt(x, y, z, tileLayers[z].data[x + y * data.width]);
                     });
+                    ++z;
                 }
             });
 
