@@ -1,4 +1,6 @@
 define(['jquery', 'direction'], function($, direction) {
+    "use strict";
+    
     function Actor(archetype) {
         var self = this;
         var moveX = 0, moveY = 0;

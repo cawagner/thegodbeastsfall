@@ -1,4 +1,6 @@
 define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, npcBehaviors, direction) {
+    "use strict";
+    
     function Npc(properties) {
         _.defaults(properties, {
             "archetype": "oldman",

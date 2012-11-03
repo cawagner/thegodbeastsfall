@@ -1,4 +1,6 @@
 define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, direction) {
+    "use strict";
+    
     var PUSH_AFTER = 15;
 
     function Hero() {

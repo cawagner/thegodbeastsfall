@@ -10,7 +10,10 @@ define([], function() {
             }
             musicAudio = new Audio('assets/mus/' + music + '.ogg');
             musicAudio.volume = 0.5;
-            musicAudio.loop = true;
+            musicAudio.addEventListener('ended', function() {
+                this.currentTime = this.startTime;
+                this.play();
+            }, false);
             musicAudio.play();
         }
     };
