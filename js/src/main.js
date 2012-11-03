@@ -5,10 +5,7 @@ var dependencies = [
     'game',
     'graphics',
     'menu',
-    'states/field-menu-state',
-    'states/menu-state',
-    'states/field-state',
-    'states/dialogue-state',
+    'state-events',
     // Just return objects
     'keyboard-input',
     'sound',
@@ -18,12 +15,8 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Game, Graphics, Menu, FieldMenuState, MenuState, FieldState, DialogueState, input, sound, touchInput) {
+define(dependencies, function($, _, Game, Graphics, Menu, stateEvents, input, sound, touchInput) {
     "use strict";
-
-    // TODO: we'll fix this madness ASAP...
-    window.FieldMenuState = FieldMenuState;
-    window.FieldState = FieldState;
 
     var init = function() {
         var graphics = new Graphics("gameCanvas", 320, 240, 2),
@@ -70,44 +63,7 @@ define(dependencies, function($, _, Game, Graphics, Menu, FieldMenuState, MenuSt
         input.init();
         touchInput.init(input);
 
-        // TODO: elsewhere?
-        $.subscribe("/menu/open", function(menu) {
-            game.pushState(new MenuState(menu));
-        });
-
-        // TODO: doesn't go here!
-        $.subscribe("/npc/talk", function(messages, npc) {
-            var fakeNpc = {
-                lockMovement: _.noop,
-                unlockMovement: _.noop
-            };
-
-            npc = npc || fakeNpc;
-
-            npc.lockMovement();
-
-            game.pushState(new DialogueState(messages, function() {
-                npc.unlockMovement();
-            }));
-        });
-
-        $.subscribe("/hero/menu", function() {
-            game.pushState(new FieldMenuState());
-        });
-
-        $.subscribe("/map/loading", function() {
-            // TODO: really hackish...
-            if (game.currentState() instanceof FieldState) {
-                game.popState();
-            }
-        });
-
-        $.subscribe("/map/loaded", function(map, entrance) {
-            var fieldState = new FieldState(map, entrance);
-            game.pushState(fieldState);
-
-            sound.playMusic(map.properties.music);
-        });
+        stateEvents.init(game);
     };
 
     return {
