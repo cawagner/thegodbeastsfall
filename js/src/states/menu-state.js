@@ -2,17 +2,19 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
     "use strict";
 
     function MenuState(menu) {
+        var game = Game.instance;
+
         this.menu = menu;
-        this.graphics = Game.instance.graphics;
+        this.graphics = game.graphics;
         this.gui = new GuiRenderer(this.graphics);
         this.previousState = new NoopState();
         this.selectionIndex = 0;
-        this.input = Game.instance.input;
+        this.input = game.input;
 
         var subscription = $.subscribe("/menu/close", function(menuToClose) {
             if (menuToClose === menu) {
                 $.unsubscribe(subscription);
-                Game.instance.popState();
+                game.popState();
             }
         });
     }

@@ -1,6 +1,6 @@
 define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, direction) {
     "use strict";
-    
+
     var PUSH_AFTER = 15;
 
     function Hero() {
@@ -31,7 +31,7 @@ define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, d
 
             // TODO: move this elsewhere?
             if (input.wasCancelPressed()) {
-                Game.instance.pushState(new FieldMenuState());
+                $.publish("/hero/menu");
             }
         };
 

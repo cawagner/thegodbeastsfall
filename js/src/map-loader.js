@@ -1,5 +1,5 @@
 // This is awful. I was actually drunk when I wrote it, unfortunately.
-define(["jquery", "underscore", "tilemap", "sound", "actors/npc", "constants", "pubsub"], function($, _, tilemap, sound, Npc, constants) {
+define(["jquery", "underscore", "game", "tilemap", "sound", "actors/npc", "constants", "pubsub"], function($, _, Game, tilemap, sound, Npc, constants) {
     // TODO: HACK
     var Tilemap = tilemap.Tilemap;
     var Map = tilemap.Map;

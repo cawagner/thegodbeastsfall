@@ -1,9 +1,5 @@
-define([], function() {
-    "use strict";
-
-    return {
-        HEART: "HP",
-        STAR: "MP",
-        POINTER: "*"
-    };
+define([], {
+    HEART: "HP",
+    STAR: "MP",
+    POINTER: "*"
 });

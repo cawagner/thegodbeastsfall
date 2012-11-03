@@ -1,14 +1,14 @@
 define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, speakers, NoopState) {
     "use strict";
 
+    var LINE_LENGTH = 38;
+
     function DialogueState(messages, doneFn) {
-        var game = Game.instance,
-            lineLength = 38,
-            messageIndex = 0,
+        var messageIndex = 0,
             lineIndex = 0,
             message = messages[0],
-            lines = message.text[0].wordWrap(lineLength),
-            gui = new GuiRenderer(game.graphics);
+            lines = message.text[0].wordWrap(LINE_LENGTH),
+            gui = new GuiRenderer(Game.instance.graphics);
 
         this.previousState = new NoopState();
 
@@ -39,7 +39,7 @@ define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, s
                 ++messageIndex;
                 message = messages[messageIndex];
             } else {
-                game.popState();
+                Game.instance.popState();
             }
         };
 
@@ -48,11 +48,11 @@ define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, s
             if (lineIndex >= message.text.length) {
                 this.advanceMessage();
             }
-            lines = message.text[lineIndex].wordWrap(lineLength);
+            lines = message.text[lineIndex].wordWrap(LINE_LENGTH);
         };
 
         this.update = function(timeScale) {
-            if (game.input.wasConfirmPressed()) {
+            if (Game.instance.input.wasConfirmPressed()) {
                 this.advanceText();
             }
 

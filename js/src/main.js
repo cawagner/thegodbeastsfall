@@ -2,12 +2,14 @@ var dependencies = [
     'jquery',
     'underscore',
     // Classes
+    'game',
     'graphics',
     'menu',
     'states/field-menu-state',
     'states/menu-state',
     'states/main-menu-state',
     'states/field-state',
+    'states/dialogue-state',
     // Just return objects
     'keyboard-input',
     'touch-input',
@@ -16,7 +18,7 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, MainMenuState, FieldState, input, touchInput) {
+define(dependencies, function($, _, Game, Graphics, Menu, FieldMenuState, MenuState, MainMenuState, FieldState, DialogueState, input, touchInput) {
     "use strict";
 
     // TODO: we'll fix this madness ASAP...
@@ -24,21 +26,7 @@ define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, M
     window.MainMenuState = MainMenuState;
     window.FieldState = FieldState;
 
-    var requirements = [ 'game' ];
-
-    var includeAll = function(scripts, done) {
-        var index = 0;
-        var getScript = function() {
-            if (index >= scripts.length) {
-                return done();
-            }
-            $.getScript("js/src/" + scripts[index] + ".js").done(getScript);
-            ++index;
-        };
-        getScript();
-    };
-
-    var allIncluded = function() {
+    var init = function() {
         var graphics = new Graphics("gameCanvas", 320, 240, 2),
             game = new Game(graphics, input),
             startFrame,
@@ -54,6 +42,11 @@ define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, M
                 function(callback) {
                     setTimeout(callback, 16);
                 };
+
+        // HACK: no :(
+        window.Game = {
+            instance: game
+        };
 
         requestAnimationFrame(function mainLoop() {
             startFrame = endFrame;
@@ -82,11 +75,29 @@ define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, M
         $.subscribe("/menu/open", function(menu) {
             game.pushState(new MenuState(menu));
         });
+
+        // TODO: doesn't go here!
+        $.subscribe("/npc/talk", function(messages, npc) {
+            var fakeNpc = {
+                lockMovement: _.noop,
+                unlockMovement: _.noop
+            };
+
+            npc = npc || fakeNpc;
+
+            npc.lockMovement();
+
+            game.pushState(new DialogueState(messages, function() {
+                npc.unlockMovement();
+            }));
+        });
+
+        $.subscribe("/hero/menu", function() {
+            game.pushState(new FieldMenuState());
+        });
     };
 
     return {
-        init: function() {
-            includeAll(requirements, allIncluded);
-        }
+        init: init
     };
 });

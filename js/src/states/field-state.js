@@ -2,32 +2,16 @@ define([
     "jquery",
     "underscore",
     "map-loader",
+    "game",
     "gui",
     "display/tilemap-view",
     "display/actor-renderer",
-    "states/dialogue-state",
     "actors/hero",
     "direction",
     "util",
     "pubsub"
-], function($, _, mapLoader, GuiRenderer, TilemapView, ActorRenderer, DialogueState, Hero, direction, util) {
+], function($, _, mapLoader, Game, GuiRenderer, TilemapView, ActorRenderer, Hero, direction, util) {
     "use strict";
-
-    // TODO: doesn't go here!
-    $.subscribe("/npc/talk", function(messages, npc) {
-        var fakeNpc = {
-            lockMovement: _.noop,
-            unlockMovement: _.noop
-        };
-
-        npc = npc || fakeNpc;
-
-        npc.lockMovement();
-
-        Game.instance.pushState(new DialogueState(messages, function() {
-            npc.unlockMovement();
-        }));
-    });
 
     // TODO: make some function to open the state instead of having such a horrible constructor
     function FieldState(map, entrance) {
