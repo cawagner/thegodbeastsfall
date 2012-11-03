@@ -14,6 +14,7 @@ define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, d
             if (self.canMove()) {
                 if (self.tryMoveBy(dx, dy)) {
                     failedMoves = 0;
+                    $.publish("/hero/step");
                 } else {
                     if (dx || dy) {
                         ++failedMoves;

@@ -28,6 +28,10 @@ define(["map-loader", "character"], function(mapLoader, Character) {
 
             this.party = [held];
 
+            this.startDate = Date.now();
+            this.totalSteps = 0;
+            this.mapSteps = 0;
+
             mapLoader.goToMap('DesertPath');
         };
     }

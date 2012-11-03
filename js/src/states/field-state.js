@@ -8,8 +8,9 @@ define([
     "states/dialogue-state",
     "actors/hero",
     "direction",
+    "util",
     "pubsub"
-], function($, _, mapLoader, GuiRenderer, TilemapView, ActorRenderer, DialogueState, Hero, direction) {
+], function($, _, mapLoader, GuiRenderer, TilemapView, ActorRenderer, DialogueState, Hero, direction, util) {
     "use strict";
 
     // TODO: make some function to open the state instead of having such a horrible constructor
@@ -19,7 +20,6 @@ define([
             hero = new Hero(),
             frame = 0,
             actorRenderer = new ActorRenderer(game.graphics),
-            firstRun = true,
             gui = new GuiRenderer(game.graphics),
             talkSubscription,
             subscribeToTalk = function() {
@@ -47,24 +47,22 @@ define([
             }
         }
 
-        this.update = function(timeScale) {
-            if (firstRun) {
-                if (_.isFunction(map.onLoad)) {
-                   map.onLoad(hero, entrance);
-                }
-                firstRun = false;
+        setTimeout(function() {
+            if (_.isFunction(map.onLoad)) {
+                map.onLoad(hero, entrance);
             }
+        }, 1);
 
+        this.update = function(timeScale) {
             _(map.actors).each(function(actor) {
                 actor.update(timeScale);
             });
 
             // handle switching maps...
             _(map.exits).each(function(exit) {
-                if (hero.x >= exit.x && hero.x <= exit.x + exit.width) {
-                    if (hero.y >= exit.y && hero.y <= exit.y + exit.height) {
-                        mapLoader.goToMap(exit.map, exit.entrance);
-                    }
+                if (util.pointInRect(hero, exit)) {
+                    mapLoader.goToMap(exit.map, exit.entrance);
+                    return false;
                 }
             });
 
