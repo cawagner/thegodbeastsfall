@@ -15,7 +15,7 @@ define(["display/fonts"], function(fonts) {
 
         this.setOrigin = function(x, y) {
             context.setTransform(1, 0, 0, 1, 0, 0);
-            context.translate(originOffset.x + x | 0, originOffset.y + y | 0);
+            context.translate(originOffset.x + (x | 0), originOffset.y + (y | 0));
         };
 
         this.withOriginOffset = function(x, y, fn) {

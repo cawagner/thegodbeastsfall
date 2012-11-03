@@ -1,5 +1,9 @@
-define(["pawns/character-pawn"], function(CharacterPawn) {
+define([
+    "pawns/character-pawn",
+    "pawns/enemy-pawn"
+], function(CharacterPawn, EnemyPawn) {
     return {
-        CharacterPawn: CharacterPawn
+        CharacterPawn: CharacterPawn,
+        EnemyPawn: EnemyPawn
     };
 });

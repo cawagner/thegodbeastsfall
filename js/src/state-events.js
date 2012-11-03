@@ -3,8 +3,20 @@ define([
     "states/field-menu-state",
     "states/dialogue-state",
     "states/field-state",
+    "states/battle-state",
+    "states/transitions/scroll-transition-state",
     "sound"
-], function(MenuState, FieldMenuState, DialogueState, FieldState, sound) {
+], function(
+    MenuState,
+    FieldMenuState,
+    DialogueState,
+    FieldState,
+    BattleState,
+    ScrollTransitionState,
+    sound
+) {
+    var oldMusic;
+
     return {
         init: function(game) {
             // TODO: elsewhere?
@@ -44,6 +56,23 @@ define([
                 game.pushState(fieldState);
 
                 sound.playMusic(map.properties.music);
+            });
+
+            $.subscribe("/battle/start", function() {
+                var battleState = new BattleState();
+                var transition = new ScrollTransitionState(battleState);
+
+                oldMusic = sound.getCurrentMusic();
+
+                sound.playMusic("battle");
+
+                game.pushState(transition);
+            });
+
+            $.subscribe("/battle/end", function() {
+                // TODO: transition!
+                sound.playMusic(oldMusic);
+                game.popState();
             });
         }
     }

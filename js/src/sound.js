@@ -1,10 +1,11 @@
 define([], function() {
     "use strict";
 
-    var musicAudio;
+    var musicAudio, currentMusic;
 
     var soundManager = {
         playMusic: function(music) {
+            currentMusic = music;
             if (musicAudio !== undefined) {
                 musicAudio.pause();
             }
@@ -19,6 +20,9 @@ define([], function() {
                 }, false);
             }
             musicAudio.play();
+        },
+        getCurrentMusic: function() {
+            return currentMusic;
         }
     };
 
