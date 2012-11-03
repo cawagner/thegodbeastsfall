@@ -7,12 +7,13 @@ var dependencies = [
     // Just return objects
     'keyboard-input',
     'touch-input',
+    'util',
     // After this point, other objects are extended
     'pubsub',
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput) {
+define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput, util) {
     "use strict";
 
     var init = function() {
@@ -23,14 +24,7 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput)
             collected = 0,
             timeScale = 1;
 
-        var requestAnimationFrame = window.requestAnimationFrame ||
-                window.webkitRequestAnimationFrame ||
-                window.mozRequestAnimationFrame ||
-                window.oRequestAnimationFrame ||
-                window.msRequestAnimationFrame ||
-                function(callback) {
-                    setTimeout(callback, 16);
-                };
+        var requestAnimationFrame = util.getRequestAnimationFrame();
 
         // HACK: no :(
         window.Game = { instance: game };
