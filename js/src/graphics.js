@@ -1,6 +1,6 @@
 define(["display/fonts"], function(fonts) {
     var Graphics = function(canvasId, width, height, scale) {
-        var visibleCanvas = document.getElementById(canvasId),
+        var visibleCanvas = typeof canvasId === "string" ? document.getElementById(canvasId) : canvasId,
             offScreenCanvas = document.createElement("canvas"),
             visibleContext = visibleCanvas.getContext('2d'),
             context;

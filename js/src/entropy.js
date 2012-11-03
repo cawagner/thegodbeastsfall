@@ -13,14 +13,14 @@ define([], function() {
             var firstPart;
 
             if (firstVowel <= 0) {
-                    return word + "-way";
+                return word + "-way";
             } else {
-                    firstPart = word.substr(firstVowel);
-                    // TODO: handle all-caps words appropriately...
-                    if (isCapitalized) {
-                        firstPart = capitalizeFirstLetter(firstPart);
-                    }
-                    return firstPart + word.substr(0, firstVowel).toLowerCase() + "ay";
+                firstPart = word.substr(firstVowel);
+                // TODO: handle all-caps words appropriately...
+                if (isCapitalized) {
+                    firstPart = capitalizeFirstLetter(firstPart);
+                }
+                return firstPart + word.substr(0, firstVowel).toLowerCase() + "ay";
             }
             return word;
         });

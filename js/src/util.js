@@ -1,4 +1,4 @@
-define([], {
+define({
     pointInRect: function(point, rect) {
         return (
             (point.x >= rect.x && point.x <= rect.x + rect.width) &&
