@@ -4,7 +4,10 @@ setupMap(function(map, gameState) {
     var npcLearn = 400;
 
     var learnAboutMirv = function() {
-        gameState.flags.town.stepsUntilMirvMessage -= npcLearn;
+        gameState.flags.town.stepsUntilMirvMessage = Math.max(
+            5,
+            gameState.flags.town.stepsUntilMirvMessage - npcLearn
+        );
         npcLearn /= 2;
     };
 
