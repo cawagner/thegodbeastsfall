@@ -13,6 +13,11 @@ define([
 ], function($, _, mapLoader, GuiRenderer, TilemapView, ActorRenderer, DialogueState, Hero, direction, util) {
     "use strict";
 
+    var fakeNpc = {
+        lockMovement: _.noop,
+        unlockMovement: _.noop
+    };
+
     // TODO: make some function to open the state instead of having such a horrible constructor
     function FieldState(map, entrance) {
         var game = Game.instance,
@@ -24,16 +29,18 @@ define([
             talkSubscription,
             subscribeToTalk = function() {
                 talkSubscription = $.subscribe("/npc/talk", function(messages, npc) {
-                    var deferred = $.Deferred();
+                    npc = npc || fakeNpc;
+
+                    if (!_.isArray(messages)) {
+                        messages = [messages];
+                    }
 
                     npc.lockMovement();
                     npc.direction = direction.oppositeOf(hero.direction);
 
                     game.pushState(new DialogueState(messages, function() {
                         npc.unlockMovement();
-                        deferred.resolve();
                     }));
-                    return deferred.promise();
                 })
             };
 

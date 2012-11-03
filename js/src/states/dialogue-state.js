@@ -18,7 +18,7 @@ define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, s
 
         this.end = function() {
             doneFn();
-        }
+        };
 
         this.draw = function(timeScale) {
             var x = 10, y = 180, speaker = speakers[message.speaker];

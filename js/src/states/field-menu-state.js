@@ -1,5 +1,11 @@
 define([
-    "underscore", "game-state", "menu", "states/menu-state", "states/status-state", "chars", "states/noop-state"
+    "underscore",
+    "game-state",
+    "menu",
+    "states/menu-state",
+    "states/status-state",
+    "chars",
+    "states/noop-state"
 ], function(_, gameState, Menu, MenuState, StatusState, chars, NoopState) {
     "use strict";
 
@@ -26,11 +32,7 @@ define([
             "Items",
             {
                 text: "System",
-                childMenu: new Menu([
-                    "Save",
-                    "Load",
-                    "Options"
-                ])
+                childMenu: new Menu([ "Save", "Load", "Options" ])
             }
         ]).select(function(index, item) {
             if (item.childMenu) {

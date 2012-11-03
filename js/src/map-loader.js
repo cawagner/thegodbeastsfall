@@ -33,8 +33,9 @@ define(["jquery", "underscore", "tilemap", "sound", "actors/npc", "constants", "
                 cache: false
             }).success(function(data) {
                 var map = self.createMap(data);
+                define(['game-state'], '')
                 window.setupMap = function(fn) {
-                    fn(map);
+                    fn(map, window.GameState.instance);
                 };
                 $.getScript("assets/maps/" + mapName + ".js", function() {
                     deferred.resolve(map);

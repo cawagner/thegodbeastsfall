@@ -32,9 +32,22 @@ define(["map-loader", "character"], function(mapLoader, Character) {
             this.totalSteps = 0;
             this.mapSteps = 0;
 
+            this.flags = {};
+
             mapLoader.goToMap('DesertPath');
         };
+
+        this.toJSON = function() {
+
+        };
+
+        this.fromJSON = function() {
+
+        };
     }
+
+    // HACK: no!
+    window.GameState = GameState;
 
     GameState.instance = new GameState();
 

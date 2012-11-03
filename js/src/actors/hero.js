@@ -11,16 +11,14 @@ define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, d
         var takeInput = function() {
             var dx = input.dirX(), dy = input.dirY();
 
-            if (self.canMove()) {
+            if (self.canMove() && (dx || dy)) {
                 if (self.tryMoveBy(dx, dy)) {
                     failedMoves = 0;
                     $.publish("/hero/step");
                 } else {
-                    if (dx || dy) {
-                        ++failedMoves;
-                        if (failedMoves > PUSH_AFTER) {
-                            self.shove();
-                        }
+                    ++failedMoves;
+                    if (failedMoves > PUSH_AFTER) {
+                        self.shove();
                     }
                 }
             }
