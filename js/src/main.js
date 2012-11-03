@@ -1,21 +1,18 @@
 var dependencies = [
     'jquery',
-    'underscore',
     // Classes
     'game',
     'graphics',
-    'menu',
     'state-events',
     // Just return objects
     'keyboard-input',
-    'sound',
     'touch-input',
     // After this point, other objects are extended
     'pubsub',
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Game, Graphics, Menu, stateEvents, input, sound, touchInput) {
+define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput) {
     "use strict";
 
     var init = function() {
@@ -36,9 +33,7 @@ define(dependencies, function($, _, Game, Graphics, Menu, stateEvents, input, so
                 };
 
         // HACK: no :(
-        window.Game = {
-            instance: game
-        };
+        window.Game = { instance: game };
 
         requestAnimationFrame(function mainLoop() {
             startFrame = endFrame;
