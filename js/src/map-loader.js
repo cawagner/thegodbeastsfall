@@ -67,32 +67,30 @@ define(["jquery", "underscore", "tilemap", "sound", "actors/npc", "constants", "
             });
 
             _(objectLayers).each(function(objectLayer) {
-                _(objectLayer.objects).each(function(object) {
-                    switch (object.type) {
-                        case "Entrance": {
-                            entrances[object.name] = { x: (object.x / TILE_SIZE) | 0, y: (object.y / TILE_SIZE) | 0, direction: object.properties.direction };
-                            break;
-                        }
-                        case "Exit": {
-                            exits[object.name] = {
-                                x: (object.x / TILE_SIZE) | 0,
-                                y: (object.y / TILE_SIZE) | 0,
-                                width: (object.width / TILE_SIZE) | 0,
-                                height: (object.height / TILE_SIZE) | 0,
-                                entrance: object.properties.entrance,
-                                map: object.properties.map
-                            };
-                            break;
-                        }
-                        case "NPC": {
-                            npcs[object.name] = new Npc(object.properties);
-                            npcs[object.name].warpTo((object.x / TILE_SIZE) | 0, (object.y / TILE_SIZE) | 0);
-                            break;
-                        }
-                        default: {
-                            console.log("object type" + object.type + " not recognized");
-                        }
-                    }
+                var objects = _(objectLayer.objects).groupBy("type");
+
+                _(objects["Entrance"]).each(function(object) {
+                    entrances[object.name] = {
+                        x: (object.x / TILE_SIZE) | 0,
+                        y: (object.y / TILE_SIZE) | 0,
+                        direction: object.properties.direction
+                    };
+                });
+
+                _(objects["Exit"]).each(function(object) {
+                    exits[object.name] = {
+                        x: (object.x / TILE_SIZE) | 0,
+                        y: (object.y / TILE_SIZE) | 0,
+                        width: (object.width / TILE_SIZE) | 0,
+                        height: (object.height / TILE_SIZE) | 0,
+                        entrance: object.properties.entrance,
+                        map: object.properties.map
+                    };
+                });
+
+                _(objects["NPC"]).each(function(object) {
+                    npcs[object.name] = new Npc(object.properties);
+                    npcs[object.name].warpTo((object.x / TILE_SIZE) | 0, (object.y / TILE_SIZE) | 0);
                 });
             });
 
