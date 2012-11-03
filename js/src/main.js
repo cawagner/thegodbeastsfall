@@ -7,23 +7,22 @@ var dependencies = [
     'menu',
     'states/field-menu-state',
     'states/menu-state',
-    'states/main-menu-state',
     'states/field-state',
     'states/dialogue-state',
     // Just return objects
     'keyboard-input',
+    'sound',
     'touch-input',
     // After this point, other objects are extended
     'pubsub',
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Game, Graphics, Menu, FieldMenuState, MenuState, MainMenuState, FieldState, DialogueState, input, touchInput) {
+define(dependencies, function($, _, Game, Graphics, Menu, FieldMenuState, MenuState, FieldState, DialogueState, input, sound, touchInput) {
     "use strict";
 
     // TODO: we'll fix this madness ASAP...
     window.FieldMenuState = FieldMenuState;
-    window.MainMenuState = MainMenuState;
     window.FieldState = FieldState;
 
     var init = function() {
@@ -94,6 +93,20 @@ define(dependencies, function($, _, Game, Graphics, Menu, FieldMenuState, MenuSt
 
         $.subscribe("/hero/menu", function() {
             game.pushState(new FieldMenuState());
+        });
+
+        $.subscribe("/map/loading", function() {
+            // TODO: really hackish...
+            if (game.currentState() instanceof FieldState) {
+                game.popState();
+            }
+        });
+
+        $.subscribe("/map/loaded", function(map, entrance) {
+            var fieldState = new FieldState(map, entrance);
+            game.pushState(fieldState);
+
+            sound.playMusic(map.properties.music);
         });
     };
 

@@ -1,5 +1,5 @@
 // This is awful. I was actually drunk when I wrote it, unfortunately.
-define(["jquery", "underscore", "game", "tilemap", "sound", "actors/npc", "constants", "pubsub"], function($, _, Game, tilemap, sound, Npc, constants) {
+define(["jquery", "underscore", "tilemap", "actors/npc", "constants", "pubsub"], function($, _, tilemap, Npc, constants) {
     // TODO: HACK
     var Tilemap = tilemap.Tilemap;
     var Map = tilemap.Map;
@@ -114,17 +114,11 @@ define(["jquery", "underscore", "game", "tilemap", "sound", "actors/npc", "const
     }
 
     function goToMap(mapName, entrance) {
-        var mapLoader = new MapLoader(),
-            game = Game.instance;
-        // TODO: really hackish...
-        if (game.currentState() instanceof FieldState) {
-            game.popState();
-        }
-        mapLoader.load(mapName).done(function(map) {
-            var fieldState = new FieldState(map, entrance);
-            game.pushState(fieldState);
+        var mapLoader = new MapLoader();
 
-            sound.playMusic(map.properties.music);
+        $.publish("/map/loading");
+        mapLoader.load(mapName).done(function(map) {
+            $.publish("/map/loaded", [map, entrance]);
         });
     }
 

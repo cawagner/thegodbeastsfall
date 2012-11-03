@@ -1,4 +1,4 @@
-define([], function() {
+define(["states/main-menu-state"], function(MainMenuState) {
     "use strict";
 
     function Game(graphics, input) {
