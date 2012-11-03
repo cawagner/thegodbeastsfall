@@ -13,7 +13,8 @@
             jquery: "../lib/jquery-1.8.2",
             underscore: "../lib/underscore",
             pubsub: "../lib/pubsub"
-        }
+        },
+        urlArgs: "bust=" + Date.now()
     });
 
     require(["main"], function(main) {
