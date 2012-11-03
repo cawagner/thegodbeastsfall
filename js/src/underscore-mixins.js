@@ -5,8 +5,8 @@ define(["underscore"], function(_) {
         each2d: function(width, height, func, self) {
             var x, y, undefined;
             self = (self === undefined) ? window : self;
-            for (x = 0; x < width; ++x) {
-                for (y = 0; y < height; ++y) {
+            for (y = 0; y < height; ++y) {
+                for (x = 0; x < width; ++x) {
                     func.call(self, x, y);
                 }
             }
