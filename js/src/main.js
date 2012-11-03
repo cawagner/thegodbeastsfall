@@ -26,7 +26,6 @@ define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, M
     window.FieldState = FieldState;
 
     var requirements = [
-        'util',
         'pawns/character-pawn',
         'states/transitions/scroll-transition-state',
         'states/field-state',

@@ -7,8 +7,9 @@ define([
     "display/actor-renderer",
     "states/dialogue-state",
     "actors/hero",
+    "direction",
     "pubsub"
-], function($, _, mapLoader, GuiRenderer, TilemapView, ActorRenderer, DialogueState, Hero) {
+], function($, _, mapLoader, GuiRenderer, TilemapView, ActorRenderer, DialogueState, Hero, direction) {
     "use strict";
 
     // TODO: make some function to open the state instead of having such a horrible constructor

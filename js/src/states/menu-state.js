@@ -1,4 +1,4 @@
-define(["jquery", "gui", "pubsub"], function($, GuiRenderer) {
+define(["jquery", "gui", "chars", "pubsub"], function($, GuiRenderer, chars) {
     "use strict";
 
     function MenuState(menu) {
@@ -62,7 +62,7 @@ define(["jquery", "gui", "pubsub"], function($, GuiRenderer) {
         x = this.selectionIndex % this.menu.cols;
         y = Math.floor(this.selectionIndex / this.menu.cols);
 
-        this.graphics.drawText(this.menu.x + x * colWidth, 4 + this.menu.y + y * this.gui.lineHeight, CHAR.pointer);
+        this.graphics.drawText(this.menu.x + x * colWidth, 4 + this.menu.y + y * this.gui.lineHeight, chars.POINTER);
     };
 
     MenuState.prototype.suspend = function() {

@@ -1,4 +1,4 @@
-define(["underscore", "keyboard-input", "pawns/character-pawn", "gui"], function (_, input, CharacterPawn, GuiRenderer) {
+define(["underscore", "keyboard-input", "pawns/character-pawn", "gui", "chars"], function (_, input, CharacterPawn, GuiRenderer, chars) {
     "use strict";
 
     function StatusState(character) {
@@ -68,8 +68,8 @@ define(["underscore", "keyboard-input", "pawns/character-pawn", "gui"], function
         ]) + this.gui.lineHeight;
 
         this.gui.drawTextLines(160, top + this.gui.lineHeight, [
-            CHAR.heart + ("" + this.character.hp).rset(3) + "/" + ("" + this.character.maxHp).rset(3),
-            CHAR.star + ("" + this.character.mp).rset(3) + "/" + ("" + this.character.maxMp).rset(3),
+            chars.HEART + ("" + this.character.hp).rset(3) + "/" + ("" + this.character.maxHp).rset(3),
+            chars.STAR + ("" + this.character.mp).rset(3) + "/" + ("" + this.character.maxMp).rset(3),
         ]);
         this.gui.drawPortrait(250, top, this.character.face);
 

@@ -1,8 +1,10 @@
 // This is awful. I was actually drunk when I wrote it, unfortunately.
-define(["jquery", "underscore", "tilemap", "sound", "actors/npc", "pubsub"], function($, _, tilemap, sound, Npc) {
+define(["jquery", "underscore", "tilemap", "sound", "actors/npc", "constants", "pubsub"], function($, _, tilemap, sound, Npc, constants) {
     // TODO: HACK
     var Tilemap = tilemap.Tilemap;
     var Map = tilemap.Map;
+
+    var TILE_SIZE = constants.TILE_SIZE;
 
     function MapLoader() {
         var self = this;

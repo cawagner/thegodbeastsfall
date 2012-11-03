@@ -1,4 +1,4 @@
-define(['actors/actor', 'keyboard-input', 'util'], function(Actor, input) {
+define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, direction) {
     var PUSH_AFTER = 15;
 
     function Hero() {

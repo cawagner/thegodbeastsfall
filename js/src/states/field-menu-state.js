@@ -1,4 +1,4 @@
-define(["underscore", "game-state", "menu", "states/menu-state", "states/status-state"], function(_, gameState, Menu, MenuState, StatusState) {
+define(["underscore", "game-state", "menu", "states/menu-state", "states/status-state", "chars"], function(_, gameState, Menu, MenuState, StatusState, chars) {
     "use strict";
 
     function FieldMenuState() {
@@ -58,7 +58,7 @@ define(["underscore", "game-state", "menu", "states/menu-state", "states/status-
         this.previousState.draw(delta);
         this.menuState.draw(delta);
 
-        this.gui.drawTextWindow(260, 180, 36, 44, ["HELD", CHAR.heart + (""+party[0].hp).rset(3), CHAR.star + (""+party[0].mp).rset(3)]);
+        this.gui.drawTextWindow(260, 180, 36, 44, ["HELD", chars.HEART + (""+party[0].hp).rset(3), chars.STAR + (""+party[0].mp).rset(3)]);
     };
 
     FieldMenuState.prototype.suspend = function() {
