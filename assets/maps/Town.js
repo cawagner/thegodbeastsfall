@@ -64,7 +64,7 @@ setupMap(function(map, gameState) {
 
         gameState.flags.town.stepsUntilMirvMessage--;
         if (gameState.flags.town.stepsUntilMirvMessage < 0) {
-            $.publish("/npc/talk", [{
+            $.publish("/npc/talk", [[{
                 text: [
                     "Held... can you hear me? I am Mirv. It is preordained that we work together.",
                     "But... I was born so long before you, and too impatient to wait for you...",
@@ -72,7 +72,7 @@ setupMap(function(map, gameState) {
                     "Charon, who maintains the graveyard north of town, can help you.",
                     "Please, if you can hear me..."
                 ]
-            }]);
+            }]]);
             gameState.flags.town.knowAboutMirv = true;
         }
     });

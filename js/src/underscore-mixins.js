@@ -33,15 +33,11 @@ define(["underscore"], function(_) {
         pluckResult: function(collection, field) {
             return _(collection).map(function(item) { return _(item).result(field); });
         },
-        disjunction: function(a, b) {
-            return function() {
-                return a.apply(null, arguments) || b.apply(null, arguments);
-            };
-        },
-        conjunction: function(a, b) {
-            return function() {
-                return a.apply(null, arguments) && b.apply(null, arguments);
-            };
+        withFirst: function(collection, filter, fn) {
+            var first = _(collection).filter(filter)[0];
+            if (first !== undefined) {
+                fn(first);
+            }
         }
     });
 });

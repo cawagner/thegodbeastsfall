@@ -13,10 +13,21 @@ define([
 ], function($, _, mapLoader, GuiRenderer, TilemapView, ActorRenderer, DialogueState, Hero, direction, util) {
     "use strict";
 
-    var fakeNpc = {
-        lockMovement: _.noop,
-        unlockMovement: _.noop
-    };
+    // TODO: doesn't go here!
+    $.subscribe("/npc/talk", function(messages, npc) {
+        var fakeNpc = {
+            lockMovement: _.noop,
+            unlockMovement: _.noop
+        };
+
+        npc = npc || fakeNpc;
+
+        npc.lockMovement();
+
+        Game.instance.pushState(new DialogueState(messages, function() {
+            npc.unlockMovement();
+        }));
+    });
 
     // TODO: make some function to open the state instead of having such a horrible constructor
     function FieldState(map, entrance) {
@@ -26,23 +37,7 @@ define([
             frame = 0,
             actorRenderer = new ActorRenderer(game.graphics),
             gui = new GuiRenderer(game.graphics),
-            talkSubscription,
-            subscribeToTalk = function() {
-                talkSubscription = $.subscribe("/npc/talk", function(messages, npc) {
-                    npc = npc || fakeNpc;
-
-                    if (!_.isArray(messages)) {
-                        messages = [messages];
-                    }
-
-                    npc.lockMovement();
-                    npc.direction = direction.oppositeOf(hero.direction);
-
-                    game.pushState(new DialogueState(messages, function() {
-                        npc.unlockMovement();
-                    }));
-                })
-            };
+            containsHero = _.bind(util.pointInRect, null, hero);
 
         map.addActor(hero);
 
@@ -66,11 +61,8 @@ define([
             });
 
             // handle switching maps...
-            _(map.exits).each(function(exit) {
-                if (util.pointInRect(hero, exit)) {
-                    mapLoader.goToMap(exit.map, exit.entrance);
-                    return false;
-                }
+            _(map.exits).withFirst(containsHero, function(exit) {
+                mapLoader.goToMap(exit.map, exit.entrance);
             });
 
             frame = (frame + 0.025 + hero.isMoving() * 0.05) % 4;
@@ -86,10 +78,6 @@ define([
             hero.unlockMovement();
         };
 
-        this.end = function() {
-            $.unsubscribe(talkSubscription);
-        };
-
         this.draw = function(timeScale) {
             tilemapView.draw();
 
@@ -99,8 +87,6 @@ define([
 
             game.graphics.setOrigin();
         };
-
-        subscribeToTalk();
     }
 
     return FieldState;

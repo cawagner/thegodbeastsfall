@@ -51,6 +51,7 @@ define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, d
             var otherGuy = this.map.getActor(this.x + d.x, this.y + d.y);
             // TODO: pass anything in to this? Call less directly?
             if (otherGuy && otherGuy.onTalk) {
+                otherGuy.direction = direction.oppositeOf(this.direction);
                 otherGuy.onTalk();
             }
         };
