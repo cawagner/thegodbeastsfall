@@ -1,4 +1,6 @@
-define(["underscore", "keyboard-input", "pawns/character-pawn", "gui", "chars"], function (_, input, CharacterPawn, GuiRenderer, chars) {
+define([
+    "underscore", "keyboard-input", "pawns/character-pawn", "gui", "chars", "states/noop-state"
+], function (_, input, CharacterPawn, GuiRenderer, chars, NoopState) {
     "use strict";
 
     function StatusState(character) {

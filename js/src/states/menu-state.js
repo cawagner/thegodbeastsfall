@@ -1,4 +1,4 @@
-define(["jquery", "gui", "chars", "pubsub"], function($, GuiRenderer, chars) {
+define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, GuiRenderer, chars, NoopState) {
     "use strict";
 
     function MenuState(menu) {

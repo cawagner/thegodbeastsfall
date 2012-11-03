@@ -1,4 +1,4 @@
-define(["gui", "display/speakers"], function(GuiRenderer, speakers) {
+define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, speakers, NoopState) {
     "use strict";
 
     function DialogueState(messages, doneFn) {

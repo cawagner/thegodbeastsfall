@@ -1,4 +1,6 @@
 define([], function() {
+    "use strict";
+
     var direction = {
         UP: 0,
         RIGHT: 1,

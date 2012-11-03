@@ -1,7 +1,3 @@
-function NoopState() {
-    this.update = _.noop;
-    this.draw = _.noop;
-}
 
 function Game(graphics, input) {
     if (Game.instance) {

@@ -9,7 +9,6 @@ var dependencies = [
     'states/main-menu-state',
     'states/field-state',
     // Just return objects
-    'pawns/pawns',
     'keyboard-input',
     'touch-input',
     // After this point, other objects are extended
@@ -17,7 +16,7 @@ var dependencies = [
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, MainMenuState, FieldState, pawns, input, touchInput) {
+define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, MainMenuState, FieldState, input, touchInput) {
     "use strict";
 
     // TODO: we'll fix this madness ASAP...
@@ -25,13 +24,7 @@ define(dependencies, function($, _, Graphics, Menu, FieldMenuState, MenuState, M
     window.MainMenuState = MainMenuState;
     window.FieldState = FieldState;
 
-    var requirements = [
-        'pawns/character-pawn',
-        'states/transitions/scroll-transition-state',
-        'states/field-state',
-        'states/dialogue-state',
-        'game'
-    ];
+    var requirements = [ 'game' ];
 
     var includeAll = function(scripts, done) {
         var index = 0;
