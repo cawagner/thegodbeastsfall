@@ -29,21 +29,13 @@ define([
         };
 
         var menu = new Menu([
-            {
-                text: "Fight",
-                childMenu: skillsOfType("Fight")
-            },
-            {
-                text: "Magic",
-                childMenu: skillsOfType("Magic")
-            },
-            { text: "Item" },
+            { text: "Fight", childMenu: skillsOfType("Fight") },
+            { text: "Magic", childMenu: skillsOfType("Magic") },
+            { text: "Item", childMenu: new Menu([]) },
             {
                 text: "Tactic",
                 childMenu: new Menu([
-                    "Defend",
-                    "Run Away",
-                    "Inspect"
+                    "Defend", "Run Away", "Inspect"
                 ]).position(10, 220).size(1, 3)
             }
         ])
@@ -51,11 +43,7 @@ define([
         .position(10, 200)
         .cancel(_.give(false))
         .select(function(index, item) {
-            if (item.childMenu) {
-                _(item).result("childMenu").open();
-            } else {
-                //this.close();
-            }
+            _(item).result("childMenu").open();
         });
 
         setTimeout(function() {
