@@ -22,7 +22,7 @@ define(["map-loader", "character"], function(mapLoader, Character) {
                 luck: 10,
                 skills: {
                     "Fight": [ "slash", "hard" ],
-                    "Saint": [ "heal1" ]
+                    "Magic": [ "heal1" ]
                 }
             });
 

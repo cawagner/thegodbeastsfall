@@ -28,7 +28,7 @@ define([
                     });
                 }
             },
-            "Zauber",
+            "Magic",
             "Items",
             {
                 text: "System",
