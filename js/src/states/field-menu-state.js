@@ -3,10 +3,9 @@ define([
     "game-state",
     "menu",
     "states/menu-state",
-    "states/status-state",
     "chars",
     "states/noop-state"
-], function(_, gameState, Menu, MenuState, StatusState, chars, NoopState) {
+], function(_, gameState, Menu, MenuState, chars, NoopState) {
     "use strict";
 
     function FieldMenuState() {
@@ -24,7 +23,7 @@ define([
                             return { text: member.name, member: member };
                         }),
                         select: function(index, menuItem) {
-                            Game.instance.pushState(new StatusState(menuItem.member));
+                            $.publish("/status/show", [menuItem.member]);
                         }
                     })
                 },

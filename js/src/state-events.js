@@ -4,6 +4,7 @@ define([
     "states/dialogue-state",
     "states/field-state",
     "states/battle-state",
+    "states/status-state",
     "states/transitions/scroll-transition-state",
     "sound"
 ], function(
@@ -12,6 +13,7 @@ define([
     DialogueState,
     FieldState,
     BattleState,
+    StatusState,
     ScrollTransitionState,
     sound
 ) {
@@ -73,6 +75,10 @@ define([
                 // TODO: transition!
                 sound.playMusic(oldMusic);
                 game.popState();
+            });
+
+            $.subscribe("/status/show", function(member) {
+                game.pushState(new StatusState(member));
             });
         }
     }
