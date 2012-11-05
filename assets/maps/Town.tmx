@@ -38,16 +38,20 @@
     <property name="say2" value="You must be here for a special reason."/>
    </properties>
   </object>
-  <object name="littlegirl" type="NPC" x="276" y="351">
+  <object name="littlegirl" type="NPC" x="272" y="352">
    <properties>
     <property name="archetype" value="littlegirl"/>
     <property name="behavior" value="wanderlust"/>
+    <property name="say" value="Mirv is really pretty. And really strong. And smart."/>
+    <property name="say2" value="I hope she's okay."/>
    </properties>
   </object>
   <object name="earl" type="NPC" x="133" y="422">
    <properties>
     <property name="archetype" value="earl"/>
     <property name="behavior" value="wanderlust"/>
+    <property name="say" value="You're the first person like you to come here in over twenty years."/>
+    <property name="say2" value="Mirv was the last, but she went into the tomb world and never came back."/>
    </properties>
   </object>
   <object name="barrel1" type="NPC" x="152" y="248">

@@ -84,12 +84,14 @@
                  "properties":
                     {
                      "archetype":"littlegirl",
-                     "behavior":"wanderlust"
+                     "behavior":"wanderlust",
+                     "say":"Mirv is really pretty. And really strong. And smart.",
+                     "say2":"I hope she's okay."
                     },
                  "type":"NPC",
                  "width":0,
-                 "x":276,
-                 "y":351
+                 "x":272,
+                 "y":352
                 }, 
                 {
                  "height":0,
@@ -97,7 +99,9 @@
                  "properties":
                     {
                      "archetype":"earl",
-                     "behavior":"wanderlust"
+                     "behavior":"wanderlust",
+                     "say":"You're the first person like you to come here in over twenty years.",
+                     "say2":"Mirv was the last, but she went into the tomb world and never came back."
                     },
                  "type":"NPC",
                  "width":0,
