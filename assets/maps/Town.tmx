@@ -34,6 +34,8 @@
     <property name="archetype" value="oldman"/>
     <property name="behavior" value="stationary"/>
     <property name="direction" value="down"/>
+    <property name="say" value="Only those who've been touched by the spark of the divine are able to enter or exit this town."/>
+    <property name="say2" value="You must be here for a special reason."/>
    </properties>
   </object>
   <object name="littlegirl" type="NPC" x="276" y="351">
@@ -52,6 +54,13 @@
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
+   </properties>
+  </object>
+  <object name="earl2" type="NPC" x="352" y="192">
+   <properties>
+    <property name="archetype" value="earl"/>
+    <property name="behavior" value="wanderlust"/>
+    <property name="say" value="Guelln is a town that has been blessed by the Goddess Liessin."/>
    </properties>
   </object>
  </objectgroup>

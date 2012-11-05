@@ -69,7 +69,9 @@
                     {
                      "archetype":"oldman",
                      "behavior":"stationary",
-                     "direction":"down"
+                     "direction":"down",
+                     "say":"Only those who've been touched by the spark of the divine are able to enter or exit this town.",
+                     "say2":"You must be here for a special reason."
                     },
                  "type":"NPC",
                  "width":0,
@@ -114,6 +116,20 @@
                  "width":0,
                  "x":152,
                  "y":248
+                }, 
+                {
+                 "height":0,
+                 "name":"earl2",
+                 "properties":
+                    {
+                     "archetype":"earl",
+                     "behavior":"wanderlust",
+                     "say":"Guelln is a town that has been blessed by the Goddess Liessin."
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":352,
+                 "y":192
                 }],
          "opacity":1,
          "type":"objectgroup",

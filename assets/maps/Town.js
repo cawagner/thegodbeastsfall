@@ -16,17 +16,7 @@ setupMap(function(map, gameState) {
         stepsUntilMirvMessage: 750
     };
 
-    map.npcs.oldman.onTalk = function() {
-        var message = {
-            speaker: "oldman",
-            text: [
-                "Only those who've been touched by the spark of the divine are able to enter or exit this town.",
-                "You must be here for a special reason."
-            ]
-        };
-        this.say([message]);
-        learnAboutMirv();
-    };
+    map.npcs.oldman.addBeforeTalk(learnAboutMirv);
 
     map.npcs.littlegirl.onTalk = function() {
         var message =  {
