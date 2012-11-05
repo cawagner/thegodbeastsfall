@@ -10,8 +10,9 @@ define(["jquery", "underscore", "pubsub"], function($, _) {
         this.items = options.items;
         this.options = options;
 
-        this.x = options.x || 20;
-        this.y = options.y || 20;
+        this.x = options.x === undefined ? 20 : options.x;
+        this.y = options.y === undefined ? 20 : options.y;
+        this.position = options.position || "relative";
 
         this.selectHandlers = [];
         this.cancelHandlers = [];

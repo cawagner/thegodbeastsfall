@@ -24,7 +24,9 @@ define([
             return function() {
                 var member = playerPawns[partyIndex];
                 var skills = member.character.skills[type];
-                return new Menu(skills).select();
+                return new Menu({
+                    items: skills
+                });
             }
         };
 
@@ -42,10 +44,10 @@ define([
                     text: "Tactic",
                     childMenu: new Menu({
                         items: [ "Defend", "Run Away", "Inspect" ],
-                        rows: 3,
-                        cols: 1,
+                        rows: 1,
+                        cols: 3,
                         x: 10,
-                        y: 220
+                        y: 200
                     })
                 }
             ],
