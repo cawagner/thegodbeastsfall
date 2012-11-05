@@ -1,15 +1,15 @@
-define(["display/speakers"], function(speakers) {
+define(["constants", "display/speakers"], function(constants, speakers) {
     function GuiRenderer(graphics) {
         this.graphics = graphics;
         this.lineHeight = 16;
     }
 
     GuiRenderer.prototype.drawWindowRect = function(x, y, width, height) {
-        this.graphics.setFillColor("#000");
+        this.graphics.setFillColor(constants.WINDOW_OB_COLOR);
         this.graphics.drawFilledRect(x - 7, y - 7, width + 14, height + 14);
-        this.graphics.setFillColor("#fff");
+        this.graphics.setFillColor(constants.WINDOW_IB_COLOR);
         this.graphics.drawFilledRect(x - 5, y - 5, width + 10, height + 10);
-        this.graphics.setFillColor("#000");
+        this.graphics.setFillColor(constants.WINDOW_BG_COLOR);
         this.graphics.drawFilledRect(x - 3, y - 3, width + 6, height + 6);
     };
 
@@ -20,7 +20,7 @@ define(["display/speakers"], function(speakers) {
 
     GuiRenderer.prototype.drawTextLines = function(x, y, lines) {
         var self = this;
-        this.graphics.setFillColor("#fff");
+        this.graphics.setFillColor(constants.WINDOW_TEXT_COLOR);
         _(lines).each(function(text, line) {
             self.graphics.drawText(x + 2, y + 2 + line * self.lineHeight, text);
         });
