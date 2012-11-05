@@ -25,12 +25,14 @@ define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, s
 
             this.previousState.draw(timeScale);
 
-            if (speaker) {
-                gui.drawTextWindow(x + 5, y - 23, 100, 10, [speaker.name]);
-            }
-            gui.drawPortrait(x + 250, y, message.speaker, true);
-
             gui.drawTextWindow(x, y, 230, 48, lines);
+
+            if (speaker) {
+                gui.drawPortrait(x + 250, y, message.speaker, true);
+
+                gui.drawWindowRect(x - 3, y - 13, speaker.name.length * 6 + 6, 5);
+                gui.drawTextLines(x - 3, y - 13 - 5, [speaker.name]);
+            }
         };
 
         this.advanceMessage = function() {
