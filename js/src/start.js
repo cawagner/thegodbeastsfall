@@ -16,7 +16,8 @@
             text: "../lib/requirejs-plugins/text",
             image: '../lib/requirejs-plugins/image',
             json: '../lib/requirejs-plugins/json',
-            noext: '../lib/requirejs-plugins/noext'
+            noext: '../lib/requirejs-plugins/noext',
+            campaign: '../../assets/data/campaign'
         },
         urlArgs: "bust=" + Date.now()
     });

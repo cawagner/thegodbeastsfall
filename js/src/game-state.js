@@ -1,7 +1,7 @@
 define([
     "map-loader",
     "character",
-    "json!../../assets/data/campaign.json"
+    "json!campaign.json"
 ], function(mapLoader, Character, campaign) {
     "use strict";
 
