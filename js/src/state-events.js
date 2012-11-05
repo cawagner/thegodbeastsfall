@@ -18,6 +18,10 @@ define([
     sound
 ) {
     var oldMusic;
+    var fakeNpc = {
+        lockMovement: _.noop,
+        unlockMovement: _.noop
+    };
 
     return {
         init: function(game) {
@@ -28,11 +32,6 @@ define([
 
             // TODO: doesn't go here!
             $.subscribe("/npc/talk", function(messages, npc) {
-                var fakeNpc = {
-                    lockMovement: _.noop,
-                    unlockMovement: _.noop
-                };
-
                 npc = npc || fakeNpc;
 
                 npc.lockMovement();
