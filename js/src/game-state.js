@@ -1,4 +1,8 @@
-define(["map-loader", "character"], function(mapLoader, Character) {
+define([
+    "map-loader",
+    "character",
+    "json!../../assets/data/campaign.json"
+], function(mapLoader, Character, campaign) {
     "use strict";
 
     if (GameState.instance) {
@@ -34,7 +38,7 @@ define(["map-loader", "character"], function(mapLoader, Character) {
 
             this.flags = {};
 
-            mapLoader.goToMap('DesertPath');
+            mapLoader.goToMap(campaign.startMap);
         };
 
         this.toJSON = function() {
