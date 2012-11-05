@@ -17,6 +17,7 @@
             image: '../lib/requirejs-plugins/image',
             json: '../lib/requirejs-plugins/json',
             noext: '../lib/requirejs-plugins/noext',
+            audio: '../lib/requirejs-plugins/audio',
             campaign: '../../assets/data/campaign'
         },
         urlArgs: "bust=" + Date.now()
