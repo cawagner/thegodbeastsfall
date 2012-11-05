@@ -12,35 +12,32 @@ define([
     function FieldMenuState() {
         var self = this;
 
-        var getPartyMenu = function() {
-             var options = _(gameState.party).map(function(member){
-                return { text: member.name, member: member };
-            });
-            return new Menu(options);
-        };
-
-        this.menu = new Menu([
-            {
-                text: "Status",
-                childMenu: function() {
-                    return getPartyMenu().select(function(index, menuItem) {
-                        Game.instance.pushState(new StatusState(menuItem.member));
-                    });
+        this.menu = new Menu({
+            rows: 2,
+            cols: 2,
+            hierarchical: true,
+            items: [
+                {
+                    text: "Status",
+                    childMenu: new Menu({
+                        items: _(gameState.party).map(function(member) {
+                            return { text: member.name, member: member };
+                        }),
+                        select: function(index, menuItem) {
+                            Game.instance.pushState(new StatusState(menuItem.member));
+                        }
+                    })
+                },
+                "Magic",
+                "Items",
+                {
+                    text: "System",
+                    childMenu: new Menu({
+                        items: [ "Save", "Load", "Options" ]
+                    })
                 }
-            },
-            "Magic",
-            "Items",
-            {
-                text: "System",
-                childMenu: new Menu([ "Save", "Load", "Options" ])
-            }
-        ]).select(function(index, item) {
-            if (item.childMenu) {
-                _(item).result("childMenu").open();
-            } else {
-                this.close();
-            }
-        }).size(2, 2);
+            ]
+        });
 
         this.menuState = new MenuState(this.menu);
         this.gui = this.menuState.gui;

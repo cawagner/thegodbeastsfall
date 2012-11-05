@@ -24,27 +24,34 @@ define([
             return function() {
                 var member = playerPawns[partyIndex];
                 var skills = member.character.skills[type];
-                return new Menu(skills);
+                return new Menu(skills).select();
             }
         };
 
-        var menu = new Menu([
-            { text: "Fight", childMenu: skillsOfType("Fight") },
-            { text: "Magic", childMenu: skillsOfType("Magic") },
-            { text: "Item", childMenu: new Menu([]) },
-            {
-                text: "Tactic",
-                childMenu: new Menu([
-                    "Defend", "Run Away", "Inspect"
-                ]).position(10, 220).size(1, 3)
-            }
-        ])
-        .size(2, 2)
-        .position(10, 200)
-        .cancel(_.give(false))
-        .select(function(index, item) {
-            _(item).result("childMenu").open();
-        });
+        var menuOptions = {
+            hierarchical: true,
+            rows: 2,
+            cols: 2,
+            x: 10,
+            y: 200,
+            items: [
+                { text: "Fight", childMenu: skillsOfType("Fight") },
+                { text: "Magic", childMenu: skillsOfType("Magic") },
+                { text: "Item", childMenu: new Menu() },
+                {
+                    text: "Tactic",
+                    childMenu: new Menu({
+                        items: [ "Defend", "Run Away", "Inspect" ],
+                        rows: 3,
+                        cols: 1,
+                        x: 10,
+                        y: 220
+                    })
+                }
+            ],
+            cancel: _.give(false)
+        };
+        var menu = new Menu(menuOptions);
 
         setTimeout(function() {
             menu.open();

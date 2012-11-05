@@ -2,8 +2,12 @@ define(["jquery", "underscore", "pubsub"], function($, _) {
     "use strict";
 
     function Menu(options) {
-        this.cols = 1;
-        this.rows = options.length;
+        options = options || {};
+        options.items = options.items || [];
+
+        this.cols = options.cols || 1;
+        this.rows = options.rows || options.items.length;
+        this.items = options.items;
         this.options = options;
 
         this.x = 20;
@@ -11,19 +15,24 @@ define(["jquery", "underscore", "pubsub"], function($, _) {
 
         this.selectHandlers = [];
         this.cancelHandlers = [];
+
+        if (this.options.hierarchical) {
+            this.select(function(index, item) {
+                var child = _(item).result("childMenu");
+                if (child instanceof Menu) {
+                    child.open();
+                }
+            });
+        }
+
+        if (this.options.select) {
+            this.select(this.options.select);
+        }
+
+        if (this.options.cancel) {
+            this.cancel(this.options.cancel);
+        }
     }
-
-    Menu.prototype.position = function(x, y) {
-        this.x = x;
-        this.y = y;
-        return this;
-    };
-
-    Menu.prototype.size = function(rows, cols) {
-        this.rows = rows;
-        this.cols = cols || this.cols;
-        return this;
-    };
 
     Menu.prototype.select = function(fn) {
         this.selectHandlers.push(fn);
