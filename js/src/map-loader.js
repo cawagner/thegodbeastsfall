@@ -1,29 +1,42 @@
 // This is awful. I was actually drunk when I wrote it, unfortunately.
-define(["jquery", "underscore", "tilemap", "actors/npc", "constants", "pubsub"], function($, _, tilemap, Npc, constants) {
+define([
+    "jquery",
+    "underscore",
+    "tilemap",
+    "actors/npc",
+    "constants",
+    "pubsub"
+], function(
+    $,
+    _,
+    tilemap,
+    Npc,
+    constants
+) {
     // TODO: HACK
     var Tilemap = tilemap.Tilemap;
     var Map = tilemap.Map;
 
     var TILE_SIZE = constants.TILE_SIZE;
 
+    var createTileSet = function(tilesetData) {
+        var path = 'assets/' + tilesetData.image.replace("\/", "/").replace(/..\//, '');
+        var image = new Image();
+        var tileset = {
+            image: image,
+            name: tilesetData.name,
+            width: tilesetData.imagewidth / TILE_SIZE,
+            height: tilesetData.imageheight / TILE_SIZE,
+            tileWidth: tilesetData.tilewidth,
+            tileHeight: tilesetData.tileheight,
+            length: (tilesetData.imagewidth / TILE_SIZE) * (tilesetData.imageheight / TILE_SIZE)
+        };
+        image.src = path;
+        return tileset;
+    };
+
     function MapLoader() {
         var self = this;
-
-        var createTileSet = function(tilesetData) {
-            var path = 'assets/' + tilesetData.image.replace("\/", "/").replace(/..\//, '');
-            var image = new Image();
-            var tileset = {
-                image: image,
-                name: tilesetData.name,
-                width: tilesetData.imagewidth / TILE_SIZE,
-                height: tilesetData.imageheight / TILE_SIZE,
-                tileWidth: tilesetData.tilewidth,
-                tileHeight: tilesetData.tileheight,
-                length: (tilesetData.imagewidth / TILE_SIZE) * (tilesetData.imageheight / TILE_SIZE)
-            };
-            image.src = path;
-            return tileset;
-        };
 
         this.load = function(mapName) {
             var deferred = $.Deferred();
@@ -57,7 +70,6 @@ define(["jquery", "underscore", "tilemap", "actors/npc", "constants", "pubsub"],
             var entrances = {};
             var exits = {};
             var npcs = {};
-            var result;
 
             var z = 0;
             _(tileLayers).each(function() {
@@ -97,22 +109,17 @@ define(["jquery", "underscore", "tilemap", "actors/npc", "constants", "pubsub"],
                 });
             });
 
-            result = new Map(tilemap, mask.data);
-            result.tilesets = tilesets;
-            result.entrances = entrances;
-            result.exits = exits;
-            result.properties = data.properties;
-            result.npcs = npcs;
-
-            _(npcs).each(function(npc) {
-                result.addActor(npc);
+            return new Map(tilemap, mask.data, {
+                tilesets: tilesets,
+                entrances: entrances,
+                exits: exits,
+                properties: data.properties,
+                npcs: npcs
             });
-
-            return result;
         };
     }
 
-    function goToMap(mapName, entrance) {
+    var goToMap = function(mapName, entrance) {
         var mapLoader = new MapLoader();
 
         $.publish("/map/loading");

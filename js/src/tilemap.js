@@ -1,14 +1,18 @@
-define(["underscore"], function() {
+define(["underscore"], function(_) {
     "use strict";
 
-    function Map(tilemap, mask) {
+    function Map(tilemap, mask, data) {
         // TODO: don't duplicate...
         var indexFor = function(x, y) {
             return x + y * tilemap.width();
         };
 
+        var self = this;
+
         this.tilemap = tilemap;
         this.actors = [];
+
+        _.extend(this, data);
 
         this.setMask = function(x, y) {
             mask[indexFor(x, y)] = true;
@@ -34,6 +38,12 @@ define(["underscore"], function() {
             this.actors.push(actor);
             actor.map = this;
         };
+
+        if (data && data.npcs) {
+            _(data.npcs).each(function(npc) {
+                self.addActor(npc);
+            });
+        }
     }
 
     Map.prototype.width = function() {
