@@ -12,7 +12,11 @@
         paths: {
             jquery: "../lib/jquery-1.8.2",
             underscore: "../lib/underscore",
-            pubsub: "../lib/pubsub"
+            pubsub: "../lib/pubsub",
+            text: "../lib/requirejs-plugins/text",
+            image: '../lib/requirejs-plugins/image',
+            json: '../lib/requirejs-plugins/json',
+            noext: '../lib/requirejs-plugins/noext'
         },
         urlArgs: "bust=" + Date.now()
     });
