@@ -52,13 +52,21 @@ define([
         this.menuState.update(delta);
     };
 
+    FieldMenuState.prototype.drawStatus = function(x, y, ally) {
+        this.gui.drawTextWindow(x, y, 36, 44, [
+            ally.name.toUpperCase(),
+            chars.HEART + (""+ally.hp).rset(3),
+            chars.STAR + (""+ally.mp).rset(3)]
+        );
+    }
+
     FieldMenuState.prototype.draw = function(delta) {
         var party = gameState.party;
 
         this.previousState.draw(delta);
         this.menuState.draw(delta);
 
-        this.gui.drawTextWindow(260, 180, 36, 44, ["HELD", chars.HEART + (""+party[0].hp).rset(3), chars.STAR + (""+party[0].mp).rset(3)]);
+        this.drawStatus(260, 180, party[0]);
     };
 
     FieldMenuState.prototype.suspend = function() {
