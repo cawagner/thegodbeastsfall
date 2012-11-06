@@ -11,6 +11,8 @@ define([
     GuiRenderer,
     Menu
 ) {
+    var MESSAGE_DELAY = 250;
+
     function BattleState() {
         var self = this;
 
@@ -22,10 +24,20 @@ define([
 
         this.partyIndex = 0;
 
-        setTimeout(function() {
-            var menu = self.getMenu();
-            menu.open();
-        }, 2000);
+        this.messages = [
+            "Aggressed by Rat!",
+            "Aggressed by Slime!"
+        ];
+        this.currentMessage = "";
+        this.messageDelay = 0;
+
+        this.currentState = this.messagePhase;
+        this.nextState = this.enterCommands;
+
+        // setTimeout(function() {
+        //     var menu = self.getMenu();
+        //     menu.open();
+        // }, 2000);
     };
 
     BattleState.prototype.skillsOfType = function(type) {
@@ -65,14 +77,46 @@ define([
         });
     };
 
-    BattleState.prototype.update = function() {
+    BattleState.prototype.messagePhase = function(next) {
+        // TODO: work smarter, not harder
+        // this is the "message phase..."
+        this.messageDelay--;
+        if (this.messageDelay < 0) {
+            if (this.advanceMessage()) {
+                this.messageDelay = MESSAGE_DELAY;
+            } else {
+                this.currentState = this.nextState;
+            }
+        }
+    };
 
+    BattleState.prototype.update = function() {
+        this.currentState();
+    };
+
+
+    BattleState.prototype.enterCommands = function() {
+        this.getMenu().open();
+        this.nextState = _.noop;
+        this.currentState = this.nextState;
+    };
+
+    BattleState.prototype.advanceMessage = function() {
+        if (this.messages.length) {
+            this.currentMessage = this.messages.shift();
+            return true;
+        }
+        this.currentMessage = "";
+        return false;
     };
 
     BattleState.prototype.draw = function() {
         Game.instance.graphics.setFillColorRGB(0, 0, 0);
         Game.instance.graphics.drawFilledRect(0, 0, 320, 240);
 
+        if (this.currentMessage != "") {
+            this.gui.drawTextWindow(10, 10, 300, 20, [this.currentMessage]);
+        }
     };
 
     return BattleState;
