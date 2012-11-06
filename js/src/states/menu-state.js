@@ -11,6 +11,8 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
         this.selectionIndex = 0;
         this.input = game.input;
 
+        this.openProgress = 0.0;
+
         var subscription = $.subscribe("/menu/close", function(menuToClose) {
             if (menuToClose === menu) {
                 $.unsubscribe(subscription);
@@ -24,6 +26,8 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
     };
 
     MenuState.prototype.update = function() {
+        this.openProgress = Math.min(1, this.openProgress + 0.2);
+
         if (this.input.wasUpPressed()) {
             this.selectionIndex = Math.max(0, this.selectionIndex - this.menu.cols);
         }
@@ -51,7 +55,7 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
 
         this.previousState.draw(delta);
 
-        this.gui.drawWindowRect(this.menu.x, this.menu.y, this.menu.cols * colWidth, this.menu.rows * this.gui.lineHeight);
+        this.gui.drawWindowRect(this.menu.x, this.menu.y, this.menu.cols * colWidth * this.openProgress, this.menu.rows * this.gui.lineHeight * this.openProgress);
         this.graphics.setFillColor("#fff");
 
         for (i = 0; i < this.menu.items.length; ++i) {
