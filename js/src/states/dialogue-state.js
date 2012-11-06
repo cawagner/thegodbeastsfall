@@ -8,7 +8,8 @@ define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, s
             lineIndex = 0,
             message = messages[0],
             lines = message.text[0].wordWrap(LINE_LENGTH),
-            gui = new GuiRenderer(Game.instance.graphics);
+            gui = new GuiRenderer(Game.instance.graphics),
+            openProgress = 0.0;
 
         this.previousState = new NoopState();
 
@@ -25,13 +26,13 @@ define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, s
 
             this.previousState.draw(timeScale);
 
-            gui.drawTextWindow(x, y, 230, 48, lines);
+            gui.drawTextWindow(x, y + 240*(1-openProgress), 230, 48, lines);
 
             if (speaker) {
                 gui.drawPortrait(x + 250, y, message.speaker, true);
 
-                gui.drawWindowRect(x - 3, y - 13, speaker.name.length * 6 + 6, 5);
-                gui.drawTextLines(x - 3, y - 13 - 5, [speaker.name]);
+                gui.drawWindowRect(x - 3 - 64*(1-openProgress), y - 13, speaker.name.length * 6 + 6, 5);
+                gui.drawTextLines(x - 3 - 64*(1-openProgress), y - 13 - 5, [speaker.name]);
             }
         };
 
@@ -57,6 +58,8 @@ define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, s
             if (Game.instance.input.wasConfirmPressed()) {
                 this.advanceText();
             }
+
+            openProgress = Math.min(1, openProgress + 0.05);
 
             this.previousState.update(timeScale, false);
         };
