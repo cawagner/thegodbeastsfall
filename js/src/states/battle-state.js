@@ -77,7 +77,7 @@ define([
         });
     };
 
-    BattleState.prototype.messagePhase = function(next) {
+    BattleState.prototype.messagePhase = function() {
         // TODO: work smarter, not harder
         // this is the "message phase..."
         this.messageDelay--;
@@ -85,36 +85,42 @@ define([
             if (this.advanceMessage()) {
                 this.messageDelay = MESSAGE_DELAY;
             } else {
-                this.currentState = this.nextState;
+                this.advanceState();
             }
         }
+    };
+
+    BattleState.prototype.enqueueState = function(state) {
+        this.nextState = state;
+    };
+
+    BattleState.prototype.advanceState = function() {
+        if (!this.nextState) {
+            throw "Tried to advance state, but there is no next state!";
+        }
+        this.currentState = this.nextState;
+        this.nextState = null;
     };
 
     BattleState.prototype.update = function() {
         this.currentState();
     };
 
-
     BattleState.prototype.enterCommands = function() {
         this.getMenu().open();
-        this.nextState = _.noop;
-        this.currentState = this.nextState;
+        this.enqueueState(_.noop);
+        this.advanceState();
     };
 
     BattleState.prototype.advanceMessage = function() {
-        if (this.messages.length) {
-            this.currentMessage = this.messages.shift();
-            return true;
-        }
-        this.currentMessage = "";
-        return false;
+        return (this.currentMessage = this.messages.shift());
     };
 
     BattleState.prototype.draw = function() {
         Game.instance.graphics.setFillColorRGB(0, 0, 0);
         Game.instance.graphics.drawFilledRect(0, 0, 320, 240);
 
-        if (this.currentMessage != "") {
+        if (this.currentMessage) {
             this.gui.drawTextWindow(10, 10, 300, 20, [this.currentMessage]);
         }
     };
