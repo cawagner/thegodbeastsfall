@@ -118,7 +118,7 @@ define([
     BattleState.prototype.drawAllies = function() {
         var i;
         for (i = 0; i < this.playerPawns.length; ++i) {
-            this.gui.drawStatus(200, 185, this.playerPawns[i]);
+            this.gui.drawStatus(200 + i * 36, 185, this.playerPawns[i]);
         }
     }
 
