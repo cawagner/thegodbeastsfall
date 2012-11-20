@@ -25,6 +25,10 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
             collected = 0,
             timeScale = 1;
 
+        _.templateSettings = {
+            interpolate : /\{\{(.+?)\}\}/g
+        };
+
         var requestAnimationFrame = util.getRequestAnimationFrame();
 
         // HACK: no :(

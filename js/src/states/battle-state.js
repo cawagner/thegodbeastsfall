@@ -22,12 +22,14 @@ define([
             return new pawns.CharacterPawn(character);
         });
 
+        this.enemyPawns = [
+            { name: "Rat" },
+            { name: "Slime" }
+        ];
+
         this.queuedStates = [];
 
-        this.enqueueState(new BattleMessageState([
-            "Aggressed by Rat!",
-            "Aggressed by Slime!"
-        ]));
+        this.enqueueState(new BattleMessageState(_(this.enemyPawns).map(_.template("Aggressed by {{name}}!"))));
         this.enqueueState(new BattleMenuState(this));
 
         this.advanceState();

@@ -1,0 +1,10 @@
+{
+    "slime": {
+        "name": "Slime",
+        "desc": "An ambulatory slime mould of some sort. Did you know that these are not technically a fungus?"
+    },
+    "rat": {
+        "rat": "Rat",
+        "desc": "A large muroid rodent. This one appears to weigh about 50 shekels."
+    }
+}
