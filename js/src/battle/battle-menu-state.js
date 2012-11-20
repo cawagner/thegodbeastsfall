@@ -44,8 +44,8 @@ define(["underscore", "menu"], function(_, Menu) {
             hierarchical: true,
             rows: 2,
             cols: 2,
-            x: 10,
-            y: 200,
+            x: 15,
+            y: 190,
             items: [
                 { text: "Fight", childMenu: self.skillsOfType("Fight") },
                 { text: "Magic", childMenu: self.skillsOfType("Magic") },

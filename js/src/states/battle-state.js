@@ -44,6 +44,11 @@ define([
 
         this.enemyPawns = [
             {
+                name: "Slime",
+                image: enemyImage,
+                rect: { x: 0, y: 100, width: 36, height: 40 }
+            },
+            {
                 name: "Rat",
                 image: enemyImage,
                 rect: { x: 4, y: 500, width: 70, height: 60 }
@@ -89,6 +94,7 @@ define([
 
         // draw enemies
         this.drawEnemies();
+        this.drawAllies();
 
         this.currentState.draw();
     };
@@ -101,13 +107,20 @@ define([
             pawn = this.enemyPawns[i];
             dest = {
                 x: i * 100 + margin - pawn.rect.width / 2,
-                y: 150 - pawn.rect.height,
+                y: 160 - pawn.rect.height,
                 width: pawn.rect.width,
                 height: pawn.rect.height
             };
             Game.instance.graphics.drawImageRect(pawn.image, pawn.rect, dest);
         }
     };
+
+    BattleState.prototype.drawAllies = function() {
+        var i;
+        for (i = 0; i < this.playerPawns.length; ++i) {
+            this.gui.drawStatus(200, 185, this.playerPawns[i]);
+        }
+    }
 
     return BattleState;
 });

@@ -1,4 +1,4 @@
-define(["constants", "display/speakers"], function(constants, speakers) {
+define(["underscore", "constants", "chars", "display/speakers"], function(_, constants, chars, speakers) {
     function GuiRenderer(graphics) {
         this.graphics = graphics;
         this.lineHeight = 16;
@@ -40,6 +40,14 @@ define(["constants", "display/speakers"], function(constants, speakers) {
             this.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
         }
         this.graphics.drawImageRect(image, speakerSrcRect, speakerDestRect);
+    };
+
+    GuiRenderer.prototype.drawStatus = function(x, y, ally) {
+        this.drawTextWindow(x, y, 36, 44, [
+            _(ally).result("name").toUpperCase(),
+            chars.HEART + (""+_(ally).result("hp")).rset(3),
+            chars.STAR + (""+_(ally).result("mp")).rset(3)]
+        );
     };
 
     return GuiRenderer;
