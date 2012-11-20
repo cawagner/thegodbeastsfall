@@ -9,12 +9,13 @@ var dependencies = [
     'touch-input',
     'util',
     'constants',
+    'json!campaign.json',
     // After this point, other objects are extended
     'pubsub',
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput, util, constants) {
+define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput, util, constants, campaign) {
     "use strict";
 
     var init = function() {
@@ -33,6 +34,8 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
 
         // HACK: no :(
         window.Game = { instance: game };
+
+        window.document.title = campaign.title;
 
         requestAnimationFrame(function mainLoop() {
             startFrame = endFrame;
