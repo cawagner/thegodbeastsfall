@@ -1,4 +1,4 @@
-define(["underscore", "gui"], function(_, GuiRenderer) {
+define(["underscore", "gui", "keyboard-input"], function(_, GuiRenderer, input) {
     var MESSAGE_DELAY = 250;
 
     function BattleMessageState(messages) {
@@ -14,7 +14,7 @@ define(["underscore", "gui"], function(_, GuiRenderer) {
             // TODO: work smarter, not harder
             // this is the "message phase..."
             this.messageDelay--;
-            if (this.messageDelay < 0) {
+            if (input.wasConfirmPressed() || this.messageDelay < 0) {
                 if (this.advanceMessage()) {
                     this.messageDelay = MESSAGE_DELAY;
                 } else {
