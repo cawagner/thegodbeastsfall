@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 define([
     "underscore",
     "game-state",
