@@ -23,7 +23,8 @@
         "target": "ally",
         "effect": "heal/normal",
         "power": "2d6",
-        "cost": { "mp": 2 }
+        "cost": { "mp": 2 },
+        "isFieldUsable": true
     },
     "default": {
         "name": "Default",

@@ -11,8 +11,6 @@ define(["underscore", "gui", "keyboard-input"], function(_, GuiRenderer, input) 
         this.start = _.noop;
 
         this.update = function() {
-            // TODO: work smarter, not harder
-            // this is the "message phase..."
             this.messageDelay--;
             if (input.wasConfirmPressed() || this.messageDelay < 0) {
                 if (this.advanceMessage()) {
