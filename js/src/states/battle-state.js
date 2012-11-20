@@ -39,9 +39,20 @@ define([
             return new pawns.CharacterPawn(character);
         });
 
+        var enemyImage = new Image();
+        enemyImage.src = "assets/img/enemies.png";
+
         this.enemyPawns = [
-            { name: "Rat" },
-            { name: "Slime" }
+            {
+                name: "Rat",
+                image: enemyImage,
+                rect: { x: 4, y: 500, width: 70, height: 60 }
+            },
+            {
+                name: "Slime",
+                image: enemyImage,
+                rect: { x: 0, y: 100, width: 36, height: 40 }
+            }
         ];
 
         this.queuedStates = [];
@@ -76,7 +87,26 @@ define([
         Game.instance.graphics.setFillColorRGB(0, 0, 0);
         Game.instance.graphics.drawFilledRect(0, 0, 320, 240);
 
+        // draw enemies
+        this.drawEnemies();
+
         this.currentState.draw();
+    };
+
+    BattleState.prototype.drawEnemies = function() {
+        var MAX_ENEMIES = 3;
+        var i, pawn, dest, margin = 160 - (this.enemyPawns.length-1)*50;
+
+        for (i = 0; i < this.enemyPawns.length; ++i) {
+            pawn = this.enemyPawns[i];
+            dest = {
+                x: i * 100 + margin - pawn.rect.width / 2,
+                y: 150 - pawn.rect.height,
+                width: pawn.rect.width,
+                height: pawn.rect.height
+            };
+            Game.instance.graphics.drawImageRect(pawn.image, pawn.rect, dest);
+        }
     };
 
     return BattleState;
