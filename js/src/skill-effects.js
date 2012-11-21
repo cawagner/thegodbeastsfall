@@ -1,4 +1,4 @@
-SkillEffects = (function() {
+define(["underscore", "dice"], function(_, Dice) {
     var d20 = Dice.parse("1d20"), d100 = Dice.parse("1d100");
 
     var standardDamage = function(user, target, skill, dice) {
@@ -48,17 +48,10 @@ SkillEffects = (function() {
             };
         },
         "heal/normal": function(skill, user, targets) {
-            var dice = Dice.parse(skill.power);
-
-            var results = _(targets).each(function(target) {
-                var result = {
-                    type: "heal",
-                    amount: dice.roll(),
-                    target: target
-                };
-                results.push
-            });
+            return {
+                success: false,
+                effects: []
+            };
         }
     }
-})();
-
+});

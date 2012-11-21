@@ -66,7 +66,19 @@ define([
                         });
                     });
                 }
-                // TODO: handle multi-targeting!
+                if (skill.target === "enemies") {
+                    new Menu({
+                        items: ["All Enemies"]
+                    }).select(function() {
+                        this.close();
+                        skillMenu.close();
+                        self.setAction("skill", {
+                            skill: skill,
+                            targets: self.battleState.enemyPawns
+                        });
+                    }).open();
+                }
+                // TODO: handle party multi-targeting/self-targeting!
             });
         };
     };

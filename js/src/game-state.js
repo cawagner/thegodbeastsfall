@@ -25,7 +25,7 @@ define([
                 intelligence: 10,
                 luck: 10,
                 skills: {
-                    "Fight": [ "slash", "hard" ],
+                    "Fight": [ "slash", "hard", "spin" ],
                     "Magic": [ "heal1" ]
                 }
             });

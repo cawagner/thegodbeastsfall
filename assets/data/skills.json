@@ -12,6 +12,13 @@
         "power": "4d6k3",
         "cooldown": 2
     },
+    "spin": {
+        "name": "Spin",
+        "target": "enemies",
+        "effect": "damage/melee",
+        "power": "2d6",
+        "cooldown": 3
+    },
     "heal1": {
         "name": "LayHands",
         "target": "player",

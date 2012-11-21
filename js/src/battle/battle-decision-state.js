@@ -1,17 +1,22 @@
 define([
     "battle/battle-message-state",
-    "battle/battle-menu-state"
+    "battle/battle-menu-state",
+    "skill-effects"
 ], function(
     BattleMessageState,
-    BattleMenuState
+    BattleMenuState,
+    skillEffects
 ) {
     "use strict";
 
     return function BattleDecisionState(battleState) {
         this.start = function(commands) {
             console.log(commands);
+
+            // TODO: alternative
+
             battleState.enqueueState(new BattleMessageState([
-                "Held chants the spell of " + (commands[0].param || "") + "!"
+                "Held uses " + (commands[0].param || "") + "!"
             ]));
             battleState.enqueueState(new BattleMenuState(battleState));
             battleState.enqueueState(new BattleDecisionState(battleState));
