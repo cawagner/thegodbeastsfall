@@ -38,14 +38,17 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
             return {
                 user: user,
                 skill: skill,
+                success: true,
                 priority: user.priority() + skill.priorityBoost + d20.roll()/2,
                 effects: results,
-                success: true
             };
         },
         "heal/normal": function(skill, user, targets) {
             return {
+                user: user,
+                skill: skill,
                 success: false,
+                priority: user.priority(),
                 effects: []
             };
         }

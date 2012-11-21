@@ -6,7 +6,7 @@
         "hp": 12,
         "mp": 0,
         "strength": 8,
-        "agility": 2,
+        "agility": 1,
         "intelligence": 1,
         "luck": 1,
         "rect": { "x": 0, "y": 100, "width": 36, "height": 40 }
@@ -17,8 +17,8 @@
         "skills": ["bite"],
         "hp": 13,
         "mp": 0,
-        "strength": 7,
-        "agility": 15,
+        "strength": 6,
+        "agility": 20,
         "intelligence": 3,
         "luck": 5,
         "rect": { "x": 4, "y": 500, "width": 70, "height": 60 }

@@ -42,7 +42,7 @@ define([
 
                 _(action.effects).each(function(effect) {
                     if (effect.missed) {
-                        messages.push("...but missed!");
+                        messages.push("...missed " + effect.target.name + "!");
                     } else {
                         if (effect.critical) {
                             messages.push("A mighty blow!");
