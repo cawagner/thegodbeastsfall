@@ -46,17 +46,17 @@ define([
             },
             skillMapping = {
                 "Attack ": "attack",
-                "Defense": "defense",
                 "Force  ": "force",
                 "Support": "support",
-                "Resist ": "resist"
+                "Resist ": "resist",
+                "DmgAbsb": "damageAbsorption"
             },
             skillMapping2 = {
                 "Hitting": "accuracy",
                 "Evasion": "evade",
                 "Init.  ": "priority",
                 "Panache": "criticalChance",
-                "Crit. X": "criticalMultiplier"
+                "DmgRedu": "damageReduction"
             };
 
         this.previousState.draw(delta);

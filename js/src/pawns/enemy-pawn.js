@@ -9,6 +9,7 @@ define(["pawns/pawn-base", "json!enemies.json"], function(PawnBase, enemies) {
         var proto = enemies[enemyId];
         PawnBase.call(this, proto);
 
+        this.enemy = proto;
         this.desc = proto.name;
         this.rect = proto.rect;
         this.skills = proto.skills;
@@ -16,6 +17,13 @@ define(["pawns/pawn-base", "json!enemies.json"], function(PawnBase, enemies) {
     };
 
     EnemyPawn.prototype = new PawnBase();
+
+    EnemyPawn.prototype.damageReduction = function() {
+        return this.enemy.damageReduction || this.enemy.strength;
+    };
+    EnemyPawn.prototype.damageAbsorption = function() {
+        return this.enemy.damageAbsorption || 10+this.enemy.strength;
+    };
 
     return EnemyPawn;
 });

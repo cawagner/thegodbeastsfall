@@ -3,27 +3,27 @@
         "name": "Slash",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "2d6"
+        "power": "1d8"
     },
     "hard": {
         "name": "Hard",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "4d6k3",
+        "power": "3d6",
         "cooldown": 2
     },
     "spin": {
         "name": "Spin",
         "target": "enemies",
         "effect": "damage/melee",
-        "power": "2d6",
+        "power": "1d6",
         "cooldown": 3
     },
     "heal1": {
         "name": "LayHands",
         "target": "player",
         "effect": "heal/normal",
-        "power": "2d6",
+        "power": "2d4",
         "cost": { "mp": 2 },
         "isFieldUsable": true
     },
@@ -31,13 +31,13 @@
         "name": "Ooze",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "2d4"
+        "power": "1d4"
     },
     "bite": {
         "name": "Bite",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "1d4"
+        "power": "1d6"
     },
     "default": {
         "name": "Default",

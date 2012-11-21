@@ -3,20 +3,24 @@
         "name": "Slime",
         "desc": "An ambulatory slime mould of some sort. Did you know that these are not technically a fungus?",
         "skills": ["ooze"],
-        "rect": { "x": 0, "y": 100, "width": 36, "height": 40 },
+        "hp": 12,
+        "mp": 0,
         "strength": 4,
         "agility": 2,
         "intelligence": 1,
-        "luck": 1
+        "luck": 1,
+        "rect": { "x": 0, "y": 100, "width": 36, "height": 40 }
     },
     "rat": {
         "name": "Rat",
         "desc": "A large muroid rodent. This one appears to weigh about 50 shekels.",
         "skills": ["bite"],
-        "rect": { "x": 4, "y": 500, "width": 70, "height": 60 },
+        "hp": 13,
+        "mp": 0,
         "strength": 3,
         "agility": 15,
         "intelligence": 3,
-        "luck": 5
+        "luck": 5,
+        "rect": { "x": 4, "y": 500, "width": 70, "height": 60 }
     }
 }

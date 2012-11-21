@@ -36,9 +36,12 @@ define(["underscore"], function(_) {
             // TODO: factor in weapon / buffs!
             return this.entity.strength;
         },
-        defense: function() {
+        damageAbsorption: function() {
             // TODO: factor in armor / buffs!
             return this.entity.strength;
+        },
+        damageReduction: function() {
+            return Math.floor(this.entity.strength / 2);
         },
         priority: function() {
             return this.entity.agility;
