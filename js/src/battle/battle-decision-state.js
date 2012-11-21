@@ -13,9 +13,26 @@ define([
 ) {
     "use strict";
 
-    var useSkill = function(user, skill, targets) {
+    var createUseSkillAction = function(user, skill, targets) {
         var skillEffect = skillEffects[skill.effect];
         return skillEffect(skill, user, targets)
+    };
+
+    var executeUseSkillAction = function(action, battleState) {
+        var messages = [ action.user.name + " used " + action.skill.name + "!" ];
+
+        _(action.effects).each(function(effect) {
+            if (effect.missed) {
+                messages.push("...missed " + effect.target.name + "!");
+            } else {
+                if (effect.critical) {
+                    messages.push("A mighty blow!");
+                }
+                messages.push(effect.target.name + " took " + effect.amount + " damage!");
+            }
+        });
+
+        battleState.enqueueState(new BattleMessageState(messages));
     };
 
     return function BattleDecisionState(battleState) {
@@ -24,13 +41,17 @@ define([
 
             _(commands).each(function(command) {
                 if (command.action === "skill") {
-                    actions.push(useSkill(battleState.playerPawns[command.partyIndex], command.param.skill, command.param.targets));
+                    actions.push(createUseSkillAction(battleState.playerPawns[command.partyIndex], command.param.skill, command.param.targets));
+                }
+                if (command.action === "inspect") {
+
                 }
             });
 
             // Right now, all enemies will each just use their first attack on the player...
             _(battleState.enemyPawns).each(function(enemy) {
-                actions.push(useSkill(enemy, skills[enemy.usableSkills()[0]], [battleState.playerPawns[0]]));
+                var skill = skills[enemy.usableSkills()[0]];
+                actions.push(createUseSkillAction(enemy, skills[enemy.usableSkills()[0]], [battleState.playerPawns[0]]));
             });
 
             actions.sort(function(a, b) {
@@ -38,20 +59,7 @@ define([
             });
 
             _(actions).each(function(action) {
-                var messages = [ action.user.name + " used " + action.skill.name + "!" ];
-
-                _(action.effects).each(function(effect) {
-                    if (effect.missed) {
-                        messages.push("...missed " + effect.target.name + "!");
-                    } else {
-                        if (effect.critical) {
-                            messages.push("A mighty blow!");
-                        }
-                        messages.push(effect.target.name + " took " + effect.amount + " damage!");
-                    }
-                });
-
-                battleState.enqueueState(new BattleMessageState(messages));
+                executeUseSkillAction(action, battleState);
             });
 
             console.log(actions);
