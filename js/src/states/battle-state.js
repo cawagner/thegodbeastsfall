@@ -15,7 +15,7 @@ define([
     BattleMenuState,
     BattleDecisionState
 ) {
-    function BattleState() {
+    function BattleState(enemies) {
         var self = this;
 
         this.gui = new GuiRenderer(Game.instance.graphics);
@@ -24,26 +24,10 @@ define([
             return new pawns.CharacterPawn(character);
         });
 
-        var enemyImage = new Image();
-        enemyImage.src = "assets/img/enemies.png";
-
-        this.enemyPawns = [
-            {
-                name: "Slime",
-                image: enemyImage,
-                rect: { x: 0, y: 100, width: 36, height: 40 }
-            },
-            {
-                name: "Rat",
-                image: enemyImage,
-                rect: { x: 4, y: 500, width: 70, height: 60 }
-            },
-            {
-                name: "Slime",
-                image: enemyImage,
-                rect: { x: 0, y: 100, width: 36, height: 40 }
-            }
-        ];
+        this.enemyPawns = [];
+        _(enemies).each(function(enemy) {
+            self.enemyPawns.push(new pawns.EnemyPawn(enemy));
+        });
 
         this.queuedStates = [];
 

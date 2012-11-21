@@ -19,7 +19,8 @@
             noext: '../lib/requirejs-plugins/noext',
             audio: '../lib/requirejs-plugins/audio',
             campaign: '../../assets/data/campaign',
-            skills: '../../assets/data/skills'
+            skills: '../../assets/data/skills',
+            enemies: '../../assets/data/enemies'
         },
         urlArgs: "bust=" + Date.now()
     });

@@ -59,8 +59,8 @@ define([
                 sound.playMusic(map.properties.music);
             });
 
-            $.subscribe("/battle/start", function() {
-                var battleState = new BattleState();
+            $.subscribe("/battle/start", function(enemies) {
+                var battleState = new BattleState(enemies);
                 var transition = new ScrollTransitionState(battleState);
 
                 oldMusic = sound.getCurrentMusic();
