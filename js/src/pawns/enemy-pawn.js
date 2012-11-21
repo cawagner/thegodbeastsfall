@@ -1,4 +1,4 @@
-define(["json!enemies.json"], function(enemies) {
+define(["pawns/pawn-base", "json!enemies.json"], function(PawnBase, enemies) {
     "use strict";
 
     var enemyImage = new Image();
@@ -7,12 +7,15 @@ define(["json!enemies.json"], function(enemies) {
     // TODO: enemies besides rats!
     function EnemyPawn(enemyId) {
         var proto = enemies[enemyId];
-        this.name = proto.name;
+        PawnBase.call(this, proto);
+
         this.desc = proto.name;
         this.rect = proto.rect;
         this.skills = proto.skills;
         this.image = enemyImage;
     };
+
+    EnemyPawn.prototype = new PawnBase();
 
     return EnemyPawn;
 });
