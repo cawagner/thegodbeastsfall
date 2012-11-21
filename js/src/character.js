@@ -16,7 +16,7 @@ define(["underscore", "dice"], function(_, Dice) {
         var character = new Character(options);
 
         character.level = 1;
-        character.hp = 10 + character.strength;
+        character.hp = 30 + character.strength;
         character.maxHp = character.hp;
 
         character.mp = Math.max(0, character.intelligence - 5);

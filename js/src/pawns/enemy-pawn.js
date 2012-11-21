@@ -1,4 +1,4 @@
-define(["pawns/pawn-base", "json!enemies.json"], function(PawnBase, enemies) {
+define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(PawnBase, enemies, skills) {
     "use strict";
 
     var enemyImage = new Image();
@@ -23,6 +23,10 @@ define(["pawns/pawn-base", "json!enemies.json"], function(PawnBase, enemies) {
     };
     EnemyPawn.prototype.damageAbsorption = function() {
         return this.enemy.damageAbsorption || 10+this.enemy.strength;
+    };
+
+    EnemyPawn.prototype.usableSkills = function() {
+        return this.enemy.skills;
     };
 
     return EnemyPawn;

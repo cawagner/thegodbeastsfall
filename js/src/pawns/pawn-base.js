@@ -41,7 +41,7 @@ define(["underscore"], function(_) {
             return this.entity.strength;
         },
         damageReduction: function() {
-            return Math.floor(this.entity.strength / 2);
+            return Math.floor(Math.max(0, this.entity.strength - 10));
         },
         priority: function() {
             return this.entity.agility;
