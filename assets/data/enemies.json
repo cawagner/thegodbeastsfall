@@ -1,10 +1,14 @@
 {
     "slime": {
         "name": "Slime",
-        "desc": "An ambulatory slime mould of some sort. Did you know that these are not technically a fungus?"
+        "desc": "An ambulatory slime mould of some sort. Did you know that these are not technically a fungus?",
+        "skills": ["ooze"],
+        "rect": { "x": 0, "y": 100, "width": 36, "height": 40 }
     },
     "rat": {
         "rat": "Rat",
-        "desc": "A large muroid rodent. This one appears to weigh about 50 shekels."
+        "desc": "A large muroid rodent. This one appears to weigh about 50 shekels.",
+        "skills": ["bite"],
+        "rect": { "x": 4, "y": 500, "width": 70, "height": 60 }
     }
 }

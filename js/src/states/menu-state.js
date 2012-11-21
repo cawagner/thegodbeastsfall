@@ -62,7 +62,13 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
             item = this.menu.items[i] instanceof String ? this.menu.items[i] : this.menu.items[i].text || this.menu.items[i].toString();
             x = i % this.menu.cols;
             y = Math.floor(i / this.menu.cols);
+            if (this.menu.items[i].disabled) {
+                this.graphics.setAlpha(0.5);
+            }
             this.graphics.drawText(this.menu.x + x * colWidth + 12, 4 + this.menu.y + y * this.gui.lineHeight, item);
+            if (this.menu.items[i].disabled) {
+                this.graphics.setAlpha(1);
+            }
         }
 
         x = this.selectionIndex % this.menu.cols;

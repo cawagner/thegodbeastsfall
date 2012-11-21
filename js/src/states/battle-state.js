@@ -4,32 +4,17 @@ define([
     "pawns/pawns",
     "gui",
     "battle/battle-message-state",
-    "battle/battle-menu-state"
+    "battle/battle-menu-state",
+    "battle/battle-decision-state"
 ], function(
     _,
     gameState,
     pawns,
     GuiRenderer,
     BattleMessageState,
-    BattleMenuState
+    BattleMenuState,
+    BattleDecisionState
 ) {
-    function FoopState(battleState) {
-        this.start = function(commands) {
-            console.log(commands);
-            battleState.enqueueState(new BattleMessageState([
-                "Held will " + commands[0].action + " " + (commands[0].param || "") + "!"
-            ]));
-            battleState.enqueueState(new BattleMenuState(battleState));
-            battleState.enqueueState(new FoopState(battleState));
-        }
-        this.update = function() {
-            return true;
-        };
-        this.draw = function() {
-
-        };
-    };
-
     function BattleState() {
         var self = this;
 
@@ -64,7 +49,7 @@ define([
 
         this.enqueueState(new BattleMessageState(_(this.enemyPawns).map(_.template("Aggressed by {{name}}!"))));
         this.enqueueState(new BattleMenuState(this));
-        this.enqueueState(new FoopState(this));
+        this.enqueueState(new BattleDecisionState(this));
 
         this.advanceState();
     };

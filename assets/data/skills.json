@@ -12,12 +12,6 @@
         "power": "4d6k3",
         "cooldown": 2
     },
-    "ooze": {
-        "name": "Ooze",
-        "target": "enemy",
-        "effect": "damage/melee",
-        "power": "2d4"
-    },
     "heal1": {
         "name": "LayHands",
         "target": "player",
@@ -25,6 +19,18 @@
         "power": "2d6",
         "cost": { "mp": 2 },
         "isFieldUsable": true
+    },
+    "ooze": {
+        "name": "Ooze",
+        "target": "enemy",
+        "effect": "damage/melee",
+        "power": "2d4"
+    },
+    "bite": {
+        "name": "Bite",
+        "target": "enemy",
+        "effect": "damage/melee",
+        "power": "1d4"
     },
     "default": {
         "name": "Default",

@@ -66,6 +66,10 @@ define(["display/fonts"], function(fonts) {
                     destRect.x | 0, destRect.y | 0, destRect.width, destRect.height);
         };
 
+        this.setAlpha = function(alpha) {
+            context.globalAlpha = alpha;
+        }
+
         this.drawText = function(x, y, text) {
             font.drawText(this, x | 0, (y | 0) - 6, text);
         };

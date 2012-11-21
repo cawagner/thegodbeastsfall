@@ -2,7 +2,7 @@ define([], function() {
     "use strict";
 
     // TODO: enemies besides rats!
-    function EnemyPawn() {
+    function EnemyPawn(enemyType) {
     }
 
     return EnemyPawn;

@@ -49,16 +49,24 @@ define([
                 return { text: skill.name, skill: skill };
             });
             return new Menu({
-                items: skillMenuItems
+                items: skillMenuItems,
+                rows: 2,
+                cols: 3
             }).select(function(index, item) {
-                if (item.skill.target === "enemy" || item.skill.target === "player") {
-                    self.targetPawn(item.skill.target).open();
-                } else {
-                    console.log("Target is ready!");
+                var skillMenu = this;
+                var skill = item.skill;
+                // Sweet baby Jesus :(
+                if (skill.target === "enemy" || skill.target === "player") {
+                    self.targetPawn(skill.target).open().select(function(index, item) {
+                        this.close();
+                        skillMenu.close();
+                        self.setAction("skill", {
+                            skill: skill,
+                            targets: [item.target]
+                        });
+                    });
                 }
-                // TODO: check whether skill is usable, then select a target!
-                //self.setAction("skill", item);
-                //this.close();
+                // TODO: handle multi-targeting!
             });
         };
     };
