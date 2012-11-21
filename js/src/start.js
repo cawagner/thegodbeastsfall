@@ -18,7 +18,8 @@
             json: '../lib/requirejs-plugins/json',
             noext: '../lib/requirejs-plugins/noext',
             audio: '../lib/requirejs-plugins/audio',
-            campaign: '../../assets/data/campaign'
+            campaign: '../../assets/data/campaign',
+            skills: '../../assets/data/skills'
         },
         urlArgs: "bust=" + Date.now()
     });

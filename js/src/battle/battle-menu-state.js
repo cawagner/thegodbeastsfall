@@ -1,4 +1,12 @@
-define(["underscore", "menu"], function(_, Menu) {
+define([
+    "underscore",
+    "menu",
+    "json!skills.json"
+], function(
+    _,
+    Menu,
+    skills
+) {
     "use strict";
 
     // TODO: this knows way too much about battleState!
@@ -23,14 +31,31 @@ define(["underscore", "menu"], function(_, Menu) {
         this.draw = _.noop;
     };
 
+    BattleMenuState.prototype.targetPawn = function(pawnType) {
+        var pawns = _(this.battleState[pawnType + "Pawns"]).map(function(pawn) {
+            return { text: _(pawn).result("name"), target: pawn };
+        });
+        return new Menu({
+            items: pawns
+        });
+    };
+
     BattleMenuState.prototype.skillsOfType = function(type) {
         var self = this;
         return function() {
             var member = self.battleState.playerPawns[self.partyIndex];
-            var skills = member.character.skills[type];
+            var skillMenuItems = _(member.character.skills[type]).map(function(skillName) {
+                var skill = skills[skillName] || { name: "<NULL>" + skillName };
+                return { text: skill.name, skill: skill };
+            });
             return new Menu({
-                items: skills
+                items: skillMenuItems
             }).select(function(index, item) {
+                if (item.skill.target === "enemy" || item.skill.target === "player") {
+                    self.targetPawn(item.skill.target).open();
+                } else {
+                    console.log("Target is ready!");
+                }
                 // TODO: check whether skill is usable, then select a target!
                 //self.setAction("skill", item);
                 //this.close();
