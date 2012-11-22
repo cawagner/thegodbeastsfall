@@ -16,6 +16,14 @@ define([
         };
     };
 
+    function WonBattleState() {
+        this.start = function() {
+            $.publish("/battle/end");
+        };
+        this.update = _.noop;
+        this.draw = _.noop;
+    };
+
     var executeUseSkillAction = function(action, battleState) {
         var msg = function(m, s) {
             battleState.enqueueState(new BattleMessageState([m], s));
@@ -28,6 +36,13 @@ define([
         msg(action.user.name + " used " + action.skill.name + "!");
 
         _(action.effects).each(function(effect) {
+            var targetWasAlive = effect.target.isAlive();
+
+            if (!targetWasAlive) {
+                msg(effect.target.name + " was already gone!");
+                return;
+            }
+
             if (effect.missed) {
                 msg("...missed " + effect.target.name + "!", "miss");
             } else {
@@ -38,7 +53,7 @@ define([
                 effect.target.takeDamage(effect.amount);
             }
 
-            if (!effect.target.isAlive()) {
+            if (targetWasAlive && !effect.target.isAlive()) {
                 msg(effect.target.name + " falls!");
                 battleState.enqueueState(new BuryTheDeadState(effect.target));
             }
@@ -52,8 +67,13 @@ define([
                 executeUseSkillAction(action, battleState);
             });
 
-            // if not won..
-            nextRound();
+            if (_(battleState.enemyPawns).all(function(pawn) { return !pawn.isAlive(); })) {
+                // if not won...
+                battleState.enqueueState(new BattleMessageState(["All monsters perished!"]));
+                battleState.enqueueState(new WonBattleState());
+            } else {
+                nextRound();
+            }
         };
         this.update = function() { return true; };
         this.draw = _.noop;
