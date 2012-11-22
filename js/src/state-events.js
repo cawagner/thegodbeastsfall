@@ -29,6 +29,8 @@ define([
         init: function(game) {
 
             // TODO: move asset loading into common location that isn't here!
+            var isMobile = navigator.userAgent.match(/iPhone|iPad|iPod|Android|BlackBerry|/i);
+
             sound.loadSound("hit");
             sound.loadSound("miss");
             sound.loadSound("critical");
@@ -71,9 +73,11 @@ define([
                 sound.playMusic(name);
             });
 
-            $.subscribe("/sound/play", function(name) {
-                sound.playSound(name);
-            });
+            if (!isMobile) {
+                $.subscribe("/sound/play", function(name) {
+                    sound.playSound(name);
+                });
+            }
 
             $.subscribe("/map/loaded", function(map, entrance) {
                 var fieldState = new FieldState(map, entrance);
