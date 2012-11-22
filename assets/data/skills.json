@@ -10,14 +10,16 @@
         "target": "enemy",
         "effect": "damage/melee",
         "power": "3d6",
-        "cooldown": 2
+        "cooldown": 2,
+        "accuracy": 1.5
     },
     "spin": {
         "name": "Spin",
         "target": "enemies",
         "effect": "damage/melee",
         "power": "1d6",
-        "cooldown": 3
+        "cooldown": 3,
+        "accuracy": 1.25
     },
     "heal1": {
         "name": "LayHands",
