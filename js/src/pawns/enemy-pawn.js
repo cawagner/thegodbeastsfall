@@ -16,6 +16,7 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
         this.image = enemyImage;
 
         this.currentHp = proto.hp;
+        this.currentMp = proto.mp || 0;
     };
 
     EnemyPawn.prototype = new PawnBase();
@@ -32,7 +33,10 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
     };
 
     EnemyPawn.prototype.usableSkills = function() {
-        return this.enemy.skills;
+        var self = this;
+        return _(this.enemy.skills).filter(function(skill) {
+            return self.canUseSkill(skills[skill]);
+        });
     };
 
     EnemyPawn.prototype.takeDamage = function(amount) {
@@ -43,8 +47,8 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
         return this.enemy.xp;
     };
 
-    EnemyPawn.prototype.useSkill = function() {
-        // TODO: care about cooldown...
+    EnemyPawn.prototype.consumeMp = function() {
+        this.currentMp -= amount;
     };
 
     return EnemyPawn;

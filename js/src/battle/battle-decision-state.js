@@ -35,8 +35,10 @@ define([
 
             // Right now, all enemies will each just use their first attack on the player...
             _(battleState.enemyPawns).each(function(enemy) {
-                var skill = skills[enemy.usableSkills()[0]];
-                actions.push(createUseSkillAction(enemy, skills[enemy.usableSkills()[0]], [battleState.playerPawns[0]]));
+                var usableSkills = enemy.usableSkills();
+                console.log(usableSkills);
+                var skill = usableSkills[Math.floor(Math.random() * usableSkills.length)];
+                actions.push(createUseSkillAction(enemy, skills[skill], [battleState.playerPawns[0]]));
             });
 
             actions.sort(function(a, b) {

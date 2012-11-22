@@ -37,7 +37,14 @@
         "name": "Bite",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "1d6"
+        "power": "2+1d8",
+        "cooldown": 1
+    },
+    "scratch": {
+        "name": "Scratch",
+        "target": "enemy",
+        "effect": "damage/melee",
+        "power": "2+1d4"
     },
     "default": {
         "name": "Default",

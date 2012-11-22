@@ -15,7 +15,7 @@
     "rat": {
         "name": "Rat",
         "desc": "A large muroid rodent. This one appears to weigh about 50 shekels.",
-        "skills": ["bite"],
+        "skills": ["bite", "scratch"],
         "hp": 13,
         "mp": 0,
         "strength": 6,

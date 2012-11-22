@@ -5,6 +5,7 @@ define(["underscore"], function(_) {
         if (entity !== undefined) {
             this.name = this.entity.name;
         }
+        this.cooldowns = {};
     };
 
     _(PawnBase.prototype).extend({
@@ -69,6 +70,29 @@ define(["underscore"], function(_) {
         },
         isAlive: function() {
             return this.hp() > 0;
+        },
+        refresh: function() {
+            for (var key in this.cooldowns) {
+                this.cooldowns[key] = Math.max(0, this.cooldowns[key] - 1);
+            }
+        },
+        canUseSkill: function(skill) {
+            var usable = true;
+            if (skill.cooldown) {
+                usable = usable && ((this.cooldowns[skill.name] || 0) === 0);
+            }
+            if (skill.mp) {
+                usable = usable && (this.mp() >= skill.mp);
+            }
+            return usable;
+        },
+        useSkill: function(skill) {
+            if (skill.cooldown) {
+                this.cooldowns[skill.name] = skill.cooldown;
+            }
+            if (skill.mp) {
+                this.consumeMp(skill.mp);
+            }
         }
     });
 

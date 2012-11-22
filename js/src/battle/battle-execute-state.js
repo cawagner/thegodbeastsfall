@@ -65,6 +65,9 @@ define([
             _(battleState.playerPawns).each(function(player) {
                 player.refresh();
             });
+            _(battleState.enemyPawns).each(function(enemy) {
+                enemy.refresh();
+            });
 
             if (_(battleState.enemyPawns).all(function(pawn) { return !pawn.isAlive(); })) {
                 var totalXp = 0;
