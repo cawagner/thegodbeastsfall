@@ -19,20 +19,22 @@ define([
     };
 
     var executeUseSkillAction = function(action, battleState) {
-        var messages = [ action.user.name + " used " + action.skill.name + "!" ];
+        var msg = function(m) {
+            battleState.enqueueState(new BattleMessageState([m]));
+        };
+
+        msg(action.user.name + " used " + action.skill.name + "!");
 
         _(action.effects).each(function(effect) {
             if (effect.missed) {
-                messages.push("...missed " + effect.target.name + "!");
+                msg("...missed " + effect.target.name + "!");
             } else {
                 if (effect.critical) {
-                    messages.push("A mighty blow!");
+                    msg("A mighty blow!");
                 }
-                messages.push(effect.target.name + " took " + effect.amount + " damage!");
+                msg(effect.target.name + " took " + effect.amount + " damage!");
             }
         });
-
-        battleState.enqueueState(new BattleMessageState(messages));
     };
 
     return function BattleDecisionState(battleState) {

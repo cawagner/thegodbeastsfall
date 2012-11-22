@@ -68,6 +68,9 @@ define(["underscore"], function(_) {
             return 2;
         },
         takeDamage: function() {
+        },
+        isAlive: function() {
+            return this.hp > 0;
         }
     });
 
