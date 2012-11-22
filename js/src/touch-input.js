@@ -3,9 +3,9 @@ define(["jquery", "underscore"], function($, _) {
 
     return {
         init: function(input) {
-            $("[data-keycode]").on("touchstart", function() {
+            $("[data-keycode]").on("touchstart mousedown", function() {
                 document.onkeydown({ keyCode: parseInt($(this).data("keycode"), 10) });
-            }).on("touchend", function() {
+            }).on("touchend mouseout mouseup", function() {
                 document.onkeyup({ keyCode: parseInt($(this).data("keycode"), 10) });
             }).on("click", function(){
                 return false;
@@ -47,11 +47,11 @@ define(["jquery", "underscore"], function($, _) {
                 });
             };
 
-            var dpad = $(".dpad").on("touchstart", function(e) {
-                movement(e.originalEvent.touches);
-            }).on("touchmove", function(e) {
-                movement(e.originalEvent.touches);
-            }).on("touchend", function(e) {
+            var dpad = $(".dpad").on("touchstart mousedown", function(e) {
+                movement(e.originalEvent.touches || [e]);
+            }).on("touchmove mousemove", function(e) {
+                movement(e.originalEvent.touches || [e]);
+            }).on("touchend mouseup mouseout", function(e) {
                 if (input.isLeftDown()) {
                     document.onkeyup({ keyCode: 37 });
                 }
