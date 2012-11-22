@@ -17,7 +17,9 @@ define([
 
     var createUseSkillAction = function(user, skill, targets) {
         var skillEffect = skillEffects[skill.effect];
-        return skillEffect(skill, user, targets)
+        var result = skillEffect(skill, user, targets)
+        result.type = "skill";
+        return result;
     };
 
     return function BattleDecisionState(battleState) {
@@ -25,11 +27,19 @@ define([
             console.log(commands);
             var actions = [];
             _(commands).each(function(command) {
+                var pawn = battleState.playerPawns[command.partyIndex];
                 if (command.action === "skill") {
-                    actions.push(createUseSkillAction(battleState.playerPawns[command.partyIndex], command.param.skill, command.param.targets));
+                    actions.push(createUseSkillAction(pawn, command.param.skill, command.param.targets));
                 }
                 if (command.action === "inspect") {
 
+                }
+                if (command.action === "flee") {
+                    actions.push({
+                        type: "flee",
+                        user: pawn,
+                        priority: pawn.priority()
+                    });
                 }
             });
 

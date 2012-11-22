@@ -100,7 +100,7 @@ define([
                     childMenu: new Menu({
                         items: [
                             { text: "Defend", action: "defend" },
-                            { text: "Run Away", action: "run" },
+                            { text: "Run Away", action: "flee" },
                             { text: "Inspect", action: "inspect" }
                         ],
                         rows: 1,

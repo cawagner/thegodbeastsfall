@@ -64,8 +64,16 @@ define([
         return state;
     };
 
-    return function BattleExecuteState(battleState, actions, nextRound) {
+    var executeFleeAction = function(action) {
+        var state = new BattleCompositeState();
+        state.enqueueState(new BattleMessageState(["Run away!!!"]));
+        state.enqueueFunc(function() {
+            $.publish("/battle/end");
+        });
+        return state;
+    };
 
+    return function BattleExecuteState(battleState, actions, nextRound) {
         var wonBattle = function() {
             return _(battleState.enemyPawns).all(function(pawn) { return !pawn.isAlive(); });
         };
@@ -120,7 +128,12 @@ define([
 
             console.log(actions);
             _(actions).each(function(action) {
-                battleState.enqueueState(executeUseSkillAction(action));
+                if (action.type === "skill") {
+                    battleState.enqueueState(executeUseSkillAction(action));
+                }
+                if (action.type === "flee") {
+                    battleState.enqueueState(executeFleeAction(action));
+                }
             });
 
             battleState.enqueueFunc(function refresh() {

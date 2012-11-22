@@ -53,7 +53,6 @@ define([], function() {
         if (newState === undefined) {
             this.done();
         } else {
-            console.log("Switching from " + this.currentState.constructor.name + " to " + newState.constructor.name);
             this.currentState = newState;
             this.currentState.start(result);
         }
