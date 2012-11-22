@@ -40,8 +40,8 @@ define(["underscore", "dice"], function(_, Dice) {
         this.maxHp += hpGain;
         this.maxMp += mpGain;
 
-        this.hp = this.maxHp;
-        this.mp = this.maxMp;
+        this.hp += hpGain;
+        this.mp += mpGain;
 
         if (statToBoost !== undefined) {
             this[statToBoost] += 1;
