@@ -4,6 +4,7 @@ define([], function() {
     function BattleCompositeState() {
         this.queuedStates = [];
         this.currentState = {};
+        this.isDone = false;
     };
 
     BattleCompositeState.prototype.enqueueState = function(state) {
@@ -18,15 +19,29 @@ define([], function() {
         });
     };
 
+    BattleCompositeState.prototype.enqueueDone = function() {
+        var self = this;
+        this.enqueueFunc(function() {
+            self.done();
+        });
+    };
+
     BattleCompositeState.prototype.start = function(args) {
         this.advanceState(args);
     };
 
     BattleCompositeState.prototype.update = function() {
+        if (this.isDone)
+            return true;
+
         var result;
         if (result = this.currentState.update()) {
             this.advanceState(result);
         }
+    };
+
+    BattleCompositeState.prototype.done = function() {
+        this.isDone = true;
     };
 
     BattleCompositeState.prototype.draw = function() {
@@ -34,13 +49,14 @@ define([], function() {
     };
 
     BattleCompositeState.prototype.advanceState = function(result) {
-        if (!this.queuedStates.length) {
-            throw "Tried to advance state, but there is no next state!";
-        }
         var newState = this.queuedStates.shift();
-        console.log("Switching from " + this.currentState.constructor.name + " to " + newState.constructor.name);
-        this.currentState = newState;
-        this.currentState.start(result);
+        if (newState === undefined) {
+            this.done();
+        } else {
+            console.log("Switching from " + this.currentState.constructor.name + " to " + newState.constructor.name);
+            this.currentState = newState;
+            this.currentState.start(result);
+        }
     };
 
     return BattleCompositeState;

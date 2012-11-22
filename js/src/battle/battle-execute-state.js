@@ -2,20 +2,25 @@ define([
     "underscore",
     "jquery",
     "battle/battle-message-state",
-    "battle/battle-won-state"
-], function(_, $, BattleMessageState, BattleWonState) {
+    "battle/battle-won-state",
+    "battle/battle-composite-state"
+], function(_, $, BattleMessageState, BattleWonState, BattleCompositeState) {
     "use strict";
 
     // TODO: this whole file is a mess... lol 3:00AM
 
-    var executeUseSkillAction = function(action, battleState) {
+    var executeUseSkillAction = function(action) {
+        var state = new BattleCompositeState();
         var msg = function(m, s) {
-            battleState.enqueueState(new BattleMessageState([m], s));
+            state.enqueueState(new BattleMessageState([m], s));
         };
 
-        if (!action.user.isAlive()) {
-            return;
-        }
+        // exit the state if the user is dead, otherwise assess costs/cooldown
+        state.enqueueFunc(function() {
+            if (!action.user.isAlive()) {
+                state.done();
+            }
+        });
 
         msg(action.user.name + " used " + action.skill.name + "!");
 
@@ -24,8 +29,14 @@ define([
 
             if (!targetWasAlive) {
                 msg(effect.target.name + " was already gone!");
-                return;
+                state.enqueueDone();
             }
+
+            state.enqueueFunc(function() {
+                if (effect.amount > 0 && !isNaN(effect.amount)) {
+                    effect.target.takeDamage(effect.amount);
+                }
+            });
 
             if (effect.missed) {
                 msg("...missed " + effect.target.name + "!", "miss");
@@ -34,18 +45,21 @@ define([
                     msg("A mighty blow!");
                 }
                 msg(effect.target.name + " took " + effect.amount + " damage!", effect.critical ? "critical" : "hit");
-                effect.target.takeDamage(effect.amount);
             }
 
-            if (targetWasAlive && !effect.target.isAlive()) {
-                msg(effect.target.name + " falls!");
-                battleState.enqueueFunc(function() {
+            state.enqueueFunc(function() {
+                if (targetWasAlive && !effect.target.isAlive()) {
+                    msg(effect.target.name + " falls!");
                     effect.target.isHidden = true;
-                });
-            }
+                }
+            });
         });
 
-        action.user.useSkill(action.skill);
+        state.enqueueFunc(function() {
+            action.user.useSkill(action.skill);
+        });
+
+        return state;
     };
 
     return function BattleExecuteState(battleState, actions, nextRound) {
@@ -104,23 +118,27 @@ define([
 
             console.log(actions);
             _(actions).each(function(action) {
-                executeUseSkillAction(action, battleState);
+                battleState.enqueueState(executeUseSkillAction(action));
             });
 
-            _(battleState.playerPawns).each(function(player) {
-                player.refresh();
-            });
-            _(battleState.enemyPawns).each(function(enemy) {
-                enemy.refresh();
+            battleState.enqueueFunc(function refresh() {
+                _(battleState.playerPawns).each(function(player) {
+                    player.refresh();
+                });
+                _(battleState.enemyPawns).each(function(enemy) {
+                    enemy.refresh();
+                });
             });
 
-            if (wonBattle()) {
-                winBattle();
-            } else if (lostBattle()) {
-                loseBattle();
-            } else {
-                nextRound();
-            }
+            battleState.enqueueFunc(function() {
+                if (wonBattle()) {
+                    winBattle();
+                } else if (lostBattle()) {
+                    loseBattle();
+                } else {
+                    nextRound();
+                }
+            });
         };
         this.update = function() { return true; };
         this.draw = _.noop;
