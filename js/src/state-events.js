@@ -33,7 +33,9 @@ define([
             sound.loadSound("miss");
             sound.loadSound("critical");
             sound.loadSound("message");
-            sound.loadSound("battlestart");
+            sound.loadSound("cursor");
+            sound.loadSound("confirm");
+            sound.loadSound("cancel");
 
             var inDungeon = false;
 

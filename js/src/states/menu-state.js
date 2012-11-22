@@ -30,23 +30,29 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
 
         if (this.input.wasUpPressed()) {
             this.selectionIndex = Math.max(0, this.selectionIndex - this.menu.cols);
+            //$.publish("/sound/play", ["cursor"]);
         }
         if (this.input.wasDownPressed()) {
             this.selectionIndex = Math.min(this.menu.items.length - 1, this.selectionIndex + this.menu.cols);
+            //$.publish("/sound/play", ["cursor"]);
         }
         if (this.input.wasLeftPressed()) {
             this.selectionIndex = Math.max(0, this.selectionIndex - 1);
+            ///$.publish("/sound/play", ["cursor"]);
         }
         if (this.input.wasRightPressed()) {
             this.selectionIndex = Math.min(this.menu.items.length - 1, this.selectionIndex + 1);
+            //$.publish("/sound/play", ["cursor"]);
         }
         if (this.input.wasConfirmPressed()) {
             if (!this.menu.items[this.selectionIndex].disabled) {
                 this.menu.triggerSelect(this.selectionIndex, this.menu.items[this.selectionIndex]);
+                $.publish("/sound/play", ["confirm"]);
             }
         }
         if (this.input.wasCancelPressed()) {
             this.menu.triggerCancel();
+            $.publish("/sound/play", ["cancel"]);
         }
 
         this.previousState.update();
