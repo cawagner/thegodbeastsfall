@@ -41,7 +41,9 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
             this.selectionIndex = Math.min(this.menu.items.length - 1, this.selectionIndex + 1);
         }
         if (this.input.wasConfirmPressed()) {
-            this.menu.triggerSelect(this.selectionIndex, this.menu.items[this.selectionIndex]);
+            if (!this.menu.items[this.selectionIndex].disabled) {
+                this.menu.triggerSelect(this.selectionIndex, this.menu.items[this.selectionIndex]);
+            }
         }
         if (this.input.wasCancelPressed()) {
             this.menu.triggerCancel();

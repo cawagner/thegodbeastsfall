@@ -39,5 +39,9 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
         this.currentHp -= amount;
     };
 
+    EnemyPawn.prototype.xp = function() {
+        return this.enemy.xp;
+    };
+
     return EnemyPawn;
 });

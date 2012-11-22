@@ -1,4 +1,5 @@
 define([
+    "underscore",
     "states/menu-state",
     "states/field-menu-state",
     "states/dialogue-state",
@@ -8,6 +9,7 @@ define([
     "states/transitions/scroll-transition-state",
     "sound"
 ], function(
+    _,
     MenuState,
     FieldMenuState,
     DialogueState,
@@ -32,6 +34,8 @@ define([
             sound.loadSound("critical");
             sound.loadSound("message");
             sound.loadSound("battlestart");
+
+            var inDungeon = false;
 
             // TODO: elsewhere?
             $.subscribe("/menu/open", function(menu) {
@@ -69,6 +73,12 @@ define([
                 game.pushState(fieldState);
 
                 sound.playMusic(map.properties.music);
+
+                // HACKY!
+                inDungeon = map.properties.inDungeon;
+                if (!inDungeon) {
+                    $.publish("/party/heal");
+                }
             });
 
             $.subscribe("/battle/start", function(enemies) {
@@ -87,10 +97,21 @@ define([
                 // TODO: transition!
                 sound.playMusic(oldMusic);
                 game.popState();
+
+                // HACKY...
+                if (!inDungeon) {
+                    $.publish("/party/heal");
+                }
             });
 
             $.subscribe("/status/show", function(member) {
                 game.pushState(new StatusState(member));
+            });
+
+            $.subscribe("/party/heal", function() {
+                _(GameState.instance.party).each(function(member) {
+                    member.hp = member.maxHp;
+                });
             });
         }
     }

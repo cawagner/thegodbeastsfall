@@ -27,8 +27,10 @@ define(["underscore", "dice"], function(_, Dice) {
 
         character.face = options.face;
 
+        character.lastStatIncreased = '';
+
         return character;
-    }
+    };
 
     Character.prototype.gainLevel = function(statToBoost) {
         var d4 = Dice.parse("d4");
@@ -52,6 +54,7 @@ define(["underscore", "dice"], function(_, Dice) {
 
         this.xpNext = (this.level + 1) * this.level * 100;
         this.level += 1;
+        this.lastStatIncreased = statToBoost;
     };
 
     return Character;

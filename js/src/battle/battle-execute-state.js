@@ -1,7 +1,8 @@
 define([
     "underscore",
-    "battle/battle-message-state"
-], function(_, BattleMessageState) {
+    "battle/battle-message-state",
+    "battle/battle-won-state"
+], function(_, BattleMessageState, BattleWonState) {
     "use strict";
 
     // TODO: move
@@ -14,14 +15,6 @@ define([
         };
         this.draw = function() {
         };
-    };
-
-    function WonBattleState() {
-        this.start = function() {
-            $.publish("/battle/end");
-        };
-        this.update = _.noop;
-        this.draw = _.noop;
     };
 
     var executeUseSkillAction = function(action, battleState) {
@@ -68,9 +61,17 @@ define([
             });
 
             if (_(battleState.enemyPawns).all(function(pawn) { return !pawn.isAlive(); })) {
-                // if not won...
-                battleState.enqueueState(new BattleMessageState(["All monsters perished!"]));
-                battleState.enqueueState(new WonBattleState());
+                var totalXp = 0;
+                _(battleState.enemyPawns).each(function(pawn) {
+                    totalXp += pawn.xp();
+                });
+                var xpPerPerson = Math.ceil(totalXp / battleState.playerPawns.length);
+
+                battleState.enqueueState(new BattleMessageState([
+                    "All monsters perished!",
+                    "Got " + xpPerPerson + "XP each!"
+                ]));
+                battleState.enqueueState(new BattleWonState(xpPerPerson));
             } else {
                 nextRound();
             }
