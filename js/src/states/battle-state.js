@@ -26,7 +26,9 @@ define([
 
         this.enemyPawns = [];
         _(enemies).each(function(enemy) {
-            self.enemyPawns.push(new pawns.EnemyPawn(enemy));
+            var pawn = new pawns.EnemyPawn(enemy);
+            pawn.wander = { x: 0, y: 0 };
+            self.enemyPawns.push(pawn);
         });
 
         this.queuedStates = [];
@@ -81,13 +83,19 @@ define([
                 continue;
             }
             dest = {
-                x: i * 100 + margin - pawn.rect.width / 2,
-                y: 160 - pawn.rect.height,
+                x: i * 100 + margin - pawn.rect.width / 2 + pawn.wander.x,
+                y: 160 - pawn.rect.height + pawn.wander.y,
                 width: pawn.rect.width,
                 height: pawn.rect.height
             };
             pawn.x = dest.x;
             pawn.y = dest.y;
+
+            if (Math.random() < 0.05) {
+                pawn.wander.x = Math.random() * 2 - 2;
+                pawn.wander.y = Math.random() * 2 - 2;
+            }
+
             Game.instance.graphics.drawImageRect(pawn.image, pawn.rect, dest);
         }
     };
