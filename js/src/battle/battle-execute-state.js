@@ -8,18 +8,6 @@ define([
 
     // TODO: this whole file is a mess... lol 3:00AM
 
-    // TODO: move
-    function BuryTheDeadState(pawn) {
-        this.start = function() {
-            pawn.isHidden = !pawn.isAlive();
-        };
-        this.update = function() {
-            return true;
-        };
-        this.draw = function() {
-        };
-    };
-
     var executeUseSkillAction = function(action, battleState) {
         var msg = function(m, s) {
             battleState.enqueueState(new BattleMessageState([m], s));
@@ -51,7 +39,9 @@ define([
 
             if (targetWasAlive && !effect.target.isAlive()) {
                 msg(effect.target.name + " falls!");
-                battleState.enqueueState(new BuryTheDeadState(effect.target));
+                battleState.enqueueFunc(function() {
+                    effect.target.isHidden = true;
+                });
             }
         });
 
@@ -77,11 +67,7 @@ define([
         };
 
         var playMusic = function(name) {
-            battleState.enqueueState({
-                start: function() { $.publish("/music/play", [name]); },
-                update: _.give(true),
-                draw: _.noop
-            });
+            battleState.enqueueFunc(function() { $.publish("/music/play", [name]); });
         };
 
         var winBattle = function() {
@@ -104,16 +90,12 @@ define([
                 "How regrettable."
             ]));
 
-            battleState.enqueueState({
-                start: function() {
-                    // TODO: do something besides just reviving players and ending the battle...
-                    _(battleState.playerPawns).each(function(player) {
-                        player.restoreHp(1);
-                    });
-                    $.publish("/battle/end");
-                },
-                draw: _.noop,
-                update: _.noop
+            battleState.enqueueFunc(function() {
+                // TODO: do something besides just reviving players and ending the battle...
+                _(battleState.playerPawns).each(function(player) {
+                    player.restoreHp(1);
+                });
+                $.publish("/battle/end");
             });
         }
 

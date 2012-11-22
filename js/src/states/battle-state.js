@@ -41,6 +41,14 @@ define([
         this.advanceState();
     };
 
+    BattleState.prototype.enqueueFunc = function(fn) {
+        this.queuedStates.push({
+            start: fn,
+            update: _.give(true),
+            draw: _.noop
+        });
+    };
+
     BattleState.prototype.enqueueState = function(state) {
         this.queuedStates.push(state);
     };
