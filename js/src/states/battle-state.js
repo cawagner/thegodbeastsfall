@@ -35,6 +35,7 @@ define([
         this.enqueueState(new BattleMenuState(this));
         this.enqueueState(new BattleDecisionState(this));
 
+        this.currentState = {};
         this.advanceState();
     };
 
@@ -46,7 +47,9 @@ define([
         if (!this.queuedStates.length) {
             throw "Tried to advance state, but there is no next state!";
         }
-        this.currentState = this.queuedStates.shift();
+        var newState = this.queuedStates.shift();
+        console.log("Switching from " + this.currentState.constructor.name + " to " + newState.constructor.name);
+        this.currentState = newState;
         this.currentState.start(result);
     };
 
