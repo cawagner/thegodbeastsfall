@@ -5,7 +5,8 @@ define([
     "gui",
     "battle/battle-message-state",
     "battle/battle-menu-state",
-    "battle/battle-decision-state"
+    "battle/battle-decision-state",
+    "battle/battle-composite-state"
 ], function(
     _,
     gameState,
@@ -13,7 +14,8 @@ define([
     GuiRenderer,
     BattleMessageState,
     BattleMenuState,
-    BattleDecisionState
+    BattleDecisionState,
+    BattleCompositeState
 ) {
     function BattleState(enemies) {
         var self = this;
@@ -31,43 +33,25 @@ define([
             self.enemyPawns.push(pawn);
         });
 
-        this.queuedStates = [];
+        this.rootState = new BattleCompositeState();
 
         this.enqueueState(new BattleMessageState(_(this.enemyPawns).map(_.template("Aggressed by {{name}}!"))));
         this.enqueueState(new BattleMenuState(this));
         this.enqueueState(new BattleDecisionState(this));
 
-        this.currentState = {};
-        this.advanceState();
+        this.rootState.start();
     };
 
     BattleState.prototype.enqueueFunc = function(fn) {
-        this.queuedStates.push({
-            start: fn,
-            update: _.give(true),
-            draw: _.noop
-        });
+        this.rootState.enqueueFunc(fn);
     };
 
     BattleState.prototype.enqueueState = function(state) {
-        this.queuedStates.push(state);
-    };
-
-    BattleState.prototype.advanceState = function(result) {
-        if (!this.queuedStates.length) {
-            throw "Tried to advance state, but there is no next state!";
-        }
-        var newState = this.queuedStates.shift();
-        console.log("Switching from " + this.currentState.constructor.name + " to " + newState.constructor.name);
-        this.currentState = newState;
-        this.currentState.start(result);
+        this.rootState.enqueueState(state);
     };
 
     BattleState.prototype.update = function() {
-        var result;
-        if (result = this.currentState.update()) {
-            this.advanceState(result);
-        }
+        this.rootState.update();
     };
 
     BattleState.prototype.draw = function() {
@@ -78,7 +62,7 @@ define([
         this.drawEnemies();
         this.drawAllies();
 
-        this.currentState.draw();
+        this.rootState.draw();
     };
 
     BattleState.prototype.drawEnemies = function() {
