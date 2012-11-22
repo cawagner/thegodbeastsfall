@@ -29,7 +29,7 @@ define([
         init: function(game) {
 
             // TODO: move asset loading into common location that isn't here!
-            var isMobile = navigator.userAgent.match(/iPhone|iPad|iPod|Android|BlackBerry|/i);
+            var isMobile = navigator.userAgent.match(/iPhone|iPad|iPod|Android|BlackBerry/i);
 
             sound.loadSound("hit");
             sound.loadSound("miss");
