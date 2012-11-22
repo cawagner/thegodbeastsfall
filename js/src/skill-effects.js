@@ -24,30 +24,35 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         }
     };
 
-    // TODO: assess skill costs, etc.
-    return {
-        "damage/melee": function(skill, user, targets) {
+    var result = function(user, skill, results) {
+        return {
+            user: user,
+            skill: skill,
+            priority: user.priority() + skill.priorityBoost + d20.roll()/2,
+            effects: results
+        };
+    };
+
+    var standardSkillEffect = function(fn) {
+        return function(skill, user, targets) {
             var skill = _.extend({}, Skills["default"], skill);
             var dice = Dice.parse(skill.power);
 
             var results = _(targets).map(function(target) {
-                var result = standardDamage(user, target, skill, dice);
-                return result;
+                return fn(user, target, skill, dice);
             });
 
-            return {
-                user: user,
-                skill: skill,
-                success: true,
-                priority: user.priority() + skill.priorityBoost + d20.roll()/2,
-                effects: results,
-            };
-        },
+            return result(user, skill, results);
+        };
+    };
+
+    // TODO: assess skill costs, etc.
+    return {
+        "damage/melee": standardSkillEffect(standardDamage),
         "heal/normal": function(skill, user, targets) {
             return {
                 user: user,
                 skill: skill,
-                success: false,
                 priority: user.priority(),
                 effects: []
             };

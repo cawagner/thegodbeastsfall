@@ -24,7 +24,7 @@
         "target": "player",
         "effect": "heal/normal",
         "power": "2d4",
-        "cost": { "mp": 2 },
+        "mp": 2,
         "isFieldUsable": true
     },
     "ooze": {

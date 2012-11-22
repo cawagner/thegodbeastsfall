@@ -28,8 +28,6 @@ define([
 
         msg(action.user.name + " used " + action.skill.name + "!");
 
-        var hadEffect = false;
-
         _(action.effects).each(function(effect) {
             var targetWasAlive = effect.target.isAlive();
 
@@ -37,8 +35,6 @@ define([
                 msg(effect.target.name + " was already gone!");
                 return;
             }
-
-            hadEffect = true;
 
             if (effect.missed) {
                 msg("...missed " + effect.target.name + "!", "miss");
@@ -56,9 +52,7 @@ define([
             }
         });
 
-        if (hadEffect) {
-            action.user.useSkill(action.skill);
-        }
+        action.user.useSkill(action.skill);
     };
 
     return function BattleExecuteState(battleState, actions, nextRound) {
