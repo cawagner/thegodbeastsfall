@@ -38,6 +38,12 @@ define([
 
             this.flags = {};
 
+            this.inventory = {
+                hasBattleUsableItems: function() {
+                    return false;
+                }
+            };
+
             mapLoader.goToMap(campaign.startMap);
         };
 

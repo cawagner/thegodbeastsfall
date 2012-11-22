@@ -94,7 +94,7 @@ define([
             items: [
                 { text: "Fight", childMenu: self.skillsOfType("Fight") },
                 { text: "Magic", childMenu: self.skillsOfType("Magic") },
-                { text: "Item", childMenu: new Menu() },
+                { text: "Item", childMenu: new Menu(), disabled: !GameState.instance.inventory.hasBattleUsableItems() },
                 {
                     text: "Tactic",
                     childMenu: new Menu({
