@@ -67,5 +67,14 @@
     <property name="say" value="Guelln is a town that has been blessed by the Goddess Liessin."/>
    </properties>
   </object>
+  <object name="singer" type="NPC" x="80" y="144">
+   <properties>
+    <property name="archetype" value="oldwoman"/>
+    <property name="behavior" value="stationary"/>
+    <property name="say" value="Do you know all eight gods? In Guelln we revere Liessin, Goddess of Life, but there's also.."/>
+    <property name="say2" value="Dichet, God of Order. Far, Goddess of Art and Flow. Mondei, God of Knowledge. Vin, Goddess of Passion. "/>
+    <property name="say3" value="We don't much care for Norodel of War or Ropo of Chaos... and Bilgets of Matter is just weird."/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

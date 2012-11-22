@@ -9,6 +9,9 @@ define(["underscore"], function(_) {
         "oldman": {
             imagePath: "assets/img/oldman.png"
         },
+        "oldwoman": {
+            imagePath: "assets/img/oldwoman.png"
+        },
         "littlegirl": {
             imagePath: "assets/img/littlegirl.png"
         },

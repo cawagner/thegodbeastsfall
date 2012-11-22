@@ -134,6 +134,22 @@
                  "width":0,
                  "x":352,
                  "y":192
+                }, 
+                {
+                 "height":0,
+                 "name":"singer",
+                 "properties":
+                    {
+                     "archetype":"oldwoman",
+                     "behavior":"stationary",
+                     "say":"Do you know all eight gods? In Guelln we revere Liessin, Goddess of Life, but there's also..",
+                     "say2":"Dichet, God of Order. Far, Goddess of Art and Flow. Mondei, God of Knowledge. Vin, Goddess of Passion. ",
+                     "say3":"We don't much care for Norodel of War or Ropo of Chaos... and Bilgets of Matter is just weird."
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":80,
+                 "y":144
                 }],
          "opacity":1,
          "type":"objectgroup",

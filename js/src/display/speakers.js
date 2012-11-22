@@ -18,13 +18,16 @@ define([], function() {
             frame: 4
         },
         "oldman": {
-            name: "Old Man"
+            name: "Old Fogy"
         },
         "littlegirl": {
             name: "Little Girl"
         },
         "earl": {
             name: "Man"
+        },
+        "oldwoman": {
+            name: "Crone"
         }
     };
 });
