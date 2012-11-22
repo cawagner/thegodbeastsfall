@@ -33,8 +33,8 @@ define(["underscore", "dice"], function(_, Dice) {
     };
 
     Character.prototype.gainLevel = function(statToBoost) {
-        var d4 = Dice.parse("d4");
-        var hpGain = d4.roll() + Math.floor(Math.max(4, this.strength - 10) / 4);
+        var d4 = Dice.parse("d6");
+        var hpGain = d4.roll() + Math.floor(Math.max(3, this.strength - 10) / 3);
         var mpGain = Math.ceil(Math.max(4, this.intelligence - 6) / 4);
 
         this.maxHp += hpGain;
