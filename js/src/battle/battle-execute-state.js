@@ -1,8 +1,9 @@
 define([
     "underscore",
+    "jquery",
     "battle/battle-message-state",
     "battle/battle-won-state"
-], function(_, BattleMessageState, BattleWonState) {
+], function(_, $, BattleMessageState, BattleWonState) {
     "use strict";
 
     // TODO: move
@@ -75,6 +76,14 @@ define([
                     totalXp += pawn.xp();
                 });
                 var xpPerPerson = Math.ceil(totalXp / battleState.playerPawns.length);
+
+                battleState.enqueueState({
+                    start: function() {
+                        $.publish("/music/play", ["victory"]);
+                    },
+                    update: _.give(true),
+                    draw: _.noop
+                });
 
                 battleState.enqueueState(new BattleMessageState([
                     "All monsters perished!",

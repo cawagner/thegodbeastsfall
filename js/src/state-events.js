@@ -64,6 +64,11 @@ define([
                 }
             });
 
+
+            $.subscribe("/music/play", function(name) {
+                sound.playMusic(name);
+            });
+
             $.subscribe("/sound/play", function(name) {
                 sound.playSound(name);
             });
