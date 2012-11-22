@@ -17,6 +17,8 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
 
         this.currentHp = proto.hp;
         this.currentMp = proto.mp || 0;
+
+        this.type = 'enemy';
     };
 
     EnemyPawn.prototype = new PawnBase();

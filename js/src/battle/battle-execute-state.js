@@ -26,6 +26,12 @@ define([
 
         _(action.effects).each(function(effect) {
             var targetWasAlive = effect.target.isAlive();
+            var sound;
+            if (effect.target.type === 'enemy') {
+                sound = effect.critical ? "critical" : "hit";
+            } else {
+                sound = "playerhit";
+            }
 
             if (!targetWasAlive) {
                 if (!effect.target.isHidden) {
@@ -46,12 +52,12 @@ define([
                 if (effect.critical) {
                     msg("A mighty blow!");
                 }
-                msg(effect.target.name + " took " + effect.amount + " damage!", effect.critical ? "critical" : "hit");
+                msg(effect.target.name + " took " + effect.amount + " damage!", sound);
             }
 
             state.enqueueFunc(function() {
                 if (targetWasAlive && !effect.target.isAlive()) {
-                    msg(effect.target.name + " falls!");
+                    msg(effect.target.name + " falls!", 'endie');
                     effect.target.isHidden = true;
                 }
             });
