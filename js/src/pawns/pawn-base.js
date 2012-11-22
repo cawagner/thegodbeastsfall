@@ -48,7 +48,7 @@ define(["underscore"], function(_) {
             return this.entity.agility;
         },
         accuracy: function() {
-            return Math.floor((this.entity.strength + this.entity.agility + this.entity.luck) / 2 + 53);
+            return Math.floor((this.entity.strength + this.entity.agility + this.entity.luck/2) + 40);
         },
         evade: function() {
             return Math.floor((3 * this.entity.agility + this.entity.luck) / 4);

@@ -28,8 +28,10 @@ define([
             var targetWasAlive = effect.target.isAlive();
 
             if (!targetWasAlive) {
-                msg(effect.target.name + " was already gone!");
-                state.enqueueDone();
+                if (!effect.target.isHidden) {
+                    msg(effect.target.name + " was already gone!");
+                }
+                return;
             }
 
             state.enqueueFunc(function() {
