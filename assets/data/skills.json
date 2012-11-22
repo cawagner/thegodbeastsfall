@@ -48,6 +48,7 @@
         "priorityBoost": 0,
         "cooldown": 0,
         "isFieldUsable": false,
-        "cost": {}
+        "mp": 0,
+        "hp": 0
     }
 }

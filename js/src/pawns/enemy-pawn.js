@@ -43,5 +43,9 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
         return this.enemy.xp;
     };
 
+    EnemyPawn.prototype.useSkill = function() {
+        // TODO: care about cooldown...
+    };
+
     return EnemyPawn;
 });

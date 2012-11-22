@@ -28,6 +28,8 @@ define([
 
         msg(action.user.name + " used " + action.skill.name + "!");
 
+        var hadEffect = false;
+
         _(action.effects).each(function(effect) {
             var targetWasAlive = effect.target.isAlive();
 
@@ -35,6 +37,8 @@ define([
                 msg(effect.target.name + " was already gone!");
                 return;
             }
+
+            hadEffect = true;
 
             if (effect.missed) {
                 msg("...missed " + effect.target.name + "!", "miss");
@@ -51,6 +55,10 @@ define([
                 battleState.enqueueState(new BuryTheDeadState(effect.target));
             }
         });
+
+        if (hadEffect) {
+            action.user.useSkill(action.skill);
+        }
     };
 
     return function BattleExecuteState(battleState, actions, nextRound) {
@@ -58,6 +66,10 @@ define([
             console.log(actions);
             _(actions).each(function(action) {
                 executeUseSkillAction(action, battleState);
+            });
+
+            _(battleState.playerPawns).each(function(player) {
+                player.refresh();
             });
 
             if (_(battleState.enemyPawns).all(function(pawn) { return !pawn.isAlive(); })) {

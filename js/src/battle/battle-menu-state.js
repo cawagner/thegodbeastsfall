@@ -46,7 +46,7 @@ define([
             var member = self.battleState.playerPawns[self.partyIndex];
             var skillMenuItems = _(member.character.skills[type]).map(function(skillName) {
                 var skill = skills[skillName] || { name: "<NULL>" + skillName };
-                return { text: skill.name, skill: skill };
+                return { text: skill.name, skill: skill, disabled: !member.canUseSkill(skill) };
             });
             return new Menu({
                 items: skillMenuItems,
