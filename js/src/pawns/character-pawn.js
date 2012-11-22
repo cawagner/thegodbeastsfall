@@ -8,5 +8,9 @@ define(["pawns/pawn-base"], function(PawnBase) {
 
     CharacterPawn.prototype = new PawnBase();
 
+    CharacterPawn.prototype.takeDamage = function(amount) {
+        this.character.hp -= amount;
+    };
+
     return CharacterPawn;
 });

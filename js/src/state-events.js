@@ -25,6 +25,14 @@ define([
 
     return {
         init: function(game) {
+
+            // TODO: move asset loading into common location that isn't here!
+            sound.loadSound("hit");
+            sound.loadSound("miss");
+            sound.loadSound("critical");
+            sound.loadSound("message");
+            sound.loadSound("battlestart");
+
             // TODO: elsewhere?
             $.subscribe("/menu/open", function(menu) {
                 game.pushState(new MenuState(menu));
@@ -52,6 +60,10 @@ define([
                 }
             });
 
+            $.subscribe("/sound/play", function(name) {
+                sound.playSound(name);
+            });
+
             $.subscribe("/map/loaded", function(map, entrance) {
                 var fieldState = new FieldState(map, entrance);
                 game.pushState(fieldState);
@@ -65,6 +77,7 @@ define([
 
                 oldMusic = sound.getCurrentMusic();
 
+                sound.playSound("battlestart");
                 sound.playMusic("battle");
 
                 game.pushState(transition);

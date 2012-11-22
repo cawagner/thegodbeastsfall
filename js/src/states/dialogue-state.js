@@ -1,4 +1,4 @@
-define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, speakers, NoopState) {
+define(["jquery", "gui", "display/speakers", "states/noop-state"], function($, GuiRenderer, speakers, NoopState) {
     "use strict";
 
     var LINE_LENGTH = 38;
@@ -15,6 +15,7 @@ define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, s
 
         this.start = function(previousState) {
             this.previousState = previousState;
+            $.publish("/sound/play", ["message"]);
         };
 
         this.end = function() {
@@ -47,6 +48,7 @@ define(["gui", "display/speakers", "states/noop-state"], function(GuiRenderer, s
         };
 
         this.advanceText = function() {
+            $.publish("/sound/play", ["message"]);
             ++lineIndex;
             if (lineIndex >= message.text.length) {
                 this.advanceMessage();

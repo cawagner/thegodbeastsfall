@@ -32,7 +32,7 @@ define([
     };
 
     BattleMenuState.prototype.targetPawn = function(pawnType) {
-        var pawns = _(this.battleState[pawnType + "Pawns"]).chain().filter(function(pawn) { return pawn.isAlive }).map(function(pawn) {
+        var pawns = _(this.battleState[pawnType + "Pawns"]).chain().filter(function(pawn) { return pawn.isAlive(); }).map(function(pawn) {
             return { text: _(pawn).result("name"), target: pawn };
         }).value();
         return new Menu({

@@ -1,7 +1,7 @@
 define([], function() {
     "use strict";
 
-    var musicAudio, currentMusic;
+    var musicAudio, currentMusic, cachedSounds = {};
 
     var soundManager = {
         playMusic: function(music) {
@@ -20,6 +20,15 @@ define([], function() {
                 }, false);
             }
             musicAudio.play();
+        },
+        loadSound: function(name) {
+            var audio = new Audio('assets/snd/' + name + ".wav");
+            audio.autoplay = false;
+            audio.preload = true;
+            cachedSounds[name] = audio;
+        },
+        playSound: function(name) {
+            new Audio('assets/snd/' + name + ".wav").play();
         },
         getCurrentMusic: function() {
             return currentMusic;

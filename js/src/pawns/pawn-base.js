@@ -67,10 +67,8 @@ define(["underscore"], function(_) {
         criticalMultiplier: function() {
             return 2;
         },
-        takeDamage: function() {
-        },
         isAlive: function() {
-            return this.hp > 0;
+            return this.hp() > 0;
         }
     });
 

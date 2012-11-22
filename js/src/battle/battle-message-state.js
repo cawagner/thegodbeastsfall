@@ -1,14 +1,18 @@
-define(["underscore", "gui", "keyboard-input"], function(_, GuiRenderer, input) {
+define(["jquery", "underscore", "gui", "keyboard-input"], function($, _, GuiRenderer, input) {
     var MESSAGE_DELAY = 250;
 
-    function BattleMessageState(messages) {
+    function BattleMessageState(messages, sound) {
         this.gui = new GuiRenderer(Game.instance.graphics);
 
         this.messageDelay = 0;
         this.currentMessage = "";
         this.messages = messages;
 
-        this.start = _.noop;
+        this.start = function() {
+            if (sound) {
+                $.publish("/sound/play", [sound]);
+            }
+        };
 
         this.update = function() {
             this.messageDelay--;

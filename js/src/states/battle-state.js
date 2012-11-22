@@ -74,12 +74,17 @@ define([
 
         for (i = 0; i < this.enemyPawns.length; ++i) {
             pawn = this.enemyPawns[i];
+            if (pawn.isHidden) {
+                continue;
+            }
             dest = {
                 x: i * 100 + margin - pawn.rect.width / 2,
                 y: 160 - pawn.rect.height,
                 width: pawn.rect.width,
                 height: pawn.rect.height
             };
+            pawn.x = dest.x;
+            pawn.y = dest.y;
             Game.instance.graphics.drawImageRect(pawn.image, pawn.rect, dest);
         }
     };
@@ -87,6 +92,8 @@ define([
     BattleState.prototype.drawAllies = function() {
         var i;
         for (i = 0; i < this.playerPawns.length; ++i) {
+            this.playerPawns[i].x = 200 + i * 36 + 18;
+            this.playerPawns[i].y = 190;
             this.gui.drawStatus(200 + i * 36, 185, this.playerPawns[i]);
         }
     }

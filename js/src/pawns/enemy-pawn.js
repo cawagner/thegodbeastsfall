@@ -14,9 +14,15 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
         this.rect = proto.rect;
         this.skills = proto.skills;
         this.image = enemyImage;
+
+        this.currentHp = proto.hp;
     };
 
     EnemyPawn.prototype = new PawnBase();
+
+    EnemyPawn.prototype.hp = function() {
+        return this.currentHp;
+    };
 
     EnemyPawn.prototype.damageReduction = function() {
         return this.enemy.damageReduction || this.enemy.strength;
@@ -27,6 +33,10 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
 
     EnemyPawn.prototype.usableSkills = function() {
         return this.enemy.skills;
+    };
+
+    EnemyPawn.prototype.takeDamage = function(amount) {
+        this.currentHp -= amount;
     };
 
     return EnemyPawn;
