@@ -16,7 +16,7 @@
         "learnSet": {
             "Fight": {
                 "hard": { "maxHp": 36 },
-                "spin": { "strength": 17 }
+                "spin": { "agility": 11, "strength": 16 }
             },
             "Magic": {
                 "braver": { "maxMp": 8 }
