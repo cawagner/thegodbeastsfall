@@ -49,6 +49,13 @@
         "power": "2+1d8",
         "cooldown": 1
     },
+    "cigBurn": {
+        "name": "CigBurn",
+        "target": "enemy",
+        "effect": "damage/melee",
+        "power": "2+1d8",
+        "cooldown": 2
+    },
     "scratch": {
         "name": "Scratch",
         "target": "enemy",
