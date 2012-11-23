@@ -1,0 +1,14 @@
+{
+    "potion": {
+        "name": "Potion",
+        "target": "player",
+        "effect": "heal/normal",
+        "power": "4+3d4",
+        "usable": true
+    },
+    "drachma": {
+        "name": "Drachma",
+        "usable": false,
+        "key": true
+    }
+}

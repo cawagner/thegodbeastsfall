@@ -20,7 +20,8 @@
             audio: '../lib/requirejs-plugins/audio',
             campaign: '../../assets/data/campaign',
             skills: '../../assets/data/skills',
-            enemies: '../../assets/data/enemies'
+            enemies: '../../assets/data/enemies',
+            items: '../../assets/data/items'
         },
         urlArgs: "bust=" + Date.now()
     });
