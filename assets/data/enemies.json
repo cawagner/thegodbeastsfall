@@ -21,7 +21,7 @@
         "hp": "4+3d4",
         "mp": 0,
         "strength": 6,
-        "agility": 11,
+        "agility": 8,
         "intelligence": 3,
         "luck": 3,
         "rect": { "x": 4, "y": 500, "width": 70, "height": 60 },
