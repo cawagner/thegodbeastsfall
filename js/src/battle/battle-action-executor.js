@@ -112,6 +112,11 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
             state.enqueueState(new BattleMessageState(messages));
 
             return state;
+        },
+        defend: function(action) {
+            var state = new BattleCompositeState();
+            state.enqueueState(new BattleMessageState(["Defend isn't implemented yet, " + action.user.name + "!"]));
+            return state;
         }
     }
 

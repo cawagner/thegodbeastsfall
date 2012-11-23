@@ -30,12 +30,13 @@ define([
                 var pawn = battleState.playerPawns[command.partyIndex];
                 if (command.action === "skill") {
                     actions.push(createUseSkillAction(pawn, command.param.skill, command.param.targets));
-                }
-                if (command.action === "inspect" || command.action === "flee") {
+                } else if (command.action === "item") {
+                    /// guess I've got brain problems!
+                } else {
                     actions.push({
                         type: command.action,
                         user: pawn,
-                        priority: pawn.priority()
+                        priority: pawn.priority() + (command.param.priorityBoost||0)
                     });
                 }
             });

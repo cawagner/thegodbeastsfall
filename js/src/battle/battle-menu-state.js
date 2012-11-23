@@ -116,16 +116,16 @@ define([
                     text: "Tactic",
                     childMenu: new Menu({
                         items: [
-                            { text: "Defend", action: "defend" },
-                            { text: "Run Away", action: "flee" },
-                            { text: "Inspect", action: "inspect" }
+                            { text: "Defend", action: "defend", priorityBoost: 20 },
+                            { text: "Run Away", action: "flee", priorityBoost: -10 },
+                            { text: "Inspect", action: "inspect", priorityBoost: 0 }
                         ],
                         rows: 1,
                         cols: 3,
                         x: 10,
                         y: 200
                     }).select(function(index, item) {
-                        self.setAction(item.action)
+                        self.setAction(item.action, { priorityBoost: item.priorityBoost })
                         this.close();
                     })
                 }
