@@ -51,10 +51,6 @@ define([
             ]));
 
             battleState.enqueueFunc(function() {
-                // TODO: do something besides just reviving players and ending the battle...
-                _(battleState.playerPawns).each(function(player) {
-                    player.restoreHp(1);
-                });
                 $.publish("/battle/end");
             });
         }

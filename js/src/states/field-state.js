@@ -46,9 +46,10 @@ define([
                 var party;
                 encounter.until--;
                 if (encounter.until <= 0) {
+                    encounter.triggered++;
                     party = encounter.parties[Math.floor(Math.random() * encounter.parties.length)];
                     $.publish("/battle/start", [party])
-                    encounter.until = Math.floor(
+                    encounter.until = 2*encounter.triggered + Math.floor(
                         Math.random() * (encounter.maxFrequency - encounter.minFrequency) + encounter.minFrequency
                     );
                     console.log(encounter, encounter.until);

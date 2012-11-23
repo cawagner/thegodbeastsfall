@@ -109,6 +109,11 @@ define([
                 sound.playMusic(oldMusic);
                 game.popState();
 
+                // TODO: ugly, ugly!
+                _(GameState.instance.party).each(function(character) {
+                    character.hp = Math.max(1, character.hp);
+                });
+
                 // HACKY...
                 if (!inDungeon) {
                     $.publish("/party/heal");

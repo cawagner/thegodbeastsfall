@@ -118,7 +118,8 @@ define([
                         height: (object.height / TILE_SIZE) | 0,
                         minFrequency: parseInt(frequency[0] || 30),
                         maxFrequency: parseInt(frequency[1] || frequency[0] || 40),
-                        parties: JSON.parse(object.properties.parties)
+                        parties: JSON.parse(object.properties.parties),
+                        triggered: 0
                     };
                     encounter.until = Math.floor(
                         Math.random() * (encounter.maxFrequency - encounter.minFrequency) + encounter.minFrequency
