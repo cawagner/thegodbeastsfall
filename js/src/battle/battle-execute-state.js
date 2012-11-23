@@ -62,7 +62,6 @@ define([
         this.start = function() {
             var xp;
 
-            console.log(actions);
             _(actions).each(function(action) {
                 battleState.enqueueState(actionExecutor[action.type](action, battleState));
             });
