@@ -14,7 +14,7 @@ define(['underscore'], function(_) {
                             dx = Math.floor(Math.random()*3)-1;
                         }
                         self.tryMoveBy(dx, dy);
-                        waitForNextMove = 20 + Math.random() * 40;
+                        waitForNextMove = 50 + Math.random() * 100;
                     }
                     --waitForNextMove;
                 }

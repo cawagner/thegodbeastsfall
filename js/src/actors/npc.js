@@ -9,6 +9,11 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             "behavior": "wanderlust"
         });
 
+        // bgobjs can only be stationary.
+        if (properties.archetype === "bgobj") {
+            properties.behavior = "stationary";
+        }
+
         Actor.call(this, properties.archetype);
 
         this.wander = npcBehaviors[properties.behavior](this);
