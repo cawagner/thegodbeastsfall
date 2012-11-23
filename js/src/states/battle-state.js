@@ -85,6 +85,8 @@ define([
         var y = pawn.y - 20;
         var life = 40;
         var ym = -2;
+        amount = amount+"";
+
         return {
             start: function() {
                 pawn.pushingDown = 4;
@@ -100,7 +102,7 @@ define([
                 return life < 0;
             },
             draw: function() {
-                Game.instance.graphics.drawText(x, y, amount+"");
+                Game.instance.graphics.drawText(x, y, amount);
             }
         };
     };
