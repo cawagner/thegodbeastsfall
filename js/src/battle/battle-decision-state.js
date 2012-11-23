@@ -24,7 +24,6 @@ define([
 
     return function BattleDecisionState(battleState) {
         this.start = function(commands) {
-            console.log(commands);
             var actions = [];
             _(commands).each(function(command) {
                 var pawn = battleState.playerPawns[command.partyIndex];
@@ -44,7 +43,6 @@ define([
             // Right now, all enemies will each just use their first attack on the player...
             _(battleState.enemyPawns).each(function(enemy) {
                 var usableSkills = enemy.usableSkills();
-                console.log(usableSkills);
                 var skill = usableSkills[Math.floor(Math.random() * usableSkills.length)];
                 actions.push(createUseSkillAction(enemy, skills[skill], [battleState.playerPawns[0]]));
             });
