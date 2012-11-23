@@ -52,6 +52,64 @@ define([
 
     BattleState.prototype.update = function() {
         this.rootState.update();
+
+        // TODO: This is really, really lame...
+        var pushDown = function(pawn) {
+            if (pawn.pushDown > 0) {
+                pawn.pushDown += pawn.pushingDown;
+                pawn.pushingDown -= 0.5;
+                if (pawn.pushDown < 0) {
+                    pawn.pushDown = 0;
+                }
+            }
+            if (pawn.pushUp > 0) {
+                pawn.pushUp += pawn.pushingUp;
+                pawn.pushingUp -= 0.5;
+                if (pawn.pushUp < 0) {
+                    pawn.pushUp = 0;
+                }
+            }
+        };
+
+        _(this.playerPawns).each(pushDown);
+        _(this.enemyPawns).each(pushDown);
+    };
+
+    // OH NO this is wrong!
+    BattleState.prototype.displayDamage = function(pawn, amount, isCritical) {
+        // HACK
+        var x = pawn.x;
+        if (pawn.rect) {
+            x += pawn.rect.width / 2;
+        }
+        var y = pawn.y - 20;
+        var life = 40;
+        var ym = -2;
+        return {
+            start: function() {
+                pawn.pushingDown = 4;
+                pawn.pushDown = 1;
+            },
+            update: function() {
+                y = Math.min(pawn.y - 20, y + ym);
+                ym += 0.25;
+                if (isCritical) {
+                    x += Math.random()*2 - 1;
+                }
+                life--;
+                return life < 0;
+            },
+            draw: function() {
+                Game.instance.graphics.drawText(x, y, amount+"");
+            }
+        };
+    };
+
+    BattleState.prototype.displayMiss = function(pawn) {
+        return function() {
+            pawn.pushingUp = 4;
+            pawn.pushUp = 1;
+        };
     };
 
     BattleState.prototype.draw = function() {
@@ -76,7 +134,7 @@ define([
             }
             dest = {
                 x: i * 100 + margin - pawn.rect.width / 2 + pawn.wander.x,
-                y: 160 - pawn.rect.height + pawn.wander.y,
+                y: 160 - pawn.rect.height + pawn.wander.y + (pawn.pushDown || 0) - (pawn.pushUp || 0),
                 width: pawn.rect.width,
                 height: pawn.rect.height
             };
@@ -93,11 +151,12 @@ define([
     };
 
     BattleState.prototype.drawAllies = function() {
-        var i;
+        var i, pawn;
         for (i = 0; i < this.playerPawns.length; ++i) {
-            this.playerPawns[i].x = 200 + i * 36 + 18;
-            this.playerPawns[i].y = 190;
-            this.gui.drawStatus(200 + i * 36, 185, this.playerPawns[i]);
+            var pawn = this.playerPawns[i];
+            pawn.x = 200 + i * 36 + 18;
+            pawn.y = 190 + Math.floor(pawn.pushDown || 0);
+            this.gui.drawStatus(pawn.x - 18, pawn.y - 5, pawn);
         }
     }
 

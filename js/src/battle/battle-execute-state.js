@@ -9,7 +9,7 @@ define([
 
     // TODO: this whole file is a mess... lol 3:00AM
 
-    var executeUseSkillAction = function(action) {
+    var executeUseSkillAction = function(action, battleState) {
         var state = new BattleCompositeState();
         var msg = function(m, s) {
             state.enqueueState(new BattleMessageState([m], s));
@@ -47,12 +47,16 @@ define([
             });
 
             if (effect.missed) {
+                state.enqueueFunc(battleState.displayMiss(effect.target));
                 msg("...missed " + effect.target.name + "!", "miss");
             } else {
                 if (effect.critical) {
                     msg("A mighty blow!");
                 }
-                msg(effect.target.name + " took " + effect.amount + " damage!", sound);
+                state.enqueueFunc(function() {
+                    $.publish("/sound/play", [sound]);
+                })
+                state.enqueueState(battleState.displayDamage(effect.target, effect.amount, effect.critical));
             }
 
             state.enqueueFunc(function() {
@@ -135,7 +139,7 @@ define([
             console.log(actions);
             _(actions).each(function(action) {
                 if (action.type === "skill") {
-                    battleState.enqueueState(executeUseSkillAction(action));
+                    battleState.enqueueState(executeUseSkillAction(action, battleState));
                 }
                 if (action.type === "flee") {
                     battleState.enqueueState(executeFleeAction(action));
