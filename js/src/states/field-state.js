@@ -21,7 +21,8 @@ define([
             frame = 0,
             actorRenderer = new ActorRenderer(game.graphics),
             gui = new GuiRenderer(game.graphics),
-            containsHero = _.bind(util.pointInRect, null, hero);
+            containsHero = _.bind(util.pointInRect, null, hero),
+            encounterSubscription;
 
         map.addActor(hero);
 
@@ -39,12 +40,27 @@ define([
             }
         }, 1);
 
+        encounterSubscription = $.subscribe("/hero/step", function() {
+            // TODO: nested encounter regions won't work right now!
+            _(map.encounters).withFirst(containsHero, function(encounter) {
+                var party;
+                encounter.until--;
+                if (encounter.until <= 0) {
+                    party = encounter.parties[Math.floor(Math.random() * encounter.parties.length)];
+                    $.publish("/battle/start", [party])
+                    encounter.until = Math.floor(
+                        Math.random() * (encounter.maxFrequency - encounter.minFrequency) + encounter.minFrequency
+                    );
+                    console.log(encounter, encounter.until);
+                }
+            });
+        });
+
         this.update = function(timeScale) {
             _(map.actors).each(function(actor) {
                 actor.update(timeScale);
             });
 
-            // handle switching maps...
             _(map.exits).withFirst(containsHero, function(exit) {
                 mapLoader.goToMap(exit.map, exit.entrance);
             });
@@ -52,6 +68,10 @@ define([
             frame = (frame + 0.025 + hero.isMoving() * 0.05) % 4;
 
             tilemapView.focusOn(hero.x, hero.y);
+        };
+
+        this.end = function() {
+            $.unsubscribe(encounterSubscription);
         };
 
         this.suspend = function() {

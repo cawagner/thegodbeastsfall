@@ -86,7 +86,7 @@ define([
                 sound.playMusic(map.properties.music);
 
                 // HACKY!
-                inDungeon = map.properties.inDungeon;
+                inDungeon = map.properties.isDungeon;
                 if (!inDungeon) {
                     $.publish("/party/heal");
                 }

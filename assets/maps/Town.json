@@ -100,8 +100,8 @@
                     {
                      "archetype":"earl",
                      "behavior":"wanderlust",
-                     "say":"You're the first person like you to come here in over twenty years.",
-                     "say2":"Mirv was the last, but she went into the tomb world and never came back."
+                     "say":"You're the first person like you to come here in like twenty years.",
+                     "say2":"Mirv was the last, but she went into the Tomb World and never came back."
                     },
                  "type":"NPC",
                  "width":0,
@@ -150,6 +150,30 @@
                  "width":0,
                  "x":80,
                  "y":144
+                }, 
+                {
+                 "height":0,
+                 "name":"toCharonHouse",
+                 "properties":
+                    {
+                     "map":"CharonHouse"
+                    },
+                 "type":"Exit",
+                 "width":0,
+                 "x":101,
+                 "y":288
+                }, 
+                {
+                 "height":0,
+                 "name":"fromCharonHouse",
+                 "properties":
+                    {
+
+                    },
+                 "type":"Entrance",
+                 "width":0,
+                 "x":101,
+                 "y":315
                 }],
          "opacity":1,
          "type":"objectgroup",

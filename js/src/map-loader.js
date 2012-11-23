@@ -70,6 +70,7 @@ define([
             var entrances = {};
             var exits = {};
             var npcs = {};
+            var encounters = {};
 
             var z = 0;
             _(tileLayers).each(function() {
@@ -107,6 +108,23 @@ define([
                     npcs[object.name] = new Npc(object.properties);
                     npcs[object.name].warpTo((object.x / TILE_SIZE) | 0, (object.y / TILE_SIZE) | 0);
                 });
+
+                _(objects["Encounters"]).each(function(object) {
+                    var frequency = object.properties.frequency.split("-");
+                    var encounter = {
+                        x: (object.x / TILE_SIZE) | 0,
+                        y: (object.y / TILE_SIZE) | 0,
+                        width: (object.width / TILE_SIZE) | 0,
+                        height: (object.height / TILE_SIZE) | 0,
+                        minFrequency: parseInt(frequency[0] || 30),
+                        maxFrequency: parseInt(frequency[1] || frequency[0] || 40),
+                        parties: JSON.parse(object.properties.parties)
+                    };
+                    encounter.until = Math.floor(
+                        Math.random() * (encounter.maxFrequency - encounter.minFrequency) + encounter.minFrequency
+                    );
+                    encounters[object.name] = encounter;
+                });
             });
 
             return new Map(tilemap, mask.data, {
@@ -114,7 +132,8 @@ define([
                 entrances: entrances,
                 exits: exits,
                 properties: data.properties,
-                npcs: npcs
+                npcs: npcs,
+                encounters: encounters
             });
         };
     }
