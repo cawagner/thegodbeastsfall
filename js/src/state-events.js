@@ -127,6 +127,7 @@ define([
             $.subscribe("/party/heal", function() {
                 _(GameState.instance.party).each(function(member) {
                     member.hp = member.maxHp;
+                    member.mp = member.maxMp;
                 });
             });
         }
