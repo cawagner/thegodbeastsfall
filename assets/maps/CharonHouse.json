@@ -85,6 +85,109 @@
                  "width":400,
                  "x":0,
                  "y":0
+                }, 
+                {
+                 "height":0,
+                 "name":"book1",
+                 "properties":
+                    {
+                     "archetype":"bgobj",
+                     "behavior":"stationary",
+                     "say":"It's an old book. Most of the words have become illegible in its decrepitude...",
+                     "say2":"You can scarcely make out on an earmarked page: \"En Ik heb de sleutels der hel en des doods.\""
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":48,
+                 "y":80
+                }, 
+                {
+                 "height":0,
+                 "name":"book2",
+                 "properties":
+                    {
+                     "archetype":"bgobj",
+                     "behavior":"stationary",
+                     "say":"Buteritoi Teotsairas (in the Original Kesj)",
+                     "say2":"Vrevelk sieptato \"Mana\" an sjifta. Bramda \"Mana\" uterta Teotsairan mu.",
+                     "say3":"Teotsair prusan ut leven teia zeit dait iare sjifta."
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":80,
+                 "y":80
+                }, 
+                {
+                 "height":0,
+                 "name":"book3",
+                 "properties":
+                    {
+                     "archetype":"bgobj",
+                     "behavior":"stationary",
+                     "say":"Birth of the God-Beasts (translated by Charon)",
+                     "say2":"The death of the Before World created \"Mana.\" Combined \"Mana\" gave birth to all God-Beasts.",
+                     "say3":"The God-Beasts created their language and culture over thousands of years."
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":96,
+                 "y":80
+                }, 
+                {
+                 "height":0,
+                 "name":"book4",
+                 "properties":
+                    {
+                     "archetype":"bgobj",
+                     "behavior":"stationary",
+                     "say":"It's an old, old journal.",
+                     "say2":"\"Even I am losing my recollection of what has taken place. We're safe, but for what?",
+                     "say3":"\"I will do all I can to document the past until I, too, live content in ignorance."
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":64,
+                 "y":80
+                }, 
+                {
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "width":0,
+                 "x":111,
+                 "y":173
+                }, 
+                {
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "width":1,
+                 "x":411,
+                 "y":-26
+                }, 
+                {
+                 "height":0,
+                 "name":"book5",
+                 "properties":
+                    {
+                     "archetype":"bgobj",
+                     "behavior":"stationary",
+                     "say":"\"I don't understand all these books. Did I ever?",
+                     "say2":"\"Some of them are even in my handwriting.",
+                     "say3":"\"They make me uneasy. I think I will stay at the cryptkeeper's shack from now on."
+                    },
+                 "type":"NPC",
+                 "width":0,
+                 "x":112,
+                 "y":80
                 }],
          "opacity":1,
          "type":"objectgroup",
