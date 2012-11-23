@@ -4,8 +4,10 @@ define([
     "menu",
     "states/menu-state",
     "chars",
-    "states/noop-state"
-], function(_, gameState, Menu, MenuState, chars, NoopState) {
+    "states/noop-state",
+    "pawns/character-pawn",
+    "json!skills.json"
+], function(_, gameState, Menu, MenuState, chars, NoopState, CharacterPawn, skills) {
     "use strict";
 
     function FieldMenuState() {
@@ -27,7 +29,34 @@ define([
                         }
                     })
                 },
-                "Magic",
+                {
+                    text: "Magic",
+                    childMenu: function() {
+                        var partyMembers = _(gameState.party).map(function(member) {
+                            var pawn = new CharacterPawn(member);
+                            var fieldSkills = _(member.skills["Magic"]).chain().filter(function(skill) {
+                                return skills[skill].isFieldUsable;
+                            }).map(function(skill) {
+                                return { text: skills[skill].name, skill: skills[skill], disabled: !pawn.canUseSkill(skills[skill]) };
+                            }).value();
+
+                            console.log(fieldSkills);
+
+                            if (fieldSkills.length) {
+                                return {
+                                    text: member.name,
+                                    childMenu: new Menu({ items: fieldSkills })
+                                };
+                            } else {
+                                return { text: member.name, disabled: true };
+                            }
+                        });
+                        return new Menu({
+                            items: partyMembers,
+                            hierarchical: true
+                        });
+                    }
+                },
                 "Items",
                 {
                     text: "System",
