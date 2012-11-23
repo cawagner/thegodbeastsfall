@@ -61,6 +61,13 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
     MenuState.prototype.draw = function(delta) {
         var i, x, y, item, colWidth = 80;
 
+        if (this.menu.options.captureDraw) {
+            if (this.menu.options.draw) {
+                this.menu.options.draw(this.menu.items[this.selectionIndex], this.menu, this.selectionIndex);
+            }
+            return;
+        }
+
         this.previousState.draw(delta);
 
         this.gui.drawWindowRect(this.menu.x, this.menu.y, this.menu.cols * colWidth * this.openProgress, this.menu.rows * this.gui.lineHeight * this.openProgress);
@@ -83,6 +90,10 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
         y = Math.floor(this.selectionIndex / this.menu.cols);
 
         this.graphics.drawText(this.menu.x + x * colWidth, 4 + this.menu.y + y * this.gui.lineHeight, chars.POINTER);
+
+        if (this.menu.options.draw) {
+            this.menu.options.draw(this.menu.items[this.selectionIndex], this.menu, this.selectionIndex);
+        }
     };
 
     MenuState.prototype.suspend = function() {

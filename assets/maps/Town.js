@@ -19,7 +19,7 @@ setupMap(function(map, gameState) {
 
     map.npcs.barrel1.onTalk = function() {
         // we'll flesh this out over time...
-        $.publish("/battle/start", [["slime", "rat"]]);
+        $.publish("/battle/start", [["slime", "rat", "slime"]]);
     };
 
     $.subscribe("/hero/step", function() {

@@ -1,10 +1,12 @@
 define([
     "underscore",
     "menu",
+    "gui",
     "json!skills.json"
 ], function(
     _,
     Menu,
+    GuiRenderer,
     skills
 ) {
     "use strict";
@@ -16,6 +18,10 @@ define([
         this.actions = [];
 
         this.battleState = battleState;
+
+        this.skillMenu = null;
+
+        this.gui = new GuiRenderer(Game.instance.graphics);
 
         this.start = function() {
             this.menu = this.getMenu().open();
@@ -31,6 +37,10 @@ define([
         this.draw = _.noop;
     };
 
+    BattleMenuState.prototype.drawSkillInfo = function(menuItem) {
+        this.gui.drawTextWindow(280, 30, 25, 16, [menuItem.cost]);
+    };
+
     BattleMenuState.prototype.targetPawn = function(pawnType) {
         var pawns = _(this.battleState[pawnType + "Pawns"]).chain().filter(function(pawn) { return pawn.isAlive(); }).map(function(pawn) {
             return { text: _(pawn).result("name"), target: pawn };
@@ -42,16 +52,20 @@ define([
 
     BattleMenuState.prototype.skillsOfType = function(type) {
         var self = this;
+
         return function() {
             var member = self.battleState.playerPawns[self.partyIndex];
             var skillMenuItems = _(member.character.skills[type]).map(function(skillName) {
                 var skill = skills[skillName] || { name: "<NULL>" + skillName };
-                return { text: skill.name, skill: skill, disabled: !member.canUseSkill(skill) };
+                return { text: skill.name, cost: member.formatCost(skill), skill: skill, disabled: !member.canUseSkill(skill) };
             });
-            return new Menu({
+            var skillMenu = new Menu({
                 items: skillMenuItems,
                 rows: 2,
-                cols: 3
+                cols: 3,
+                draw: function(skill) {
+                    self.drawSkillInfo(skill);
+                }
             }).select(function(index, item) {
                 var skillMenu = this;
                 var skill = item.skill;
@@ -79,7 +93,10 @@ define([
                     }).open();
                 }
                 // TODO: handle party multi-targeting/self-targeting!
+            }).cancel(function() {
+                self.skillMenu = null;
             });
+            return skillMenu;
         };
     };
 

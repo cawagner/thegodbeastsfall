@@ -20,5 +20,15 @@ define(["pawns/pawn-base"], function(PawnBase) {
         this.character.hp = Math.min(this.character.maxHp, this.character.hp + amount);
     };
 
+    CharacterPawn.prototype.formatCost = function(skill) {
+        if (skill.cooldown) {
+            return skill.cooldown + "^" + (skill.cooldown - this.cooldowns[skill.name] || skill.cooldown);
+        }
+        if (skill.mp) {
+            return skill.mp;
+        }
+        return "";
+    };
+
     return CharacterPawn;
 });
