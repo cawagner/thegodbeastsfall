@@ -132,12 +132,16 @@ define([
         for (i = 0; i < this.enemyPawns.length; ++i) {
             pawn = this.enemyPawns[i];
             if (pawn.isHidden) {
-                continue;
+                pawn.dying = pawn.dying || 0;
+                pawn.dying += 0.5 + pawn.dying / 4;
+                if (pawn.dying >= pawn.rect.width / 2) {
+                    continue;
+                }
             }
             dest = {
-                x: i * 100 + margin - pawn.rect.width / 2 + pawn.wander.x,
+                x: i * 100 + margin - pawn.rect.width / 2 + (pawn.dying || pawn.wander.x),
                 y: 160 - pawn.rect.height + pawn.wander.y + (pawn.pushDown || 0) - (pawn.pushUp || 0),
-                width: pawn.rect.width,
+                width: pawn.rect.width - 2*(pawn.dying || 0),
                 height: pawn.rect.height
             };
             pawn.x = dest.x;
