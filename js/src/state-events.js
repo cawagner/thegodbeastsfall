@@ -125,10 +125,19 @@ define([
             });
 
             $.subscribe("/party/heal", function() {
+                var anyHealing = false;
                 _(GameState.instance.party).each(function(member) {
-                    member.hp = member.maxHp;
-                    member.mp = member.maxMp;
+                    if (member.hp !== member.maxHp || member.mp !== member.maxMp) {
+                        anyHealing = true;
+                        member.hp = member.maxHp;
+                        member.mp = member.maxMp;
+                    }
                 });
+                if (anyHealing) {
+                    $.publish("/npc/talk", [[{
+                        text: ["You have been fully healed."]
+                    }]]);
+                }
             });
         }
     }
