@@ -50,8 +50,8 @@
    <properties>
     <property name="archetype" value="earl"/>
     <property name="behavior" value="wanderlust"/>
-    <property name="say" value="You're the first person like you to come here in over twenty years."/>
-    <property name="say2" value="Mirv was the last, but she went into the tomb world and never came back."/>
+    <property name="say" value="You're the first person like you to come here in like twenty years."/>
+    <property name="say2" value="Mirv was the last, but she went into the Tomb World and never came back."/>
    </properties>
   </object>
   <object name="barrel1" type="NPC" x="152" y="248">

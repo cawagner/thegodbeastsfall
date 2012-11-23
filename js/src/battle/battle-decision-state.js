@@ -31,12 +31,9 @@ define([
                 if (command.action === "skill") {
                     actions.push(createUseSkillAction(pawn, command.param.skill, command.param.targets));
                 }
-                if (command.action === "inspect") {
-
-                }
-                if (command.action === "flee") {
+                if (command.action === "inspect" || command.action === "flee") {
                     actions.push({
-                        type: "flee",
+                        type: command.action,
                         user: pawn,
                         priority: pawn.priority()
                     });

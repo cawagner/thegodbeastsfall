@@ -1,4 +1,4 @@
-define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(PawnBase, enemies, skills) {
+define(["dice", "pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Dice, PawnBase, enemies, skills) {
     "use strict";
 
     var enemyImage = new Image();
@@ -7,6 +7,8 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
     // TODO: enemies besides rats!
     function EnemyPawn(enemyId) {
         var proto = enemies[enemyId];
+        var hitDice;
+
         PawnBase.call(this, proto);
 
         this.enemy = proto;
@@ -15,7 +17,12 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
         this.skills = proto.skills;
         this.image = enemyImage;
 
-        this.currentHp = proto.hp;
+        hitDice = Dice.parse(proto.hp + "");
+        this.rolledHp = hitDice.roll();
+        if (this.rolledHp !== proto.hp) {
+            this.hpClass = this.rolledHp / hitDice.max();
+        }
+        this.currentHp = this.rolledHp;
         this.currentMp = proto.mp || 0;
 
         this.type = 'enemy';
@@ -25,6 +32,10 @@ define(["pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Pa
 
     EnemyPawn.prototype.hp = function() {
         return this.currentHp;
+    };
+
+    EnemyPawn.prototype.maxHp = function() {
+        return this.rolledHp;
     };
 
     EnemyPawn.prototype.damageReduction = function() {

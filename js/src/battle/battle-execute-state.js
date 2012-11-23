@@ -83,6 +83,48 @@ define([
         return state;
     };
 
+    var formatCondition = function(pawn) {
+        var condition = "on death's door";
+        var pct = pawn.hp() / pawn.maxHp();
+        if (pct > 0.3)
+            condition = "wounded";
+        if (pct > 0.5)
+            condition = "okay";
+        if (pct > 0.9)
+            condition = "unhurt";
+
+        if (pawn.hpClass) {
+            if (pawn.hpClass > 0.8) {
+                condition += " and is strong";
+            } else if (pawn.hpClass > 0.5) {
+                condition += " and is average";
+            } else {
+                condition += " and is frail";
+            }
+        }
+        return condition + ".";
+    };
+
+    var executeInspectAction = function(action, battleState) {
+        var state = new BattleCompositeState();
+        var messages = [action.user.name + " is sizing up the situation..."];
+
+        _(battleState.enemyPawns).each(function(enemy) {
+            if (enemy.isAlive()) {
+                // TODO: shouldn't know about entity...
+                messages.push(enemy.entity.family + "/" + enemy.name);
+                _(enemy.entity.desc.split('|')).each(function(splat) {
+                    messages.push(splat);
+                });
+                messages.push("It looks " + formatCondition(enemy));
+            }
+        });
+
+        state.enqueueState(new BattleMessageState(messages));
+
+        return state;
+    };
+
     return function BattleExecuteState(battleState, actions, nextRound) {
         var wonBattle = function() {
             return _(battleState.enemyPawns).all(function(pawn) { return !pawn.isAlive(); });
@@ -142,7 +184,10 @@ define([
                     battleState.enqueueState(executeUseSkillAction(action, battleState));
                 }
                 if (action.type === "flee") {
-                    battleState.enqueueState(executeFleeAction(action));
+                    battleState.enqueueState(executeFleeAction(action, battleState));
+                }
+                if (action.type === "inspect") {
+                    battleState.enqueueState(executeInspectAction(action, battleState));
                 }
             });
 

@@ -1,7 +1,8 @@
 {
     "slime": {
         "name": "Slime",
-        "desc": "An ambulatory slime mould of some sort. Did you know that these are not technically a fungus?",
+        "family": "vermin",
+        "desc": "An ambulatory slime mould of some sort.|Did you know that these aren't fungi?",
         "skills": ["ooze"],
         "hp": 12,
         "mp": 0,
@@ -14,9 +15,10 @@
     },
     "rat": {
         "name": "Rat",
-        "desc": "A large muroid rodent. This one appears to weigh about 50 shekels.",
+        "family": "vermin",
+        "desc": "A rat is a large muroid rodent.|This one appears to weigh about 50 shekels.",
         "skills": ["bite", "scratch"],
-        "hp": 13,
+        "hp": "4+3d4",
         "mp": 0,
         "strength": 6,
         "agility": 11,
