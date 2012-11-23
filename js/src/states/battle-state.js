@@ -89,8 +89,10 @@ define([
 
         return {
             start: function() {
-                pawn.pushingDown = 4;
-                pawn.pushDown = 1;
+                if (amount < 0) {
+                    pawn.pushingDown = 4;
+                    pawn.pushDown = 1;
+                }
             },
             update: function() {
                 y = Math.min(pawn.y - 20, y + ym);

@@ -25,7 +25,7 @@
         "name": "LayHands",
         "target": "player",
         "effect": "heal/normal",
-        "power": "2d4",
+        "power": "4+2d4",
         "mp": 2,
         "isFieldUsable": true
     },

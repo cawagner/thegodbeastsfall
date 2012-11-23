@@ -24,6 +24,14 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         }
     };
 
+    var standardHeal = function(user, target, skill, dice) {
+        return {
+            type: "heal",
+            amount: Math.floor(user.support() / 2 + dice.roll()),
+            target: target
+        };
+    };
+
     var result = function(user, skill, results) {
         return {
             user: user,
@@ -49,13 +57,6 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
     // TODO: assess skill costs, etc.
     return {
         "damage/melee": standardSkillEffect(standardDamage),
-        "heal/normal": function(skill, user, targets) {
-            return {
-                user: user,
-                skill: skill,
-                priority: user.priority(),
-                effects: []
-            };
-        }
+        "heal/normal": standardSkillEffect(standardHeal)
     }
 });

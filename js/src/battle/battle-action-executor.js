@@ -21,6 +21,72 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
         return condition + ".";
     };
 
+    var getDamageSound = function(targetType, isCritical) {
+        if (targetType === 'enemy') {
+            return isCritical ? "critical" : "hit";
+        } else {
+            return "playerhit";
+        }
+    };
+
+    var doDamage = function(effect, state, battleState, msg) {
+        var targetWasAlive = effect.target.isAlive();
+        var sound = getDamageSound(effect.target.type, effect.critical);
+
+        if (!targetWasAlive) {
+            if (!effect.target.isHidden) {
+                msg(effect.target.name + " was already gone!");
+            }
+            return;
+        }
+
+        state.enqueueFunc(function() {
+            if (effect.amount > 0 && !isNaN(effect.amount)) {
+                effect.target.takeDamage(effect.amount);
+            }
+        });
+
+        if (effect.missed) {
+            state.enqueueFunc(battleState.displayMiss(effect.target));
+            msg("...missed " + effect.target.name + "!", "miss");
+        } else {
+            if (effect.critical) {
+                msg("A mighty blow!");
+            }
+            state.enqueueFunc(function() {
+                $.publish("/sound/play", [sound]);
+            })
+            state.enqueueState(battleState.displayDamage(effect.target, "-"+effect.amount, effect.critical));
+        }
+
+        state.enqueueFunc(function() {
+            if (targetWasAlive && !effect.target.isAlive()) {
+                msg(effect.target.name + " falls!", 'endie');
+                effect.target.isHidden = true;
+            }
+        });
+    };
+
+    var doHeal = function(effect, state, battleState, msg) {
+        var targetWasAlive = effect.target.isAlive();
+
+        if (!targetWasAlive) {
+            msg("It was too late for " + effect.target.name + "...");
+            return;
+        }
+
+        state.enqueueFunc(function() {
+            $.publish("/sound/play", ["heal"]);
+        })
+
+        state.enqueueFunc(function() {
+            if (effect.amount > 0 && !isNaN(effect.amount)) {
+                effect.target.restoreHp(effect.amount);
+            }
+        });
+        state.enqueueState(battleState.displayDamage(effect.target, "+"+effect.amount, effect.critical));
+    };
+
     return {
         skill: function(action, battleState) {
             var state = new BattleCompositeState();
@@ -38,46 +104,12 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
             msg(action.user.name + " used " + action.skill.name + "!");
 
             _(action.effects).each(function(effect) {
-                var targetWasAlive = effect.target.isAlive();
-                var sound;
-                if (effect.target.type === 'enemy') {
-                    sound = effect.critical ? "critical" : "hit";
-                } else {
-                    sound = "playerhit";
+                if (effect.type === "damage") {
+                    doDamage(effect, state, battleState, msg);
                 }
-
-                if (!targetWasAlive) {
-                    if (!effect.target.isHidden) {
-                        msg(effect.target.name + " was already gone!");
-                    }
-                    return;
+                if (effect.type === "heal") {
+                    doHeal(effect, state, battleState, msg);
                 }
-
-                state.enqueueFunc(function() {
-                    if (effect.amount > 0 && !isNaN(effect.amount)) {
-                        effect.target.takeDamage(effect.amount);
-                    }
-                });
-
-                if (effect.missed) {
-                    state.enqueueFunc(battleState.displayMiss(effect.target));
-                    msg("...missed " + effect.target.name + "!", "miss");
-                } else {
-                    if (effect.critical) {
-                        msg("A mighty blow!");
-                    }
-                    state.enqueueFunc(function() {
-                        $.publish("/sound/play", [sound]);
-                    })
-                    state.enqueueState(battleState.displayDamage(effect.target, effect.amount, effect.critical));
-                }
-
-                state.enqueueFunc(function() {
-                    if (targetWasAlive && !effect.target.isAlive()) {
-                        msg(effect.target.name + " falls!", 'endie');
-                        effect.target.isHidden = true;
-                    }
-                });
             });
 
             state.enqueueFunc(function() {
