@@ -6,7 +6,8 @@ define(["underscore", "dice"], function(_, Dice) {
             strength: 10,
             agility: 10,
             intelligence: 10,
-            luck: 10
+            luck: 10,
+            learnSet: []
         };
 
         _(this).chain().extend(options).defaults(defaults);
@@ -32,10 +33,30 @@ define(["underscore", "dice"], function(_, Dice) {
         return character;
     };
 
+    Character.prototype.skillsToLearn = function() {
+        var character = this;
+        var skillsToLearn = { Fight: [], Magic: [] };
+        _(this.learnSet).each(function(skillsOfType, skillType) {
+            _(skillsOfType).each(function(statRequirements, skill) {
+                var stat, willLearn = true;
+                if (!_(character.skills[skillType]).contains(skill)) {
+                    for (stat in statRequirements) {
+                        willLearn = willLearn && character[stat] >= statRequirements[stat];
+                    }
+                    if (willLearn) {
+                        skillsToLearn[skillType].push(skill);
+                    }
+                }
+            });
+        });
+        return skillsToLearn;
+    };
+
     Character.prototype.gainLevel = function(statToBoost) {
-        var d4 = Dice.parse("d6");
-        var hpGain = d4.roll() + Math.floor(Math.max(3, this.strength - 10) / 3);
+        var d6 = Dice.parse("d6");
+        var hpGain = d6.roll() + Math.floor(Math.max(3, this.strength - 10) / 3);
         var mpGain = Math.ceil(Math.max(4, this.intelligence - 6) / 4);
+        var learnedSkills;
 
         this.maxHp += hpGain;
         this.maxMp += mpGain;
@@ -55,6 +76,20 @@ define(["underscore", "dice"], function(_, Dice) {
         this.xpNext = (this.level + 1) * this.level * 100;
         this.level += 1;
         this.lastStatIncreased = statToBoost;
+
+        learnedSkills = this.skillsToLearn();
+
+        console.log(learnedSkills);
+
+        // HACK: too much hardcoded "Fight" and "Magic" in these parts...
+        this.skills.Fight = this.skills.Fight.concat(learnedSkills.Fight);
+        this.skills.Magic = this.skills.Magic.concat(learnedSkills.Magic);
+
+        return {
+            hpGain: hpGain,
+            mpGain: mpGain,
+            learnedSkills: learnedSkills
+        };
     };
 
     return Character;

@@ -10,7 +10,7 @@
         "target": "enemy",
         "effect": "damage/melee",
         "power": "3d6",
-        "cooldown": 2,
+        "cooldown": 3,
         "accuracy": 1.5
     },
     "spin": {
@@ -28,6 +28,13 @@
         "power": "4+2d4",
         "mp": 2,
         "isFieldUsable": true
+    },
+    "braver": {
+        "name": "Braver",
+        "target": "self",
+        "effect": "buff/strength",
+        "power": "2+1d4",
+        "mp": 2
     },
     "ooze": {
         "name": "Ooze",

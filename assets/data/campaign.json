@@ -1,4 +1,26 @@
 {
     "title": "The God-Beasts' Fall",
-    "startMap": "Town"
+    "startMap": "Town",
+    "mainCharacter": {
+        "name": "Held",
+        "face": "held",
+        "title": "Mysterious Hero",
+        "strength": 15,
+        "agility": 10,
+        "intelligence": 10,
+        "luck": 10,
+        "skills": {
+            "Fight": [ "slash" ],
+            "Magic": [ "heal1" ]
+        },
+        "learnSet": {
+            "Fight": {
+                "hard": { "maxHp": 36 },
+                "spin": { "strength": 17 }
+            },
+            "Magic": {
+                "braver": { "maxMp": 8 }
+            }
+        }
+    }
 }
