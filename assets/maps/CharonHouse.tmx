@@ -97,7 +97,7 @@
     <property name="parties" value="[[&quot;rat&quot;, &quot;rat&quot;], [&quot;rat&quot;, &quot;rat&quot;, &quot;rat&quot;]]"/>
    </properties>
   </object>
-  <object name="book1" type="NPC" x="48" y="80">
+  <object name="book1" type="NPC" x="48" y="80" width="16" height="16">
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
@@ -105,7 +105,7 @@
     <property name="say2" value="You can scarcely make out on an earmarked page: &quot;En Ik heb de sleutels der hel en des doods.&quot;"/>
    </properties>
   </object>
-  <object name="book2" type="NPC" x="80" y="80">
+  <object name="book2" type="NPC" x="80" y="80" width="16" height="16">
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
@@ -114,7 +114,7 @@
     <property name="say3" value="Teotsair prusan ut leven teia zeit dait iare sjifta."/>
    </properties>
   </object>
-  <object name="book3" type="NPC" x="96" y="80">
+  <object name="book3" type="NPC" x="96" y="80" width="16" height="16">
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
@@ -123,7 +123,7 @@
     <property name="say3" value="The God-Beasts created their language and culture over thousands of years."/>
    </properties>
   </object>
-  <object name="book4" type="NPC" x="64" y="80">
+  <object name="book4" type="NPC" x="64" y="80" width="16" height="16">
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
@@ -134,7 +134,7 @@
   </object>
   <object x="111" y="173"/>
   <object x="411" y="-26" width="1"/>
-  <object name="book5" type="NPC" x="112" y="80">
+  <object name="book5" type="NPC" x="112" y="80" width="16" height="16">
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
@@ -143,7 +143,7 @@
     <property name="say3" value="&quot;They make me uneasy. I think I will stay at the cryptkeeper's shack from now on."/>
    </properties>
   </object>
-  <object name="childrensBook1" type="NPC" x="240" y="160">
+  <object name="childrensBook1" type="NPC" x="240" y="160" width="16" height="16">
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
@@ -152,7 +152,7 @@
     <property name="say3" value="It's in very good condition."/>
    </properties>
   </object>
-  <object name="childrensBook2" type="NPC" x="256" y="160">
+  <object name="childrensBook2" type="NPC" x="256" y="160" width="16" height="16">
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>

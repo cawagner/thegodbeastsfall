@@ -87,7 +87,7 @@
                  "y":0
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "name":"book1",
                  "properties":
                     {
@@ -97,12 +97,12 @@
                      "say2":"You can scarcely make out on an earmarked page: \"En Ik heb de sleutels der hel en des doods.\""
                     },
                  "type":"NPC",
-                 "width":0,
+                 "width":16,
                  "x":48,
                  "y":80
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "name":"book2",
                  "properties":
                     {
@@ -113,12 +113,12 @@
                      "say3":"Teotsair prusan ut leven teia zeit dait iare sjifta."
                     },
                  "type":"NPC",
-                 "width":0,
+                 "width":16,
                  "x":80,
                  "y":80
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "name":"book3",
                  "properties":
                     {
@@ -129,12 +129,12 @@
                      "say3":"The God-Beasts created their language and culture over thousands of years."
                     },
                  "type":"NPC",
-                 "width":0,
+                 "width":16,
                  "x":96,
                  "y":80
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "name":"book4",
                  "properties":
                     {
@@ -145,7 +145,7 @@
                      "say3":"\"I will do all I can to document the past until I, too, live content in ignorance."
                     },
                  "type":"NPC",
-                 "width":0,
+                 "width":16,
                  "x":64,
                  "y":80
                 }, 
@@ -174,7 +174,7 @@
                  "y":-26
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "name":"book5",
                  "properties":
                     {
@@ -185,12 +185,12 @@
                      "say3":"\"They make me uneasy. I think I will stay at the cryptkeeper's shack from now on."
                     },
                  "type":"NPC",
-                 "width":0,
+                 "width":16,
                  "x":112,
                  "y":80
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "name":"childrensBook1",
                  "properties":
                     {
@@ -201,12 +201,12 @@
                      "say3":"It's in very good condition."
                     },
                  "type":"NPC",
-                 "width":0,
+                 "width":16,
                  "x":240,
                  "y":160
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "name":"childrensBook2",
                  "properties":
                     {
@@ -217,7 +217,7 @@
                      "say3":"None of them have been filled in yet."
                     },
                  "type":"NPC",
-                 "width":0,
+                 "width":16,
                  "x":256,
                  "y":160
                 }],
