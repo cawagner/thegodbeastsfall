@@ -13,16 +13,7 @@ setupMap(function(map, gameState) {
         knowAboutMirv: false
     };
 
-    map.npcs.oldman.addBeforeTalk(learnAboutMirv);
-    map.npcs.littlegirl.addBeforeTalk(learnAboutMirv);
-    map.npcs.earl.addBeforeTalk(learnAboutMirv);
-
-    map.npcs.barrel1.onTalk = function() {
-        // we'll flesh this out over time...
-        $.publish("/battle/start", [["slime", "rat", "slime"]]);
-    };
-
-    $.subscribe("/hero/step", function() {
+    var stepSubscription = $.subscribe("/hero/step", function() {
         if (flags.knowAboutMirv)
             return;
 
@@ -40,4 +31,17 @@ setupMap(function(map, gameState) {
             flags.knowAboutMirv = true;
         }
     });
+
+    map.npcs.oldman.addBeforeTalk(learnAboutMirv);
+    map.npcs.littlegirl.addBeforeTalk(learnAboutMirv);
+    map.npcs.earl.addBeforeTalk(learnAboutMirv);
+
+    map.npcs.barrel1.onTalk = function() {
+        // we'll flesh this out over time...
+        $.publish("/battle/start", [["slime", "rat", "slime"]]);
+    };
+
+    map.onUnload = function() {
+        $.unsubscribe(stepSubscription);
+    };
 });

@@ -22,7 +22,8 @@ define([
             actorRenderer = new ActorRenderer(game.graphics),
             gui = new GuiRenderer(game.graphics),
             containsHero = _.bind(util.pointInRect, null, hero),
-            encounterSubscription;
+            encounterSubscription,
+            sortActors;
 
         map.addActor(hero);
 
@@ -83,10 +84,15 @@ define([
             hero.unlockMovement();
         };
 
+        sortActors = _(function() {
+            map.actors = _(map.actors).sortBy("y");
+        }).throttle(150);
+
         this.draw = function(timeScale) {
             tilemapView.draw();
 
-            _(map.actors).chain().sortBy("y").each(function(actor) {
+            sortActors();
+            _(map.actors).each(function(actor) {
                 actorRenderer.drawActor(actor, frame);
             });
 

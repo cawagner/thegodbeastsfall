@@ -11,7 +11,7 @@
         "intelligence": 1,
         "luck": 1,
         "rect": { "x": 0, "y": 100, "width": 36, "height": 40 },
-        "xp": 50
+        "xp": 20
     },
     "rat": {
         "name": "Rat",
@@ -25,6 +25,6 @@
         "intelligence": 3,
         "luck": 3,
         "rect": { "x": 4, "y": 500, "width": 70, "height": 60 },
-        "xp": 50
+        "xp": 30
     }
 }
