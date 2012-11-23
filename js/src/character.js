@@ -79,8 +79,6 @@ define(["underscore", "dice"], function(_, Dice) {
 
         learnedSkills = this.skillsToLearn();
 
-        console.log(learnedSkills);
-
         // HACK: too much hardcoded "Fight" and "Magic" in these parts...
         this.skills.Fight = this.skills.Fight.concat(learnedSkills.Fight);
         this.skills.Magic = this.skills.Magic.concat(learnedSkills.Magic);
