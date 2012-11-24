@@ -30,7 +30,7 @@ define(["pawns/pawn-base"], function(PawnBase) {
             return skill.cooldown + "^" + (skill.cooldown - this.cooldowns[skill.name] || skill.cooldown);
         }
         if (skill.mp) {
-            return skill.mp;
+            return skill.mp + "MP";
         }
         return "";
     };

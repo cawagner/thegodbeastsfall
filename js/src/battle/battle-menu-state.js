@@ -52,23 +52,41 @@ define([
 
     BattleMenuState.prototype.skillsOfType = function(type) {
         var self = this;
+        var drawSkillInfo = function(skill) {
+            self.drawSkillInfo(skill);
+        };
 
         return function() {
             var member = self.battleState.playerPawns[self.partyIndex];
             var skillMenuItems = _(member.character.skills[type]).map(function(skillName) {
                 var skill = skills[skillName] || { name: "<NULL>" + skillName };
-                return { text: skill.name, cost: member.formatCost(skill), skill: skill, disabled: !member.canUseSkill(skill) };
+                return {
+                    text: skill.name,
+                    cost: member.formatCost(skill),
+                    skill: skill,
+                    disabled: !member.canUseSkill(skill)
+                };
             });
             var skillMenu = new Menu({
                 items: skillMenuItems,
                 rows: 2,
                 cols: 3,
-                draw: function(skill) {
-                    self.drawSkillInfo(skill);
-                }
+                draw: drawSkillInfo
             }).select(function(index, item) {
                 var skillMenu = this;
                 var skill = item.skill;
+                var confirmMultiTargetMenu = function(skill, targetText, pawns) {
+                    new Menu({
+                        items: [targetText]
+                    }).select(function() {
+                        this.close();
+                        skillMenu.close();
+                        self.setAction("skill", {
+                            skill: skill,
+                            targets: pawns
+                        });
+                    }).open();
+                };
                 // Sweet baby Jesus :(
                 if (skill.target === "enemy" || skill.target === "player") {
                     self.targetPawn(skill.target).open().select(function(index, item) {
@@ -81,28 +99,13 @@ define([
                     });
                 }
                 if (skill.target === "enemies") {
-                    new Menu({
-                        items: ["All Enemies"]
-                    }).select(function() {
-                        this.close();
-                        skillMenu.close();
-                        self.setAction("skill", {
-                            skill: skill,
-                            targets: self.battleState.enemyPawns
-                        });
-                    }).open();
+                    confirmMultiTargetMenu(skill, "All Enemies", self.battleState.enemyPawns);
+                }
+                if (skill.target === "players") {
+                    confirmMultiTargetMenu(skill, "All Allies", self.battleState.playerPawns);
                 }
                 if (skill.target === "self") {
-                    new Menu({
-                        items: ["Self"]
-                    }).select(function() {
-                        this.close();
-                        skillMenu.close();
-                        self.setAction("skill", {
-                            skill: skill,
-                            targets: [member]
-                        });
-                    }).open();
+                    confirmMultiTargetMenu(skill, "Self", [member]);
                 }
                 // TODO: handle party multi-targeting/self-targeting!
             }).cancel(function() {
