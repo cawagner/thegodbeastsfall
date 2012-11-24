@@ -98,7 +98,7 @@ define([
 
                 oldMusic = sound.getCurrentMusic();
 
-                sound.playSound("battlestart");
+                $.publish("/sound/play", ["battlestart"]);
                 if (flags && flags.isBoss) {
                     sound.playMusic("boss");
                 } else {
