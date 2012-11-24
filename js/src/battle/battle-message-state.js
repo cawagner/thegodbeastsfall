@@ -30,7 +30,9 @@ define(["jquery", "underscore", "gui", "keyboard-input"], function($, _, GuiRend
         };
 
         this.draw = function() {
-            this.gui.drawTextWindow(10, 10, 300, 20, [this.currentMessage]);
+            if (this.currentMessage) {
+                this.gui.drawTextWindow(10, 10, 300, 20, [this.currentMessage]);
+            }
         };
     }
 
