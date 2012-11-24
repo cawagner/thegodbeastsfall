@@ -1,4 +1,4 @@
-define(["underscore", "jquery"], function(_, $) {
+define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, BattleMessageState) {
     "use strict";
 
     var formatCondition = function(pawn) {
@@ -31,92 +31,104 @@ define(["underscore", "jquery"], function(_, $) {
         }
     };
 
-    function BattleEffectExecutor() {
-
+    function BattleEffectExecutor(action, battleState, state) {
+        this.state = state;
+        this.action = action;
+        this.battleState = battleState;
     }
 
-    BattleEffectExecutor.prototype.damage = function(action, effect, state, battleState, msg) {
+    BattleEffectExecutor.prototype.msg = function(m, s) {
+        this.state.enqueueState(new BattleMessageState([m], s));
+    };
+
+    BattleEffectExecutor.prototype.damage = function(effect) {
+        var self = this;
+
+        console.log(this, effect);
+
         var targetWasAlive = effect.target.isAlive();
         var sound = getDamageSound(effect.target.type, effect.critical);
 
         if (!targetWasAlive) {
             if (!effect.target.isHidden) {
-                msg(effect.target.name + " was already gone!");
+                self.msg(effect.target.name + " was already gone!");
             }
             return;
         }
 
-        state.enqueueFunc(function() {
+        self.state.enqueueFunc(function() {
             if (effect.amount > 0 && !isNaN(effect.amount)) {
                 effect.target.takeDamage(effect.amount);
             }
         });
 
         if (effect.missed) {
-            state.enqueueFunc(battleState.displayMiss(effect.target));
-            msg("...missed " + effect.target.name + "!", "miss");
+            self.state.enqueueFunc(self.battleState.displayMiss(effect.target));
+            self.msg("...missed " + effect.target.name + "!", "miss");
         } else {
             if (effect.critical) {
-                msg("A mighty blow!");
+                self.msg("A mighty blow!");
             }
-            state.enqueueFunc(function() {
+            self.state.enqueueFunc(function() {
                 $.publish("/sound/play", [sound]);
             })
-            state.enqueueState(battleState.displayDamage(effect.target, "-"+effect.amount, effect.critical));
+            self.state.enqueueState(self.battleState.displayDamage(effect.target, "-"+effect.amount, effect.critical));
         }
 
-        state.enqueueFunc(function() {
+        self.state.enqueueFunc(function() {
             if (targetWasAlive && !effect.target.isAlive()) {
-                msg(effect.target.name + " falls!", 'endie');
+                self.msg(effect.target.name + " falls!", 'endie');
                 effect.target.isHidden = true;
 
-                if (action.user.isDying) {
-                    action.user.isDying = false;
-                    action.user.restoreHp(action.user.luck());
-                    msg("Talk about a comeback, " + action.user.name + "!");
+                if (self.action.user.isDying) {
+                    self.action.user.isDying = false;
+                    self.action.user.restoreHp(action.user.luck());
+                    self.msg("Talk about a comeback, " + self.action.user.name + "!");
                 }
             }
         });
     }
 
-    BattleEffectExecutor.prototype.heal = function(action, effect, state, battleState, msg) {
+    BattleEffectExecutor.prototype.heal = function(effect) {
+        var self = this;
         var targetWasAlive = effect.target.isAlive();
 
         if (!targetWasAlive) {
-            msg("It was too late for " + effect.target.name + "...");
+            self.msg("It was too late for " + effect.target.name + "...");
             return;
         }
 
-        state.enqueueFunc(function() {
+        self.state.enqueueFunc(function() {
             $.publish("/sound/play", ["heal"]);
         })
 
-        state.enqueueFunc(function() {
+        self.state.enqueueFunc(function() {
             if (effect.amount > 0 && !isNaN(effect.amount)) {
                 effect.target.restoreHp(effect.amount);
             }
         });
-        state.enqueueState(battleState.displayDamage(effect.target, "+"+effect.amount, effect.critical));
+        self.state.enqueueState(self.battleState.displayDamage(effect.target, "+"+effect.amount, effect.critical));
     };
 
-    BattleEffectExecutor.prototype.buff = function(action, effect, state, battleState, msg) {
+    BattleEffectExecutor.prototype.buff = function(effect) {
+        var self = this;
         var targetWasAlive = effect.target.isAlive();
 
         if (!targetWasAlive) {
-            msg("It was too late for " + effect.target.name + "...");
+            self.msg("It was too late for " + effect.target.name + "...");
             return;
         }
 
-        state.enqueueFunc(function() {
+        self.state.enqueueFunc(function() {
             $.publish("/sound/play", ["heal"]);
         });
 
-        state.enqueueFunc(function() {
+        self.state.enqueueFunc(function() {
             if (effect.amount > 0 && !isNaN(effect.amount)) {
                 effect.target.addBuff(effect.stat, effect.amount, effect.duration);
             }
         });
-        state.enqueueState(battleState.displayDamage(effect.target, "+" + effect.amount + "/" + effect.duration + " " + effect.stat));
+        self.state.enqueueState(self.battleState.displayDamage(effect.target, "+" + effect.amount + "/" + effect.duration + " " + effect.stat));
     };
 
     return BattleEffectExecutor;

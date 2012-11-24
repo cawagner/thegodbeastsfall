@@ -4,10 +4,7 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
     return {
         skill: function(action, battleState) {
             var state = new BattleCompositeState();
-            var msg = function(m, s) {
-                state.enqueueState(new BattleMessageState([m], s));
-            };
-            var battleEffectExecutor = new BattleEffectExecutor();
+            var battleEffectExecutor = new BattleEffectExecutor(action, battleState, state);
 
             // exit the state if the user is dead, otherwise assess costs/cooldown
             state.enqueueFunc(function() {
@@ -16,12 +13,12 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
                 }
             });
 
-            msg(action.user.name + " used " + action.skill.name + "!");
+            battleEffectExecutor.msg(action.user.name + " used " + action.skill.name + "!");
 
             _(action.effects).each(function(effect) {
                 state.enqueueFunc(function() {
                     effect = effect();
-                    battleEffectExecutor[effect.type](action, effect, state, battleState, msg);
+                    battleEffectExecutor[effect.type](effect);
                 });
             });
 
