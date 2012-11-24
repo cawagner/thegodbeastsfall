@@ -58,7 +58,7 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
 
                 if (self.action.user.isDying) {
                     self.action.user.isDying = false;
-                    self.action.user.restoreHp(action.user.luck());
+                    self.action.user.restoreHp(self.action.user.luck());
                     self.msg("Talk about a comeback, " + self.action.user.name + "!");
                 }
             }
