@@ -53,7 +53,7 @@ define(["underscore"], function(_) {
             return Math.floor((this.strength() + this.agility() + this.luck()/2) + 50);
         },
         evade: function() {
-            return Math.floor((3 * this.agility() + this.luck()) / 4 + this.buffs["evade"]||0);
+            return Math.floor((3 * this.agility() + this.luck()) / 4 + (this.buffs["evade"]||0));
         },
         force: function() {
             return Math.floor((2 * this.intelligence() + this.agility()) / 3);
