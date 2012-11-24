@@ -51,8 +51,8 @@
         "power": "2+1d8",
         "cooldown": 1
     },
-    "cigBurn": {
-        "name": "CigBurn",
+    "cigarBurn": {
+        "name": "Cigar Burn",
         "target": "enemy",
         "effect": "damage/melee",
         "power": "2+1d8",
@@ -77,8 +77,8 @@
         "effect": "damage/melee",
         "power": "1+1d6"
     },
-    "punch2": {
-        "name": "DblPunch",
+    "brawl": {
+        "name": "Brawl",
         "target": "enemy",
         "effect": "damage/melee/2",
         "power": "1d4",
@@ -90,8 +90,8 @@
         "effect": "buff",
         "stat": "strength",
         "power": "2",
-        "duration": 4,
-        "cooldown": 3
+        "duration": 3,
+        "cooldown": 4
     },
     "default": {
         "name": "Default",

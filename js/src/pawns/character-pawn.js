@@ -4,12 +4,17 @@ define(["pawns/pawn-base"], function(PawnBase) {
     function CharacterPawn(character) {
         PawnBase.call(this, character);
         this.character = character;
+        this.isDying = false;
+        this.isDead = false;
     };
 
     CharacterPawn.prototype = new PawnBase();
 
     CharacterPawn.prototype.takeDamage = function(amount) {
         this.character.hp = Math.max(0, this.character.hp - amount);
+        if (this.character.hp === 0) {
+            this.isDying = true;
+        }
     };
 
     CharacterPawn.prototype.consumeMp = function(amount) {
@@ -28,6 +33,18 @@ define(["pawns/pawn-base"], function(PawnBase) {
             return skill.mp;
         }
         return "";
+    };
+
+    CharacterPawn.prototype.isAlive = function() {
+        return !this.isDead;
+    };
+
+    CharacterPawn.prototype.refresh = function() {
+        PawnBase.prototype.refresh.apply(this);
+        if (this.isDying) {
+            this.isDead = this.character.hp === 0;
+            this.isDying = false;
+        }
     };
 
     return CharacterPawn;
