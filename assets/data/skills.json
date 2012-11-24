@@ -32,9 +32,11 @@
     "braver": {
         "name": "Braver",
         "target": "self",
-        "effect": "buff/strength",
-        "power": "2+1d4",
-        "mp": 2
+        "effect": "buff",
+        "stat": "strength",
+        "power": "3",
+        "duration": 3,
+        "mp": 5
     },
     "ooze": {
         "name": "Ooze",
@@ -61,6 +63,35 @@
         "target": "enemy",
         "effect": "damage/melee",
         "power": "2+1d4"
+    },
+    "drink": {
+        "name": "Drink",
+        "target": "self",
+        "effect": "heal/normal",
+        "power": "1d8",
+        "cooldown": 2
+    },
+    "punch": {
+        "name": "Punch",
+        "target": "enemy",
+        "effect": "damage/melee",
+        "power": "1+1d6"
+    },
+    "punch2": {
+        "name": "DblPunch",
+        "target": "enemy",
+        "effect": "damage/melee/2",
+        "power": "1d4",
+        "cooldown": 1
+    },
+    "rant": {
+        "name": "Rant",
+        "target": "self",
+        "effect": "buff",
+        "stat": "strength",
+        "power": "2",
+        "duration": 4,
+        "cooldown": 3
     },
     "default": {
         "name": "Default",

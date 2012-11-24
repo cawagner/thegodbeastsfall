@@ -26,5 +26,18 @@
         "luck": 3,
         "rect": { "x": 229, "y": 500, "width": 66, "height": 66 },
         "xp": 30
+    },
+    "clurichaun": {
+        "name": "Clurichaun",
+        "family": "sidhe",
+        "desc": "This is what happens when Leprechauns get drunk.",
+        "skills": ["drink", "punch", "punch2", "rant"],
+        "hp": 100,
+        "strength": 10,
+        "agility": 15,
+        "intelligence": 6,
+        "luck": 15,
+        "rect": { "x": 230, "y": 580, "width": 64, "height": 64 },
+        "xp": 200
     }
 }

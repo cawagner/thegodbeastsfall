@@ -19,6 +19,7 @@ define(["dice", "pawns/pawn-base", "json!enemies.json", "json!skills.json"], fun
 
         hitDice = Dice.parse(proto.hp + "");
         this.rolledHp = hitDice.roll();
+        console.log(this.rolledHp);
         if (this.rolledHp !== proto.hp) {
             this.hpClass = this.rolledHp / hitDice.max();
         }
@@ -54,6 +55,10 @@ define(["dice", "pawns/pawn-base", "json!enemies.json", "json!skills.json"], fun
 
     EnemyPawn.prototype.takeDamage = function(amount) {
         this.currentHp -= amount;
+    };
+
+    EnemyPawn.prototype.restoreHp = function(amount) {
+        this.currentHp = Math.min(this.maxHp(), this.currentHp + amount);
     };
 
     EnemyPawn.prototype.xp = function() {

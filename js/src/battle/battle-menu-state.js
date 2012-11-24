@@ -92,6 +92,18 @@ define([
                         });
                     }).open();
                 }
+                if (skill.target === "self") {
+                    new Menu({
+                        items: ["Self"]
+                    }).select(function() {
+                        this.close();
+                        skillMenu.close();
+                        self.setAction("skill", {
+                            skill: skill,
+                            targets: [member]
+                        });
+                    }).open();
+                }
                 // TODO: handle party multi-targeting/self-targeting!
             }).cancel(function() {
                 self.skillMenu = null;

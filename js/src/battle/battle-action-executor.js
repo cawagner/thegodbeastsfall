@@ -87,6 +87,26 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
         state.enqueueState(battleState.displayDamage(effect.target, "+"+effect.amount, effect.critical));
     };
 
+    var doBuff = function(effect, state, battleState, msg) {
+        var targetWasAlive = effect.target.isAlive();
+
+        if (!targetWasAlive) {
+            msg("It was too late for " + effect.target.name + "...");
+            return;
+        }
+
+        state.enqueueFunc(function() {
+            $.publish("/sound/play", ["heal"]);
+        });
+
+        state.enqueueFunc(function() {
+            if (effect.amount > 0 && !isNaN(effect.amount)) {
+                effect.target.addBuff(effect.stat, effect.amount, effect.duration);
+            }
+        });
+        state.enqueueState(battleState.displayDamage(effect.target, "+" + effect.amount + "/" + effect.duration + " " + effect.stat));
+    };
+
     return {
         skill: function(action, battleState) {
             var state = new BattleCompositeState();
@@ -109,6 +129,9 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
                 }
                 if (effect.type === "heal") {
                     doHeal(effect, state, battleState, msg);
+                }
+                if (effect.type === "buff") {
+                    doBuff(effect, state, battleState, msg);
                 }
             });
 

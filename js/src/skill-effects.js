@@ -32,6 +32,16 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     };
 
+    var standardBuff = function(user, target, skill, dice) {
+        return {
+            type: "buff",
+            amount: Math.floor(user.support() / 2 + dice.roll()),
+            target: target,
+            stat: skill.stat,
+            duration: skill.duration
+        };
+    };
+
     var result = function(user, skill, results) {
         return {
             user: user,
@@ -41,7 +51,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     };
 
-    var standardSkillEffect = function(fn) {
+    var standardSkillEffect = function(fn, fn2) {
         return function(skill, user, targets) {
             var skill = _.extend({}, Skills["default"], skill);
             var dice = Dice.parse(skill.power);
@@ -49,6 +59,11 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
             var results = _(targets).map(function(target) {
                 return fn(user, target, skill, dice);
             });
+            if (fn2) {
+                _(targets).each(function(target) {
+                    results.push(fn2(user, target, skill, dice));
+                });
+            }
 
             return result(user, skill, results);
         };
@@ -57,6 +72,8 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
     // TODO: assess skill costs, etc.
     return {
         "damage/melee": standardSkillEffect(standardDamage),
-        "heal/normal": standardSkillEffect(standardHeal)
+        "damage/melee/2": standardSkillEffect(standardDamage, standardDamage),
+        "heal/normal": standardSkillEffect(standardHeal),
+        "buff": standardSkillEffect(standardBuff)
     }
 });

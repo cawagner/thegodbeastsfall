@@ -6,6 +6,8 @@ define(["underscore"], function(_) {
             this.name = this.entity.name;
         }
         this.cooldowns = {};
+        this.buffs = {};
+        this.waits = [];
     };
 
     _(PawnBase.prototype).extend({
@@ -22,7 +24,7 @@ define(["underscore"], function(_) {
             return this.entity.maxMp;
         },
         strength: function() {
-            return this.entity.strength;
+            return this.entity.strength + (this.buffs["strength"]||0);
         },
         agility: function() {
             return this.entity.agility;
@@ -35,35 +37,35 @@ define(["underscore"], function(_) {
         },
         attack: function() {
             // TODO: factor in weapon / buffs!
-            return this.entity.strength;
+            return this.strength();
         },
         damageAbsorption: function() {
             // TODO: factor in armor / buffs!
-            return this.entity.strength;
+            return this.strength();
         },
         damageReduction: function() {
-            return Math.floor(Math.max(0, this.entity.strength - 10));
+            return Math.floor(Math.max(0, this.strength() - 10));
         },
         priority: function() {
-            return this.entity.agility;
+            return this.agility();
         },
         accuracy: function() {
-            return Math.floor((this.entity.strength + this.entity.agility + this.entity.luck/2) + 50);
+            return Math.floor((this.strength() + this.agility() + this.luck()/2) + 50);
         },
         evade: function() {
-            return Math.floor((3 * this.entity.agility + this.entity.luck) / 4);
+            return Math.floor((3 * this.agility() + this.luck()) / 4);
         },
         force: function() {
-            return Math.floor((2 * this.entity.intelligence + this.entity.agility) / 3);
+            return Math.floor((2 * this.intelligence() + this.agility()) / 3);
         },
         support: function() {
-            return Math.floor((2 * this.entity.intelligence + this.entity.luck) / 3);
+            return Math.floor((2 * this.intelligence() + this.luck()) / 3);
         },
         resist: function() {
-            return Math.floor((this.entity.intelligence + this.entity.strength) / 2);
+            return Math.floor((this.intelligence() + this.strength()) / 2);
         },
         criticalChance: function() {
-            return this.entity.luck;
+            return this.luck();
         },
         criticalMultiplier: function() {
             return 2;
@@ -72,8 +74,22 @@ define(["underscore"], function(_) {
             return this.hp() > 0;
         },
         refresh: function() {
-            for (var key in this.cooldowns) {
+            var wait, i, key;
+            for (key in this.cooldowns) {
                 this.cooldowns[key] = Math.max(0, this.cooldowns[key] - 1);
+            }
+            for (i = 0; i < this.waits.length; ++i) {
+                wait = this.waits[i];
+                if (wait.done) {
+                    continue;
+                }
+                wait.wait--;
+                if (wait.wait <= 0) {
+                    if (wait.remove) {
+                        wait.remove();
+                    }
+                    wait.done = true;
+                }
             }
         },
         canUseSkill: function(skill) {
@@ -92,6 +108,15 @@ define(["underscore"], function(_) {
             }
             if (skill.mp) {
                 this.consumeMp(skill.mp);
+            }
+        },
+        addBuff: function(stat, amount, duration) {
+            var self = this;
+            this.buffs[stat] = (this.buffs[stat] || 0) + amount;
+            if (duration) {
+                this.waits.push({ wait: duration, remove: function() {
+                    self.addBuff(stat, -amount);
+                }});
             }
         }
     });

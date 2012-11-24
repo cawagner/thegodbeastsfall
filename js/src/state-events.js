@@ -92,14 +92,18 @@ define([
                 }
             });
 
-            $.subscribe("/battle/start", function(enemies) {
+            $.subscribe("/battle/start", function(enemies, flags) {
                 var battleState = new BattleState(enemies);
                 var transition = new ScrollTransitionState(battleState);
 
                 oldMusic = sound.getCurrentMusic();
 
                 sound.playSound("battlestart");
-                sound.playMusic("battle");
+                if (flags && flags.isBoss) {
+                    sound.playMusic("boss");
+                } else {
+                    sound.playMusic("battle");
+                }
 
                 game.pushState(transition);
             });

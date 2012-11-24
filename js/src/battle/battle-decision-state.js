@@ -44,7 +44,15 @@ define([
             _(battleState.enemyPawns).each(function(enemy) {
                 var usableSkills = enemy.usableSkills();
                 var skill = usableSkills[Math.floor(Math.random() * usableSkills.length)];
-                actions.push(createUseSkillAction(enemy, skills[skill], [battleState.playerPawns[0]]));
+                var target;
+                // still missing some target types...
+                if (skills[skill].target === "enemy") {
+                    target = [battleState.playerPawns[0]];
+                }
+                if (skills[skill].target === "self") {
+                    target = [enemy];
+                }
+                actions.push(createUseSkillAction(enemy, skills[skill], target));
             });
 
             actions.sort(function(a, b) {

@@ -161,5 +161,10 @@
     <property name="say3" value="None of them have been filled in yet."/>
    </properties>
   </object>
+  <object name="drachma" type="NPC" x="304" y="160" width="16" height="16">
+   <properties>
+    <property name="archetype" value="bgobj"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
