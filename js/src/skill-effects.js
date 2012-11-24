@@ -5,7 +5,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
 
     var standardDamage = function(user, target, skill, dice) {
         var fullDamage = user.attack() + dice.roll();
-        var damage = Math.max(0, (fullDamage * (100-target.damageAbsorption())/100) - target.damageReduction());
+        var damage = Math.max(1, (fullDamage * (100-target.damageAbsorption())/100) - target.damageReduction());
         var hitChance = (skill.accuracy * user.accuracy() - target.evade());
         var criticalChance = 1 + Math.max(0, user.criticalChance() * skill.criticalChance - target.luck());
         var isCritical = user.isDying || d100.roll() <= criticalChance;
