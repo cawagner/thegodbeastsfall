@@ -1,8 +1,10 @@
 define([
     "underscore",
     "jquery",
-    "menu"
-], function(_, $, Menu) {
+    "menu",
+    "states/dialogue-state",
+    "json!skills.json"
+], function(_, $, Menu, DialogueState, skills) {
 
     return function BattleWonState(xpPerPerson) {
         this.start = function() {
@@ -27,10 +29,30 @@ define([
                             { text: "LUK", stat: 'luck', disabled: character.lastStatIncreased === "luck" }
                         ]
                     }).select(function(index, item) {
+                        var gains = character.gainLevel(item.stat);
+                        var growthText = [];
+
                         this.close();
                         Game.instance.popState();
-                        character.gainLevel(item.stat);
-                        $.publish("/battle/end");
+
+                        growthText.push("Maximum HP went up by " + gains.hpGain + "!");
+                        growthText.push("Maximum MP went up by " + gains.mpGain + "!");
+
+                        _(gains.learnedSkills.Fight).each(function(id) {
+                            growthText.push('Learned the technique "' + skills[id].name + '"!');
+                        });
+                        _(gains.learnedSkills.Magic).each(function(id) {
+                            growthText.push('Learned the spell "' + skills[id].name + '"!');
+                        });
+
+                        Game.instance.pushState(new DialogueState(
+                            [{ text: growthText }],
+                            function() {
+                                setTimeout(function() {
+                                    $.publish("/battle/end");
+                                }, 1);
+                            }
+                        ));
                     }).open();
                 })
             } else {
