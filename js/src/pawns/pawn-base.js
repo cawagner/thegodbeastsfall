@@ -41,7 +41,7 @@ define(["underscore"], function(_) {
         },
         damageAbsorption: function() {
             // TODO: factor in armor / buffs!
-            return this.strength();
+            return Math.min(100, this.strength());
         },
         damageReduction: function() {
             return Math.floor(Math.max(0, this.strength() - 10));

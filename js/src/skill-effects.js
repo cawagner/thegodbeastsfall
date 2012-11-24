@@ -12,7 +12,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         var hasConnected = isCritical || (d100.roll() <= hitChance);
 
         if (isCritical) {
-            damage = (damage + target.damageReduction()) * skill.criticalMultiplier * user.criticalMultiplier();
+            damage = (fullDamage * (100-target.damageAbsorption())/100) * skill.criticalMultiplier * user.criticalMultiplier();
         }
 
         return {
