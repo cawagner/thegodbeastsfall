@@ -1,28 +1,6 @@
 define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, BattleMessageState) {
     "use strict";
 
-    var formatCondition = function(pawn) {
-        var condition = "on death's door";
-        var pct = pawn.hp() / pawn.maxHp();
-        if (pct > 0.3)
-            condition = "wounded";
-        if (pct > 0.5)
-            condition = "okay";
-        if (pct > 0.9)
-            condition = "unhurt";
-
-        if (pawn.hpClass) {
-            if (pawn.hpClass > 0.8) {
-                condition += " and is strong";
-            } else if (pawn.hpClass > 0.5) {
-                condition += " and is average";
-            } else {
-                condition += " and is frail";
-            }
-        }
-        return condition + ".";
-    };
-
     var getDamageSound = function(targetType, isCritical) {
         if (targetType === 'enemy') {
             return isCritical ? "critical" : "hit";
