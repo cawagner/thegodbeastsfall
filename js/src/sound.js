@@ -26,9 +26,7 @@ define([], function() {
                     this.play();
                 }, false);
             }
-            musicAudio.oncanplay = function() {
-                musicAudio.play();
-            };
+            musicAudio.play();
         },
         loadSound: function(name) {
             var audio = new Audio('assets/snd/' + name + ".wav");
