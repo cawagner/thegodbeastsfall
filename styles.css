@@ -10,7 +10,14 @@ body {
     background: #103;
     color: white;
     overflow: hidden;
-    font: 10pt sans-serif;
+    font: 10pt 'Segoe UI', 'Lucida Grande', 'Helvetica', sans-serif;
+}
+a:link {
+    color: yellow;
+    text-decoration: underline;
+}
+a:visited {
+    color: olive;
 }
 #container {
     margin: auto;
@@ -21,6 +28,11 @@ canvas {
     margin: auto;
     image-rendering: optimizeSpeed;
     -ms-interpolation-mode: nearest-neighbor;
+}
+p, h3 {
+    max-width: 640px;
+    margin: auto;
+    margin-top: 1em;
 }
 
 h1, .buttons a {
