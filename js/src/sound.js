@@ -9,7 +9,14 @@ define([], function() {
             if (musicAudio !== undefined) {
                 musicAudio.pause();
             }
-            musicAudio = new Audio('assets/mus/' + music + '.ogg');
+            musicAudio = new Audio();
+            if (musicAudio.canPlayType('audio/ogg') !== "") {
+                musicAudio.type = "audio/ogg";
+                musicAudio.src = 'assets/mus/' + music + '.ogg';
+            } else {
+                musicAudio.type = "audio/mpeg";
+                musicAudio.src = 'assets/mus/' + music + '.mp3';
+            }
             musicAudio.volume = 0.5;
             if (typeof musicAudio.loop === "boolean") {
                 musicAudio.loop = true;
@@ -19,7 +26,9 @@ define([], function() {
                     this.play();
                 }, false);
             }
-            musicAudio.play();
+            musicAudio.oncanplay = function() {
+                musicAudio.play();
+            };
         },
         loadSound: function(name) {
             var audio = new Audio('assets/snd/' + name + ".wav");
