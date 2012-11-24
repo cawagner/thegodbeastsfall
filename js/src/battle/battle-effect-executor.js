@@ -22,8 +22,6 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
     BattleEffectExecutor.prototype.damage = function(effect) {
         var self = this;
 
-        console.log(this, effect);
-
         var targetWasAlive = effect.target.isAlive();
         var sound = getDamageSound(effect.target.type, effect.critical);
 
