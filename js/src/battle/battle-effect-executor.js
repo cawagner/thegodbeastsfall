@@ -89,6 +89,7 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
     BattleEffectExecutor.prototype.buff = function(effect) {
         var self = this;
         var targetWasAlive = effect.target.isAlive();
+        var buffDir = effect.amount < 0 ? "down" : "up";
 
         if (!targetWasAlive) {
             self.msg("It was too late for " + effect.target.name + "...");
@@ -104,7 +105,8 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
                 effect.target.addBuff(effect.stat, effect.amount, effect.duration);
             }
         });
-        self.state.enqueueState(self.battleState.displayDamage(effect.target, "+" + effect.amount + "/" + effect.duration + " " + effect.stat));
+
+        self.msg(effect.target.name + "'s " + effect.stat + " " + buffDir + " by " + Math.abs(effect.amount) + " for " + effect.duration + " rounds!");
     };
 
     return BattleEffectExecutor;
