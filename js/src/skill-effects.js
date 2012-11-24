@@ -57,14 +57,13 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
             var dice = Dice.parse(skill.power);
 
             var results = _(targets).map(function(target) {
-                return fn(user, target, skill, dice);
+                return function() { return fn(user, target, skill, dice); };
             });
             if (fn2) {
                 _(targets).each(function(target) {
-                    results.push(fn2(user, target, skill, dice));
+                    results.push(function() { return fn2(user, target, skill, dice); });
                 });
             }
-
             return result(user, skill, results);
         };
     };

@@ -27,7 +27,7 @@ define(["underscore"], function(_) {
             return this.entity.strength + (this.buffs["strength"]||0);
         },
         agility: function() {
-            return this.entity.agility;
+            return this.entity.agility + (this.buffs["agility"]||0);
         },
         intelligence: function() {
             return this.entity.intelligence;

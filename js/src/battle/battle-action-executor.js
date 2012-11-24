@@ -124,15 +124,18 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
             msg(action.user.name + " used " + action.skill.name + "!");
 
             _(action.effects).each(function(effect) {
-                if (effect.type === "damage") {
-                    doDamage(effect, state, battleState, msg);
-                }
-                if (effect.type === "heal") {
-                    doHeal(effect, state, battleState, msg);
-                }
-                if (effect.type === "buff") {
-                    doBuff(effect, state, battleState, msg);
-                }
+                state.enqueueFunc(function() {
+                    effect = effect();
+                    if (effect.type === "damage") {
+                        doDamage(effect, state, battleState, msg);
+                    }
+                    if (effect.type === "heal") {
+                        doHeal(effect, state, battleState, msg);
+                    }
+                    if (effect.type === "buff") {
+                        doBuff(effect, state, battleState, msg);
+                    }
+                });
             });
 
             state.enqueueFunc(function() {
@@ -170,7 +173,12 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
         },
         defend: function(action) {
             var state = new BattleCompositeState();
-            state.enqueueState(new BattleMessageState(["Defend isn't implemented yet, " + action.user.name + "!"]));
+
+            state.enqueueFunc(function() {
+                action.user.addBuff("strength", 10000, 1);
+            });
+
+            state.enqueueState(new BattleMessageState([action.user.name + " is defending."]));
             return state;
         }
     }
