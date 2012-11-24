@@ -10,7 +10,7 @@
         "agility": 1,
         "intelligence": 1,
         "luck": 1,
-        "rect": { "x": 0, "y": 100, "width": 36, "height": 40 },
+        "rect": { "x": 230, "y": 675, "width": 64, "height": 45 },
         "xp": 20
     },
     "rat": {
@@ -25,6 +25,25 @@
         "intelligence": 3,
         "luck": 3,
         "rect": { "x": 229, "y": 500, "width": 66, "height": 66 },
+        "xp": 30
+    },
+    "zombie": {
+        "name": "Zombie",
+        "family": "tomb",
+        "desc": "You've met this man at a bit of a bad time.",
+        "skills": ["bite", "scratch"],
+        "hp": "40+3d12",
+        "mp": 0,
+        "strength": 5,
+        "damageReduction": 0,
+        "damageAbsorption": 0,
+        "agility": 5,
+        "intelligence": 1,
+        "buffs": {
+            "evade": -50
+        },
+        "luck": 1,
+        "rect": { "x": 213, "y": 729, "width": 96, "height": 96 },
         "xp": 30
     },
     "clurichaun": {

@@ -16,6 +16,7 @@ define(["dice", "pawns/pawn-base", "json!enemies.json", "json!skills.json"], fun
         this.rect = proto.rect;
         this.skills = proto.skills;
         this.image = enemyImage;
+        this.buffs = proto.buffs || {};
 
         hitDice = Dice.parse(proto.hp + "");
         this.rolledHp = hitDice.roll();

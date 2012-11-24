@@ -36,6 +36,10 @@ setupMap(function(map, gameState) {
     map.npcs.littlegirl.addBeforeTalk(learnAboutMirv);
     map.npcs.earl.addBeforeTalk(learnAboutMirv);
 
+    map.npcs.earl2.onTalk = function() {
+        $.publish("/battle/start", [["zombie", "zombie"]]);
+    };
+
     map.npcs.barrel1.onTalk = function() {
         // we'll flesh this out over time...
         $.publish("/battle/start", [["slime", "rat", "slime"]]);
