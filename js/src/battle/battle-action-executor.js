@@ -29,7 +29,7 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
         }
     };
 
-    var doDamage = function(effect, state, battleState, msg) {
+    var doDamage = function(action, effect, state, battleState, msg) {
         var targetWasAlive = effect.target.isAlive();
         var sound = getDamageSound(effect.target.type, effect.critical);
 
@@ -63,11 +63,17 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
             if (targetWasAlive && !effect.target.isAlive()) {
                 msg(effect.target.name + " falls!", 'endie');
                 effect.target.isHidden = true;
+
+                if (action.user.isDying) {
+                    action.user.isDying = false;
+                    action.user.restoreHp(action.user.luck());
+                    msg("Talk about a comeback, " + action.user.name + "!");
+                }
             }
         });
     };
 
-    var doHeal = function(effect, state, battleState, msg) {
+    var doHeal = function(action, effect, state, battleState, msg) {
         var targetWasAlive = effect.target.isAlive();
 
         if (!targetWasAlive) {
@@ -87,7 +93,7 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
         state.enqueueState(battleState.displayDamage(effect.target, "+"+effect.amount, effect.critical));
     };
 
-    var doBuff = function(effect, state, battleState, msg) {
+    var doBuff = function(action, effect, state, battleState, msg) {
         var targetWasAlive = effect.target.isAlive();
 
         if (!targetWasAlive) {
@@ -127,13 +133,13 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
                 state.enqueueFunc(function() {
                     effect = effect();
                     if (effect.type === "damage") {
-                        doDamage(effect, state, battleState, msg);
+                        doDamage(action, effect, state, battleState, msg);
                     }
                     if (effect.type === "heal") {
-                        doHeal(effect, state, battleState, msg);
+                        doHeal(action, effect, state, battleState, msg);
                     }
                     if (effect.type === "buff") {
-                        doBuff(effect, state, battleState, msg);
+                        doBuff(action, effect, state, battleState, msg);
                     }
                 });
             });
