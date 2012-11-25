@@ -150,19 +150,23 @@ define([
     };
 
     BattleMenuState.prototype.areActionsReady = function() {
-        // TODO: handle multiple allies!
-        return this.actions.length;
+        return this.actions.length === this.battleState.playerPawns.length;
     };
 
     BattleMenuState.prototype.setAction = function(action, param) {
         var self = this;
 
         // TODO: handle multiple allies!
-        this.actions = [{
+        this.actions.push({
             action: action,
             param: param,
             partyIndex: this.partyIndex
-        }];
+        });
+
+        this.partyIndex++;
+
+        this.menu.close();
+        this.menu = this.getMenu().open();
     };
 
     return BattleMenuState;

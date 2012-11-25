@@ -17,6 +17,7 @@ define(["underscore", "dice"], function(_, Dice) {
         var character = new Character(options);
 
         character.level = 1;
+
         character.hp = 20 + character.strength;
         character.maxHp = character.hp;
 
@@ -29,6 +30,10 @@ define(["underscore", "dice"], function(_, Dice) {
         character.face = options.face;
 
         character.lastStatIncreased = '';
+
+        while (character.level < (options.level || 1)) {
+            character.gainLevel('');
+        }
 
         return character;
     };
