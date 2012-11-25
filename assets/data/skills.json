@@ -31,10 +31,9 @@
     "fire1": {
         "name": "Feu",
         "target": "enemy",
-        "effect": "damage/melee",
+        "effect": "damage/magic",
         "power": "5d6",
-        "mp": 5,
-        "accuracy": 1000
+        "mp": 5
     },
     "heal1": {
         "name": "Mend",

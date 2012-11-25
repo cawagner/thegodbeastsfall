@@ -28,11 +28,11 @@
         "face": "mirv",
         "archetype": "heroine",
         "title": "Woman from the Vrevelk",
-        "level": 5,
+        "level": 1,
         "strength": 12,
-        "agility": 13,
-        "intelligence": 14,
-        "luck": 10,
+        "agility": 11,
+        "intelligence": 12,
+        "luck": 11,
         "skills": {
             "Fight": [ "stab", "hard" ],
             "Magic": [ "fire1" ]
