@@ -21,7 +21,8 @@
             campaign: '../../assets/data/campaign',
             skills: '../../assets/data/skills',
             enemies: '../../assets/data/enemies',
-            items: '../../assets/data/items'
+            items: '../../assets/data/items',
+            "skill-text-functions": "../../assets/code/skill-text-functions"
         },
         urlArgs: "bust=" + Date.now()
     });

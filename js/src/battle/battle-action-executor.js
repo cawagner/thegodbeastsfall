@@ -1,4 +1,18 @@
-define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-message-state", "battle/battle-effect-executor"], function(_, $, BattleCompositeState, BattleMessageState, BattleEffectExecutor) {
+define([
+    "underscore",
+    "jquery",
+    "battle/battle-composite-state",
+    "battle/battle-message-state",
+    "battle/battle-effect-executor",
+    "skill-text-functions"
+], function(
+    _,
+    $,
+    BattleCompositeState,
+    BattleMessageState,
+    BattleEffectExecutor,
+    skillTextFunctions
+) {
 
     "use strict";
 
@@ -53,9 +67,17 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
                 }
             });
 
-            battleEffectExecutor.msg(action.user.name + " used " + action.skill.name + "!");
             state.enqueueFunc(function() {
-                _(action.skillEffect(action.skill, action.user, action.targets)).each(function(effect) {
+                var effects = action.skillEffect(action.skill, action.user, action.targets);
+
+                console.log(action.skillId);
+                if (action.skillId in skillTextFunctions) {
+                    battleEffectExecutor.msg(skillTextFunctions[action.skillId](action, effects));
+                } else {
+                    battleEffectExecutor.msg(action.user.name + " used " + action.skill.name + "!");
+                }
+
+                _(effects).each(function(effect) {
                     state.enqueueFunc(function() {
                         battleEffectExecutor[effect.type](effect);
                     });

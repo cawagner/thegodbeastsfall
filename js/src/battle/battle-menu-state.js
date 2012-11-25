@@ -64,6 +64,7 @@ define([
                     text: skill.name,
                     cost: member.formatCost(skill),
                     skill: skill,
+                    skillId: skillName,
                     disabled: !member.canUseSkill(skill)
                 };
             });
@@ -75,7 +76,8 @@ define([
             }).select(function(index, item) {
                 var skillMenu = this;
                 var skill = item.skill;
-                var confirmMultiTargetMenu = function(skill, targetText, pawns) {
+                var skillId = item.skillId;
+                var confirmMultiTargetMenu = function(skill, skillId, targetText, pawns) {
                     new Menu({
                         items: [targetText]
                     }).select(function() {
@@ -83,6 +85,7 @@ define([
                         skillMenu.close();
                         self.setAction("skill", {
                             skill: skill,
+                            skillId: skillId,
                             targets: pawns
                         });
                     }).open();
@@ -94,18 +97,19 @@ define([
                         skillMenu.close();
                         self.setAction("skill", {
                             skill: skill,
+                            skillId: skillId,
                             targets: [item.target]
                         });
                     });
                 }
                 if (skill.target === "enemies") {
-                    confirmMultiTargetMenu(skill, "All Enemies", self.battleState.enemyPawns);
+                    confirmMultiTargetMenu(skill, skillId, "All Enemies", self.battleState.enemyPawns);
                 }
                 if (skill.target === "players") {
-                    confirmMultiTargetMenu(skill, "All Allies", self.battleState.playerPawns);
+                    confirmMultiTargetMenu(skill, skillId, "All Allies", self.battleState.playerPawns);
                 }
                 if (skill.target === "self") {
-                    confirmMultiTargetMenu(skill, "Self", [member]);
+                    confirmMultiTargetMenu(skill, skillId, "Self", [member]);
                 }
                 // TODO: handle party multi-targeting/self-targeting!
             }).cancel(function() {
