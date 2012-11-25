@@ -33,7 +33,7 @@
         "target": "enemy",
         "effect": "damage/magic",
         "power": "5d6",
-        "mp": 5
+        "mp": 4
     },
     "heal1": {
         "name": "Mend",
