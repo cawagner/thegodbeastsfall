@@ -88,14 +88,9 @@ define(["underscore"], function(_) {
                     continue;
                 }
                 status.wait--;
-                if (status.round) {
-                    effects = effects.concat(status.round() || []);
-                }
+                effects = effects.concat(status.round() || []);
                 if (status.wait <= 0) {
-                    if (status.remove) {
-                        effects = effects.concat(status.remove() || []);
-                    }
-                    status.done = true;
+                    effects = effects.concat(this.removeStatus(status) || []);
                 }
             }
             return effects;
@@ -122,11 +117,33 @@ define(["underscore"], function(_) {
             var self = this;
             this.buffs[stat] = (this.buffs[stat] || 0) + amount;
             if (duration) {
-                this.addStatus({ wait: duration, remove: function() { self.addBuff(stat, -amount); }});
+                this.addStatus({ wait: duration, remove: function() {
+                    self.addBuff(stat, -amount);
+                }});
             }
         },
         addStatus: function(status) {
+            _(status).defaults({
+                remove: _.give([]),
+                round: _.give([])
+            });
             this.statuses.push(status);
+        },
+        removeStatus: function(statusToRemove) {
+            var self = this, result = [], statuses;
+            if (typeof statusToRemove === "string") {
+                _(this.statuses).each(function(status) {
+                    if (status.key === statusToRemove) {
+                        result = result.concat(self.removeStatus(status));
+                    }
+                });
+            } else {
+                if (!statusToRemove.done) {
+                    statusToRemove.done = true;
+                    return statusToRemove.remove();
+                }
+            }
+            return result;
         }
     });
 

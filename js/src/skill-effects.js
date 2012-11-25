@@ -61,7 +61,15 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
             target: target,
             duration: dice.roll()
         };
-    }
+    };
+
+    var removeStatus = function(user, target, skill, dice) {
+        return {
+            type: "removeStatus",
+            status: skill.status,
+            target: target
+        };
+    };
 
     var standardSkillEffect = function(fn, fn2) {
         return function(skill, user, targets) {
@@ -88,6 +96,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         "heal/normal": standardSkillEffect(standardHeal),
         "buff": standardSkillEffect(standardBuff),
         "poison": standardSkillEffect(poison),
+        "removeStatus": standardSkillEffect(removeStatus),
         "none": _.give([]),
         "navelgaze": function(skill, user, targets) {
             return [

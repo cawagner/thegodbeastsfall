@@ -76,7 +76,7 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
 
         self.state.enqueueFunc(function() {
             $.publish("/sound/play", ["heal"]);
-        })
+        });
 
         self.state.enqueueFunc(function() {
             if (effect.amount > 0 && !isNaN(effect.amount)) {
@@ -96,11 +96,37 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
                 round: function() {
                     var result = "hasTakenPoisonDamage" in effect.target.scratch ? [] : [ { type: "message", text: effect.target.name + " is hurt by poison!" } ];
                     effect.target.scratch.hasTakenPoisonDamage = true;
-                    result.push({ type: "damage", amount: Math.ceil(effect.target.maxHp() / 20), target: effect.target });
+                    result.push({ type: "damage", amount: Math.ceil(effect.target.maxHp() / 30), target: effect.target });
+                    return result;
+                },
+                remove: function() {
+                    var result = "hasBeenCuredOfPoison" in effect.target.scratch ? [] : [ { type: "message", text: "The poison left " + effect.target.name + "'s body!" } ];
+                    effect.target.scratch.hasBeenCuredOfPoison = true;
                     return result;
                 },
                 key: "poison"
             })
+        });
+    };
+
+    BattleEffectExecutor.prototype.removeStatus = function(effect) {
+        var self = this;
+        var targetWasAlive = effect.target.isAlive();
+
+        if (!targetWasAlive) {
+            self.msg("It was too late for " + effect.target.name + "...");
+            return;
+        }
+
+        self.state.enqueueFunc(function() {
+            $.publish("/sound/play", ["heal"]);
+        });
+
+        self.state.enqueueFunc(function() {
+            var result = effect.target.removeStatus(effect.status);
+            _(result).each(function(e) {
+                self[e.type](e);
+            });
         });
     };
 

@@ -49,6 +49,14 @@
         "mp": 2,
         "isFieldUsable": true
     },
+    "depoison": {
+        "name": "Depoison",
+        "target": "player",
+        "effect": "removeStatus",
+        "status": "poison",
+        "power": "1",
+        "mp": 3
+    },
     "braver": {
         "name": "Braver",
         "target": "self",
