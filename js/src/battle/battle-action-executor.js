@@ -127,6 +127,17 @@ define([
 
             state.enqueueState(new BattleMessageState([action.user.name + " is defending."]));
             return state;
+        },
+        refresh: function(action, battleState) {
+            var state = new BattleCompositeState();
+            var battleEffectExecutor = new BattleEffectExecutor(action, battleState, state);
+
+            state.enqueueFunc(function() {
+                _(action.effects).each(function(effect) {
+                    battleEffectExecutor[effect.type](effect);
+                })
+            });
+            return state;
         }
     }
 

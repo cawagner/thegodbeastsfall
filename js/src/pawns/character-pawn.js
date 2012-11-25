@@ -41,11 +41,12 @@ define(["pawns/pawn-base"], function(PawnBase) {
     };
 
     CharacterPawn.prototype.refresh = function() {
-        PawnBase.prototype.refresh.apply(this);
+        var result = PawnBase.prototype.refresh.apply(this);
         if (this.isDying) {
             this.isDead = this.character.hp === 0;
             this.isDying = false;
         }
+        return result;
     };
 
     return CharacterPawn;

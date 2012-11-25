@@ -63,7 +63,7 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
                 }
             }
         });
-    }
+    };
 
     BattleEffectExecutor.prototype.heal = function(effect) {
         var self = this;
@@ -84,6 +84,24 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
             }
         });
         self.state.enqueueState(self.battleState.displayDamage(effect.target, "+"+effect.amount, effect.critical));
+    };
+
+    BattleEffectExecutor.prototype.poison = function(effect) {
+        var self = this;
+
+        self.msg(effect.target.name + " was poisoned!");
+        self.state.enqueueFunc(function() {
+            effect.target.addStatus({
+                wait: 9999,
+                round: function() {
+                    var result = "hasTakenPoisonDamage" in effect.target.scratch ? [] : [ { type: "message", text: effect.target.name + " is hurt by poison!" } ];
+                    effect.target.scratch.hasTakenPoisonDamage = true;
+                    result.push({ type: "damage", amount: Math.ceil(effect.target.maxHp() / 20), target: effect.target });
+                    return result;
+                },
+                key: "poison"
+            })
+        });
     };
 
     BattleEffectExecutor.prototype.buff = function(effect) {

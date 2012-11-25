@@ -1,4 +1,6 @@
 define(["underscore"], function(_) {
+    "use strict";
+
     function PawnBase(entity) {
         this.entity = entity;
         this.name = "<NULL>";
@@ -7,7 +9,8 @@ define(["underscore"], function(_) {
         }
         this.cooldowns = {};
         this.buffs = {};
-        this.waits = [];
+        this.statuses = [];
+        this.scratch = {};
     };
 
     _(PawnBase.prototype).extend({
@@ -74,23 +77,28 @@ define(["underscore"], function(_) {
             return this.hp() > 0;
         },
         refresh: function() {
-            var wait, i, key;
+            var statuses, status, i, key, effects = [];
+            this.scratch = {};
             for (key in this.cooldowns) {
                 this.cooldowns[key] = Math.max(0, this.cooldowns[key] - 1);
             }
-            for (i = 0; i < this.waits.length; ++i) {
-                wait = this.waits[i];
-                if (wait.done) {
+            for (i = 0; i < this.statuses.length; ++i) {
+                status = this.statuses[i];
+                if (status.done) {
                     continue;
                 }
-                wait.wait--;
-                if (wait.wait <= 0) {
-                    if (wait.remove) {
-                        wait.remove();
+                status.wait--;
+                if (status.round) {
+                    effects = effects.concat(status.round() || []);
+                }
+                if (status.wait <= 0) {
+                    if (status.remove) {
+                        effects = effects.concat(status.remove() || []);
                     }
-                    wait.done = true;
+                    status.done = true;
                 }
             }
+            return effects;
         },
         canUseSkill: function(skill) {
             var usable = true;
@@ -114,10 +122,11 @@ define(["underscore"], function(_) {
             var self = this;
             this.buffs[stat] = (this.buffs[stat] || 0) + amount;
             if (duration) {
-                this.waits.push({ wait: duration, remove: function() {
-                    self.addBuff(stat, -amount);
-                }});
+                this.addStatus({ wait: duration, remove: function() { self.addBuff(stat, -amount); }});
             }
+        },
+        addStatus: function(status) {
+            this.statuses.push(status);
         }
     });
 

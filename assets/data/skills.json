@@ -120,6 +120,13 @@
         "duration": 3,
         "cooldown": 4
     },
+    "stench": {
+        "name": "Stench",
+        "text": "The air is filled the the scent of decay.",
+        "effect": "poison",
+        "power": "2+1d4",
+        "target": "enemy"
+    },
     "navelgaze": {
         "name": "Omphaloskepsis",
         "message": "Its chakras are now in better alignment!",

@@ -55,6 +55,14 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     };
 
+    var poison = function(user, target, skill, dice) {
+        return {
+            type: "poison",
+            target: target,
+            duration: dice.roll()
+        };
+    }
+
     var standardSkillEffect = function(fn, fn2) {
         return function(skill, user, targets) {
             var skill = _.extend({}, Skills["default"], skill);
@@ -79,6 +87,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         "damage/magic": standardSkillEffect(magicDamage),
         "heal/normal": standardSkillEffect(standardHeal),
         "buff": standardSkillEffect(standardBuff),
+        "poison": standardSkillEffect(poison),
         "none": _.give([]),
         "navelgaze": function(skill, user, targets) {
             return [

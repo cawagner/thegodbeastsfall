@@ -64,10 +64,12 @@ define([
 
             battleState.enqueueFunc(function refresh() {
                 _(battleState.playerPawns).each(function(player) {
-                    player.refresh();
+                    var refresh = player.refresh();
+                    battleState.enqueueState(actionExecutor.refresh({ effects: refresh, targets: [player] }, battleState));
                 });
                 _(battleState.enemyPawns).each(function(enemy) {
-                    enemy.refresh();
+                    var refresh = enemy.refresh();
+                    battleState.enqueueState(actionExecutor.refresh({ effects: refresh, targets: [enemy] }, battleState));
                 });
             });
 
