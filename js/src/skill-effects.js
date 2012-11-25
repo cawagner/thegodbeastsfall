@@ -55,29 +55,20 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     };
 
-    var result = function(user, skill, results) {
-        return {
-            user: user,
-            skill: skill,
-            priority: user.priority() + skill.priorityBoost + d20.roll()/2,
-            effects: results
-        };
-    };
-
     var standardSkillEffect = function(fn, fn2) {
         return function(skill, user, targets) {
             var skill = _.extend({}, Skills["default"], skill);
             var dice = Dice.parse(skill.power);
 
             var results = _(targets).map(function(target) {
-                return function() { return fn(user, target, skill, dice); };
+                return fn(user, target, skill, dice);
             });
             if (fn2) {
                 _(targets).each(function(target) {
-                    results.push(function() { return fn2(user, target, skill, dice); });
+                    results.push(fn2(user, target, skill, dice));
                 });
             }
-            return result(user, skill, results);
+            return results;
         };
     };
 

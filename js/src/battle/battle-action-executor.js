@@ -36,18 +36,35 @@ define(["underscore", "jquery", "battle/battle-composite-state", "battle/battle-
                 }
             });
 
-            battleEffectExecutor.msg(action.user.name + " used " + action.skill.name + "!");
-
-            _(action.effects).each(function(effect) {
-                state.enqueueFunc(function() {
-                    effect = effect();
-                    battleEffectExecutor[effect.type](effect);
-                });
-            });
-
             state.enqueueFunc(function() {
-                action.user.useSkill(action.skill);
+                if (action.user.type === 'player' && action.skill.target === 'enemy') {
+                    if (!action.targets[0].isAlive()) {
+                        console.log("Retargeting...");
+                        action.targets = [_(battleState.enemyPawns).filter(function(pawn) { return pawn.isAlive(); })[0]];
+                        console.log(action.targets);
+                        if (!action.targets[0]) {
+                            action.targets = [];
+                        }
+                    }
+                }
+
+                if (!action.targets.length) {
+                    return state.done();
+                }
             });
+
+            battleEffectExecutor.msg(action.user.name + " used " + action.skill.name + "!");
+            state.enqueueFunc(function() {
+                _(action.skillEffect(action.skill, action.user, action.targets)).each(function(effect) {
+                    state.enqueueFunc(function() {
+                        battleEffectExecutor[effect.type](effect);
+                    });
+                });
+
+                state.enqueueFunc(function() {
+                    action.user.useSkill(action.skill);
+                });
+            })
 
             return state;
         },

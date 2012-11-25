@@ -3,6 +3,7 @@ define([
     "battle/battle-message-state",
     "battle/battle-menu-state",
     'battle/battle-execute-state',
+    'dice',
     "json!skills.json",  // TODO: move handling the skill doing into another place...
     "skill-effects"
 ], function(
@@ -10,16 +11,23 @@ define([
     BattleMessageState,
     BattleMenuState,
     BattleExecuteState,
+    Dice,
     skills,
     skillEffects
 ) {
     "use strict";
 
+    var d20 = Dice.parse("d20");
+
     var createUseSkillAction = function(user, skill, targets) {
-        var skillEffect = skillEffects[skill.effect];
-        var result = skillEffect(skill, user, targets)
-        result.type = "skill";
-        return result;
+        return {
+            type: "skill",
+            targets: targets,
+            skill: skill,
+            user: user,
+            skillEffect: skillEffects[skill.effect],
+            priority: user.priority() + (skill.priorityBoost||0) + d20.roll()
+        }
     };
 
     return function BattleDecisionState(battleState) {

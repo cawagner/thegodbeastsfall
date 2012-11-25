@@ -6,6 +6,7 @@ define(["pawns/pawn-base"], function(PawnBase) {
         this.character = character;
         this.isDying = false;
         this.isDead = false;
+        this.type = 'player';
     };
 
     CharacterPawn.prototype = new PawnBase();

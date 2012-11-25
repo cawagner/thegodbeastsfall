@@ -140,8 +140,8 @@ define([
                         x: 10,
                         y: 200
                     }).select(function(index, item) {
-                        self.setAction(item.action, { priorityBoost: item.priorityBoost })
                         this.close();
+                        self.setAction(item.action, { priorityBoost: item.priorityBoost })
                     })
                 }
             ],
