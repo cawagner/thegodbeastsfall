@@ -37,7 +37,7 @@ setupMap(function(map, gameState) {
     map.npcs.earl.addBeforeTalk(learnAboutMirv);
 
     map.npcs.earl2.onTalk = function() {
-        $.publish("/battle/start", [["zombie", "zombie"]]);
+        $.publish("/battle/start", [["zombie", "zombie", "zombie"]]);
     };
 
     map.npcs.barrel1.onTalk = function() {

@@ -31,7 +31,7 @@
         "name": "Zombie",
         "family": "tomb",
         "desc": "You've met this man at a bit of a bad time.",
-        "skills": ["stench"],
+        "skills": ["stench", "bite"],
         "hp": "40+3d12",
         "mp": 0,
         "strength": 5,
