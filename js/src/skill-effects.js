@@ -24,6 +24,19 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         }
     };
 
+    var magicDamage = function(user, target, skill, dice) {
+        var damage = Math.ceil((user.force() / target.resist()) * dice.roll());
+
+        // TODO: apply weakness / resistance, etc.
+
+        return {
+            type: "damage",
+            missed: false,
+            amount: damage,
+            target: target
+        };
+    }
+
     var standardHeal = function(user, target, skill, dice) {
         return {
             type: "heal",
@@ -72,6 +85,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
     return {
         "damage/melee": standardSkillEffect(standardDamage),
         "damage/melee/2": standardSkillEffect(standardDamage, standardDamage),
+        "damage/magic": standardSkillEffect(magicDamage),
         "heal/normal": standardSkillEffect(standardHeal),
         "buff": standardSkillEffect(standardBuff)
     }
