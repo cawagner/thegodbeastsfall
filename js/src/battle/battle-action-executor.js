@@ -13,7 +13,6 @@ define([
     BattleEffectExecutor,
     skillTextFunctions
 ) {
-
     "use strict";
 
     var formatCondition = function(pawn) {
@@ -73,6 +72,10 @@ define([
                 console.log(action.skillId);
                 if (action.skillId in skillTextFunctions) {
                     battleEffectExecutor.msg(skillTextFunctions[action.skillId](action, effects));
+                } else if (action.skill.text) {
+                    battleEffectExecutor.msg(_(action.skill.text).template({
+                        user: action.user.name
+                    }));
                 } else {
                     battleEffectExecutor.msg(action.user.name + " used " + action.skill.name + "!");
                 }

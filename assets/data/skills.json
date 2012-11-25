@@ -53,19 +53,12 @@
         "duration": 3,
         "mp": 5
     },
-    "giantess": {
-        "name": "Giantess",
-        "target": "self",
-        "effect": "buff",
-        "stat": "strength",
-        "power": "2+1d6",
-        "mp": 4
-    },
     "ooze": {
         "name": "Ooze",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "1d4"
+        "power": "1d4",
+        "text": "{{user}} reached out with a gelatinous pseudopod!"
     },
     "bite": {
         "name": "Bite",
