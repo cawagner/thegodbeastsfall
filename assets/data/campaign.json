@@ -1,7 +1,7 @@
 {
     "title": "The God-Beasts' Fall",
     "startMap": "Town",
-    "mainCharacter": {
+    "hero": {
         "name": "Held",
         "face": "held",
         "title": "Mysterious Hero",
@@ -21,6 +21,24 @@
             "Magic": {
                 "braver": { "maxMp": 8 }
             }
+        }
+    },
+    "heroine": {
+        "name": "Mirv",
+        "face": "mirv",
+        "archetype": "heroine",
+        "title": "Woman from the Vrevelk",
+        "strength": 10,
+        "agility": 10,
+        "intelligence": 15,
+        "luck": 10,
+        "skills": {
+            "Fight": [ "stab", "hard" ],
+            "Magic": [ "fire1" ]
+        },
+        "learnSet": {
+            "Fight": { },
+            "Magic": { }
         }
     }
 }

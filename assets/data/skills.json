@@ -5,6 +5,13 @@
         "effect": "damage/melee",
         "power": "1d8"
     },
+    "stab": {
+        "name": "Slash",
+        "target": "enemy",
+        "effect": "damage/melee",
+        "power": "1d6",
+        "criticalChance": 1.5
+    },
     "hard": {
         "name": "Hard",
         "target": "enemy",
@@ -20,6 +27,13 @@
         "power": "1d6",
         "cooldown": 4,
         "accuracy": 1.25
+    },
+    "fire1": {
+        "name": "Feu",
+        "target": "enemy",
+        "effect": "damage/melee",
+        "power": "5d6",
+        "mp": 10
     },
     "heal1": {
         "name": "Mend",
