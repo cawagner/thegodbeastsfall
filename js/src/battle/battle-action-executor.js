@@ -4,14 +4,14 @@ define([
     "battle/battle-composite-state",
     "battle/battle-message-state",
     "battle/battle-effect-executor",
-    "skill-text-functions"
+    "battle/battle-text-provider"
 ], function(
     _,
     $,
     BattleCompositeState,
     BattleMessageState,
     BattleEffectExecutor,
-    skillTextFunctions
+    textProvider
 ) {
     "use strict";
 
@@ -67,16 +67,7 @@ define([
             state.enqueueFunc(function() {
                 var effects = action.skillEffect(action.skill, action.user, action.targets);
 
-                if (action.skillId in skillTextFunctions) {
-                    battleEffectExecutor.msg(skillTextFunctions[action.skillId](action, effects));
-                } else if (action.skill.text) {
-                    battleEffectExecutor.msg(_(action.skill.text).template({
-                        user: action.user.name,
-                        target: effects.length && effects[0].target.name
-                    }));
-                } else {
-                    battleEffectExecutor.msg(action.user.name + " used " + action.skill.name + "!");
-                }
+                battleEffectExecutor.msg(textProvider.getSkillText(action, effects));
 
                 _(effects).each(function(effect) {
                     state.enqueueFunc(function() {

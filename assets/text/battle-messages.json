@@ -1,0 +1,6 @@
+{
+    "defaultSkillUse": "{{user}} used {{skill}}!",
+    "defending": "{{user}} is defending.",
+    "criticalHit": "A mighty blow!",
+    "secondWind": "Talk about a comeback, {{user}}!"
+}

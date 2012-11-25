@@ -22,7 +22,8 @@
             skills: '../../assets/data/skills',
             enemies: '../../assets/data/enemies',
             items: '../../assets/data/items',
-            "skill-text-functions": "../../assets/code/skill-text-functions"
+            "skill-text-functions": "../../assets/code/skill-text-functions",
+            "battle-messages": "../../assets/text/battle-messages"
         },
         urlArgs: "bust=" + Date.now()
     });
