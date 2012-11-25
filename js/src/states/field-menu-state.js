@@ -80,12 +80,17 @@ define([
     };
 
     FieldMenuState.prototype.draw = function(delta) {
-        var party = gameState.party;
+        var party = gameState.party,
+            x = 260 - 60 * (party.length - 1),
+            i;
 
         this.previousState.draw(delta);
         this.menuState.draw(delta);
 
-        this.gui.drawStatus(260, 180, party[0]);
+        for (i = 0; i < party.length; ++i) {
+            this.gui.drawStatus(x, 180, party[i]);
+            x += 60;
+        }
     };
 
     FieldMenuState.prototype.suspend = function() {
