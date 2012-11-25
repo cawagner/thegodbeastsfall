@@ -22,7 +22,7 @@
         "accuracy": 1.25
     },
     "heal1": {
-        "name": "LayHands",
+        "name": "Mend",
         "target": "player",
         "effect": "heal/normal",
         "power": "4+2d4",
