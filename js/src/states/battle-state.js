@@ -72,7 +72,13 @@ define([
         };
 
         _(this.playerPawns).each(pushDown);
-        _(this.enemyPawns).each(pushDown);
+        _(this.enemyPawns).each(function(pawn) {
+            if (pawn.isHidden) {
+                pawn.dying = pawn.dying || 0;
+                pawn.dying += 0.5 + pawn.dying / 4;
+            }
+            pushDown(pawn);
+        });
     };
 
     // OH NO this is wrong!
@@ -134,8 +140,6 @@ define([
         for (i = 0; i < this.enemyPawns.length; ++i) {
             pawn = this.enemyPawns[i];
             if (pawn.isHidden) {
-                pawn.dying = pawn.dying || 0;
-                pawn.dying += 0.5 + pawn.dying / 4;
                 if (pawn.dying >= pawn.rect.width / 2) {
                     continue;
                 }
