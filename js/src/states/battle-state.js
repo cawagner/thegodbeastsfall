@@ -166,7 +166,7 @@ define([
         var i, pawn;
         for (i = 0; i < this.playerPawns.length; ++i) {
             var pawn = this.playerPawns[i];
-            pawn.x = 200 + i * 36 + 18;
+            pawn.x = 200 + i * 60 + 18;
             pawn.y = 190 + Math.floor(pawn.pushDown || 0);
             this.gui.drawStatus(pawn.x - 18, pawn.y - 5, pawn);
         }
