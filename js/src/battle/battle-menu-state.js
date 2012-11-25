@@ -145,7 +145,17 @@ define([
                     })
                 }
             ],
-            cancel: _.give(false)
+            cancel: function() {
+                if (self.partyIndex > 0) {
+                    self.partyIndex--;
+                    self.actions.pop();
+                    setTimeout(function() {
+                        self.menu = self.getMenu().open();
+                    }, 1);
+                    return true;
+                }
+                return false;
+            }
         });
     };
 
