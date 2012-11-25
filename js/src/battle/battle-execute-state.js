@@ -27,7 +27,7 @@ define([
         };
 
         var lostBattle = function() {
-            return _(battleState.playerPawns).all(function(pawn) { return !pawn.isAlive(); });
+            return _(battleState.playerPawns).all(function(pawn) { return pawn.isDying || !pawn.isAlive(); });
         };
 
         var winBattle = function() {
@@ -71,16 +71,15 @@ define([
                     var refresh = enemy.refresh();
                     battleState.enqueueState(actionExecutor.refresh({ effects: refresh, targets: [enemy] }, battleState));
                 });
-            });
-
-            battleState.enqueueFunc(function() {
-                if (wonBattle()) {
-                    winBattle();
-                } else if (lostBattle()) {
-                    loseBattle();
-                } else {
-                    nextRound();
-                }
+                battleState.enqueueFunc(function() {
+                    if (wonBattle()) {
+                        winBattle();
+                    } else if (lostBattle()) {
+                        loseBattle();
+                    } else {
+                        nextRound();
+                    }
+                });
             });
         };
         this.update = function() { return true; };
