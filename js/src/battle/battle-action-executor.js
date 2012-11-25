@@ -74,7 +74,8 @@ define([
                     battleEffectExecutor.msg(skillTextFunctions[action.skillId](action, effects));
                 } else if (action.skill.text) {
                     battleEffectExecutor.msg(_(action.skill.text).template({
-                        user: action.user.name
+                        user: action.user.name,
+                        target: effects[0].target.name
                     }));
                 } else {
                     battleEffectExecutor.msg(action.user.name + " used " + action.skill.name + "!");

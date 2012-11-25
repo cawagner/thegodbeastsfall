@@ -1,12 +1,14 @@
 {
     "slash": {
         "name": "Slash",
+        "text": "{{user}}'s attack!",
         "target": "enemy",
         "effect": "damage/melee",
         "power": "1d8"
     },
     "stab": {
         "name": "Stab",
+        "text": "{{user}}'s attack!",
         "target": "enemy",
         "effect": "damage/melee",
         "power": "1d6",
@@ -15,6 +17,7 @@
     },
     "hard": {
         "name": "Hard",
+        "text": "{{user}} attacks fiercely!",
         "target": "enemy",
         "effect": "damage/melee",
         "power": "3d6",
@@ -23,6 +26,7 @@
     },
     "spin": {
         "name": "Spin",
+        "text": "{{user}} executes a 360-degree attack!",
         "target": "enemies",
         "effect": "damage/melee",
         "power": "1d6",
@@ -59,10 +63,11 @@
         "target": "enemy",
         "effect": "damage/melee",
         "power": "1d4",
-        "text": "{{user}} reached out with a gelatinous pseudopod!"
+        "text": "{{user}} reaches out with a gelatinous pseudopod!"
     },
     "bite": {
         "name": "Bite",
+        "text": "{{user}} bites with vicious fangs!",
         "target": "enemy",
         "effect": "damage/melee",
         "power": "2+1d8",
@@ -77,13 +82,14 @@
     },
     "scratch": {
         "name": "Scratch",
+        "text": "{{user}} wields its claws!",
         "target": "enemy",
         "effect": "damage/melee",
         "power": "2+1d4"
     },
     "drink": {
         "name": "Drink",
-        "text": "{{user}} took a hearty swig of moonshine!",
+        "text": "{{user}} takes a hearty swig of moonshine!",
         "target": "self",
         "effect": "heal/normal",
         "power": "1d8",
@@ -91,14 +97,14 @@
     },
     "punch": {
         "name": "Punch",
-        "text": "{{user}} stumbles forward!",
+        "text": "{{user}} punches {{target}}!",
         "target": "enemy",
         "effect": "damage/melee",
         "power": "1+1d6"
     },
     "brawl": {
         "name": "Brawl",
-        "text": "{{user}} came out swinging!",
+        "text": "{{user}} comes out swinging!",
         "target": "enemy",
         "effect": "damage/melee/2",
         "power": "1d4",
@@ -106,7 +112,7 @@
     },
     "rant": {
         "name": "Rant",
-        "text": "{{user}} started ranting and raving!",
+        "text": "{{user}} starts ranting and raving!",
         "target": "self",
         "effect": "buff",
         "stat": "strength",
