@@ -40,14 +40,13 @@ define([
                 }
             });
 
-            // Right now, all enemies will each just use their first attack on the player...
             _(battleState.enemyPawns).each(function(enemy) {
                 var usableSkills = enemy.usableSkills();
                 var skill = usableSkills[Math.floor(Math.random() * usableSkills.length)];
                 var target;
                 // still missing some target types...
                 if (skills[skill].target === "enemy") {
-                    target = [battleState.playerPawns[0]];
+                    target = [battleState.playerPawns[Math.floor(Math.random() * battleState.playerPawns.length)]];
                 }
                 if (skills[skill].target === "self") {
                     target = [enemy];
