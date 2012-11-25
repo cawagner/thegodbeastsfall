@@ -31,6 +31,7 @@
     },
     "fire1": {
         "name": "Feu",
+        "text": "Flames form at {{user}}'s fingertips!",
         "target": "enemy",
         "effect": "damage/magic",
         "power": "5d6",
@@ -82,6 +83,7 @@
     },
     "drink": {
         "name": "Drink",
+        "text": "{{user}} took a hearty swig of moonshine!",
         "target": "self",
         "effect": "heal/normal",
         "power": "1d8",
@@ -89,12 +91,14 @@
     },
     "punch": {
         "name": "Punch",
+        "text": "{{user}} stumbles forward!",
         "target": "enemy",
         "effect": "damage/melee",
         "power": "1+1d6"
     },
     "brawl": {
         "name": "Brawl",
+        "text": "{{user}} came out swinging!",
         "target": "enemy",
         "effect": "damage/melee/2",
         "power": "1d4",
@@ -102,6 +106,7 @@
     },
     "rant": {
         "name": "Rant",
+        "text": "{{user}} started ranting and raving!",
         "target": "self",
         "effect": "buff",
         "stat": "strength",
