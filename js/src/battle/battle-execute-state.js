@@ -3,8 +3,9 @@ define([
     "jquery",
     "battle/battle-message-state",
     "battle/battle-won-state",
-    "battle/battle-action-executor"
-], function(_, $, BattleMessageState, BattleWonState, actionExecutor) {
+    "battle/battle-action-executor",
+    "battle/battle-text-provider"
+], function(_, $, BattleMessageState, BattleWonState, actionExecutor, textProvider) {
     "use strict";
 
     // TODO: this whole file is a mess... lol 3:00AM
@@ -36,7 +37,7 @@ define([
             playMusic("victory");
 
             battleState.enqueueState(new BattleMessageState([
-                "All monsters perished!",
+                textProvider.getMessage("wonBattle"),
                 "Got " + xp + "XP each!"
             ]));
             battleState.enqueueState(new BattleWonState(xp));

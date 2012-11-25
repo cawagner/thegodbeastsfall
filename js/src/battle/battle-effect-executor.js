@@ -1,4 +1,4 @@
-define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, BattleMessageState) {
+define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-text-provider"], function(_, $, BattleMessageState, textProvider) {
     "use strict";
 
     var getDamageSound = function(targetType, isCritical) {
@@ -27,7 +27,7 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
 
         if (!targetWasAlive) {
             if (!effect.target.isHidden) {
-                self.msg(effect.target.name + " was already gone!");
+                self.msg(self.msg(textProvider.getMessage("negativeTargetGone", { target: effect.target.name })));
             }
             return;
         }
@@ -38,12 +38,13 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
             }
         });
 
+        // TODO: move most of this text into the text provider...
         if (effect.missed) {
             self.state.enqueueFunc(self.battleState.displayMiss(effect.target));
-            self.msg("...missed " + effect.target.name + "!", "miss");
+            self.msg(textProvider.getMessage("missed", { target: effect.target.name }), "miss");
         } else {
             if (effect.critical) {
-                self.msg("A mighty blow!");
+                self.msg(textProvider.getMessage("criticalHit"));
             }
             self.state.enqueueFunc(function() {
                 $.publish("/sound/play", [sound]);
@@ -53,7 +54,7 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
 
         self.state.enqueueFunc(function() {
             if (targetWasAlive && !effect.target.isAlive()) {
-                self.msg(effect.target.name + " falls!", 'endie');
+                self.msg(textProvider.getFallMessage(effect.target), 'endie');
                 effect.target.isHidden = true;
 
                 if (self.action.user.isDying) {
@@ -70,7 +71,7 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
         var targetWasAlive = effect.target.isAlive();
 
         if (!targetWasAlive) {
-            self.msg("It was too late for " + effect.target.name + "...");
+            self.msg(textProvider.getMessage("positiveTargetGone", { target: effect.target.name }));
             return;
         }
 
@@ -114,7 +115,7 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
         var targetWasAlive = effect.target.isAlive();
 
         if (!targetWasAlive) {
-            self.msg("It was too late for " + effect.target.name + "...");
+            self.msg(textProvider.getMessage("positiveTargetGone", { target: effect.target.name }));
             return;
         }
 
@@ -136,7 +137,7 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
         var buffDir = effect.amount < 0 ? "down" : "up";
 
         if (!targetWasAlive) {
-            self.msg("It was too late for " + effect.target.name + "...");
+            self.msg(textProvider.getMessage("positiveTargetGone", { target: effect.target.name }));
             return;
         }
 

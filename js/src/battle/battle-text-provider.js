@@ -20,6 +20,14 @@ define(["underscore", "skill-text-functions", "json!battle-messages.json"], func
                 target: target,
                 skill: action.skill.name
             });
+        },
+        getFallMessage: function(pawn) {
+            var text = battleMessages.defaultFall;
+            return _(text).template({user: pawn.name});
+        },
+        getMessage: function(message, params) {
+            var text = battleMessages[message];
+            return _(text).template(params || {});
         }
     }
 });

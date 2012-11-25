@@ -1,6 +1,11 @@
 {
     "defaultSkillUse": "{{user}} used {{skill}}!",
+    "defaultFall": "{{user}} falls!",
     "defending": "{{user}} is defending.",
+    "missed": "...missed {{target}}!",
     "criticalHit": "A mighty blow!",
-    "secondWind": "Talk about a comeback, {{user}}!"
+    "secondWind": "Talk about a comeback, {{user}}!",
+    "positiveTargetGone": "It was too late for {{target}}...",
+    "negativeTargetGone": "{{target} was already gone!",
+    "wonBattle": "All monsters perished!"
 }

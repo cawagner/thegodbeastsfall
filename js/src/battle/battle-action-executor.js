@@ -50,6 +50,7 @@ define([
             });
 
             state.enqueueFunc(function() {
+                // retarget if enemy died
                 if (action.user.type === 'player' && action.skill.target === 'enemy') {
                     if (!action.targets[0].isAlive()) {
                         action.targets = [_(battleState.enemyPawns).filter(function(pawn) { return pawn.isAlive(); })[0]];
