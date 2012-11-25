@@ -6,11 +6,11 @@
         "power": "1d8"
     },
     "stab": {
-        "name": "Slash",
+        "name": "Stab",
         "target": "enemy",
         "effect": "damage/melee",
         "power": "1d6",
-        "criticalChance": 1.5
+        "criticalChance": 1.25
     },
     "hard": {
         "name": "Hard",
