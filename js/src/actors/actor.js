@@ -1,6 +1,6 @@
 define(['jquery', 'direction'], function($, direction) {
     "use strict";
-    
+
     function Actor(archetype) {
         var self = this;
         var moveX = 0, moveY = 0;
@@ -8,7 +8,6 @@ define(['jquery', 'direction'], function($, direction) {
         var isMovementLocked = false;
 
         var moveHistory = [];
-        var followers = [];
 
         var moveTowardNewSquare = function(timeScale) {
             if (self.canMove()) {
@@ -21,20 +20,6 @@ define(['jquery', 'direction'], function($, direction) {
             moveRemaining -= Actor.MOVE_SPEED;
             if (moveRemaining < 0) {
                 self.resetMove();
-            }
-        };
-
-        var updateFollowers = function() {
-            var lastMove;
-            var i;
-            if (moveHistory.length > followers.length) {
-                moveHistory.shift(1);
-            }
-            for (i = 0; i < followers.length; ++i) {
-                lastMove = moveHistory[moveHistory.length - i - 1];
-                if (lastMove !== undefined) {
-                    followers[i].moveBy(lastMove.x, lastMove.y, false);
-                }
             }
         };
 
@@ -55,11 +40,6 @@ define(['jquery', 'direction'], function($, direction) {
             moveRemaining = 1;
             this.destX = this.x + dx;
             this.destY = this.y + dy;
-
-            updateFollowers();
-            if (followers.length) {
-                moveHistory.push({x: dx, y: dy});
-            }
 
             this.update();
             return true;
@@ -98,29 +78,6 @@ define(['jquery', 'direction'], function($, direction) {
 
         this.canMoveBy = function(dx, dy) {
             return this.canMoveTo(this.x + dx, this.y + dy);
-        };
-
-        this.addFollower = function(actor) {
-            var followerDirection = direction.oppositeOf(this.direction);
-            var d = direction.convertToXY(followerDirection);
-
-            actor.resetMove();
-            actor.warpTo(this.x, this.y);
-            actor.direction = this.direction;
-            actor.isPushable = false;
-            this.isPushable = false;
-
-            followers.push(actor);
-        };
-
-        this.clearFollowers = function() {
-            _(followers).each(function(actor) {
-                // TODO: don't assume this is the correct behavior!
-                actor.wander = Npc.behaviors.wanderlust(actor);
-                actor.isPushable = true;
-            });
-            followers = [];
-            moveHistory = [];
         };
 
         this.x = 0;

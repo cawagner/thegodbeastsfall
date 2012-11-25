@@ -7,7 +7,6 @@ define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, d
         var self = this;
 
         var moveHistory = [];
-        var followers = [];
         var failedMoves = 0;
 
         var takeInput = function() {
