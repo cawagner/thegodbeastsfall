@@ -78,6 +78,12 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         "damage/melee/2": standardSkillEffect(standardDamage, standardDamage),
         "damage/magic": standardSkillEffect(magicDamage),
         "heal/normal": standardSkillEffect(standardHeal),
-        "buff": standardSkillEffect(standardBuff)
+        "buff": standardSkillEffect(standardBuff),
+        "none": _.give([]),
+        "navelgaze": function(skill, user, targets) {
+            return [
+                { type: "message", text: skill.message }
+            ]
+        }
     }
 });

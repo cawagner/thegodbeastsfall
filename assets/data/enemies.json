@@ -3,7 +3,7 @@
         "name": "Slime",
         "family": "vermin",
         "desc": "An ambulatory slime mould of some sort.",
-        "skills": ["ooze"],
+        "skills": ["ooze", "navelgaze"],
         "hp": 12,
         "mp": 0,
         "strength": 8,

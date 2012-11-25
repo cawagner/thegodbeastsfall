@@ -52,9 +52,7 @@ define([
             state.enqueueFunc(function() {
                 if (action.user.type === 'player' && action.skill.target === 'enemy') {
                     if (!action.targets[0].isAlive()) {
-                        console.log("Retargeting...");
                         action.targets = [_(battleState.enemyPawns).filter(function(pawn) { return pawn.isAlive(); })[0]];
-                        console.log(action.targets);
                         if (!action.targets[0]) {
                             action.targets = [];
                         }
@@ -69,13 +67,12 @@ define([
             state.enqueueFunc(function() {
                 var effects = action.skillEffect(action.skill, action.user, action.targets);
 
-                console.log(action.skillId);
                 if (action.skillId in skillTextFunctions) {
                     battleEffectExecutor.msg(skillTextFunctions[action.skillId](action, effects));
                 } else if (action.skill.text) {
                     battleEffectExecutor.msg(_(action.skill.text).template({
                         user: action.user.name,
-                        target: effects[0].target.name
+                        target: effects.length && effects[0].target.name
                     }));
                 } else {
                     battleEffectExecutor.msg(action.user.name + " used " + action.skill.name + "!");

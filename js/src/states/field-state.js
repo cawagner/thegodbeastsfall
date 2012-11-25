@@ -53,7 +53,6 @@ define([
                     encounter.until = 2*encounter.triggered + Math.floor(
                         Math.random() * (encounter.maxFrequency - encounter.minFrequency) + encounter.minFrequency
                     );
-                    console.log(encounter, encounter.until);
                 }
             });
         });

@@ -120,6 +120,13 @@
         "duration": 3,
         "cooldown": 4
     },
+    "navelgaze": {
+        "name": "Omphaloskepsis",
+        "message": "Its chakras are now in better alignment!",
+        "cooldown": 5,
+        "target": "self",
+        "effect": "navelgaze"
+    },
     "default": {
         "name": "Default",
         "power": 1,

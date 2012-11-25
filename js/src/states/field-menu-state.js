@@ -40,8 +40,6 @@ define([
                                 return { text: skills[skill].name, skill: skills[skill], disabled: !pawn.canUseSkill(skills[skill]) };
                             }).value();
 
-                            console.log(fieldSkills);
-
                             if (fieldSkills.length) {
                                 return {
                                     text: member.name,

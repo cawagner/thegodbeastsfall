@@ -109,5 +109,9 @@ define(["underscore", "jquery", "battle/battle-message-state"], function(_, $, B
         self.msg(effect.target.name + "'s " + effect.stat + " " + buffDir + " by " + Math.abs(effect.amount) + " for " + effect.duration + " rounds!");
     };
 
+    BattleEffectExecutor.prototype.message = function(effect) {
+        this.msg(effect.text);
+    };
+
     return BattleEffectExecutor;
 })
