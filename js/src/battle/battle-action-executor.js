@@ -18,6 +18,7 @@ define([
     var formatCondition = function(pawn) {
         var condition = "on death's door";
         var pct = pawn.hp() / pawn.maxHp();
+
         if (pct > 0.3)
             condition = "wounded";
         if (pct > 0.5)
@@ -25,15 +26,6 @@ define([
         if (pct > 0.9)
             condition = "unhurt";
 
-        if (pawn.hpClass) {
-            if (pawn.hpClass > 0.8) {
-                condition += " and is strong";
-            } else if (pawn.hpClass > 0.5) {
-                condition += " and is average";
-            } else {
-                condition += " and is frail";
-            }
-        }
         return condition + ".";
     };
 
@@ -117,7 +109,9 @@ define([
                 action.user.addBuff("strength", 10000, 1);
             });
 
-            state.enqueueState(new BattleMessageState([action.user.name + " is defending."]));
+            state.enqueueState(new BattleMessageState([
+                textProvider.getMessage("defending", { user: action.user.name })
+            ]));
             return state;
         },
         refresh: function(action, battleState) {

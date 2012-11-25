@@ -20,9 +20,6 @@ define(["dice", "pawns/pawn-base", "json!enemies.json", "json!skills.json"], fun
 
         hitDice = Dice.parse(proto.hp + "");
         this.rolledHp = hitDice.roll();
-        if (this.rolledHp !== proto.hp) {
-            this.hpClass = this.rolledHp / hitDice.max();
-        }
         this.currentHp = this.rolledHp;
         this.currentMp = proto.mp || 0;
 

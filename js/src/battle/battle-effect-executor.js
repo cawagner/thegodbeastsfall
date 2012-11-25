@@ -60,7 +60,7 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
                 if (self.action.user.isDying) {
                     self.action.user.isDying = false;
                     self.action.user.restoreHp(self.action.user.luck());
-                    self.msg("Talk about a comeback, " + self.action.user.name + "!");
+                    self.msg(textProvider.getMessage("secondWind", { user: self.action.user.name }));
                 }
             }
         });
@@ -90,18 +90,28 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
     BattleEffectExecutor.prototype.poison = function(effect) {
         var self = this;
 
-        self.msg(effect.target.name + " was poisoned!");
+        self.msg(textProvider.getMessage("wasPoisoned", { target: effect.target.name }));
         self.state.enqueueFunc(function() {
             effect.target.addStatus({
                 wait: 9999,
                 round: function() {
-                    var result = "hasTakenPoisonDamage" in effect.target.scratch ? [] : [ { type: "message", text: effect.target.name + " is hurt by poison!" } ];
+                    var result = "hasTakenPoisonDamage" in effect.target.scratch ? [] : [{
+                        type: "message",
+                        text: textProvider.getMessage("poisonDamage", { target: effect.target.name })
+                    }];
                     effect.target.scratch.hasTakenPoisonDamage = true;
-                    result.push({ type: "damage", amount: Math.ceil(effect.target.maxHp() / 30), target: effect.target });
+                    result.push({
+                        type: "damage",
+                        amount: Math.ceil(effect.target.maxHp() / 30),
+                        target: effect.target
+                    });
                     return result;
                 },
                 remove: function() {
-                    var result = "hasBeenCuredOfPoison" in effect.target.scratch ? [] : [ { type: "message", text: "The poison left " + effect.target.name + "'s body!" } ];
+                    var result = "hasBeenCuredOfPoison" in effect.target.scratch ? [] : [{
+                        type: "message",
+                        text: textProvider.getMessage("poisonCured", { target: effect.target.name })
+                    }];
                     effect.target.scratch.hasBeenCuredOfPoison = true;
                     return result;
                 },
