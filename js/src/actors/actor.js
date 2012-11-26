@@ -115,7 +115,13 @@ define(['jquery', 'direction'], function($, direction) {
     Actor.prototype.onTalk = $.noop;
 
     Actor.prototype.say = function(messages) {
+        var d = $.Deferred();
+        var sub = $.subscribe("/npc/talk/done", function() {
+            $.unsubscribe(sub);
+            d.resolve();
+        });
         $.publish("/npc/talk", [messages, this]);
+        return d.promise();
     };
 
     return Actor;

@@ -30,6 +30,9 @@ define([
 
         this.end = function() {
             doneFn();
+            setTimeout(function() {
+                $.publish("/npc/talk/done");
+            }, 1);
         };
 
         this.draw = function(timeScale) {

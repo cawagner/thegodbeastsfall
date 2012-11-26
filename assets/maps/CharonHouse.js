@@ -22,14 +22,33 @@ setupMap(function(map) {
         map.addActor(clurichaun);
         clurichaun.warpTo(1, 13);
         clurichaun.onTalk = function() {
+            clurichaun.onTalk = function(){};
             var battle = $.subscribe("/battle/won", function() {
-                clurichaun.say([
-                    { text: ["No! This cannot be!"] }
-                ]);
-                map.removeActor(clurichaun);
                 $.unsubscribe(battle);
+                clurichaun.say([
+                    { text: [
+                        "Fine... beat up a helpless faerie.",
+                        "Look at you with your big, strong human muscles.",
+                        "I hope you're really proud of yourself."
+                    ] }
+                ]).done(function() {
+                    map.removeActor(clurichaun);
+                });
             });
-            $.publish("/battle/start", [["clurichaun"], { isBoss: true }]);
+            this.say([{
+                text: [
+                    "Hey, man... that's MY drachma.",
+                    "Dude.",
+                    "No.",
+                    "Seriously.",
+                    "I need that.",
+                    "You don't even know how flippin' rare those are these days.",
+                    "I tell you, it's enough to make any leprechaun take up drinking.",
+                    "What? You're... fine, you villain, take what's coming to you!"
+                ]
+            }]).done(function() {
+                $.publish("/battle/start", [["clurichaun"], { isBoss: true }]);
+            });
         };
     };
 
