@@ -33,7 +33,7 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
 
         if (!targetWasAlive) {
             if (!effect.target.isHidden) {
-                self.msg(self.msg(textProvider.getMessage("negativeTargetGone", { target: effect.target.name })));
+                self.msg(textProvider.getMessage("negativeTargetGone", { target: effect.target.name }));
             }
             return;
         }
