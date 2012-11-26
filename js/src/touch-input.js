@@ -20,17 +20,18 @@ define(["jquery", "underscore"], function($, _) {
                 88: 'cancel'
             };
 
+            var arrowSize;
+
             var movement = function(touches) {
                 var pos = dpad.position();
                 var x = touches[0].pageX - pos.left;
-                var y = touches[0].pageY - pos.top + 60;
-                var size = 60;
+                var y = touches[0].pageY - pos.top + arrowSize;
 
                 var dirs = [
-                    { keyCode: 37, fn: "isLeftDown", predicate: function() { return x < size; } },
-                    { keyCode: 39, fn: "isRightDown", predicate: function() { return x > 2*size; } },
-                    { keyCode: 38, fn: "isUpDown", predicate: function() { return y < size; } },
-                    { keyCode: 40, fn: "isDownDown", predicate: function() { return y > 2*size; } }
+                    { keyCode: 37, fn: "isLeftDown", predicate: function() { return x < arrowSize; } },
+                    { keyCode: 39, fn: "isRightDown", predicate: function() { return x > 2*arrowSize; } },
+                    { keyCode: 38, fn: "isUpDown", predicate: function() { return y < arrowSize; } },
+                    { keyCode: 40, fn: "isDownDown", predicate: function() { return y > 2*arrowSize; } }
                 ];
 
                 _(dirs).each(function(dir){
@@ -68,6 +69,7 @@ define(["jquery", "underscore"], function($, _) {
 
             $("#touchControls").change(function(){
                 $("body").toggleClass("touchControls", $(this).is(":checked"));
+                arrowSize = $(".dpad .up").width();
             });
 
             document.body.ontouchmove = function(e) {

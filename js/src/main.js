@@ -19,7 +19,7 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
     "use strict";
 
     var init = function() {
-        var graphics = new Graphics("gameCanvas", constants.GAME_WIDTH, constants.GAME_HEIGHT, 2),
+        var graphics = new Graphics("gameCanvas", constants.GAME_WIDTH, constants.GAME_HEIGHT, 1),
             game = new Game(graphics, input),
             startFrame,
             endFrame = Date.now(),

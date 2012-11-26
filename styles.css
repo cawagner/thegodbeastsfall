@@ -49,10 +49,10 @@ h1 { text-align: center; }
     left: 20px;
     display: none;
 }
-.dpad a {
+.dpad span {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 0.25in;
+    height: 0.25in;
     margin: 0;
     padding: 0;
     border: 1px solid gray;
@@ -60,20 +60,20 @@ h1 { text-align: center; }
     display: block;
 }
 .dpad .up {
-    top: -60px;
-    left: 60px;
+    top: -.25in;
+    left: .25in;
 }
 .dpad .left {
     top:  0;
     left: 0;
 }
 .dpad .down {
-    top: 60px;
-    left: 60px;
+    top: .25in;
+    left: .25in;
 }
 .dpad .right {
     top:  0;
-    left: 120px;
+    left: .5in;
 }
 .buttons {
     bottom: 60px;
@@ -81,16 +81,16 @@ h1 { text-align: center; }
     position: fixed;
     display: none;
 }
-.buttons a {
+.buttons span {
     background-color: maroon;
     display: inline-block;
     -webkit-border-radius: 33px;
-    width: 66px;
-    height: 66px;
-    margin: 10px;
-    line-height: 66px;
+    width: 0.3in;
+    height: 0.3in;
+    margin: 0.2in;
+    line-height: 0.3in;
     text-align: center;
-    font: 26px 'Helvetica', 'Arial';
+    font: 0.2in 'Helvetica', 'Arial';
 }
 
 body.touchControls .dpad,
