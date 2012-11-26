@@ -33,7 +33,7 @@
         "strength": 12,
         "agility": 11,
         "intelligence": 12,
-        "luck": 11,
+        "luck": 10,
         "skills": {
             "Fight": [ "stab", "hard" ],
             "Magic": [ "fire1" ]

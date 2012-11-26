@@ -64,6 +64,7 @@ define([
         } else {
             setTimeout(function() {
                 $.publish("/battle/end");
+                $.publish("/battle/won");
             }, 1);
         }
     };

@@ -39,6 +39,13 @@ define(["underscore"], function(_) {
             actor.map = this;
         };
 
+        this.removeActor = function(actor) {
+            var index = this.actors.indexOf(actor);
+            if (index >= 0) {
+                this.actors.splice(index, 1);
+            }
+        }
+
         if (data && data.npcs) {
             _(data.npcs).each(function(npc) {
                 self.addActor(npc);
