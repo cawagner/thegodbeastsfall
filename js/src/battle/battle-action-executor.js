@@ -121,7 +121,7 @@ define([
             state.enqueueFunc(function() {
                 _(action.effects).each(function(effect) {
                     battleEffectExecutor[effect.type](effect);
-                })
+                });
             });
             return state;
         }

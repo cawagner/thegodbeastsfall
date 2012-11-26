@@ -167,4 +167,4 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
     };
 
     return BattleEffectExecutor;
-})
+});
