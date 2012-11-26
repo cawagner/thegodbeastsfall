@@ -19,6 +19,12 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
         this.state.enqueueState(new BattleMessageState([m], s));
     };
 
+    BattleEffectExecutor.prototype.snd = function(sound) {
+        this.state.enqueueFunc(function() {
+            $.publish("/sound/play", [sound]);
+        });
+    }
+
     BattleEffectExecutor.prototype.damage = function(effect) {
         var self = this;
 
@@ -33,7 +39,7 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
         }
 
         self.state.enqueueFunc(function() {
-            if (effect.amount > 0 && !isNaN(effect.amount)) {
+            if (effect.amount > 0) {
                 effect.target.takeDamage(effect.amount);
             }
         });
@@ -46,9 +52,7 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
             if (effect.critical) {
                 self.msg(textProvider.getMessage("criticalHit"));
             }
-            self.state.enqueueFunc(function() {
-                $.publish("/sound/play", [sound]);
-            })
+            self.snd(sound);
             self.state.enqueueState(self.battleState.displayDamage(effect.target, "-"+effect.amount, effect.critical));
         }
 
@@ -75,12 +79,10 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
             return;
         }
 
-        self.state.enqueueFunc(function() {
-            $.publish("/sound/play", ["heal"]);
-        });
+        self.snd("heal");
 
         self.state.enqueueFunc(function() {
-            if (effect.amount > 0 && !isNaN(effect.amount)) {
+            if (effect.amount > 0) {
                 effect.target.restoreHp(effect.amount);
             }
         });
@@ -129,9 +131,7 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
             return;
         }
 
-        self.state.enqueueFunc(function() {
-            $.publish("/sound/play", ["heal"]);
-        });
+        self.snd("heal");
 
         self.state.enqueueFunc(function() {
             var result = effect.target.removeStatus(effect.status);
@@ -151,12 +151,10 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
             return;
         }
 
-        self.state.enqueueFunc(function() {
-            $.publish("/sound/play", ["heal"]);
-        });
+        self.snd("heal");
 
         self.state.enqueueFunc(function() {
-            if (effect.amount > 0 && !isNaN(effect.amount)) {
+            if (effect.amount > 0) {
                 effect.target.addBuff(effect.stat, effect.amount, effect.duration);
             }
         });

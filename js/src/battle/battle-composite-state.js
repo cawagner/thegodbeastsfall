@@ -11,9 +11,12 @@ define([], function() {
         this.queuedStates.push(state);
     };
 
-    BattleCompositeState.prototype.enqueueFunc = function(fn) {
+    BattleCompositeState.prototype.enqueueFunc = function(fn, args, context) {
+        args = args || [];
         this.queuedStates.push({
-            start: fn,
+            start: function() {
+                return fn.apply(context, args);
+            },
             update: _.give(true),
             draw: _.noop
         });
@@ -21,9 +24,7 @@ define([], function() {
 
     BattleCompositeState.prototype.enqueueDone = function() {
         var self = this;
-        this.enqueueFunc(function() {
-            self.done();
-        });
+        this.enqueueFunc(self.done, self);
     };
 
     BattleCompositeState.prototype.start = function(args) {
