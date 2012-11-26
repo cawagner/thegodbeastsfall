@@ -19,7 +19,7 @@ setupMap(function(map, gameState) {
 
         stepsUntilMirvMessage--;
         if (stepsUntilMirvMessage < 0) {
-            $.publish("/npc/talk", [[{
+            $.publish("/npc/talk", [{
                 text: [
                     "Held... can you hear me? I am Mirv. It is preordained that we work together...",
                     "But I came long before you, and was born beyond the boundary of the Fake World...",
@@ -27,7 +27,7 @@ setupMap(function(map, gameState) {
                     "Charon, who maintains the graveyard north of town, can help you release me.",
                     "Please, if you can hear me..."
                 ]
-            }]]);
+            }]);
             flags.knowAboutMirv = true;
         }
     });

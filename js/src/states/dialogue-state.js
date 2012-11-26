@@ -13,10 +13,9 @@ define([
 
     var LINE_LENGTH = 38;
 
-    function DialogueState(messages, doneFn) {
+    function DialogueState(message, doneFn) {
         var messageIndex = 0,
             lineIndex = 0,
-            message = messages[0],
             lines = message.text[0].wordWrap(LINE_LENGTH),
             gui = new GuiRenderer(Game.instance.graphics),
             openProgress = 0.0;
@@ -50,23 +49,14 @@ define([
             }
         };
 
-        this.advanceMessage = function() {
-            lineIndex = 0;
-            if (messageIndex < messages.length - 1) {
-                ++messageIndex;
-                message = messages[messageIndex];
-            } else {
-                Game.instance.popState();
-            }
-        };
-
         this.advanceText = function() {
             $.publish("/sound/play", ["message"]);
             ++lineIndex;
             if (lineIndex >= message.text.length) {
-                this.advanceMessage();
+                Game.instance.popState();
+            } else {
+                lines = message.text[lineIndex].wordWrap(LINE_LENGTH);
             }
-            lines = message.text[lineIndex].wordWrap(LINE_LENGTH);
         };
 
         this.update = function(timeScale) {

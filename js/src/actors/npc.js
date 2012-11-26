@@ -1,6 +1,8 @@
 define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, npcBehaviors, direction) {
     "use strict";
 
+    var sayProperty = /^say/;
+
     function Npc(properties) {
         var beforeTalkHandlers = [];
 
@@ -33,6 +35,7 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
         this.onTalk = function() {
             var self = this;
             var text = [];
+            var sayProperties;
 
             _(beforeTalkHandlers).each(function(fn){
                 if (fn.call(self) === false) {
@@ -42,18 +45,16 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
 
             // HACK: Don't hardcode 2/3... just take anything starting with say
             // in alphabetical order
-            if (properties.say) {
-                text.push(properties.say);
-                if (properties.say2) {
-                    text.push(properties.say2);
-                }
-                if (properties.say3) {
-                    text.push(properties.say3);
-                }
-                this.say([{
-                    speaker: properties.archetype,
-                    text: text
-                }]);
+
+            sayProperties = _(Object.keys(properties)).filter(function(key) { return sayProperty.test(key); });
+            sayProperties.sort();
+
+            _(sayProperties).each(function(key) {
+                text.push(properties[key]);
+            });
+
+            if (text.length) {
+                this.say(text);
             }
         }
     };

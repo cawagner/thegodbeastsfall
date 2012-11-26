@@ -140,9 +140,9 @@ define([
                     }
                 });
                 if (anyHealing) {
-                    $.publish("/npc/talk", [[{
+                    $.publish("/npc/talk", [{
                         text: ["You have been fully healed."]
-                    }]]);
+                    }]);
                 }
             });
         }

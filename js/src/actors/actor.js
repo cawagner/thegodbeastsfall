@@ -120,7 +120,7 @@ define(['jquery', 'direction'], function($, direction) {
             $.unsubscribe(sub);
             d.resolve();
         });
-        $.publish("/npc/talk", [messages, this]);
+        $.publish("/npc/talk", [{ text: messages, speaker: this.archetype }, this]);
         return d.promise();
     };
 
