@@ -1,4 +1,6 @@
 define(["display/fonts"], function(fonts) {
+    "use strict";
+
     var Graphics = function(canvasId, width, height, scale) {
         var visibleCanvas = typeof canvasId === "string" ? document.getElementById(canvasId) : canvasId,
             offScreenCanvas = document.createElement("canvas"),

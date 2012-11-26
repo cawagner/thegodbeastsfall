@@ -1,4 +1,6 @@
 define(["jquery", "underscore", "gui", "keyboard-input"], function($, _, GuiRenderer, input) {
+    "use strict";
+
     var MESSAGE_DELAY = 250;
 
     function BattleMessageState(messages, sound) {

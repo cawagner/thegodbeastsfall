@@ -4,8 +4,13 @@ define([
     "menu",
     "states/dialogue-state",
     "json!skills.json"
-], function(_, $, Menu, DialogueState, skills) {
-
+], function(
+    _,
+    $,
+    Menu,
+    DialogueState,
+    skills
+) {
     "use strict";
 
     var character;
@@ -80,4 +85,4 @@ define([
             }
         }
     };
-})
+});

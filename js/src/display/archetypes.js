@@ -1,4 +1,6 @@
 define(["underscore"], function(_) {
+    "use strict";
+
     var archetypes = {
         "hero": {
             imagePath: "assets/img/hero.png"

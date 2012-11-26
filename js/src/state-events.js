@@ -19,6 +19,8 @@ define([
     ScrollTransitionState,
     sound
 ) {
+    "use strict";
+
     var oldMusic;
     var fakeNpc = {
         lockMovement: _.noop,

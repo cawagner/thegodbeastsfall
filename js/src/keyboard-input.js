@@ -1,4 +1,6 @@
 define(["underscore", "underscore-mixins"], function(_) {
+    "use strict";
+
     var KeyboardInput = function() {
         var keys = {
             left: false,

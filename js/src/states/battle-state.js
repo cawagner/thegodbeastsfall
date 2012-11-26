@@ -17,6 +17,8 @@ define([
     BattleDecisionState,
     BattleCompositeState
 ) {
+    "use strict";
+
     function BattleState(enemies) {
         var self = this;
 

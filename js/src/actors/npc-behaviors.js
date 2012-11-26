@@ -1,4 +1,5 @@
 define(['underscore'], function(_) {
+    "use strict";
     return {
         wanderlust: function(self) {
             self.isPushable = true;

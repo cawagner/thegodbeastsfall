@@ -13,6 +13,8 @@ define([
     Npc,
     constants
 ) {
+    "use strict";
+
     // TODO: HACK
     var Tilemap = tilemap.Tilemap;
     var Map = tilemap.Map;

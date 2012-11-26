@@ -1,4 +1,6 @@
 define([], function() {
+    "use strict";
+
     function ScrollTransitionState(toState, options) {
         var graphics = Game.instance.graphics;
         var maxOffset = graphics.height();

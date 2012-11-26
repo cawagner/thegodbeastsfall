@@ -10,7 +10,18 @@ define([
     "direction",
     "util",
     "pubsub"
-], function($, _, mapLoader, Game, GuiRenderer, TilemapView, ActorRenderer, Hero, direction, util) {
+], function(
+    $,
+    _,
+    mapLoader,
+    Game,
+    GuiRenderer,
+    TilemapView,
+    ActorRenderer,
+    Hero,
+    direction,
+    util
+) {
     "use strict";
 
     // TODO: make some function to open the state instead of having such a horrible constructor

@@ -125,6 +125,5 @@ define([
             });
             return state;
         }
-    }
-
+    };
 });

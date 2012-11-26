@@ -1,4 +1,6 @@
 define(["underscore", "constants", "chars", "display/speakers"], function(_, constants, chars, speakers) {
+    "use strict";
+
     function GuiRenderer(graphics) {
         this.graphics = graphics;
         this.lineHeight = 16;

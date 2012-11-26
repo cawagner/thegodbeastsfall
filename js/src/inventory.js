@@ -1,4 +1,5 @@
 define(["underscore", "json!items.json"], function(_, items) {
+    "use strict";
 
     function Inventory() {
         this.items = {};

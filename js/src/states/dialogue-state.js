@@ -1,4 +1,14 @@
-define(["jquery", "gui", "display/speakers", "states/noop-state"], function($, GuiRenderer, speakers, NoopState) {
+define([
+    "jquery",
+    "gui",
+    "display/speakers",
+    "states/noop-state"
+], function(
+    $,
+    GuiRenderer,
+    speakers,
+    NoopState
+) {
     "use strict";
 
     var LINE_LENGTH = 38;
