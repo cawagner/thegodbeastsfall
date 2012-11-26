@@ -77,7 +77,7 @@ define([
         },
         flee: function(action) {
             var state = new BattleCompositeState();
-            state.enqueueState(new BattleMessageState(["Run away!!!"]));
+            state.enqueueState(new BattleMessageState([textProvider.getMessage("ranAway", { user: action.user.name })]));
             state.enqueueFunc(function() {
                 $.publish("/battle/end");
             });
@@ -85,7 +85,7 @@ define([
         },
         inspect: function(action, battleState) {
             var state = new BattleCompositeState();
-            var messages = [action.user.name + " is sizing up the situation..."];
+            var messages = [textProvider.getMessage("inspecting", { user: action.user.name })];
 
             _(battleState.enemyPawns).each(function(enemy) {
                 if (enemy.isAlive()) {

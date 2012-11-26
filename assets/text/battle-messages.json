@@ -10,5 +10,7 @@
     "wonBattle": "All monsters perished!",
     "wasPoisoned": "{{target}} was poisoned!",
     "poisonCured": "The poison left {{target}}'s body!",
-    "poisonDamage": "{{target}} is hurt by poison!"
+    "poisonDamage": "{{target}} is hurt by poison!",
+    "ranAway": "Run away!!!",
+    "inspecting": "{{user}} is sizing up the situation..."
 }
