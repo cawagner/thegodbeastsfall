@@ -38,6 +38,9 @@ define(["underscore"], function(_) {
             if (first !== undefined) {
                 fn(first);
             }
+        },
+        randomElement: function(collection) {
+            return collection[Math.floor(collection.length * Math.random())];
         }
     });
 });

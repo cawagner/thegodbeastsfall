@@ -32,6 +32,13 @@ define([
     };
 
     return function BattleDecisionState(battleState) {
+        var aLivingHuman = function() {
+            var livingHumans = _(battleState.playerPawns).filter(function(human) {
+                return human.isAlive();
+            });
+            console.log(livingHumans);
+            return _(livingHumans).randomElement();
+        };
         this.start = function(commands) {
             var actions = [];
             _(commands).each(function(command) {
@@ -51,11 +58,11 @@ define([
 
             _(battleState.enemyPawns).each(function(enemy) {
                 var usableSkills = enemy.usableSkills();
-                var skill = usableSkills[Math.floor(Math.random() * usableSkills.length)];
+                var skill = _(usableSkills).randomElement();
                 var target;
                 // still missing some target types...
                 if (skills[skill].target === "enemy") {
-                    target = [battleState.playerPawns[Math.floor(Math.random() * battleState.playerPawns.length)]];
+                    target = [aLivingHuman()];
                 }
                 if (skills[skill].target === "self") {
                     target = [enemy];
