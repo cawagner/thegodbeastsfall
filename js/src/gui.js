@@ -1,6 +1,9 @@
 define(["underscore", "constants", "chars", "display/speakers"], function(_, constants, chars, speakers) {
     "use strict";
 
+    var FACE_WIDTH = 48, FACE_HEIGHT = 48;
+    var STATUS_WINDOW_WIDTH = 36, STATUS_WINDOW_HEIGHT = 44;
+
     function GuiRenderer(graphics) {
         this.graphics = graphics;
         this.lineHeight = 16;
@@ -23,29 +26,28 @@ define(["underscore", "constants", "chars", "display/speakers"], function(_, con
     GuiRenderer.prototype.drawTextLines = function(x, y, lines) {
         var self = this;
         this.graphics.setFillColor(constants.WINDOW_TEXT_COLOR);
-        _(lines).each(function(text, line) {
-            self.graphics.drawText(x + 2, y + 2 + line * self.lineHeight, text);
+        _(lines).each(function(text, i) {
+            self.graphics.drawText(x + 2, y + 2 + i * self.lineHeight, text);
         });
         return y + 2 + lines.length * self.lineHeight;
     };
 
     GuiRenderer.prototype.drawPortrait = function(x, y, name, withBorder) {
-        var speaker = speakers[name], image = speakers[name] && speakers[name].image, frame = speakers[name] && speakers[name].frame;
-        if (!speaker || !image || frame === undefined)
-            return;
+        var speaker = speakers[name] || {};
+        var speakerSrcRect, speakerDestRect;
+        if (speaker.image && speaker.frame !== undefined) {
+            speakerSrcRect = this.graphics.getRectForFrame(speaker.frame, speaker.image.width, FACE_WIDTH, FACE_HEIGHT);
+            speakerDestRect = { x: x, y: y, width: FACE_WIDTH, height: FACE_HEIGHT };
 
-        var faceWidth = 48, faceHeight = 48;
-        var speakerSrcRect = this.graphics.getRectForFrame(frame, image.width, faceWidth, faceHeight);
-        var speakerDestRect = { x: x, y: y, width: faceWidth, height: faceHeight };
-
-        if (withBorder) {
-            this.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
+            if (withBorder) {
+                this.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
+            }
+            this.graphics.drawImageRect(speaker.image, speakerSrcRect, speakerDestRect);
         }
-        this.graphics.drawImageRect(image, speakerSrcRect, speakerDestRect);
     };
 
     GuiRenderer.prototype.drawStatus = function(x, y, ally) {
-        this.drawTextWindow(x, y, 36, 44, [
+        this.drawTextWindow(x, y, STATUS_WINDOW_WIDTH, STATUS_WINDOW_HEIGHT, [
             _(ally).result("name").toUpperCase(),
             chars.HEART + (""+_(ally).result("hp")).rset(3),
             chars.STAR + (""+_(ally).result("mp")).rset(3)]
