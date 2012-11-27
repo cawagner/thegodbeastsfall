@@ -20,17 +20,16 @@ define(["json!archetypes.json", "image-loader", "constants"], function(archetype
                 archetype = archetypes[actor.archetype],
                 image = archetypeImages[archetype.imagePath];
 
-            if (archetype.isHidden)
-                return;
+            if (!archetype.isHidden) {
+                frameToDraw = actor.direction * 3 + walkFrames[Math.floor(frame)];
 
-            frameToDraw = actor.direction * 3 + walkFrames[Math.floor(frame)];
+                srcRect = graphics.getRectForFrame(frameToDraw + (archetype.startFrame || 0), image.width, 16, 18);
 
-            srcRect = graphics.getRectForFrame(frameToDraw + (archetype.startFrame || 0), image.width, 16, 18);
+                destRect.x = actor.x * constants.TILE_SIZE;
+                destRect.y = actor.y * constants.TILE_SIZE - 4;
 
-            destRect.x = actor.x * constants.TILE_SIZE;
-            destRect.y = actor.y * constants.TILE_SIZE - 4;
-
-            graphics.drawImageRect(image, srcRect, destRect);
+                graphics.drawImageRect(image, srcRect, destRect);
+            }
         };
     };
 
