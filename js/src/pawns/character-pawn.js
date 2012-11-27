@@ -13,6 +13,7 @@ define(["pawns/pawn-base"], function(PawnBase) {
 
     CharacterPawn.prototype.takeDamage = function(amount) {
         this.character.hp = Math.max(0, this.character.hp - amount);
+        this.restoreMp(1); // only players receive this bonus...
         if (this.character.hp === 0) {
             this.isDying = true;
         }
@@ -23,7 +24,11 @@ define(["pawns/pawn-base"], function(PawnBase) {
     };
 
     CharacterPawn.prototype.restoreHp = function(amount) {
-        this.character.hp = Math.min(this.character.maxHp, this.character.hp + amount);
+        this.character.hp = Math.min(this.maxHp(), this.character.hp + amount);
+    };
+
+    CharacterPawn.prototype.restoreMp = function(amount) {
+        this.character.mp = Math.min(this.maxMp(), this.character.mp + amount);
     };
 
     CharacterPawn.prototype.formatCost = function(skill) {

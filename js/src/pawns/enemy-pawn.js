@@ -58,6 +58,10 @@ define(["dice", "pawns/pawn-base", "json!enemies.json", "json!skills.json"], fun
         this.currentHp = Math.min(this.maxHp(), this.currentHp + amount);
     };
 
+    EnemyPawn.prototype.restoreMp = function(amount) {
+        this.currentMp = Math.min(this.maxMp(), this.currentMp + amount);
+    }
+
     EnemyPawn.prototype.xp = function() {
         return this.enemy.xp;
     };

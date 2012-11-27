@@ -47,12 +47,12 @@ define([
             playMusic("defeat");
 
             battleState.enqueueState(new BattleMessageState([
-                "It looks like you got your head handed to you.",
-                "How regrettable."
+                "It looks like you got your head handed to you...."
             ]));
 
             battleState.enqueueFunc(function() {
                 $.publish("/battle/end");
+                $.publish("/battle/lost");
             });
         }
 
