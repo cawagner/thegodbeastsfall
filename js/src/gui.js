@@ -1,4 +1,4 @@
-define(["underscore", "constants", "chars", "display/speakers"], function(_, constants, chars, speakers) {
+define(["underscore", "constants", "chars", "json!speakers.json", "image!assets/img/faces.png"], function(_, constants, chars, speakers, facesImage) {
     "use strict";
 
     var FACE_WIDTH = 48, FACE_HEIGHT = 48;
@@ -35,14 +35,14 @@ define(["underscore", "constants", "chars", "display/speakers"], function(_, con
     GuiRenderer.prototype.drawPortrait = function(x, y, name, withBorder) {
         var speaker = speakers[name] || {};
         var speakerSrcRect, speakerDestRect;
-        if (speaker.image && speaker.frame !== undefined) {
-            speakerSrcRect = this.graphics.getRectForFrame(speaker.frame, speaker.image.width, FACE_WIDTH, FACE_HEIGHT);
+        if (speaker.frame !== undefined) {
+            speakerSrcRect = this.graphics.getRectForFrame(speaker.frame, facesImage.width, FACE_WIDTH, FACE_HEIGHT);
             speakerDestRect = { x: x, y: y, width: FACE_WIDTH, height: FACE_HEIGHT };
 
             if (withBorder) {
                 this.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
             }
-            this.graphics.drawImageRect(speaker.image, speakerSrcRect, speakerDestRect);
+            this.graphics.drawImageRect(facesImage, speakerSrcRect, speakerDestRect);
         }
     };
 

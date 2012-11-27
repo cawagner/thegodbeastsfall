@@ -1,0 +1,22 @@
+{
+    "held": {
+        "name": "Held",
+        "frame": 0
+    },
+    "mirv": {
+        "name": "Mirv",
+        "frame": 4
+    },
+    "oldman": {
+        "name": "Old Fogy"
+    },
+    "littlegirl": {
+        "name": "Little Girl"
+    },
+    "earl": {
+        "name": "Man"
+    },
+    "oldwoman": {
+        "name": "Crone"
+    }
+}

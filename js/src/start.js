@@ -23,6 +23,7 @@
             enemies: '../../assets/data/enemies',
             items: '../../assets/data/items',
             archetypes: '../../assets/data/archetypes',
+            speakers: '../../assets/data/speakers',
             "skill-text-functions": "../../assets/code/skill-text-functions",
             "battle-messages": "../../assets/text/battle-messages"
         },

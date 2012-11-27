@@ -1,7 +1,7 @@
 define([
     "jquery",
     "gui",
-    "display/speakers",
+    "json!speakers.json",
     "states/noop-state"
 ], function(
     $,
