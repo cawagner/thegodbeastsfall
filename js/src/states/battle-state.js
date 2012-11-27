@@ -79,6 +79,10 @@ define([
                 pawn.dying = pawn.dying || 0;
                 pawn.dying += 0.5 + pawn.dying / 4;
             }
+            if (Math.random() < 0.025) {
+                pawn.wander.x = Math.floor(Math.random() * 2) - 2;
+                pawn.wander.y = Math.floor(Math.random() * 2) - 2;
+            }
             pushDown(pawn);
         });
     };
@@ -154,11 +158,6 @@ define([
             };
             pawn.x = dest.x;
             pawn.y = dest.y;
-
-            if (Math.random() < 0.05) {
-                pawn.wander.x = Math.random() * 2 - 2;
-                pawn.wander.y = Math.random() * 2 - 2;
-            }
 
             Game.instance.graphics.drawImageRect(pawn.image, pawn.rect, dest);
         }
