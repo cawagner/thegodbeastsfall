@@ -3,7 +3,8 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
 
     var d20 = Dice.parse("1d20"), d100 = Dice.parse("1d100");
 
-    var standardDamage = function(user, target, skill, dice) {
+    var standardDamage = function(user, target, skill) {
+        var dice = Dice.parse(skill.power);
         var fullDamage = user.attack() + dice.roll();
         var damage = Math.max(1, (fullDamage * (100-target.damageAbsorption())/100) - target.damageReduction());
         var hitChance = (skill.accuracy * user.accuracy() - target.evade());
@@ -24,7 +25,8 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         }
     };
 
-    var magicDamage = function(user, target, skill, dice) {
+    var magicDamage = function(user, target, skill) {
+        var dice = Dice.parse(skill.power);
         var damage = Math.ceil((user.force() / target.resist()) * dice.roll());
 
         // TODO: apply weakness / resistance, etc.
@@ -37,7 +39,8 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     }
 
-    var standardHeal = function(user, target, skill, dice) {
+    var standardHeal = function(user, target, skill) {
+        var dice = Dice.parse(skill.power);
         return {
             type: "heal",
             amount: Math.floor(user.support() / 2 + dice.roll()),
@@ -45,7 +48,8 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     };
 
-    var standardBuff = function(user, target, skill, dice) {
+    var standardBuff = function(user, target, skill) {
+        var dice = Dice.parse(skill.power);
         return {
             type: "buff",
             amount: Math.floor(user.support() / 2 + dice.roll()),
@@ -56,6 +60,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
     };
 
     var poison = function(user, target, skill, dice) {
+        var dice = Dice.parse(skill.power);
         return {
             type: "poison",
             target: target,
@@ -63,7 +68,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     };
 
-    var removeStatus = function(user, target, skill, dice) {
+    var removeStatus = function(user, target, skill) {
         return {
             type: "removeStatus",
             status: skill.status,
@@ -74,14 +79,13 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
     var standardSkillEffect = function(fn, fn2) {
         return function(skill, user, targets) {
             var skill = _.extend({}, Skills["default"], skill);
-            var dice = Dice.parse(skill.power);
 
             var results = _(targets).map(function(target) {
-                return fn(user, target, skill, dice);
+                return fn(user, target, skill);
             });
             if (fn2) {
                 _(targets).each(function(target) {
-                    results.push(fn2(user, target, skill, dice));
+                    results.push(fn2(user, target, skill));
                 });
             }
             return results;
