@@ -44,7 +44,7 @@ setupMap(function(map, gameState) {
             if (GameState.instance.inventory.addItem("potion", 1)) {
                 self.say(["I gave you a potion."]);
             } else {
-                self.say(["You've already got potions like Jagger."]);
+                self.say(["nvm / You've already got potions like Jagger."]);
             }
         });
     };

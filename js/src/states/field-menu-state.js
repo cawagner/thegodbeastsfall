@@ -62,7 +62,16 @@ define([
                             return { text: "x" + item.quantity + " " + item.item.name, itemId: item.id, item: item.item, quantity: item.quantity };
                         });
                         return new Menu({
-                            items: items
+                            items: items,
+                            select: function(index, item) {
+                                new Menu({
+                                    items: [
+                                        { text: "Use " + item.item.name, disabled: !item.item.isFieldUsable },
+                                        "Look",
+                                        "Drop"
+                                    ]
+                                }).open();
+                            }
                         });
                     },
                     disabled: function() {
