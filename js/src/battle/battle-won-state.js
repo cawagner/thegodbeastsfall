@@ -55,7 +55,7 @@ define([
                 });
 
                 Game.instance.pushState(new DialogueState(
-                    [{ text: growthText }],
+                    { text: growthText },
                     function() {
                         setTimeout(levelCharacters, 1);
                     }
