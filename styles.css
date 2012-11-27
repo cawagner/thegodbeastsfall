@@ -45,14 +45,14 @@ h1 { text-align: center; }
 
 .dpad {
     position: fixed;
-    bottom: 140px;
-    left: 20px;
+    bottom: 1.2in;
+    left: 0;
     display: none;
 }
 .dpad span {
     position: absolute;
-    width: 0.5in;
-    height: 0.5in;
+    width: 0.6in;
+    height: 0.6in;
     margin: 0;
     padding: 0;
     border: 1px solid gray;
@@ -60,24 +60,24 @@ h1 { text-align: center; }
     display: block;
 }
 .dpad .up {
-    top: -.5in;
-    left: .5in;
+    top: -.6in;
+    left: .6in;
 }
 .dpad .left {
     top:  0;
     left: 0;
 }
 .dpad .down {
-    top: .5in;
-    left: .5in;
+    top: .6in;
+    left: .6in;
 }
 .dpad .right {
     top:  0;
-    left: 1in;
+    left: 1.2in;
 }
 .buttons {
-    bottom: 60px;
-    right: 20px;
+    bottom: 0;
+    right: 0;
     position: fixed;
     display: none;
 }
