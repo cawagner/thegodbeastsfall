@@ -19,8 +19,6 @@ define([
 
         this.battleState = battleState;
 
-        this.skillMenu = null;
-
         this.gui = new GuiRenderer(Game.instance.graphics);
     };
 
@@ -127,27 +125,27 @@ define([
         })
     };
 
-    BattleMenuState.prototype.acquireTarget = function(member, targetType, setTarget) {
+    BattleMenuState.prototype.getTargetMenu = function(member, targetType, setTarget) {
         var confirmMultiTargetMenu = function(targetText, pawns) {
-            new Menu({
+            return new Menu({
                 items: [targetText],
                 select: function() {
                     this.close();
                     setTarget(pawns);
                 }
-            }).open();
+            });
         };
         if (targetType === "enemy" || targetType === "player") {
-            this.targetPawn(targetType).select(function(index, item) {
+            return this.targetPawn(targetType).select(function(index, item) {
                 this.close();
                 setTarget([item.target]);
-            }).open();
+            });
         } else if (targetType === "enemies") {
-            confirmMultiTargetMenu("All Enemies", this.battleState.enemyPawns);
+            return confirmMultiTargetMenu("All Enemies", this.battleState.enemyPawns);
         } else if (targetType === "players") {
-            confirmMultiTargetMenu("All Allies", this.battleState.playerPawns);
+            return confirmMultiTargetMenu("All Allies", this.battleState.playerPawns);
         } else if (targetType === "self") {
-            confirmMultiTargetMenu("Self", [member]);
+            return confirmMultiTargetMenu("Self", [member]);
         } else {
             throw "Unsupported target type " + targetType;
         }
@@ -164,7 +162,7 @@ define([
             var member = self.battleState.playerPawns[self.partyIndex];
 
             var skillMenuItems = _(member.character.skills[type]).map(function(skillName) {
-                var skill = skills[skillName] || { name: "<NULL>" + skillName };
+                var skill = skills[skillName];
                 return {
                     text: skill.name,
                     cost: member.formatCost(skill),
@@ -174,14 +172,14 @@ define([
                 };
             });
 
-            var skillMenu = new Menu({
+            return new Menu({
                 items: skillMenuItems,
                 rows: 2,
                 cols: 3,
                 draw: drawSkillInfo,
                 select: function(index, item) {
                     var skillMenu = this;
-                    self.acquireTarget(member, item.skill.target, function(targets) {
+                    self.getTargetMenu(member, item.skill.target, function(targets) {
                         console.log(targets);
                         skillMenu.close();
                         self.setAction("skill", {
@@ -189,13 +187,9 @@ define([
                             skillId: item.skillId,
                             targets: targets
                         });
-                    });
-                },
-                cancel: function() {
-                    self.skillMenu = null;
+                    }).open();
                 }
             });
-            return skillMenu;
         };
     };
 
