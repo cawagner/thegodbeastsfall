@@ -23,6 +23,8 @@ define(["dice", "pawns/pawn-base", "json!enemies.json", "json!skills.json"], fun
         this.currentHp = this.rolledHp;
         this.currentMp = proto.mp || 0;
 
+        this.wander = { x: 0, y: 0 };
+
         this.type = 'enemy';
     };
 

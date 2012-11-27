@@ -11,6 +11,9 @@ define(["underscore"], function(_) {
         this.buffs = {};
         this.statuses = [];
         this.scratch = {};
+        this.display = {
+            effects: []
+        };
     };
 
     _(PawnBase.prototype).extend({

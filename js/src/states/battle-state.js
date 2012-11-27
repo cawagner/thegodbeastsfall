@@ -27,21 +27,11 @@ define([
         this.gui = new GuiRenderer(Game.instance.graphics);
 
         this.playerPawns = _(gameState.party).map(function(character) {
-            var pawn = new pawns.CharacterPawn(character);
-            pawn.display = {
-                effects: []
-            };
-            return pawn;
+            return new pawns.CharacterPawn(character);
         });
 
-        this.enemyPawns = [];
-        _(enemies).each(function(enemy) {
-            var pawn = new pawns.EnemyPawn(enemy);
-            pawn.wander = { x: 0, y: 0 };
-            pawn.display = {
-                effects: []
-            };
-            self.enemyPawns.push(pawn);
+        this.enemyPawns = _(enemies).map(function(enemy) {
+            return new pawns.EnemyPawn(enemy);
         });
 
         this.rootState = new BattleCompositeState();
