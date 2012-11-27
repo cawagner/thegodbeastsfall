@@ -115,14 +115,26 @@ define([
     };
 
     BattleMenuState.prototype.getItemsMenu = function() {
-        var items = _(GameState.instance.inventory.getItems("battleUsable")).map(function(item) {
-            return { text: "x" + item.quantity + " " + item.item.name, item: item.item, itemId: item.itemId, quantity: item.quantity };
-        });
-        return new Menu({
-            rows: 2,
-            cols: 3,
-            items: items,
-        })
+        var self = this;
+
+        return function() {
+            var member = self.battleState.playerPawns[self.partyIndex];
+            var items = _(GameState.instance.inventory.getItems("battleUsable")).map(function(item) {
+                return { text: "x" + item.quantity + " " + item.item.name, item: item.item, itemId: item.itemId, quantity: item.quantity };
+            });
+            return new Menu({
+                rows: 2,
+                cols: 3,
+                items: items,
+                select: function(index, item) {
+                    var itemsMenu = this;
+                    self.getTargetMenu(member, item.item.target, function(targets) {
+                        console.log(targets);
+                        itemsMenu.close();
+                    }).open();
+                }
+            });
+        };
     };
 
     BattleMenuState.prototype.getTargetMenu = function(member, targetType, setTarget) {
@@ -154,13 +166,9 @@ define([
     // Sweet baby Jesus :(
     BattleMenuState.prototype.getSkillsMenuForType = function(type) {
         var self = this;
-        var drawSkillInfo = function(skill) {
-            self.drawSkillInfo(skill);
-        };
 
         return function() {
             var member = self.battleState.playerPawns[self.partyIndex];
-
             var skillMenuItems = _(member.character.skills[type]).map(function(skillName) {
                 var skill = skills[skillName];
                 return {
@@ -176,7 +184,7 @@ define([
                 items: skillMenuItems,
                 rows: 2,
                 cols: 3,
-                draw: drawSkillInfo,
+                draw: _(self.drawSkillInfo).bind(self),
                 select: function(index, item) {
                     var skillMenu = this;
                     self.getTargetMenu(member, item.skill.target, function(targets) {
