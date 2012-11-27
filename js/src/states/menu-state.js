@@ -1,4 +1,4 @@
-define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, GuiRenderer, chars, NoopState) {
+define(["jquery", "underscore", "gui", "chars", "states/noop-state", "pubsub"], function($, _, GuiRenderer, chars, NoopState) {
     "use strict";
 
     function MenuState(menu) {
@@ -45,7 +45,7 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
             //$.publish("/sound/play", ["cursor"]);
         }
         if (this.input.wasConfirmPressed()) {
-            if (!this.menu.items[this.selectionIndex].disabled) {
+            if (!_(this.menu.items[this.selectionIndex]).result("disabled")) {
                 this.menu.triggerSelect(this.selectionIndex, this.menu.items[this.selectionIndex]);
                 $.publish("/sound/play", ["confirm"]);
             }
@@ -59,7 +59,7 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
     };
 
     MenuState.prototype.draw = function(delta) {
-        var i, x, y, item, colWidth = this.menu.colWidth;
+        var i, x, y, item, colWidth = this.menu.colWidth, disabled;
 
         if (this.menu.options.captureDraw) {
             if (this.menu.options.draw) {
@@ -77,11 +77,12 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
             item = this.menu.items[i] instanceof String ? this.menu.items[i] : this.menu.items[i].text || this.menu.items[i].toString();
             x = i % this.menu.cols;
             y = Math.floor(i / this.menu.cols);
-            if (this.menu.items[i].disabled) {
+            disabled = _(this.menu.items[i]).result("disabled");
+            if (disabled) {
                 this.graphics.setAlpha(0.5);
             }
             this.graphics.drawText(this.menu.x + x * colWidth + 12, 4 + this.menu.y + y * this.gui.lineHeight, item);
-            if (this.menu.items[i].disabled) {
+            if (disabled) {
                 this.graphics.setAlpha(1);
             }
         }

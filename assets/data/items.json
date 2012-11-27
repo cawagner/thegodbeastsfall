@@ -4,7 +4,16 @@
         "target": "player",
         "effect": "heal/normal",
         "power": "4+3d4",
-        "usable": true
+        "fieldUsable": true,
+        "battleUsable": true
+    },
+    "soma": {
+        "name": "Soma",
+        "target": "player",
+        "effect": "heal/mp",
+        "power": "10",
+        "fieldUsable": true,
+        "battleUsable": true
     },
     "drachma": {
         "name": "Drachma",

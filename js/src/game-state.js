@@ -1,8 +1,9 @@
 define([
     "map-loader",
     "character",
+    "inventory",
     "json!campaign.json"
-], function(mapLoader, Character, campaign) {
+], function(mapLoader, Character, Inventory, campaign) {
     "use strict";
 
     if (GameState.instance) {
@@ -25,11 +26,7 @@ define([
 
             this.flags = {};
 
-            this.inventory = {
-                hasBattleUsableItems: function() {
-                    return false;
-                }
-            };
+            this.inventory = new Inventory();
 
             mapLoader.goToMap(campaign.startMap);
         };

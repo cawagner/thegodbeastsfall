@@ -37,7 +37,18 @@ setupMap(function(map, gameState) {
     map.npcs.earl.addBeforeTalk(learnAboutMirv);
 
     map.npcs.earl2.onTalk = function() {
-        $.publish("/battle/start", [["zombie", "zombie", "zombie"]]);
+        var self = this;
+        this.say([
+            "No need to thank me. Just take this."
+        ]).done(function() {
+            if (GameState.instance.inventory.addItem("potion", 1)) {
+                setTimeout(function() {
+                    self.say(["I gave you a potion."]);
+                }, 500);
+            } else {
+                self.say(["You've already got potions like Jagger."]);
+            }
+        });
     };
 
     map.npcs.barrel1.onTalk = function() {

@@ -55,7 +55,20 @@ define([
                         });
                     }
                 },
-                "Items",
+                {
+                    text: "Items",
+                    childMenu: function() {
+                        var items = _(gameState.inventory.getItems()).map(function(item) {
+                            return { text: "x" + item.quantity + " " + item.item.name, itemId: item.id, item: item.item, quantity: item.quantity };
+                        });
+                        return new Menu({
+                            items: items
+                        });
+                    },
+                    disabled: function() {
+                        return gameState.inventory.getItems().length === 0;
+                    }
+                },
                 {
                     text: "System",
                     childMenu: new Menu({
