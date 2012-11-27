@@ -76,18 +76,17 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     };
 
-    var standardSkillEffect = function(fn, fn2) {
+    var standardSkillEffect = function() {
+        var fns = arguments;
         return function(skill, user, targets) {
             var skill = _.extend({}, Skills["default"], skill);
 
-            var results = _(targets).map(function(target) {
-                return fn(user, target, skill);
-            });
-            if (fn2) {
+            var results = [];
+            _(fns).each(function(fn) {
                 _(targets).each(function(target) {
-                    results.push(fn2(user, target, skill));
+                    results.push(fn(user, target, skill));
                 });
-            }
+            });
             return results;
         };
     };

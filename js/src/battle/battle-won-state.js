@@ -47,11 +47,11 @@ define([
                 growthText.push("Maximum HP went up by " + gains.hpGain + "!");
                 growthText.push("Maximum MP went up by " + gains.mpGain + "!");
 
-                _(gains.learnedSkills.Fight).each(function(id) {
-                    growthText.push('Learned the technique "' + skills[id].name + '"!');
+                _(gains.learnedSkills.Fight).each(function(learnedSkill) {
+                    growthText.push('Learned the technique "' + skills[learnedSkill.skill].name + '"!');
                 });
-                _(gains.learnedSkills.Magic).each(function(id) {
-                    growthText.push('Learned the spell "' + skills[id].name + '"!');
+                _(gains.learnedSkills.Magic).each(function(learnedSkill) {
+                    growthText.push('Learned the spell "' + skills[learnedSkill.skill].name + '"!');
                 });
 
                 Game.instance.pushState(new DialogueState(

@@ -43,18 +43,33 @@ define(["underscore", "dice"], function(_, Dice) {
         var skillsToLearn = { Fight: [], Magic: [] };
         _(this.learnSet).each(function(skillsOfType, skillType) {
             _(skillsOfType).each(function(statRequirements, skill) {
-                var stat, willLearn = true;
+                var stat, willLearn = true, replace = statRequirements["@replace"];
                 if (!_(character.skills[skillType]).contains(skill)) {
                     for (stat in statRequirements) {
-                        willLearn = willLearn && character[stat] >= statRequirements[stat];
+                        if (stat.charAt(0) !== "@") {
+                            willLearn = willLearn && character[stat] >= statRequirements[stat];
+                        }
                     }
                     if (willLearn) {
-                        skillsToLearn[skillType].push(skill);
+                        skillsToLearn[skillType].push({ skill: skill, replace: replace });
                     }
                 }
             });
         });
         return skillsToLearn;
+    };
+
+    Character.prototype.learnSkills = function(type, skillsToLearn) {
+        var self = this;
+        _(skillsToLearn).each(function(learnedSkill) {
+            var skillToReplace;
+            if (learnedSkill.replace) {
+                skillToReplace = self.skills[type].indexOf(learnedSkill.replace);
+                self.skills[type][skillToReplace] = learnedSkill.skill;
+            } else {
+                self.skills[type].push(learnedSkill.skill);
+            }
+        });
     };
 
     Character.prototype.gainLevel = function(statToBoost) {
@@ -85,8 +100,8 @@ define(["underscore", "dice"], function(_, Dice) {
         learnedSkills = this.skillsToLearn();
 
         // HACK: too much hardcoded "Fight" and "Magic" in these parts...
-        this.skills.Fight = this.skills.Fight.concat(learnedSkills.Fight);
-        this.skills.Magic = this.skills.Magic.concat(learnedSkills.Magic);
+        this.learnSkills("Fight", learnedSkills.Fight);
+        this.learnSkills("Magic", learnedSkills.Magic);
 
         return {
             hpGain: hpGain,
