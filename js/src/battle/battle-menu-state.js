@@ -47,9 +47,9 @@ define([
             x: 15,
             y: 190,
             items: [
-                { text: "Fight", childMenu: self.skillsOfType("Fight") },
-                { text: "Magic", childMenu: self.skillsOfType("Magic") },
-                { text: "Item", childMenu: new Menu(), disabled: !GameState.instance.inventory.hasBattleUsableItems() },
+                { text: "Fight", childMenu: self.getSkillsMenuForType("Fight") },
+                { text: "Magic", childMenu: self.getSkillsMenuForType("Magic") },
+                { text: "Item", childMenu: self.getItemsMenu(), disabled: !GameState.instance.inventory.getItems("battleUsable").length },
                 {
                     text: "Tactic",
                     childMenu: new Menu({
@@ -115,8 +115,19 @@ define([
         });
     };
 
+    BattleMenuState.prototype.getItemsMenu = function() {
+        var items = _(GameState.instance.inventory.getItems("battleUsable")).map(function(item) {
+            return { text: "x" + item.quantity + " " + item.item.name, item: item.item, itemId: item.itemId, quantity: item.quantity };
+        });
+        return new Menu({
+            rows: 2,
+            cols: 3,
+            items: items
+        })
+    };
+
     // Sweet baby Jesus :(
-    BattleMenuState.prototype.skillsOfType = function(type) {
+    BattleMenuState.prototype.getSkillsMenuForType = function(type) {
         var self = this;
         var drawSkillInfo = function(skill) {
             self.drawSkillInfo(skill);

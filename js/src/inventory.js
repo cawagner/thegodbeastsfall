@@ -42,13 +42,13 @@ define(["underscore", "json!items.json"], function(_, items) {
 
     Inventory.prototype.getItems = function(flag) {
         var self = this;
-        return _(Object.keys(this.items)).map(function(key) {
-            return { itemId: key, item: self.items[key].item, quantity: self.items[key].quantity };
+        var result = [];
+        _(Object.keys(this.items)).each(function(key) {
+            if ((!flag) || self.items[key].item[flag]) {
+                result.push({ itemId: key, item: self.items[key].item, quantity: self.items[key].quantity });
+            }
         });
-    };
-
-    Inventory.prototype.hasBattleUsableItems = function() {
-        return false;
+        return result;
     };
 
     return Inventory;
