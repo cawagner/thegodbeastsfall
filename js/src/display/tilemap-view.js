@@ -5,8 +5,8 @@ define(["constants"], function(constants) {
     var TILE_SIZE = constants.TILE_SIZE;
 
     var TilemapView = function(tilemap, tilesets, graphics) {
-        var screenWidthInTiles = graphics.width() / TILE_SIZE;
-        var screenHeightInTiles = graphics.height() / TILE_SIZE;
+        var screenWidthInTiles = graphics.width / TILE_SIZE;
+        var screenHeightInTiles = graphics.height / TILE_SIZE;
 
         // TODO: support multiple tilesets!
         var ts = tilesets[0];
@@ -14,8 +14,8 @@ define(["constants"], function(constants) {
         var srcRect = { x: 0, y: 0, width: ts.tileWidth, height: ts.tileHeight };
         var destRect = { x : 0, y: 0, width: TILE_SIZE, height: TILE_SIZE };
 
-        var maxScrollX = tilemap.width() * TILE_SIZE - graphics.width();
-        var maxScrollY = tilemap.height() * TILE_SIZE - graphics.height();
+        var maxScrollX = tilemap.width * TILE_SIZE - graphics.width;
+        var maxScrollY = tilemap.height * TILE_SIZE - graphics.height;
 
         var drawTile = function(x, y, tile) {
             tile -= 1;
@@ -41,7 +41,7 @@ define(["constants"], function(constants) {
 
             graphics.setOrigin(-scrollX, -scrollY);
 
-            _(tilemap.layers()).times(function(z) {
+            _(tilemap.layers).times(function(z) {
                 _.each2d(screenWidthInTiles + 1, screenHeightInTiles + 1, function(ix, iy) {
                     var x = originTileX + ix,
                         y = originTileY + iy,
@@ -55,8 +55,8 @@ define(["constants"], function(constants) {
         };
 
         this.focusOn = function(x, y) {
-            var scrollX = x * TILE_SIZE - graphics.width() / 2;
-            var scrollY = y * TILE_SIZE - graphics.height() / 2;
+            var scrollX = x * TILE_SIZE - graphics.width / 2;
+            var scrollY = y * TILE_SIZE - graphics.height / 2;
             this.scrollX = _(scrollX).boundWithin(0, maxScrollX);
             this.scrollY = _(scrollY).boundWithin(0, maxScrollY);
         };

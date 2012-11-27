@@ -61,7 +61,7 @@ define([
 
         this.previousState.draw(delta);
 
-        this.gui.drawWindowRect(20, top, this.graphics.width() - 40, 3*this.gui.lineHeight);
+        this.gui.drawWindowRect(20, top, this.graphics.width - 40, 3*this.gui.lineHeight);
 
         statTop = this.gui.drawTextLines(20, top, [
             this.character.name,
@@ -92,7 +92,7 @@ define([
         xpTop -= 4 * this.gui.lineHeight
 
         if (this.character.level < 100) {
-            this.gui.drawWindowRect(20, xpTop, this.graphics.width() / 2 - 45, 2 * this.gui.lineHeight);
+            this.gui.drawWindowRect(20, xpTop, this.graphics.width / 2 - 45, 2 * this.gui.lineHeight);
             this.gui.drawTextLines(20, xpTop, [
                 "XP to advance:",
                 ("" + (this.character.xp + "/" + this.character.xpNext)).rset(14)

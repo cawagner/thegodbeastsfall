@@ -4,7 +4,7 @@ define(["underscore"], function(_) {
     function Map(tilemap, mask, data) {
         // TODO: don't duplicate...
         var indexFor = function(x, y) {
-            return x + y * tilemap.width();
+            return x + y * tilemap.width;
         };
 
         var self = this;
@@ -54,11 +54,11 @@ define(["underscore"], function(_) {
     }
 
     Map.prototype.width = function() {
-        return this.tilemap.width();
+        return this.tilemap.width;
     };
 
     Map.prototype.height = function() {
-        return this.tilemap.height();
+        return this.tilemap.height;
     };
 
     function Tilemap(width, height, layers) {
@@ -93,13 +93,12 @@ define(["underscore"], function(_) {
             }, this);
         };
 
-        this.width = function() { return width; };
-        this.height = function() { return height; };
-        this.layers = function() { return layers; };
+        this.width = width;
+        this.height = height;
+        this.layers = layers || 1;
 
-        layers = layers || 1;
         tiles = [];
-        _(layers).times(function() {
+        _(this.layers).times(function() {
             tiles.push(new Array(width * height));
         });
     }

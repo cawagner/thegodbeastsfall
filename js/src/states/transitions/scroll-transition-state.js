@@ -3,7 +3,7 @@ define([], function() {
 
     function ScrollTransitionState(toState, options) {
         var graphics = Game.instance.graphics;
-        var maxOffset = graphics.height();
+        var maxOffset = graphics.height;
 
         // TODO: constructor has side effects! bad, bad!
 
@@ -27,7 +27,7 @@ define([], function() {
                 graphics.setOrigin();
                 self.fromState.draw(delta);
             });
-            graphics.withOriginOffset(0, -this.offset + graphics.height(), function() {
+            graphics.withOriginOffset(0, -this.offset + graphics.height, function() {
                 graphics.setOrigin();
                 self.toState.draw(delta);
             });

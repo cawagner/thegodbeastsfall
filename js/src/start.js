@@ -28,7 +28,7 @@
         urlArgs: "bust=" + Date.now()
     });
 
-    require(["main"], function(main) {
+    require(["main", "underscore", "underscore-mixins"], function(main) {
         main.init();
     });
 })();

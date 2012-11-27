@@ -15,6 +15,9 @@ define(["display/fonts"], function(fonts) {
 
         context = offScreenCanvas.getContext('2d');
 
+        this.width = width;
+        this.height = height;
+
         this.setOrigin = function(x, y) {
             context.setTransform(1, 0, 0, 1, 0, 0);
             context.translate(originOffset.x + (x | 0), originOffset.y + (y | 0));
@@ -75,9 +78,6 @@ define(["display/fonts"], function(fonts) {
         this.drawText = function(x, y, text) {
             font.drawText(this, x | 0, (y | 0) - 6, text);
         };
-
-        this.width = function() { return width; };
-        this.height = function() { return height; };
 
         this.setScale = function(newScale) {
             scale = newScale;
