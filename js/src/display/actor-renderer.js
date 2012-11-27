@@ -1,5 +1,12 @@
-define(["display/archetypes", "constants"], function(archetypes, constants) {
+define(["json!archetypes.json", "image-loader", "constants"], function(archetypes, imageLoader, constants) {
     "use strict";
+
+    // TODO: doesn't really live here...
+    _(archetypes).each(function(archetype, key) {
+        if (archetype.imagePath !== undefined) {
+            archetype.image = imageLoader.loadImageSync(archetype.imagePath);
+        }
+    });
 
     var ActorRenderer = function(graphics) {
         var walkFrames = [1,0,1,2];

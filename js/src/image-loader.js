@@ -10,6 +10,11 @@ define(['jquery'], function($) {
             };
             image.src = path;
             return d.promise();
+        },
+        loadImageSync: function(path) {
+            var image = new Image();
+            image.src = path;
+            return image;
         }
     };
 });
