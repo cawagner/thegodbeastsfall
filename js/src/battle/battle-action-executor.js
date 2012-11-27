@@ -60,6 +60,10 @@ define([
             state.enqueueFunc(function() {
                 var effects = action.skillEffect(action.skill, action.user, action.targets);
 
+                if (action.user.type !== 'player') {
+                    state.enqueueFunc(battleState.displayAttack(action.user));
+                }
+
                 battleEffectExecutor.msg(textProvider.getSkillText(action, effects));
 
                 _(effects).each(function(effect) {

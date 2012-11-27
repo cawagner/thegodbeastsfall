@@ -19,6 +19,8 @@ define([
 ) {
     "use strict";
 
+    var PI_180 = Math.PI / 180;
+
     function BattleState(enemies) {
         var self = this;
 
@@ -32,6 +34,9 @@ define([
         _(enemies).each(function(enemy) {
             var pawn = new pawns.EnemyPawn(enemy);
             pawn.wander = { x: 0, y: 0 };
+            pawn.display = {
+                effects: []
+            };
             self.enemyPawns.push(pawn);
         });
 
@@ -128,6 +133,19 @@ define([
         };
     };
 
+    BattleState.prototype.displayAttack = function(pawn, effect) {
+        console.log("YES");
+        return function() {
+            var wave = 0;
+            pawn.display.effects.push(function(dest) {
+                wave += Math.PI / 10;
+                dest.x += Math.sin(wave) * 8;
+                dest.y += Math.abs(Math.sin(wave)) * 2;
+                return wave >= 2*Math.PI;
+            });
+        };
+    };
+
     BattleState.prototype.draw = function() {
         Game.instance.graphics.setFillColorRGB(0, 0, 0);
         Game.instance.graphics.drawFilledRect(0, 0, 320, 240);
@@ -141,7 +159,7 @@ define([
 
     BattleState.prototype.drawEnemies = function() {
         var MAX_ENEMIES = 3;
-        var i, pawn, dest, margin = 160 - (this.enemyPawns.length-1)*50;
+        var i, j, pawn, dest, margin = 160 - (this.enemyPawns.length-1)*50;
 
         for (i = 0; i < this.enemyPawns.length; ++i) {
             pawn = this.enemyPawns[i];
@@ -156,6 +174,15 @@ define([
                 width: pawn.rect.width - 2*(pawn.dying || 0),
                 height: pawn.rect.height
             };
+
+            // TODO: move effects out!
+            for (j = 0; j < pawn.display.effects.length; ++j) {
+                if (pawn.display.effects[j](dest)) {
+                    pawn.display.effects.splice(j, 1);
+                    continue;
+                }
+            }
+
             pawn.x = dest.x;
             pawn.y = dest.y;
 
