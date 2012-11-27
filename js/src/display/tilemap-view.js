@@ -3,52 +3,78 @@ define(["constants"], function(constants) {
     "use strict";
 
     var TILE_SIZE = constants.TILE_SIZE;
-    var SCREEN_WIDTH_IN_TILES = constants.GAME_WIDTH / TILE_SIZE;
-    var SCREEN_HEIGHT_IN_TILES = constants.GAME_HEIGHT / TILE_SIZE;
+
+    var damnedBigCanvas = document.createElement("canvas");
+    var context = damnedBigCanvas.getContext("2d");
+
+    var fullSourceRect = {
+        x: 0,
+        y: 0,
+        width: constants.GAME_WIDTH,
+        height: constants.GAME_HEIGHT
+    };
+
+    var fullDestRect = {
+        x: 0,
+        y: 0,
+        width: constants.GAME_WIDTH,
+        height: constants.GAME_HEIGHT
+    };
 
     var TilemapView = function(tilemap, tilesets, graphics) {
         // TODO: support multiple tilesets!
         var ts = tilesets[0];
 
-        var srcRect = { x: 0, y: 0, width: ts.tileWidth, height: ts.tileHeight };
-        var destRect = { x : 0, y: 0, width: TILE_SIZE, height: TILE_SIZE };
+        var srcRect = {
+            x: 0,
+            y: 0,
+            width: ts.tileWidth,
+            height: ts.tileHeight
+        };
+        var destRect = {
+            x : 0,
+            y: 0,
+            width: TILE_SIZE,
+            height: TILE_SIZE
+        };
 
         var maxScrollX = tilemap.width * TILE_SIZE - graphics.width;
         var maxScrollY = tilemap.height * TILE_SIZE - graphics.height;
 
+        damnedBigCanvas.width = tilemap.width * TILE_SIZE;
+        damnedBigCanvas.height = tilemap.height * TILE_SIZE;
+
         var drawTile = function(x, y, tile) {
             tile -= 1;
-            var tx = tile % ts.width;
-            var ty = Math.floor(tile / ts.width);
-            srcRect.x = tx * TILE_SIZE;
-            srcRect.y = ty * TILE_SIZE;
-
-            destRect.x = x * TILE_SIZE;
-            destRect.y = y * TILE_SIZE;
-
-            graphics.drawImageRect(tilesets[0].image, srcRect, destRect);
         };
+
+        _(tilemap.layers).times(function(z) {
+            _.each2d(tilemap.width, tilemap.height, function(x, y) {
+                var tile = tilemap.getAt(x, y, z);
+                var tx, ty;
+                if (tile) {
+                    tile -= 1;
+                    tx = tile % ts.width;
+                    ty = Math.floor(tile / ts.width);
+                    context.drawImage(tilesets[0].image,
+                        tx * TILE_SIZE, ty * TILE_SIZE,
+                        TILE_SIZE, TILE_SIZE,
+                        x * TILE_SIZE, y * TILE_SIZE,
+                        TILE_SIZE, TILE_SIZE
+                    );
+                }
+            }, this);
+        });
 
         this.scrollX = 0;
         this.scrollY = 0;
 
         this.draw = function() {
-            var originTileX = (this.scrollX / TILE_SIZE) | 0,
-                originTileY = (this.scrollY / TILE_SIZE) | 0;
-
+            graphics.setOrigin(0, 0);
+            fullSourceRect.x = this.scrollX;
+            fullSourceRect.y = this.scrollY;
+            graphics.drawImageRect(damnedBigCanvas, fullSourceRect, fullDestRect);
             graphics.setOrigin(-this.scrollX, -this.scrollY);
-
-            _(tilemap.layers).times(function(z) {
-                _.each2d(SCREEN_WIDTH_IN_TILES + 1, SCREEN_HEIGHT_IN_TILES + 1, function(ix, iy) {
-                    var x = originTileX + ix,
-                        y = originTileY + iy,
-                        tile = tilemap.getAt(x, y, z);
-
-                    if (tile) {
-                        drawTile(x, y, tile);
-                    }
-                }, this);
-            });
         };
 
         this.focusOn = function(x, y) {

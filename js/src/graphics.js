@@ -61,6 +61,10 @@ define(["display/fonts"], function(fonts) {
             context.fillRect(x, y, width, height);
         };
 
+        this.drawImage = function(image, x, y) {
+            context.drawImage(image, x, y);
+        }
+
         this.drawImageRect = function(image, sourceRect, destRect) {
             context.drawImage(image,
                     sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height,
