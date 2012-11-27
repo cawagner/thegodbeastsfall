@@ -27,7 +27,11 @@ define([
         this.gui = new GuiRenderer(Game.instance.graphics);
 
         this.playerPawns = _(gameState.party).map(function(character) {
-            return new pawns.CharacterPawn(character);
+            var pawn = new pawns.CharacterPawn(character);
+            pawn.display = {
+                effects: []
+            };
+            return pawn;
         });
 
         this.enemyPawns = [];
@@ -60,25 +64,11 @@ define([
     BattleState.prototype.update = function() {
         this.rootState.update();
 
-        // TODO: This is really, really lame...
-        var pushDown = function(pawn) {
-            if (pawn.pushDown > 0) {
-                pawn.pushDown += pawn.pushingDown;
-                pawn.pushingDown -= 0.5;
-                if (pawn.pushDown < 0) {
-                    pawn.pushDown = 0;
-                }
-            }
-            if (pawn.pushUp > 0) {
-                pawn.pushUp += pawn.pushingUp;
-                pawn.pushingUp -= 0.5;
-                if (pawn.pushUp < 0) {
-                    pawn.pushUp = 0;
-                }
-            }
-        };
-
-        _(this.playerPawns).each(pushDown);
+        _(this.playerPawns).each(function(pawn) {
+            pawn.display.effects = _(pawn.display.effects).filter(function(effect) {
+                return !effect.update();
+            });
+        });
         _(this.enemyPawns).each(function(pawn) {
             if (pawn.isHidden) {
                 pawn.dying = pawn.dying || 0;
@@ -91,7 +81,6 @@ define([
             pawn.display.effects = _(pawn.display.effects).filter(function(effect) {
                 return !effect.update();
             });
-            pushDown(pawn);
         });
     };
 
@@ -109,10 +98,18 @@ define([
 
         return {
             start: function() {
-                if (amount < 0) {
-                    pawn.pushingDown = 4;
-                    pawn.pushDown = 1;
-                }
+                var pushingDown = 4;
+                var pushDown = 1;
+                pawn.display.effects.push({
+                    update: function() {
+                        pushDown += pushingDown;
+                        pushingDown -= 0.5;
+                        return pushDown <= 0;
+                    },
+                    transform: function(dest) {
+                        dest.y += pushDown;
+                    }
+                });
             },
             update: function() {
                 y = Math.min(pawn.y - 20, y + ym);
@@ -130,10 +127,19 @@ define([
     };
 
     BattleState.prototype.displayMiss = function(pawn) {
-        var pawn;
         return function() {
-            pawn.pushingUp = 4;
-            pawn.pushUp = 1;
+            var pushUp = 1;
+            var pushingUp = 4;
+            pawn.display.effects.push({
+                update: function() {
+                    pushUp += pushingUp;
+                    pushingUp -= 0.5;
+                    return pushUp <= 0;
+                },
+                transform: function(dest) {
+                    dest.y -= pushUp;
+                }
+            });
         };
     };
 
@@ -177,7 +183,7 @@ define([
             }
             dest = {
                 x: i * 100 + margin - pawn.rect.width / 2 + (pawn.dying || pawn.wander.x),
-                y: 160 - pawn.rect.height + pawn.wander.y + (pawn.pushDown || 0) - (pawn.pushUp || 0),
+                y: 160 - pawn.rect.height + pawn.wander.y,
                 width: pawn.rect.width - 2*(pawn.dying || 0),
                 height: pawn.rect.height
             };
@@ -200,6 +206,12 @@ define([
             var pawn = this.playerPawns[i];
             pawn.x = 200 + i * 60 + 18;
             pawn.y = 190 + Math.floor(pawn.pushDown || 0);
+
+            _(pawn.display.effects).each(function(effect) {
+                // careful here...
+                effect.transform(pawn);
+            });
+
             this.gui.drawStatus(pawn.x - 18, pawn.y - 5, pawn);
         }
     }
