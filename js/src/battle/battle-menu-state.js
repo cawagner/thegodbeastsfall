@@ -61,10 +61,11 @@ define([
                         rows: 1,
                         cols: 3,
                         x: 10,
-                        y: 200
-                    }).select(function(index, item) {
-                        this.close();
-                        self.setAction(item.action, { priorityBoost: item.priorityBoost })
+                        y: 200,
+                        select: function(index, item) {
+                            this.close();
+                            self.setAction(item.action, { priorityBoost: item.priorityBoost })
+                        }
                     })
                 }
             ],
@@ -122,7 +123,7 @@ define([
         return new Menu({
             rows: 2,
             cols: 3,
-            items: items
+            items: items,
         })
     };
 
@@ -149,47 +150,50 @@ define([
                 items: skillMenuItems,
                 rows: 2,
                 cols: 3,
-                draw: drawSkillInfo
-            }).select(function(index, item) {
-                var skillMenu = this;
-                var skill = item.skill;
-                var skillId = item.skillId;
-                var confirmMultiTargetMenu = function(skill, skillId, targetText, pawns) {
-                    new Menu({
-                        items: [targetText]
-                    }).select(function() {
-                        this.close();
-                        skillMenu.close();
-                        self.setAction("skill", {
-                            skill: skill,
-                            skillId: skillId,
-                            targets: pawns
-                        });
-                    }).open();
-                };
-                if (skill.target === "enemy" || skill.target === "player") {
-                    self.targetPawn(skill.target).open().select(function(index, item) {
-                        this.close();
-                        skillMenu.close();
-                        self.setAction("skill", {
-                            skill: skill,
-                            skillId: skillId,
-                            targets: [item.target]
-                        });
-                    });
-                }
-                if (skill.target === "enemies") {
-                    confirmMultiTargetMenu(skill, skillId, "All Enemies", self.battleState.enemyPawns);
-                }
-                if (skill.target === "players") {
-                    confirmMultiTargetMenu(skill, skillId, "All Allies", self.battleState.playerPawns);
-                }
-                if (skill.target === "self") {
-                    confirmMultiTargetMenu(skill, skillId, "Self", [member]);
-                }
+                draw: drawSkillInfo,
+                select: function(index, item) {
+                    var skillMenu = this;
+                    var skill = item.skill;
+                    var skillId = item.skillId;
+                    var confirmMultiTargetMenu = function(skill, skillId, targetText, pawns) {
+                        new Menu({
+                            items: [targetText],
+                            select: function() {
+                                this.close();
+                                skillMenu.close();
+                                self.setAction("skill", {
+                                    skill: skill,
+                                    skillId: skillId,
+                                    targets: pawns
+                                });
+                            }
+                        }).open();
+                    };
+                    if (skill.target === "enemy" || skill.target === "player") {
+                        self.targetPawn(skill.target).select(function(index, item) {
+                            this.close();
+                            skillMenu.close();
+                            self.setAction("skill", {
+                                skill: skill,
+                                skillId: skillId,
+                                targets: [item.target]
+                            });
+                        }).open();
+                    }
+                    if (skill.target === "enemies") {
+                        confirmMultiTargetMenu(skill, skillId, "All Enemies", self.battleState.enemyPawns);
+                    }
+                    if (skill.target === "players") {
+                        confirmMultiTargetMenu(skill, skillId, "All Allies", self.battleState.playerPawns);
+                    }
+                    if (skill.target === "self") {
+                        confirmMultiTargetMenu(skill, skillId, "Self", [member]);
+                    }
                 // TODO: handle party multi-targeting/self-targeting!
-            }).cancel(function() {
-                self.skillMenu = null;
+                },
+                cancel: function() {
+                    self.skillMenu = null;
+                }
             });
             return skillMenu;
         };
