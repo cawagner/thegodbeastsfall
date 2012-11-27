@@ -115,6 +115,7 @@ define([
         });
     };
 
+    // Sweet baby Jesus :(
     BattleMenuState.prototype.skillsOfType = function(type) {
         var self = this;
         var drawSkillInfo = function(skill) {
@@ -155,7 +156,6 @@ define([
                         });
                     }).open();
                 };
-                // Sweet baby Jesus :(
                 if (skill.target === "enemy" || skill.target === "player") {
                     self.targetPawn(skill.target).open().select(function(index, item) {
                         this.close();
