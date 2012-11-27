@@ -6,7 +6,8 @@ define([
     "battle/battle-message-state",
     "battle/battle-menu-state",
     "battle/battle-decision-state",
-    "battle/battle-composite-state"
+    "battle/battle-composite-state",
+    "battle/battle-animations"
 ], function(
     _,
     gameState,
@@ -15,55 +16,10 @@ define([
     BattleMessageState,
     BattleMenuState,
     BattleDecisionState,
-    BattleCompositeState
+    BattleCompositeState,
+    battleAnimations
 ) {
     "use strict";
-
-    var PI_180 = Math.PI / 180;
-
-    var battleAnimations = {
-        pushDown: function() {
-            var pushingDown = 4;
-            var pushDown = 1;
-            return {
-                update: function() {
-                    pushDown += pushingDown;
-                    pushingDown -= 0.5;
-                    return pushDown <= 0;
-                },
-                transform: function(dest) {
-                    dest.y += pushDown;
-                }
-            };
-        },
-        pushUp: function(pawn) {
-            var pushUp = 1;
-            var pushingUp = 4;
-            return {
-                update: function() {
-                    pushUp += pushingUp;
-                    pushingUp -= 0.5;
-                    return pushUp <= 0;
-                },
-                transform: function(dest) {
-                    dest.y -= pushUp;
-                }
-            };
-        },
-        wiggleAttack: function(pawn) {
-            var wave = 0;
-            return {
-                transform: function(dest) {
-                    dest.x += Math.sin(wave) * 8;
-                    dest.y += Math.abs(Math.sin(wave)) * 2;
-                },
-                update: function() {
-                    wave += Math.PI / 10;
-                    return wave >= 2*Math.PI;
-                }
-            };
-        }
-    };
 
     function BattleState(enemies) {
         var self = this;
