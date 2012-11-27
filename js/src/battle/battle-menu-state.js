@@ -127,6 +127,32 @@ define([
         })
     };
 
+    BattleMenuState.prototype.acquireTarget = function(member, targetType, setTarget) {
+        var confirmMultiTargetMenu = function(targetText, pawns) {
+            new Menu({
+                items: [targetText],
+                select: function() {
+                    this.close();
+                    setTarget(pawns);
+                }
+            }).open();
+        };
+        if (targetType === "enemy" || targetType === "player") {
+            this.targetPawn(targetType).select(function(index, item) {
+                this.close();
+                setTarget([item.target]);
+            }).open();
+        } else if (targetType === "enemies") {
+            confirmMultiTargetMenu("All Enemies", this.battleState.enemyPawns);
+        } else if (targetType === "players") {
+            confirmMultiTargetMenu("All Allies", this.battleState.playerPawns);
+        } else if (targetType === "self") {
+            confirmMultiTargetMenu("Self", [member]);
+        } else {
+            throw "Unsupported target type " + targetType;
+        }
+    };
+
     // Sweet baby Jesus :(
     BattleMenuState.prototype.getSkillsMenuForType = function(type) {
         var self = this;
@@ -136,6 +162,7 @@ define([
 
         return function() {
             var member = self.battleState.playerPawns[self.partyIndex];
+
             var skillMenuItems = _(member.character.skills[type]).map(function(skillName) {
                 var skill = skills[skillName] || { name: "<NULL>" + skillName };
                 return {
@@ -146,6 +173,7 @@ define([
                     disabled: !member.canUseSkill(skill)
                 };
             });
+
             var skillMenu = new Menu({
                 items: skillMenuItems,
                 rows: 2,
@@ -153,43 +181,15 @@ define([
                 draw: drawSkillInfo,
                 select: function(index, item) {
                     var skillMenu = this;
-                    var skill = item.skill;
-                    var skillId = item.skillId;
-                    var confirmMultiTargetMenu = function(skill, skillId, targetText, pawns) {
-                        new Menu({
-                            items: [targetText],
-                            select: function() {
-                                this.close();
-                                skillMenu.close();
-                                self.setAction("skill", {
-                                    skill: skill,
-                                    skillId: skillId,
-                                    targets: pawns
-                                });
-                            }
-                        }).open();
-                    };
-                    if (skill.target === "enemy" || skill.target === "player") {
-                        self.targetPawn(skill.target).select(function(index, item) {
-                            this.close();
-                            skillMenu.close();
-                            self.setAction("skill", {
-                                skill: skill,
-                                skillId: skillId,
-                                targets: [item.target]
-                            });
-                        }).open();
-                    }
-                    if (skill.target === "enemies") {
-                        confirmMultiTargetMenu(skill, skillId, "All Enemies", self.battleState.enemyPawns);
-                    }
-                    if (skill.target === "players") {
-                        confirmMultiTargetMenu(skill, skillId, "All Allies", self.battleState.playerPawns);
-                    }
-                    if (skill.target === "self") {
-                        confirmMultiTargetMenu(skill, skillId, "Self", [member]);
-                    }
-                // TODO: handle party multi-targeting/self-targeting!
+                    self.acquireTarget(member, item.skill.target, function(targets) {
+                        console.log(targets);
+                        skillMenu.close();
+                        self.setAction("skill", {
+                            skill: item.skill,
+                            skillId: item.skillId,
+                            targets: targets
+                        });
+                    });
                 },
                 cancel: function() {
                     self.skillMenu = null;
