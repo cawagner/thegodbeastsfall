@@ -37,14 +37,18 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
 
         window.document.title = campaign.title;
 
+        var flippy = false;
         requestAnimationFrame(function mainLoop() {
+            flippy = !flippy;
             startFrame = endFrame;
 
             while (collected >= 8) {
                 game.update(timeScale);
                 collected -= 8;
             }
-            game.draw(timeScale);
+            if (flippy) {
+                game.draw(timeScale);
+            }
             endFrame = Date.now();
             collected += Math.min(16 * 3, endFrame - startFrame);
 
