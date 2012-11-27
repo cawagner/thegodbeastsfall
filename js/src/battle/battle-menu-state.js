@@ -22,19 +22,84 @@ define([
         this.skillMenu = null;
 
         this.gui = new GuiRenderer(Game.instance.graphics);
+    };
 
-        this.start = function() {
-            this.menu = this.getMenu().open();
-        };
+    BattleMenuState.prototype.start = function() {
+        this.menu = this.getMenu().open();
+    };
 
-        this.update = function() {
-            if (this.areActionsReady()) {
-                this.menu.close();
-                return this.actions;
+    BattleMenuState.prototype.update = function() {
+        if (this.areActionsReady()) {
+            this.menu.close();
+            return this.actions;
+        }
+    };
+
+    BattleMenuState.prototype.draw = function() {
+    };
+
+    BattleMenuState.prototype.getMenu = function() {
+        var self = this;
+        return new Menu({
+            hierarchical: true,
+            rows: 2,
+            cols: 2,
+            x: 15,
+            y: 190,
+            items: [
+                { text: "Fight", childMenu: self.skillsOfType("Fight") },
+                { text: "Magic", childMenu: self.skillsOfType("Magic") },
+                { text: "Item", childMenu: new Menu(), disabled: !GameState.instance.inventory.hasBattleUsableItems() },
+                {
+                    text: "Tactic",
+                    childMenu: new Menu({
+                        items: [
+                            { text: "Defend", action: "defend", priorityBoost: 20 },
+                            { text: "Run Away", action: "flee", priorityBoost: -10 },
+                            { text: "Inspect", action: "inspect", priorityBoost: 0 }
+                        ],
+                        rows: 1,
+                        cols: 3,
+                        x: 10,
+                        y: 200
+                    }).select(function(index, item) {
+                        this.close();
+                        self.setAction(item.action, { priorityBoost: item.priorityBoost })
+                    })
+                }
+            ],
+            cancel: function() {
+                if (self.partyIndex > 0) {
+                    self.partyIndex--;
+                    self.actions.pop();
+                    setTimeout(function() {
+                        self.menu = self.getMenu().open();
+                    }, 1);
+                    return true;
+                }
+                return false;
             }
-        };
+        });
+    };
 
-        this.draw = _.noop;
+    BattleMenuState.prototype.areActionsReady = function() {
+        return this.actions.length === this.battleState.playerPawns.length;
+    };
+
+    BattleMenuState.prototype.setAction = function(action, param) {
+        var self = this;
+
+        // TODO: handle multiple allies!
+        this.actions.push({
+            action: action,
+            param: param,
+            partyIndex: this.partyIndex
+        });
+
+        this.partyIndex++;
+
+        this.menu.close();
+        this.menu = this.getMenu().open();
     };
 
     BattleMenuState.prototype.drawSkillInfo = function(menuItem) {
@@ -117,70 +182,6 @@ define([
             });
             return skillMenu;
         };
-    };
-
-    BattleMenuState.prototype.getMenu = function() {
-        var self = this;
-        return new Menu({
-            hierarchical: true,
-            rows: 2,
-            cols: 2,
-            x: 15,
-            y: 190,
-            items: [
-                { text: "Fight", childMenu: self.skillsOfType("Fight") },
-                { text: "Magic", childMenu: self.skillsOfType("Magic") },
-                { text: "Item", childMenu: new Menu(), disabled: !GameState.instance.inventory.hasBattleUsableItems() },
-                {
-                    text: "Tactic",
-                    childMenu: new Menu({
-                        items: [
-                            { text: "Defend", action: "defend", priorityBoost: 20 },
-                            { text: "Run Away", action: "flee", priorityBoost: -10 },
-                            { text: "Inspect", action: "inspect", priorityBoost: 0 }
-                        ],
-                        rows: 1,
-                        cols: 3,
-                        x: 10,
-                        y: 200
-                    }).select(function(index, item) {
-                        this.close();
-                        self.setAction(item.action, { priorityBoost: item.priorityBoost })
-                    })
-                }
-            ],
-            cancel: function() {
-                if (self.partyIndex > 0) {
-                    self.partyIndex--;
-                    self.actions.pop();
-                    setTimeout(function() {
-                        self.menu = self.getMenu().open();
-                    }, 1);
-                    return true;
-                }
-                return false;
-            }
-        });
-    };
-
-    BattleMenuState.prototype.areActionsReady = function() {
-        return this.actions.length === this.battleState.playerPawns.length;
-    };
-
-    BattleMenuState.prototype.setAction = function(action, param) {
-        var self = this;
-
-        // TODO: handle multiple allies!
-        this.actions.push({
-            action: action,
-            param: param,
-            partyIndex: this.partyIndex
-        });
-
-        this.partyIndex++;
-
-        this.menu.close();
-        this.menu = this.getMenu().open();
     };
 
     return BattleMenuState;
