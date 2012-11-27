@@ -42,9 +42,7 @@ setupMap(function(map, gameState) {
             "No need to thank me. Just take this."
         ]).done(function() {
             if (GameState.instance.inventory.addItem("potion", 1)) {
-                setTimeout(function() {
-                    self.say(["I gave you a potion."]);
-                }, 500);
+                self.say(["I gave you a potion."]);
             } else {
                 self.say(["You've already got potions like Jagger."]);
             }
