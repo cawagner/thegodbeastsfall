@@ -122,14 +122,14 @@
     <property name="behavior" value="stationary"/>
     <property name="direction" value="down"/>
     <property name="say" value="Only those who've been touched by the spark of the divine are able to enter or exit this town."/>
-    <property name="say2" value="You must be here for a special reason."/>
+    <property name="say2" value="I can't presume to know what the gods have in mind, but you must be here for a special reason."/>
    </properties>
   </object>
   <object name="littlegirl" type="NPC" x="272" y="352">
    <properties>
     <property name="archetype" value="littlegirl"/>
     <property name="behavior" value="wanderlust"/>
-    <property name="say" value="Mirv is really pretty. And really strong. And smart."/>
+    <property name="say" value="Miav is really pretty. And really strong. And smart."/>
     <property name="say2" value="I hope she's okay."/>
    </properties>
   </object>
@@ -138,7 +138,7 @@
     <property name="archetype" value="earl"/>
     <property name="behavior" value="wanderlust"/>
     <property name="say" value="You're the first person like you to come here in like twenty years."/>
-    <property name="say2" value="Mirv was the last, but she went into the Tomb World and never came back."/>
+    <property name="say2" value="Miav was the last. She was strong and kind, but she went into the Tomb World and never came back."/>
    </properties>
   </object>
   <object name="barrel1" type="NPC" x="152" y="248">
@@ -158,9 +158,9 @@
    <properties>
     <property name="archetype" value="oldwoman"/>
     <property name="behavior" value="stationary"/>
-    <property name="say" value="Do you know all eight gods? In Guelln we revere Liessin, Goddess of Life, but there's also.."/>
+    <property name="say" value="Do you know all eight gods? In Guelln we revere Liessin, Goddess of Life, but there's also..."/>
     <property name="say2" value="Dichet, God of Order. Far, Goddess of Art and Flow. Mondei, God of Knowledge. Vin, Goddess of Passion. "/>
-    <property name="say3" value="We don't much care for Norodel of War or Ropo of Chaos... and Bilgets of Matter is just weird."/>
+    <property name="say3" value="We don't much care for Norodel of War or Ropo of Chaos... and then there's Bilgets the Death..."/>
    </properties>
   </object>
   <object name="toCharonHouse" type="Exit" x="101" y="288">

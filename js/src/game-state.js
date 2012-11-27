@@ -16,14 +16,12 @@ define([
             // when skills are learned should be determined based on:
             // "fight" skills -> max hp
             // "magic" skills -> max mp (not necessarily cost of spell)
-            var held = Character.create(campaign.hero);
-            var mirv = Character.create(campaign.heroine); // TODO: don't be so weird!
-
-            this.party = [held, mirv];
+            this.party = _(campaign.initialParty).map(function(characterId) {
+                return Character.create(campaign[characterId]);
+            });
 
             this.startDate = Date.now();
             this.totalSteps = 0;
-            this.mapSteps = 0;
 
             this.flags = {};
 

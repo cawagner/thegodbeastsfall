@@ -9,8 +9,8 @@ setupMap(function(map) {
         this.say([
             "There, on the bookshelf, was a small coin.",
             "There is a small envelope next to it.",
-            "It fills Held with an overwhelming sense of rainy days and laughter.",
-            "Held feels compelled to takes both."
+            "It fills Helt with an overwhelming sense of rainy days and laughter.",
+            "Helt feels compelled to takes both."
         ]);
 
         clurichaun = new Npc({

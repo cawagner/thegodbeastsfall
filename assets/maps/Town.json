@@ -71,7 +71,7 @@
                      "behavior":"stationary",
                      "direction":"down",
                      "say":"Only those who've been touched by the spark of the divine are able to enter or exit this town.",
-                     "say2":"You must be here for a special reason."
+                     "say2":"I can't presume to know what the gods have in mind, but you must be here for a special reason."
                     },
                  "type":"NPC",
                  "width":0,
@@ -85,7 +85,7 @@
                     {
                      "archetype":"littlegirl",
                      "behavior":"wanderlust",
-                     "say":"Mirv is really pretty. And really strong. And smart.",
+                     "say":"Miav is really pretty. And really strong. And smart.",
                      "say2":"I hope she's okay."
                     },
                  "type":"NPC",
@@ -101,7 +101,7 @@
                      "archetype":"earl",
                      "behavior":"wanderlust",
                      "say":"You're the first person like you to come here in like twenty years.",
-                     "say2":"Mirv was the last, but she went into the Tomb World and never came back."
+                     "say2":"Miav was the last. She was kind and powerful, but never came back from her journey to the Tomb World."
                     },
                  "type":"NPC",
                  "width":0,
@@ -128,7 +128,7 @@
                     {
                      "archetype":"earl",
                      "behavior":"wanderlust",
-                     "say":"Guelln is a town that has been blessed by the Goddess Liessin."
+                     "say":"Guelln is a town that has been blessed by the goddess Liessin."
                     },
                  "type":"NPC",
                  "width":0,
@@ -142,9 +142,9 @@
                     {
                      "archetype":"oldwoman",
                      "behavior":"stationary",
-                     "say":"Do you know all eight gods? In Guelln we revere Liessin, Goddess of Life, but there's also..",
+                     "say":"Do you know all eight gods? In Guelln we revere Liessin, Goddess of Life, but there's also...",
                      "say2":"Dichet, God of Order. Far, Goddess of Art and Flow. Mondei, God of Knowledge. Vin, Goddess of Passion. ",
-                     "say3":"We don't much care for Norodel of War or Ropo of Chaos... and Bilgets of Matter is just weird."
+                     "say3":"We don't much care for Norodel of War or Ropo of Chaos... and Bilgets the Death is just..."
                     },
                  "type":"NPC",
                  "width":0,

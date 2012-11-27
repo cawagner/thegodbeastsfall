@@ -1,10 +1,10 @@
 {
-    "held": {
-        "name": "Held",
+    "hero": {
+        "name": "Helt",
         "frame": 0
     },
-    "mirv": {
-        "name": "Mirv",
+    "heroine": {
+        "name": "Miav",
         "frame": 4
     },
     "oldman": {

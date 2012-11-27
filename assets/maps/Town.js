@@ -21,7 +21,7 @@ setupMap(function(map, gameState) {
         if (stepsUntilMirvMessage < 0) {
             $.publish("/npc/talk", [{
                 text: [
-                    "Held... can you hear me? I am Mirv. It is preordained that we work together...",
+                    "Helt... can you hear me? I am Miav. It is preordained that we work together...",
                     "But I came long before you, and was born beyond the boundary of the Fake World...",
                     "I sealed myself in the Tomb World so that I would still be able to help when you appeared.",
                     "Charon, who maintains the graveyard north of town, can help you release me.",

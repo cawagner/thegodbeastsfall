@@ -1,9 +1,11 @@
 {
     "title": "The God-Beasts' Fall",
     "startMap": "Town",
+    "initialParty": ["hero", "heroine"],
     "hero": {
-        "name": "Held",
-        "face": "held",
+        "name": "Helt",
+        "face": "hero",
+        "archetype": "hero",
         "title": "Mysterious Hero",
         "strength": 15,
         "agility": 10,
@@ -25,8 +27,8 @@
         }
     },
     "heroine": {
-        "name": "Mirv",
-        "face": "mirv",
+        "name": "Miav",
+        "face": "heroine",
         "archetype": "heroine",
         "title": "Woman from the Vrevelk",
         "level": 1,
