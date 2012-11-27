@@ -88,6 +88,9 @@ define([
                 pawn.wander.x = Math.floor(Math.random() * 2) - 2;
                 pawn.wander.y = Math.floor(Math.random() * 2) - 2;
             }
+            pawn.display.effects = _(pawn.display.effects).filter(function(effect) {
+                return !effect.update();
+            });
             pushDown(pawn);
         });
     };
@@ -127,6 +130,7 @@ define([
     };
 
     BattleState.prototype.displayMiss = function(pawn) {
+        var pawn;
         return function() {
             pawn.pushingUp = 4;
             pawn.pushUp = 1;
@@ -134,14 +138,17 @@ define([
     };
 
     BattleState.prototype.displayAttack = function(pawn, effect) {
-        console.log("YES");
         return function() {
             var wave = 0;
-            pawn.display.effects.push(function(dest) {
-                wave += Math.PI / 10;
-                dest.x += Math.sin(wave) * 8;
-                dest.y += Math.abs(Math.sin(wave)) * 2;
-                return wave >= 2*Math.PI;
+            pawn.display.effects.push({
+                transform: function(dest) {
+                    dest.x += Math.sin(wave) * 8;
+                    dest.y += Math.abs(Math.sin(wave)) * 2;
+                },
+                update: function() {
+                    wave += Math.PI / 10;
+                    return wave >= 2*Math.PI;
+                }
             });
         };
     };
@@ -159,7 +166,7 @@ define([
 
     BattleState.prototype.drawEnemies = function() {
         var MAX_ENEMIES = 3;
-        var i, j, pawn, dest, margin = 160 - (this.enemyPawns.length-1)*50;
+        var i, pawn, dest, margin = 160 - (this.enemyPawns.length-1)*50;
 
         for (i = 0; i < this.enemyPawns.length; ++i) {
             pawn = this.enemyPawns[i];
@@ -176,12 +183,9 @@ define([
             };
 
             // TODO: move effects out!
-            for (j = 0; j < pawn.display.effects.length; ++j) {
-                if (pawn.display.effects[j](dest)) {
-                    pawn.display.effects.splice(j, 1);
-                    continue;
-                }
-            }
+            _(pawn.display.effects).each(function(effect) {
+                effect.transform(dest);
+            });
 
             pawn.x = dest.x;
             pawn.y = dest.y;
