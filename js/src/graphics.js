@@ -40,10 +40,6 @@ define(["display/fonts"], function(fonts) {
             };
         };
 
-        this.setFont = function(newFont) {
-            font = newFont;
-        };
-
         this.swapBuffers = function() {
             visibleContext.drawImage(offScreenCanvas, 0, 0);
         };
