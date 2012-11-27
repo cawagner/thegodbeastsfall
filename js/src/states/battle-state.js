@@ -21,6 +21,50 @@ define([
 
     var PI_180 = Math.PI / 180;
 
+    var battleAnimations = {
+        pushDown: function() {
+            var pushingDown = 4;
+            var pushDown = 1;
+            return {
+                update: function() {
+                    pushDown += pushingDown;
+                    pushingDown -= 0.5;
+                    return pushDown <= 0;
+                },
+                transform: function(dest) {
+                    dest.y += pushDown;
+                }
+            };
+        },
+        pushUp: function(pawn) {
+            var pushUp = 1;
+            var pushingUp = 4;
+            return {
+                update: function() {
+                    pushUp += pushingUp;
+                    pushingUp -= 0.5;
+                    return pushUp <= 0;
+                },
+                transform: function(dest) {
+                    dest.y -= pushUp;
+                }
+            };
+        },
+        wiggleAttack: function(pawn) {
+            var wave = 0;
+            return {
+                transform: function(dest) {
+                    dest.x += Math.sin(wave) * 8;
+                    dest.y += Math.abs(Math.sin(wave)) * 2;
+                },
+                update: function() {
+                    wave += Math.PI / 10;
+                    return wave >= 2*Math.PI;
+                }
+            };
+        }
+    };
+
     function BattleState(enemies) {
         var self = this;
 
@@ -88,18 +132,7 @@ define([
 
         return {
             start: function() {
-                var pushingDown = 4;
-                var pushDown = 1;
-                pawn.display.effects.push({
-                    update: function() {
-                        pushDown += pushingDown;
-                        pushingDown -= 0.5;
-                        return pushDown <= 0;
-                    },
-                    transform: function(dest) {
-                        dest.y += pushDown;
-                    }
-                });
+                pawn.display.effects.push(battleAnimations.pushDown());
             },
             update: function() {
                 y = Math.min(pawn.y - 20, y + ym);
@@ -118,34 +151,13 @@ define([
 
     BattleState.prototype.displayMiss = function(pawn) {
         return function() {
-            var pushUp = 1;
-            var pushingUp = 4;
-            pawn.display.effects.push({
-                update: function() {
-                    pushUp += pushingUp;
-                    pushingUp -= 0.5;
-                    return pushUp <= 0;
-                },
-                transform: function(dest) {
-                    dest.y -= pushUp;
-                }
-            });
+            pawn.display.effects.push(battleAnimations.pushUp());
         };
     };
 
     BattleState.prototype.displayAttack = function(pawn, effect) {
         return function() {
-            var wave = 0;
-            pawn.display.effects.push({
-                transform: function(dest) {
-                    dest.x += Math.sin(wave) * 8;
-                    dest.y += Math.abs(Math.sin(wave)) * 2;
-                },
-                update: function() {
-                    wave += Math.PI / 10;
-                    return wave >= 2*Math.PI;
-                }
-            });
+            pawn.display.effects.push(battleAnimations.wiggleAttack());
         };
     };
 
@@ -195,7 +207,7 @@ define([
         for (i = 0; i < this.playerPawns.length; ++i) {
             var pawn = this.playerPawns[i];
             pawn.x = 200 + i * 60 + 18;
-            pawn.y = 190 + Math.floor(pawn.pushDown || 0);
+            pawn.y = 190;
 
             _(pawn.display.effects).each(function(effect) {
                 // careful here...
