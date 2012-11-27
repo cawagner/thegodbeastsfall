@@ -16,7 +16,7 @@ define([], function() {
                 }
             };
         },
-        pushUp: function(pawn) {
+        pushUp: function() {
             var pushUp = 1;
             var pushingUp = 4;
             return {
@@ -30,7 +30,7 @@ define([], function() {
                 }
             };
         },
-        wiggleAttack: function(pawn) {
+        wiggleAttack: function() {
             var wave = 0;
             return {
                 transform: function(dest) {
