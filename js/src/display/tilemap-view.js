@@ -3,11 +3,10 @@ define(["constants"], function(constants) {
     "use strict";
 
     var TILE_SIZE = constants.TILE_SIZE;
+    var SCREEN_WIDTH_IN_TILES = constants.GAME_WIDTH / TILE_SIZE;
+    var SCREEN_HEIGHT_IN_TILES = constants.GAME_HEIGHT / TILE_SIZE;
 
     var TilemapView = function(tilemap, tilesets, graphics) {
-        var screenWidthInTiles = graphics.width / TILE_SIZE;
-        var screenHeightInTiles = graphics.height / TILE_SIZE;
-
         // TODO: support multiple tilesets!
         var ts = tilesets[0];
 
@@ -21,8 +20,8 @@ define(["constants"], function(constants) {
             tile -= 1;
             var tx = tile % ts.width;
             var ty = Math.floor(tile / ts.width);
-            srcRect.x = tx * ts.tileWidth;
-            srcRect.y = ty * ts.tileHeight;
+            srcRect.x = tx * TILE_SIZE;
+            srcRect.y = ty * TILE_SIZE;
 
             destRect.x = x * TILE_SIZE;
             destRect.y = y * TILE_SIZE;
@@ -34,20 +33,18 @@ define(["constants"], function(constants) {
         this.scrollY = 0;
 
         this.draw = function() {
-            var scrollX = this.scrollX,
-                scrollY = this.scrollY,
-                originTileX = (scrollX / TILE_SIZE) | 0,
-                originTileY = (scrollY / TILE_SIZE) | 0;
+            var originTileX = (this.scrollX / TILE_SIZE) | 0,
+                originTileY = (this.scrollY / TILE_SIZE) | 0;
 
-            graphics.setOrigin(-scrollX, -scrollY);
+            graphics.setOrigin(-this.scrollX, -this.scrollY);
 
             _(tilemap.layers).times(function(z) {
-                _.each2d(screenWidthInTiles + 1, screenHeightInTiles + 1, function(ix, iy) {
+                _.each2d(SCREEN_WIDTH_IN_TILES + 1, SCREEN_HEIGHT_IN_TILES + 1, function(ix, iy) {
                     var x = originTileX + ix,
                         y = originTileY + iy,
-                        tile;
+                        tile = tilemap.getAt(x, y, z);
 
-                    if (tile = tilemap.getAt(x, y, z)) {
+                    if (tile) {
                         drawTile(x, y, tile);
                     }
                 }, this);

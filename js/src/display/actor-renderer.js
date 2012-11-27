@@ -9,8 +9,6 @@ define(["json!archetypes.json", "image-loader", "constants"], function(archetype
         }
     });
 
-    console.log(archetypeImages);
-
     var ActorRenderer = function(graphics) {
         var walkFrames = [1,0,1,2];
 
@@ -21,7 +19,6 @@ define(["json!archetypes.json", "image-loader", "constants"], function(archetype
                 srcRect,
                 archetype = archetypes[actor.archetype],
                 image = archetypeImages[archetype.imagePath];
-            console.log(image);
 
             if (archetype.isHidden)
                 return;
