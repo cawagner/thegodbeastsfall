@@ -1,4 +1,4 @@
-define([], function() {
+define(["image!../assets/img/deathwake.png"], function(image) {
     "use strict";
 
     function DeathwakeFont() {
@@ -21,9 +21,6 @@ define([], function() {
             }
             return result;
         })();
-
-        var image = new Image();
-        image.src = "assets/img/deathwake.png";
 
         this.drawText = function(graphics, x, y, text) {
             var i, srcRect, dstRect = { x: x, y: y, width: 6, height: 18 };
