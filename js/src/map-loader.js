@@ -5,13 +5,15 @@ define([
     "tilemap",
     "actors/npc",
     "constants",
+    "image-loader",
     "pubsub"
 ], function(
     $,
     _,
     tilemap,
     Npc,
-    constants
+    constants,
+    imageLoader
 ) {
     "use strict";
 
@@ -21,24 +23,28 @@ define([
 
     var TILE_SIZE = constants.TILE_SIZE;
 
-    var createTileSet = function(tilesetData) {
-        var path = 'assets/' + tilesetData.image.replace("\/", "/").replace(/..\//, '');
-        var image = new Image();
-        var tileset = {
-            image: image,
-            name: tilesetData.name,
-            width: tilesetData.imagewidth / TILE_SIZE,
-            height: tilesetData.imageheight / TILE_SIZE,
-            tileWidth: tilesetData.tilewidth,
-            tileHeight: tilesetData.tileheight,
-            length: (tilesetData.imagewidth / TILE_SIZE) * (tilesetData.imageheight / TILE_SIZE)
-        };
-        image.src = path;
-        return tileset;
-    };
-
     function MapLoader() {
         var self = this;
+
+        var deferreds = [];
+        this.loadTileSet = function(tilesetData) {
+            var path = 'assets/' + tilesetData.image.replace("\/", "/").replace(/..\//, '');
+            var tileset = {
+                image: null,
+                name: tilesetData.name,
+                width: tilesetData.imagewidth / TILE_SIZE,
+                height: tilesetData.imageheight / TILE_SIZE,
+                tileWidth: tilesetData.tilewidth,
+                tileHeight: tilesetData.tileheight,
+                length: (tilesetData.imagewidth / TILE_SIZE) * (tilesetData.imageheight / TILE_SIZE)
+            };
+
+            deferreds.push(imageLoader.loadImage(path).done(function(image) {
+                tileset.image = image;
+            }));
+
+            return tileset;
+        };
 
         this.load = function(mapName) {
             var deferred = $.Deferred();
@@ -50,9 +56,12 @@ define([
                 var map = self.createMap(data);
                 window.setupMap = function(fn) {
                     fn(map, window.GameState.instance);
+                    window.setupMap = null;
                 };
                 $.getScript("assets/maps/" + mapName + ".js", function() {
-                    deferred.resolve(map);
+                    $.when.apply($, deferreds).then(function() {
+                        deferred.resolve(map);
+                    });
                 });
             })
             return deferred.promise();
@@ -68,7 +77,7 @@ define([
             // TODO: don't use mask data directly?
             var tilemap = new Tilemap(data.width, data.height, layerCount, mask ? mask.data : []);
 
-            var tilesets = _(data.tilesets).map(createTileSet);
+            var tilesets = _(data.tilesets).map(this.loadTileSet);
             var entrances = {};
             var exits = {};
             var npcs = {};
