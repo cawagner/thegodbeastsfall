@@ -59,7 +59,7 @@ define(["jquery", "gui", "chars", "states/noop-state", "pubsub"], function($, Gu
     };
 
     MenuState.prototype.draw = function(delta) {
-        var i, x, y, item, colWidth = 80;
+        var i, x, y, item, colWidth = this.menu.colWidth;
 
         if (this.menu.options.captureDraw) {
             if (this.menu.options.draw) {

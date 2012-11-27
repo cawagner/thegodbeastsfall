@@ -8,6 +8,7 @@ define(["jquery", "underscore", "pubsub"], function($, _) {
         this.cols = options.cols || 1;
         this.rows = options.rows || options.items.length;
         this.items = options.items;
+        this.colWidth = options.colWidth || 80;
         this.options = options;
 
         this.x = options.x === undefined ? 20 : options.x;
