@@ -95,8 +95,10 @@ define([
             update: function() {
                 y = Math.min(pawn.y - 20, y + ym);
                 ym += 0.25;
-                wiggle.x = 6*Math.random() - 3;
-                wiggle.y = 6*Math.random() - 3;
+                if (isCritical) {
+                    wiggle.x = 6*Math.random() - 3;
+                    wiggle.y = 6*Math.random() - 3;
+                }
                 life--;
                 return life < 0;
             },
