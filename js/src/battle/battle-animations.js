@@ -57,6 +57,24 @@ define([], function() {
                     }
                 }
             }
+        },
+        shrinkDie: function(pawn) {
+            var dying = 0;
+            return {
+                transform: function(dest) {
+                    dest.x += dying;
+                    dest.width -= dying * 2;
+                },
+                update: function() {
+                    dying += 2;
+                    console.log(dying);
+                    if (dying >= pawn.rect.width / 2) {
+                        pawn.isHidden = true;
+                        return true;
+                    }
+                    return false;
+                }
+            }
         }
     };
 });

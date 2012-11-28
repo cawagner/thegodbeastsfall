@@ -32,9 +32,7 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
         var sound = getDamageSound(effect.target.type, effect.critical);
 
         if (!targetWasAlive) {
-            if (!effect.target.isHidden) {
-                self.msg(textProvider.getMessage("negativeTargetGone", { target: effect.target.name }));
-            }
+            self.msg(textProvider.getMessage("negativeTargetGone", { target: effect.target.name }));
             return;
         }
 
@@ -58,8 +56,10 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
 
         self.state.enqueueFunc(function() {
             if (targetWasAlive && !effect.target.isAlive()) {
+                self.state.enqueueFunc(function() {
+                    self.battleState.kill(effect.target);
+                });
                 self.msg(textProvider.getFallMessage(effect.target), 'endie');
-                effect.target.isHidden = true;
 
                 if (self.action.user.isDying) {
                     self.action.user.isDying = false;

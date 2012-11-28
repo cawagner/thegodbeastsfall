@@ -62,15 +62,16 @@ define([
             });
         });
         _(this.enemyPawns).each(function(pawn) {
-            if (pawn.isHidden) {
-                pawn.dying = pawn.dying || 0;
-                pawn.dying += 0.5 + pawn.dying / 4;
-            }
-
             pawn.display.effects = _(pawn.display.effects).filter(function(effect) {
                 return !effect.update();
             });
         });
+    };
+
+    BattleState.prototype.kill = function(pawn) {
+        if (pawn.type === 'enemy') {
+            pawn.display.effects.push(battleAnimations.shrinkDie(pawn));
+        }
     };
 
     // OH NO this is wrong!
@@ -133,15 +134,14 @@ define([
 
         for (i = 0; i < this.enemyPawns.length; ++i) {
             pawn = this.enemyPawns[i];
-            if (pawn.isHidden) {
-                if (pawn.dying >= pawn.rect.width / 2) {
-                    continue;
-                }
-            }
+
+            if (pawn.isHidden)
+                continue;
+
             dest = {
-                x: i * 100 + margin - pawn.rect.width / 2 + (pawn.dying || 0),
+                x: i * 100 + margin - pawn.rect.width / 2,
                 y: 160 - pawn.rect.height,
-                width: pawn.rect.width - 2*(pawn.dying || 0),
+                width: pawn.rect.width,
                 height: pawn.rect.height
             };
 
