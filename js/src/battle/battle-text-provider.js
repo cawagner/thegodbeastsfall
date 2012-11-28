@@ -28,6 +28,12 @@ define(["underscore", "skill-text-functions", "json!battle-messages.json"], func
         getMessage: function(message, params) {
             var text = battleMessages[message];
             return _(text).template(params || {});
+        },
+        getAggressionText: function(pawns) {
+            var template = _("Aggressed by {{name}}!").template();
+            return _(pawns).map(function(pawn) {
+                return template(pawn);
+            });
         }
     }
 });

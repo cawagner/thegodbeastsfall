@@ -7,7 +7,8 @@ define([
     "battle/battle-menu-state",
     "battle/battle-decision-state",
     "battle/battle-composite-state",
-    "battle/battle-animations"
+    "battle/battle-animations",
+    "battle/battle-text-provider"
 ], function(
     _,
     gameState,
@@ -17,7 +18,8 @@ define([
     BattleMenuState,
     BattleDecisionState,
     BattleCompositeState,
-    battleAnimations
+    battleAnimations,
+    textProvider
 ) {
     "use strict";
 
@@ -38,7 +40,7 @@ define([
 
         this.rootState = new BattleCompositeState();
 
-        this.enqueueState(new BattleMessageState(_(this.enemyPawns).map(_.template("Aggressed by {{name}}!"))));
+        this.enqueueState(new BattleMessageState(textProvider.getAggressionText(this.enemyPawns)));
         this.enqueueState(new BattleMenuState(this));
         this.enqueueState(new BattleDecisionState(this));
 
