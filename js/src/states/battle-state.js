@@ -79,10 +79,7 @@ define([
     // OH NO this is wrong!
     BattleState.prototype.displayDamage = function(pawn, amount, isCritical) {
         // HACK
-        var x = pawn.x;
-        if (pawn.rect) {
-            x += pawn.rect.width / 2;
-        }
+        var x = pawn.x + (pawn.rect ? pawn.rect.width / 2 : 0);
         var y = pawn.y - 20;
         var life = 40;
         var ym = -2;
@@ -123,7 +120,6 @@ define([
         Game.instance.graphics.setFillColorRGB(0, 0, 0);
         Game.instance.graphics.drawFilledRect(0, 0, 320, 240);
 
-        // draw enemies
         this.drawEnemies();
         this.drawAllies();
 
