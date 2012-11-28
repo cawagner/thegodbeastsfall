@@ -56,9 +56,7 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
 
         self.state.enqueueFunc(function() {
             if (targetWasAlive && !effect.target.isAlive()) {
-                self.state.enqueueFunc(function() {
-                    self.battleState.kill(effect.target);
-                });
+                self.state.enqueueFunc(self.battleState.kill(effect.target));
                 self.msg(textProvider.getFallMessage(effect.target), 'endie');
 
                 if (self.action.user.isDying) {

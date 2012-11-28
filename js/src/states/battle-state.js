@@ -69,9 +69,11 @@ define([
     };
 
     BattleState.prototype.kill = function(pawn) {
-        if (pawn.type === 'enemy') {
-            pawn.display.effects.push(battleAnimations.shrinkDie(pawn));
-        }
+        return function() {
+            if (pawn.type === 'enemy') {
+                pawn.display.effects.push(battleAnimations.shrinkDie(pawn));
+            }
+        };
     };
 
     // OH NO this is wrong!
@@ -130,36 +132,32 @@ define([
 
     BattleState.prototype.drawEnemies = function() {
         var MAX_ENEMIES = 3;
-        var i, pawn, dest, margin = 160 - (this.enemyPawns.length-1)*50;
+        var margin = 160 - (this.enemyPawns.length-1)*50;
 
-        for (i = 0; i < this.enemyPawns.length; ++i) {
-            pawn = this.enemyPawns[i];
-
-            if (pawn.isHidden)
-                continue;
-
-            dest = {
+        _(this.enemyPawns).each(function(pawn, i) {
+            var dest = {
                 x: i * 100 + margin - pawn.rect.width / 2,
                 y: 160 - pawn.rect.height,
                 width: pawn.rect.width,
                 height: pawn.rect.height
             };
 
-            _(pawn.display.effects).each(function(effect) {
-                effect.transform(dest);
-            });
+            if (!pawn.isHidden) {
+                _(pawn.display.effects).each(function(effect) {
+                    effect.transform(dest);
+                });
 
-            pawn.x = dest.x;
-            pawn.y = dest.y;
+                pawn.x = dest.x;
+                pawn.y = dest.y;
 
-            Game.instance.graphics.drawImageRect(pawn.image, pawn.rect, dest);
-        }
+                Game.instance.graphics.drawImageRect(pawn.image, pawn.rect, dest);
+            }
+        });
     };
 
     BattleState.prototype.drawAllies = function() {
-        var i, pawn;
-        for (i = 0; i < this.playerPawns.length; ++i) {
-            var pawn = this.playerPawns[i];
+        var gui = this.gui;
+        _(this.playerPawns).each(function(pawn, i) {
             pawn.x = 200 + i * 60 + 18;
             pawn.y = 190;
 
@@ -168,8 +166,8 @@ define([
                 effect.transform(pawn);
             });
 
-            this.gui.drawStatus(pawn.x - 18, pawn.y - 5, pawn);
-        }
+            gui.drawStatus(pawn.x - 18, pawn.y - 5, pawn);
+        });
     }
 
     return BattleState;
