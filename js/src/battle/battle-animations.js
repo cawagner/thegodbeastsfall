@@ -42,6 +42,21 @@ define([], function() {
                     return wave >= 2*Math.PI;
                 }
             };
+        },
+        slowWiggle: function() {
+            var wander = { x: 0, y: 0 };
+            return {
+                transform: function(dest) {
+                    dest.x += wander.x;
+                    dest.y += wander.y;
+                },
+                update: function() {
+                    if (Math.random() < 0.025) {
+                        wander.x = Math.floor(Math.random() * 2) - 2;
+                        wander.y = Math.floor(Math.random() * 2) - 2;
+                    }
+                }
+            }
         }
     };
 });

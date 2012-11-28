@@ -31,7 +31,9 @@ define([
         });
 
         this.enemyPawns = _(enemies).map(function(enemy) {
-            return new pawns.EnemyPawn(enemy);
+            var pawn = new pawns.EnemyPawn(enemy);
+            pawn.display.effects.push(battleAnimations.slowWiggle());
+            return pawn;
         });
 
         this.rootState = new BattleCompositeState();
@@ -64,10 +66,7 @@ define([
                 pawn.dying = pawn.dying || 0;
                 pawn.dying += 0.5 + pawn.dying / 4;
             }
-            if (Math.random() < 0.025) {
-                pawn.wander.x = Math.floor(Math.random() * 2) - 2;
-                pawn.wander.y = Math.floor(Math.random() * 2) - 2;
-            }
+
             pawn.display.effects = _(pawn.display.effects).filter(function(effect) {
                 return !effect.update();
             });
@@ -140,13 +139,12 @@ define([
                 }
             }
             dest = {
-                x: i * 100 + margin - pawn.rect.width / 2 + (pawn.dying || pawn.wander.x),
-                y: 160 - pawn.rect.height + pawn.wander.y,
+                x: i * 100 + margin - pawn.rect.width / 2 + (pawn.dying || 0),
+                y: 160 - pawn.rect.height,
                 width: pawn.rect.width - 2*(pawn.dying || 0),
                 height: pawn.rect.height
             };
 
-            // TODO: move effects out!
             _(pawn.display.effects).each(function(effect) {
                 effect.transform(dest);
             });
