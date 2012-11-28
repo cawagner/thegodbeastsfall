@@ -85,6 +85,7 @@ define([
         var y = pawn.y - 20;
         var life = 40;
         var ym = -2;
+        var wiggle = { x: 0, y: 0 };
         amount = amount+"";
 
         return {
@@ -94,14 +95,13 @@ define([
             update: function() {
                 y = Math.min(pawn.y - 20, y + ym);
                 ym += 0.25;
-                if (isCritical) {
-                    x += Math.random()*2 - 1;
-                }
+                wiggle.x = 6*Math.random() - 3;
+                wiggle.y = 6*Math.random() - 3;
                 life--;
                 return life < 0;
             },
             draw: function() {
-                Game.instance.graphics.drawText(x, y, amount);
+                Game.instance.graphics.drawText(x + wiggle.x, y + wiggle.y, amount);
             }
         };
     };
