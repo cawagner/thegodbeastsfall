@@ -33,6 +33,20 @@ define([
 
         var winBattle = function() {
             var xp = xpPerPerson();
+            var drops = {};
+
+            // get spoils
+            _(battleState.enemyPawns).each(function(pawn) {
+                _(pawn.enemy.drops || {}).each(function(chance, item) {
+                    if (Math.random() <= chance) {
+                        if (item in drops) {
+                            drops[item]++;
+                        } else {
+                            drops[item] = 1;
+                        }
+                    }
+                });
+            });
 
             playMusic("victory");
 
@@ -40,7 +54,7 @@ define([
                 textProvider.getMessage("wonBattle"),
                 "Got " + xp + "XP each!"
             ]));
-            battleState.enqueueState(new BattleWonState(xp));
+            battleState.enqueueState(new BattleWonState(xp, drops));
         };
 
         var loseBattle = function() {

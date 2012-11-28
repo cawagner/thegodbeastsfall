@@ -1,7 +1,7 @@
 {
     "title": "The God-Beasts' Fall",
     "startMap": "Town",
-    "initialParty": ["hero", "heroine"],
+    "initialParty": ["hero"],
     "hero": {
         "name": "Helt",
         "face": "hero",
@@ -13,17 +13,17 @@
         "luck": 10,
         "skills": {
             "Fight": [ "slash" ],
-            "Magic": [ "heal1", "depoison" ]
+            "Magic": [ "heal1" ]
         },
         "learnSet": {
             "Fight": {
                 "hard": { "maxHp": 36 },
                 "spin": { "agility": 11, "strength": 16 },
-                "slash2": { "level": 2, "@replace": "slash" }
+                "slash2": { "agility": 15, "@replace": "slash" }
             },
             "Magic": {
-                "braver": { "maxMp": 8 },
-                "depoison": { "maxMp": 10 }
+                "braver": { "maxMp": 7 },
+                "depoison": { "maxMp": 9 }
             }
         }
     },

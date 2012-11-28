@@ -15,9 +15,11 @@
         "fieldUsable": true,
         "battleUsable": true
     },
+    "cigar": {
+        "name": "Cigar"
+    },
     "drachma": {
         "name": "Drachma",
-        "usable": false,
         "key": true
     }
 }

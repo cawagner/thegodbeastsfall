@@ -69,11 +69,16 @@ define([
         }
     };
 
-    return function BattleWonState(xpPerPerson) {
+    return function BattleWonState(xpPerPerson, drops) {
         this.start = function() {
             // TODO: handle leveling properly for multiple people!
             _(GameState.instance.party).each(function(member) {
                 member.xp += xpPerPerson;
+            });
+
+            // TODO: display spoils to the user!
+            _(drops).each(function(quantity, item) {
+                GameState.instance.inventory.addItem(item, quantity);
             });
 
             levelCharacters();

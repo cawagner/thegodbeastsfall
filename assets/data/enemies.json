@@ -25,7 +25,10 @@
         "intelligence": 3,
         "luck": 3,
         "rect": { "x": 229, "y": 500, "width": 66, "height": 66 },
-        "xp": 100
+        "xp": 100,
+        "drops": {
+            "cigar": 0.5
+        }
     },
     "zombie": {
         "name": "Zombie",
