@@ -55,19 +55,18 @@ define([
         this.rootState.enqueueState(state);
     };
 
+
     BattleState.prototype.update = function() {
+        var updatePawnEffects = function(pawn) {
+            pawn.display.effects = _(pawn.display.effects).filter(function(effect) {
+                return !effect.update();
+            });
+        };
+
         this.rootState.update();
 
-        _(this.playerPawns).each(function(pawn) {
-            pawn.display.effects = _(pawn.display.effects).filter(function(effect) {
-                return !effect.update();
-            });
-        });
-        _(this.enemyPawns).each(function(pawn) {
-            pawn.display.effects = _(pawn.display.effects).filter(function(effect) {
-                return !effect.update();
-            });
-        });
+        _(this.playerPawns).each(updatePawnEffects);
+        _(this.enemyPawns).each(updatePawnEffects);
     };
 
     BattleState.prototype.kill = function(pawn) {
