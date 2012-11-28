@@ -1,6 +1,7 @@
 {
     "potion": {
         "name": "Potion",
+        "desc": "A small red potion. It looks like you would recover some health if you were to drink it.",
         "target": "player",
         "effect": "heal/normal",
         "power": "4+3d4",
@@ -9,6 +10,7 @@
     },
     "soma": {
         "name": "Soma",
+        "desc": "Juice extracted from the Soma plant. It restores magical energy.",
         "target": "player",
         "effect": "heal/mp",
         "power": "10",
@@ -16,10 +18,12 @@
         "battleUsable": true
     },
     "cigar": {
-        "name": "Cigar"
+        "name": "Cigar",
+        "desc": "The wrapper says \"Excelentes cigarros cubanos. Su boca se pudre con deleite!\""
     },
     "drachma": {
         "name": "Drachma",
+        "desc": "A small metal coin from antiquity.",
         "key": true
     }
 }
