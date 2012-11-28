@@ -23,6 +23,8 @@ define([
 ) {
     "use strict";
 
+    var MAX_ENEMIES = 3;
+
     function BattleState(enemies) {
         var self = this;
 
@@ -54,7 +56,6 @@ define([
     BattleState.prototype.enqueueState = function(state) {
         this.rootState.enqueueState(state);
     };
-
 
     BattleState.prototype.update = function() {
         var updatePawnEffects = function(pawn) {
@@ -128,7 +129,6 @@ define([
     };
 
     BattleState.prototype.drawEnemies = function() {
-        var MAX_ENEMIES = 3;
         var margin = 160 - (this.enemyPawns.length-1)*50;
 
         _(this.enemyPawns).each(function(pawn, i) {
