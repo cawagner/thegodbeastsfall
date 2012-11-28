@@ -60,7 +60,7 @@ define([
         };
 
         this.update = function(timeScale) {
-            if (Game.instance.input.wasConfirmPressed()) {
+            if (Game.instance.input.wasConfirmPressed() || Game.instance.input.wasCancelPressed()) {
                 this.advanceText();
             }
 
