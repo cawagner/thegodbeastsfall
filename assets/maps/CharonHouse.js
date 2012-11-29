@@ -1,4 +1,6 @@
 setupMap(function(map) {
+    "use strict";
+
     var Npc = require('actors/npc');
     var Battle = require('battle');
     var gameState = require('game-state');
