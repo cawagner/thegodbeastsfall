@@ -243,6 +243,11 @@
                     {
                      "archetype":"earl",
                      "behavior":"stationary",
+                     "lost1":"Fine... beat up a helpless faerie.",
+                     "lost2":"Look at you with your big, strong human muscles.",
+                     "lost3":"I hope you're really proud of yourself.",
+                     "ran1":"Look at you, running from a little leprechaun!",
+                     "ran2":"Hows them pots o' gold?",
                      "say1":"Hey, man... that's MY drachma.",
                      "say2":"Dude.",
                      "say3":"No.",

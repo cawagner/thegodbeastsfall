@@ -24,19 +24,12 @@ setupMap(function(map) {
         var battle = new Battle(["clurichaun"], { isBoss: true });
         battle.onWon = function() {
             flags.beatenClurichaun = true;
-            clurichaun.say([
-                "Fine... beat up a helpless faerie.",
-                "Look at you with your big, strong human muscles.",
-                "I hope you're really proud of yourself."
-            ]).done(function() {
+            clurichaun.runDialogue("lost").done(function() {
                 map.removeActor(clurichaun);
             });
         };
         battle.onRan = function() {
-            clurichaun.say([
-                "Look at you, running from a little leprechaun!",
-                "Hows them pots o' gold?"
-            ]);
+            clurichaun.runDialogue("ran");
         };
         battle.start();
     });

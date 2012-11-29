@@ -173,6 +173,11 @@
    <properties>
     <property name="archetype" value="earl"/>
     <property name="behavior" value="stationary"/>
+    <property name="lost1" value="Fine... beat up a helpless faerie."/>
+    <property name="lost2" value="Look at you with your big, strong human muscles."/>
+    <property name="lost3" value="I hope you're really proud of yourself."/>
+    <property name="ran1" value="Look at you, running from a little leprechaun!"/>
+    <property name="ran2" value="Hows them pots o' gold?"/>
     <property name="say1" value="Hey, man... that's MY drachma."/>
     <property name="say2" value="Dude."/>
     <property name="say3" value="No."/>
