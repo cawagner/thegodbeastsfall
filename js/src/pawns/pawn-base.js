@@ -91,9 +91,9 @@ define(["underscore"], function(_) {
                     continue;
                 }
                 status.wait--;
-                effects = effects.concat(status.round() || []);
+                effects.push.apply(effects, status.round() || []);
                 if (status.wait <= 0) {
-                    effects = effects.concat(this.removeStatus(status) || []);
+                    effects.push.apply(effects, this.removeStatus(status) || []);
                 }
             }
             return effects;
@@ -137,7 +137,7 @@ define(["underscore"], function(_) {
             if (typeof statusToRemove === "string") {
                 _(this.statuses).each(function(status) {
                     if (status.key === statusToRemove) {
-                        result = result.concat(self.removeStatus(status));
+                        result.push.apply(result, self.removeStatus(status) || []);
                     }
                 });
             } else {
