@@ -50,6 +50,5 @@ setupMap(function(map) {
     _(map.npcs.drachma).chain().clone().tap(function(d2) {
         d2.warpTo(map.npcs.drachma.x - 1, map.npcs.drachma.y);
         map.addActor(d2);
-        console.log(d2);
     });
 });
