@@ -70,7 +70,6 @@ define([
                                         "Look"
                                     ],
                                     select: function(index) {
-                                        console.log(index)
                                         if (index === 1) {
                                             $.publish("/npc/talk", [{ text: [item.item.desc] }]);
                                         }

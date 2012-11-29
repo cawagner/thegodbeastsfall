@@ -129,7 +129,6 @@ define([
                 select: function(index, item) {
                     var itemsMenu = this;
                     self.getTargetMenu(member, item.item.target, function(targets) {
-                        console.log(targets);
                         itemsMenu.close();
                     }).open();
                 }
@@ -188,7 +187,6 @@ define([
                 select: function(index, item) {
                     var skillMenu = this;
                     self.getTargetMenu(member, item.skill.target, function(targets) {
-                        console.log(targets);
                         skillMenu.close();
                         self.setAction("skill", {
                             skill: item.skill,

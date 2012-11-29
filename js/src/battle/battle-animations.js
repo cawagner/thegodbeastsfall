@@ -67,7 +67,6 @@ define([], function() {
                 },
                 update: function() {
                     dying += 2;
-                    console.log(dying);
                     if (dying >= pawn.rect.width / 2) {
                         pawn.isHidden = true;
                         return true;

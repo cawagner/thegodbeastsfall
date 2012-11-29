@@ -36,7 +36,6 @@ define([
             var livingHumans = _(battleState.playerPawns).filter(function(human) {
                 return human.isAlive();
             });
-            console.log(livingHumans);
             return _(livingHumans).randomElement();
         };
         this.start = function(commands) {
