@@ -84,8 +84,7 @@ define([
             }
 
             $.subscribe("/map/loaded", function(map, entrance) {
-                var fieldState = new FieldState(map, entrance);
-                game.pushState(fieldState);
+                game.pushState(new FieldState(map, entrance));
 
                 sound.playMusic(map.properties.music);
 

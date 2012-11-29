@@ -16,20 +16,9 @@ setupMap(function(map) {
         }
     };
 
-    var stepSubscription = $.subscribe("/hero/step", function() {
-        flags.stepsUntilMirvMessage--;
-        if (flags.stepsUntilMirvMessage === 0) {
-            map.npcs.mirvMessage.runDialogue("say");
-        }
+    _([map.npcs.oldman, map.npcs.littlegirl, map.npcs.earl]).each(function(npc) {
+        npc.addBeforeTalk(learnAboutMirv);
     });
-
-    map.onUnload = function() {
-        $.unsubscribe(stepSubscription);
-    };
-
-    map.npcs.oldman.addBeforeTalk(learnAboutMirv);
-    map.npcs.littlegirl.addBeforeTalk(learnAboutMirv);
-    map.npcs.earl.addBeforeTalk(learnAboutMirv);
 
     map.npcs.earl2.addAfterTalk(function() {
         if (gameState.inventory.addItem("potion", 1)) {
@@ -41,5 +30,12 @@ setupMap(function(map) {
 
     map.npcs.barrel1.addAfterTalk(function() {
         new Battle(["slime", "rat", "slime"]).start();
+    });
+
+    map.subscribe("/hero/step", function() {
+        flags.stepsUntilMirvMessage--;
+        if (flags.stepsUntilMirvMessage === 0) {
+            map.npcs.mirvMessage.runDialogue("say");
+        }
     });
 });

@@ -9,6 +9,8 @@ define(["underscore"], function(_) {
 
         var self = this;
 
+        var subscriptions = [];
+
         this.tilemap = tilemap;
         this.actors = [];
 
@@ -44,7 +46,17 @@ define(["underscore"], function(_) {
             if (index >= 0) {
                 this.actors.splice(index, 1);
             }
-        }
+        };
+
+        this.subscribe = function(topic, fn) {
+            subscriptions.push($.subscribe(topic, fn));
+        };
+
+        self.subscribe("/map/loading", function() {
+            _(subscriptions).each(function(sub) {
+                $.unsubscribe(sub);
+            });
+        })
 
         if (data && data.npcs) {
             _(data.npcs).each(function(npc) {
