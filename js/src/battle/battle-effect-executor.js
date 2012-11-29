@@ -32,7 +32,6 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
         var sound = getDamageSound(effect.target.type, effect.critical);
 
         if (!targetWasAlive) {
-            self.msg(textProvider.getMessage("negativeTargetGone", { target: effect.target.name }));
             return;
         }
 
