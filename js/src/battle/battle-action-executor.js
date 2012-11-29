@@ -92,14 +92,14 @@ define([
             var messages = [textProvider.getMessage("inspecting", { user: action.user.name })];
 
             _(battleState.enemyPawns).each(function(enemy) {
-                if (enemy.isAlive()) {
-                    // TODO: shouldn't know about entity...
-                    messages.push(enemy.entity.family + "/" + enemy.name);
-                    _(enemy.entity.desc.split('|')).each(function(splat) {
-                        messages.push(splat);
-                    });
-                    messages.push("It looks " + formatCondition(enemy));
-                }
+                state.enqueueFunc(function() {
+                    if (enemy.isAlive()) {
+                        // TODO: shouldn't know about entity...
+                        messages.push(enemy.entity.family + "/" + enemy.name);
+                        messages.push.apply(messages, enemy.entity.desc.split('|'));
+                        messages.push("It looks " + formatCondition(enemy));
+                    }
+                });
             });
 
             state.enqueueState(new BattleMessageState(messages));
