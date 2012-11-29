@@ -89,6 +89,9 @@ define([
                         select: function(index) {
                             if (index === 0) {
                                 localStorage.setItem("saveGame0", gameState.toJSON());
+                                $.publish("/npc/talk", [
+                                    { text: ["Game saved!"] }
+                                ]);
                             } else if (index === 1) {
                                 this.close();
                                 self.menu.close();
