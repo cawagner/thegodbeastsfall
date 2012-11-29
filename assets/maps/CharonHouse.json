@@ -226,12 +226,36 @@
                  "name":"drachma",
                  "properties":
                     {
-                     "archetype":"bgobj"
+                     "archetype":"bgobj",
+                     "say1":"There, on the bookshelf, was a small coin.",
+                     "say2":"There's a little envelope next to it that reminds Helt of rainy days and hot beverages.",
+                     "say3":"Helt gets the drachma, and decides to bring the envelope with him to Charon."
                     },
                  "type":"NPC",
                  "width":16,
                  "x":304,
                  "y":160
+                }, 
+                {
+                 "height":16,
+                 "name":"clurichaun",
+                 "properties":
+                    {
+                     "archetype":"earl",
+                     "behavior":"stationary",
+                     "say1":"Hey, man... that's MY drachma.",
+                     "say2":"Dude.",
+                     "say3":"No.",
+                     "say4":"Seriously.",
+                     "say5":"I need that.",
+                     "say6":"You don't even know how flippin' rare those are these days.",
+                     "say7":"I tell you, it's enough to make any leprechaun take up drinking.",
+                     "say8":"What? You're... fine, you villain, take what's coming to you!"
+                    },
+                 "type":"NPC",
+                 "width":16,
+                 "x":-109,
+                 "y":23
                 }],
          "opacity":1,
          "type":"objectgroup",

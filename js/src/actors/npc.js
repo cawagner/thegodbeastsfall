@@ -5,6 +5,7 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
 
     function Npc(properties) {
         var beforeTalkHandlers = [];
+        var afterTalkHandlers = [];
 
         _.defaults(properties, {
             "archetype": "oldman",
@@ -32,19 +33,26 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             beforeTalkHandlers.push(fn);
         };
 
+        this.addAfterTalk = function(fn) {
+            afterTalkHandlers.push(fn);
+        };
+
         this.onTalk = function() {
             var self = this;
             var text = [];
+            var cancelled = false;
             var sayProperties;
 
             _(beforeTalkHandlers).each(function(fn){
                 if (fn.call(self) === false) {
+                    cancelled = true;
                     return;
                 }
             });
 
-            // HACK: Don't hardcode 2/3... just take anything starting with say
-            // in alphabetical order
+            if (cancelled) {
+                return;
+            }
 
             sayProperties = _(Object.keys(properties)).filter(function(key) { return sayProperty.test(key); });
             sayProperties.sort();
@@ -54,7 +62,11 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             });
 
             if (text.length) {
-                this.say(text);
+                this.say(text).done(function() {
+                    _(afterTalkHandlers).each(function(fn) {
+                        fn.call(self);
+                    });
+                });
             }
         }
     };

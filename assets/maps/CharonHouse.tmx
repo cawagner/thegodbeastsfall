@@ -164,6 +164,23 @@
   <object name="drachma" type="NPC" x="304" y="160" width="16" height="16">
    <properties>
     <property name="archetype" value="bgobj"/>
+    <property name="say1" value="There, on the bookshelf, was a small coin."/>
+    <property name="say2" value="There's a little envelope next to it that reminds Helt of rainy days and hot beverages."/>
+    <property name="say3" value="Helt gets the drachma, and decides to bring the envelope with him to Charon."/>
+   </properties>
+  </object>
+  <object name="clurichaun" type="NPC" x="-109" y="23" width="16" height="16">
+   <properties>
+    <property name="archetype" value="earl"/>
+    <property name="behavior" value="stationary"/>
+    <property name="say1" value="Hey, man... that's MY drachma."/>
+    <property name="say2" value="Dude."/>
+    <property name="say3" value="No."/>
+    <property name="say4" value="Seriously."/>
+    <property name="say5" value="I need that."/>
+    <property name="say6" value="You don't even know how flippin' rare those are these days."/>
+    <property name="say7" value="I tell you, it's enough to make any leprechaun take up drinking."/>
+    <property name="say8" value="What? You're... fine, you villain, take what's coming to you!"/>
    </properties>
   </object>
  </objectgroup>

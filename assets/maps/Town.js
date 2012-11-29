@@ -29,18 +29,13 @@ setupMap(function(map) {
         }
     });
 
-    map.npcs.earl2.onTalk = function() {
-        var earl = this;
-        this.say([
-            "No need to thank me. Just take this."
-        ]).done(function() {
-            if (gameState.inventory.addItem("potion", 1)) {
-                earl.say(["I gave you a potion."]);
-            } else {
-                earl.say(["Nevermind. You've already got potions out the wazoo."]);
-            }
-        });
-    };
+    map.npcs.earl2.addAfterTalk(function() {
+        if (gameState.inventory.addItem("potion", 1)) {
+            this.say(["I gave you a potion."]);
+        } else {
+            this.say(["Nevermind. You've already got potions out the wazoo."]);
+        }
+    });
 
     map.npcs.barrel1.onTalk = function() {
         new Battle(["slime", "rat", "slime"]).start();
