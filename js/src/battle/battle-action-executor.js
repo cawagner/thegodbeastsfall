@@ -83,7 +83,7 @@ define([
             var state = new BattleCompositeState();
             state.enqueueState(new BattleMessageState([textProvider.getMessage("ranAway", { user: action.user.name })]));
             state.enqueueFunc(function() {
-                $.publish("/battle/end");
+                $.publish("/battle/end", { ran: true });
             });
             return state;
         },

@@ -65,8 +65,7 @@ define([
             ]));
 
             battleState.enqueueFunc(function() {
-                $.publish("/battle/end");
-                $.publish("/battle/lost");
+                $.publish("/battle/end", [{ won: false }]);
             });
         }
 

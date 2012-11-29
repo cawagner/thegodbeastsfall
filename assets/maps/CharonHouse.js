@@ -1,5 +1,6 @@
 setupMap(function(map) {
     var Npc = require('actors/npc');
+    var Battle = require('battle');
     var gameState = require('game-state');
 
     var flags = gameState.flags.charonsHouse = gameState.flags.charonsHouse || {
@@ -15,17 +16,6 @@ setupMap(function(map) {
         map.addActor(clurichaun);
         clurichaun.warpTo(1, 13);
         clurichaun.onTalk = _.once(function() {
-            var battle = $.subscribe("/battle/won", function() {
-                flags.beatenClurichaun = true;
-                $.unsubscribe(battle);
-                clurichaun.say([
-                    "Fine... beat up a helpless faerie.",
-                    "Look at you with your big, strong human muscles.",
-                    "I hope you're really proud of yourself."
-                ]).done(function() {
-                    map.removeActor(clurichaun);
-                });
-            });
             this.say([
                 "Hey, man... that's MY drachma.",
                 "Dude.",
@@ -36,7 +26,22 @@ setupMap(function(map) {
                 "I tell you, it's enough to make any leprechaun take up drinking.",
                 "What? You're... fine, you villain, take what's coming to you!"
             ]).done(function() {
-                $.publish("/battle/start", [["clurichaun"], { isBoss: true }]);
+                var battle = new Battle(["clurichaun"], { isBoss: true});
+                battle.onWon =function() {
+                    flags.beatenClurichaun = true;
+                    $.unsubscribe(battle);
+                    clurichaun.say([
+                        "Fine... beat up a helpless faerie.",
+                        "Look at you with your big, strong human muscles.",
+                        "I hope you're really proud of yourself."
+                    ]).done(function() {
+                        map.removeActor(clurichaun);
+                    });
+                };
+                battle.onRan = function() {
+
+                };
+                battle.start();
             });
         });
     };

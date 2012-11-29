@@ -65,8 +65,7 @@ define([
             }).open();
         } else {
             setTimeout(function() {
-                $.publish("/battle/end");
-                $.publish("/battle/won");
+                $.publish("/battle/end", [{ won: true }]);
             }, 1);
         }
     };

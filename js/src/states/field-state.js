@@ -7,6 +7,7 @@ define([
     "display/tilemap-view",
     "display/actor-renderer",
     "actors/hero",
+    "battle",
     "direction",
     "util",
     "pubsub"
@@ -19,6 +20,7 @@ define([
     TilemapView,
     ActorRenderer,
     Hero,
+    Battle,
     direction,
     util
 ) {
@@ -61,12 +63,12 @@ define([
         encounterSubscription = $.subscribe("/hero/step", function() {
             // TODO: nested encounter regions won't work right now!
             _(map.encounters).withFirst(containsHero, function(encounter) {
-                var party;
                 encounter.until--;
                 if (encounter.until <= 0) {
                     encounter.triggered++;
-                    party = encounter.parties[Math.floor(Math.random() * encounter.parties.length)];
-                    $.publish("/battle/start", [party])
+
+                    new Battle(_(encounter.parties).randomElement()).start();
+
                     encounter.until = 2*encounter.triggered + Math.floor(
                         Math.random() * (encounter.maxFrequency - encounter.minFrequency) + encounter.minFrequency
                     );
