@@ -1,8 +1,6 @@
 define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, npcBehaviors, direction) {
     "use strict";
 
-    var sayProperty = /^say/;
-
     function Npc(properties) {
         var beforeTalkHandlers = [];
         var afterTalkHandlers = [];
@@ -37,24 +35,14 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             afterTalkHandlers.push(fn);
         };
 
-        this.onTalk = function() {
+        this.runDialogue = function(dialogueName) {
             var self = this;
             var text = [];
-            var cancelled = false;
-            var sayProperties;
-
-            _(beforeTalkHandlers).each(function(fn){
-                if (fn.call(self) === false) {
-                    cancelled = true;
-                    return;
-                }
+            var sayProperty = new RegExp('^' + dialogueName);
+            var sayProperties = _(Object.keys(properties)).filter(function(key) {
+                return sayProperty.test(key);
             });
 
-            if (cancelled) {
-                return;
-            }
-
-            sayProperties = _(Object.keys(properties)).filter(function(key) { return sayProperty.test(key); });
             sayProperties.sort();
 
             _(sayProperties).each(function(key) {
@@ -62,12 +50,33 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             });
 
             if (text.length) {
-                this.say(text).done(function() {
+                return this.say(text);
+            } else {
+                return {
+                    done: function(fn) {
+                        fn.call(self);
+                    }
+                };
+            }
+        };
+
+        this.onTalk = function() {
+            var self = this;
+            var text = [];
+            var cancelled = false;
+            var sayProperties;
+
+            _(beforeTalkHandlers).each(function(fn){
+                cancelled = cancelled || (fn.call(self) === false);
+            });
+
+            if (!cancelled) {
+                this.runDialogue("say").done(function() {
                     _(afterTalkHandlers).each(function(fn) {
                         fn.call(self);
                     });
                 });
-            }
+            };
         }
     };
 
