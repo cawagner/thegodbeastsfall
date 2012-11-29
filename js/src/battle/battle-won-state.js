@@ -3,12 +3,14 @@ define([
     "jquery",
     "menu",
     "states/dialogue-state",
+    "game-state",
     "json!skills.json"
 ], function(
     _,
     $,
     Menu,
     DialogueState,
+    gameState,
     skills
 ) {
     "use strict";
@@ -17,8 +19,8 @@ define([
 
     var nextCharacterToLevel = function() {
         var i, member;
-        for (i = 0; i < GameState.instance.party.length; ++i) {
-            member = GameState.instance.party[i];
+        for (i = 0; i < gameState.party.length; ++i) {
+            member = gameState.party[i];
             if (member.xp >= member.xpNext) {
                 return member;
             }
@@ -72,13 +74,13 @@ define([
     return function BattleWonState(xpPerPerson, drops) {
         this.start = function() {
             // TODO: handle leveling properly for multiple people!
-            _(GameState.instance.party).each(function(member) {
+            _(gameState.party).each(function(member) {
                 member.xp += xpPerPerson;
             });
 
             // TODO: display spoils to the user!
             _(drops).each(function(quantity, item) {
-                GameState.instance.inventory.addItem(item, quantity);
+                gameState.inventory.addItem(item, quantity);
             });
 
             levelCharacters();

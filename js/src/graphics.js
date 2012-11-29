@@ -1,19 +1,17 @@
 define(["display/fonts"], function(fonts) {
     "use strict";
 
-    var Graphics = function(canvasId, width, height, scale) {
-        var visibleCanvas = typeof canvasId === "string" ? document.getElementById(canvasId) : canvasId,
-            offScreenCanvas = document.createElement("canvas"),
+    var Graphics = function(visibleCanvas, width, height, scale) {
+        var offScreenCanvas = document.createElement("canvas"),
             visibleContext = visibleCanvas.getContext('2d'),
-            context;
+            context = offScreenCanvas.getContext('2d');
+
         var originOffset = { x: 0, y : 0 };
 
         var font = fonts.deathwake;
 
         offScreenCanvas.width = width;
         offScreenCanvas.height = height;
-
-        context = offScreenCanvas.getContext('2d');
 
         this.width = width;
         this.height = height;
@@ -75,11 +73,11 @@ define(["display/fonts"], function(fonts) {
             context.globalAlpha = alpha;
         }
 
-        this.drawText = function(x, y, text) {
-            font.drawText(this, x | 0, (y | 0) - 6, text);
+        this.drawText = function(x, y, text, fontId) {
+            (fonts[fontId]||font).drawText(this, x | 0, (y | 0) - 6, text);
         };
 
-        this.setScale = function(newScale) {
+        this.setGlobalScale = function(newScale) {
             scale = newScale;
             visibleCanvas.width = newScale * width;
             visibleCanvas.height = newScale * height;
@@ -90,7 +88,7 @@ define(["display/fonts"], function(fonts) {
             visibleContext.scale(newScale, newScale);
         };
 
-        this.setScale(scale);
+        this.setGlobalScale(scale);
     };
 
     return Graphics;

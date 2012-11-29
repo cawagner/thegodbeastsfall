@@ -18,46 +18,52 @@ var dependencies = [
 define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput, util, constants, campaign) {
     "use strict";
 
+    var graphics;
+    var game;
+
+    var collected = 0;
+    var flippy = false;
+    var startFrame;
+    var endFrame = Date.now();
+    var timeScale = 1;
+    var canvas;
+
+    var requestAnimationFrame = util.getRequestAnimationFrame();
+
+    var mainLoop = function() {
+        flippy = !flippy;
+        startFrame = endFrame;
+
+        while (collected >= 8) {
+            game.update(timeScale);
+            collected -= 8;
+        }
+        if (flippy) {
+            game.draw(timeScale);
+        }
+        endFrame = Date.now();
+        collected += Math.min(16 * 3, endFrame - startFrame);
+
+        requestAnimationFrame(mainLoop, canvas);
+    };
+
     var init = function() {
-        var graphics = new Graphics("gameCanvas", constants.GAME_WIDTH, constants.GAME_HEIGHT, 1),
-            game = new Game(graphics, input),
-            startFrame,
-            endFrame = Date.now(),
-            collected = 0,
-            timeScale = 1;
+        canvas = document.getElementById("gameCanvas");
+        graphics = new Graphics(canvas, constants.GAME_WIDTH, constants.GAME_HEIGHT, 1);
+        game = new Game(graphics, input);
 
         _.templateSettings = {
             interpolate : /\{\{(.+?)\}\}/g
         };
-
-        var requestAnimationFrame = util.getRequestAnimationFrame();
 
         // HACK: no :(
         window.Game = { instance: game };
 
         window.document.title = campaign.title;
 
-        var flippy = false;
-        requestAnimationFrame(function mainLoop() {
-            flippy = !flippy;
-            startFrame = endFrame;
-
-            while (collected >= 8) {
-                game.update(timeScale);
-                collected -= 8;
-            }
-            if (flippy) {
-                game.draw(timeScale);
-            }
-            endFrame = Date.now();
-            collected += Math.min(16 * 3, endFrame - startFrame);
-
-            requestAnimationFrame(mainLoop);
-        }, document.getElementById("gameCanvas"));
-
         $("[data-scale]").on("click", function() {
             var scale = parseInt($(this).data("scale"), 10);
-            graphics.setScale(scale);
+            graphics.setGlobalScale(scale);
             $("#container").width(constants.GAME_WIDTH * scale).height(constants.GAME_HEIGHT * scale);
         });
 
@@ -65,6 +71,8 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
         touchInput.init(input);
 
         stateEvents.init(game);
+
+        requestAnimationFrame(mainLoop, canvas);
     };
 
     return { init: init };

@@ -7,14 +7,9 @@ define([
 ], function(_, mapLoader, Character, Inventory, campaign) {
     "use strict";
 
-    if (GameState.instance) {
-        return GameState.instance
-    }
-
-    function GameState() {
-        this.party = [];
-
-        this.newGame = function() {
+    return {
+        party: [],
+        newGame: function() {
             // when skills are learned should be determined based on:
             // "fight" skills -> max hp
             // "magic" skills -> max mp (not necessarily cost of spell)
@@ -35,9 +30,9 @@ define([
             };
 
             mapLoader.goToMap(campaign.startMap);
-        };
+        },
 
-        this.toJSON = function() {
+        toJSON: function() {
             var json = {
                 party: _(this.party).map(function(member) { return member.toJSON(); }),
                 startDate: this.startDate,
@@ -47,13 +42,13 @@ define([
                 location: this.location
             };
             return JSON.stringify(json);
-        };
+        },
 
-        this.loadJSON = function(src) {
+        loadJSON: function(src) {
             var json = JSON.parse(src);
             // get characters from JSON...
             this.party = _(json.party).map(function(member) {
-                return Character.create(_(member).defaults(campaign[member.id]));
+                return new Character(_(member).defaults(campaign[member.id]));
             });
             this.startDate = json.startDate;
             this.totalSteps = json.totalSteps;
@@ -62,13 +57,6 @@ define([
             this.location = json.location;
 
             mapLoader.goToMap(this.location.currentMap, this.location);
-        };
-    }
-
-    // HACK: no!
-    window.GameState = GameState;
-
-    GameState.instance = new GameState();
-
-    return GameState.instance;
+        }
+    };
 });

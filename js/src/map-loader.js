@@ -55,7 +55,7 @@ define([
             }).success(function(data) {
                 var map = self.createMap(mapName, data);
                 window.setupMap = function(fn) {
-                    fn(map, window.GameState.instance);
+                    fn(map);
                     window.setupMap = null;
                 };
                 $.getScript("assets/maps/" + mapName + ".js", function() {

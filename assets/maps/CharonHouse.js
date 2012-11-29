@@ -1,6 +1,6 @@
-setupMap(function(map, gameState) {
-
+setupMap(function(map) {
     var Npc = require('actors/npc');
+    var gameState = require('game-state');
 
     var flags = gameState.flags.charonsHouse = gameState.flags.charonsHouse || {
         haveDrachma: false,

@@ -1,5 +1,7 @@
-setupMap(function(map, gameState) {
+setupMap(function(map) {
     "use strict";
+
+    var gameState = require('game-state');
 
     var stepsUntilMirvMessage = 750;
     var learnAboutMirv = function() {

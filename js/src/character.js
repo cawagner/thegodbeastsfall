@@ -29,7 +29,7 @@ define(["underscore", "dice"], function(_, Dice) {
 
         character.face = options.face;
 
-        character.lastStatIncreased = '';
+        character.lastStatIncreased = options.lastStatIncreased;
 
         while (character.level < (options.level || 1)) {
             character.gainLevel('');

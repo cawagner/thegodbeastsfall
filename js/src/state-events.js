@@ -7,6 +7,7 @@ define([
     "states/battle-state",
     "states/status-state",
     "states/transitions/scroll-transition-state",
+    "game-state",
     "sound"
 ], function(
     _,
@@ -17,6 +18,7 @@ define([
     BattleState,
     StatusState,
     ScrollTransitionState,
+    gameState,
     sound
 ) {
     "use strict";
@@ -88,7 +90,7 @@ define([
                 sound.playMusic(map.properties.music);
 
                 // TODO: ugly, ugly!
-                GameState.instance.location.currentMap = map.name;
+                gameState.location.currentMap = map.name;
 
                 // HACKY!
                 inDungeon = map.properties.isDungeon;
@@ -119,7 +121,7 @@ define([
                 game.popState();
 
                 // TODO: ugly, ugly!
-                _(GameState.instance.party).each(function(character) {
+                _(gameState.party).each(function(character) {
                     character.hp = Math.max(1, character.hp);
                 });
 
@@ -135,7 +137,7 @@ define([
 
             $.subscribe("/party/heal", function() {
                 var anyHealing = false;
-                _(GameState.instance.party).each(function(member) {
+                _(gameState.party).each(function(member) {
                     if (member.hp !== member.maxHp || member.mp !== member.maxMp) {
                         anyHealing = true;
                         member.hp = member.maxHp;
@@ -147,6 +149,10 @@ define([
                         text: ["You have been fully healed."]
                     }]);
                 }
+            });
+
+            $.subscribe("/game/new", function() {
+                gameState.newGame();
             });
         }
     }

@@ -1,4 +1,4 @@
-define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, direction) {
+define(['actors/actor', 'keyboard-input', 'direction', 'game-state'], function(Actor, input, direction, gameState) {
     "use strict";
 
     var PUSH_AFTER = 15;
@@ -16,10 +16,10 @@ define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, d
                 if (self.tryMoveBy(dx, dy)) {
                     failedMoves = 0;
                     // TODO: this is stupid and ugly!
-                    GameState.instance.totalSteps++;
-                    GameState.instance.location.x = Math.floor(self.x);
-                    GameState.instance.location.y = Math.floor(self.y);
-                    GameState.instance.location.direction = self.direction;
+                    gameState.totalSteps++;
+                    gameState.location.x = Math.floor(self.x);
+                    gameState.location.y = Math.floor(self.y);
+                    gameState.location.direction = self.direction;
                     $.publish("/hero/step");
                 } else {
                     ++failedMoves;

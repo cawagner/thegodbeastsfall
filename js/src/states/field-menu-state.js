@@ -88,11 +88,11 @@ define([
                         items: [ "Save", "Load" ],
                         select: function(index) {
                             if (index === 0) {
-                                localStorage.setItem("saveGame0", GameState.instance.toJSON());
+                                localStorage.setItem("saveGame0", gameState.toJSON());
                             } else if (index === 1) {
                                 this.close();
                                 self.menu.close();
-                                GameState.instance.loadJSON(localStorage.getItem("saveGame0"));
+                                gameState.loadJSON(localStorage.getItem("saveGame0"));
                             }
                         }
                     }),

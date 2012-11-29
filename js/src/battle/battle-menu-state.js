@@ -2,11 +2,13 @@ define([
     "underscore",
     "menu",
     "gui",
+    "game-state",
     "json!skills.json"
 ], function(
     _,
     Menu,
     GuiRenderer,
+    gameState,
     skills
 ) {
     "use strict";
@@ -47,7 +49,7 @@ define([
             items: [
                 { text: "Fight", childMenu: self.getSkillsMenuForType("Fight") },
                 { text: "Magic", childMenu: self.getSkillsMenuForType("Magic") },
-                { text: "Item", childMenu: self.getItemsMenu(), disabled: !GameState.instance.inventory.getItems("battleUsable").length },
+                { text: "Item", childMenu: self.getItemsMenu(), disabled: !gameState.inventory.getItems("battleUsable").length },
                 {
                     text: "Tactic",
                     childMenu: new Menu({
@@ -119,7 +121,7 @@ define([
 
         return function() {
             var member = self.battleState.playerPawns[self.partyIndex];
-            var items = _(GameState.instance.inventory.getItems("battleUsable")).map(function(item) {
+            var items = _(gameState.inventory.getItems("battleUsable")).map(function(item) {
                 return { text: "x" + item.quantity + " " + item.item.name, item: item.item, itemId: item.itemId, quantity: item.quantity };
             });
             return new Menu({

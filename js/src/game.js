@@ -1,4 +1,4 @@
-define(["states/main-menu-state"], function(MainMenuState) {
+define(['states/main-menu-state'], function(MainMenuState) {
     "use strict";
 
     function Game(graphics, input) {
@@ -22,7 +22,7 @@ define(["states/main-menu-state"], function(MainMenuState) {
             if (_.isFunction(newState.start)) {
                 newState.start(this.currentState());
             }
-            if (_.isFunction(this.currentState().suspend)) {
+            if (this.currentState() && _.isFunction(this.currentState().suspend)) {
                 this.currentState().suspend();
             }
             gameStates.push(newState);

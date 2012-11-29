@@ -1,4 +1,4 @@
-define(["game-state"], function(gameState) {
+define([], function() {
     "use strict";
 
     function MainMenuState() {
@@ -7,7 +7,7 @@ define(["game-state"], function(gameState) {
         };
 
         this.update = _.once(function() {
-            gameState.newGame();
+            $.publish("/game/new");
         });
     }
 
