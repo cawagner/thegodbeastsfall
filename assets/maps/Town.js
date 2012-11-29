@@ -19,21 +19,15 @@ setupMap(function(map) {
     var stepSubscription = $.subscribe("/hero/step", function() {
         flags.stepsUntilMirvMessage--;
         if (flags.stepsUntilMirvMessage === 0) {
-            new Npc({ archetype: "heroine" }).say([
-                "Helt... can you hear me? I am Miav. It is preordained that we work together...",
-                "But I came long before you, and was born beyond the boundary of the Fake World...",
-                "I sealed myself in the Tomb World so that I would still be able to help when you appeared.",
-                "Charon, who maintains the graveyard north of town, can help you release me.",
-                "Please, if you can hear me..."
-            ]);
+            map.npcs.mirvMessage.runDialogue("say");
         }
     });
 
     map.npcs.earl2.addAfterTalk(function() {
         if (gameState.inventory.addItem("potion", 1)) {
-            this.say(["I gave you a potion."]);
+            this.runDialogue("potion");
         } else {
-            this.say(["Nevermind. You've already got potions out the wazoo."]);
+            this.runDialogue("wazoo");
         }
     });
 

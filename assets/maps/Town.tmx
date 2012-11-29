@@ -151,7 +151,9 @@
    <properties>
     <property name="archetype" value="earl"/>
     <property name="behavior" value="wanderlust"/>
+    <property name="potion" value="I gave you a potion."/>
     <property name="say" value="Guelln is a town that has been blessed by the Goddess Liessin."/>
+    <property name="wazoo" value="Nevermind. You've already got potions out the wazoo."/>
    </properties>
   </object>
   <object name="singer" type="NPC" x="80" y="144">
@@ -169,5 +171,15 @@
    </properties>
   </object>
   <object name="fromCharonHouse" type="Entrance" x="101" y="315"/>
+  <object name="mirvMessage" type="NPC" x="-166" y="95">
+   <properties>
+    <property name="archetype" value="heroine"/>
+    <property name="say1" value="Helt... can you hear me? I am Miav. It is preordained that we work together..."/>
+    <property name="say2" value="But I came long before you, and was born beyond the boundary of the Fake World..."/>
+    <property name="say3" value="I sealed myself in the Tomb World so that I would still be able to help when you appeared."/>
+    <property name="say4" value="Charon, who maintains the graveyard north of town, can help you release me."/>
+    <property name="say5" value="Please, if you can hear me..."/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
