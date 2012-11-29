@@ -40,14 +40,27 @@ define([
                                 return { text: skills[skill].name, skill: skills[skill], disabled: !pawn.canUseSkill(skills[skill]) };
                             }).value();
 
-                            if (fieldSkills.length) {
-                                return {
-                                    text: member.name,
-                                    childMenu: new Menu({ items: fieldSkills })
-                                };
-                            } else {
-                                return { text: member.name, disabled: true };
-                            }
+                            return {
+                                text: member.name,
+                                childMenu: new Menu({
+                                    items: fieldSkills,
+                                    hierarchical: true,
+                                    select: function(index) {
+                                        var skillMenu = this;
+                                        var fieldSkill = fieldSkills[index];
+                                        var targetMenu = new Menu({
+                                            items: _(gameState.party).pluck("name"),
+                                            select: function(index) {
+                                                $.publish("/npc/talk", [{
+                                                    text: ["Du hast " + gameState.party[index].name + " gewaehlt!"]
+                                                }]);
+                                            }
+                                        }).open();
+                                    }
+                                }),
+                                disabled: !fieldSkills.length,
+                                hierarchical: true
+                            };
                         });
                         return new Menu({
                             items: partyMembers,
