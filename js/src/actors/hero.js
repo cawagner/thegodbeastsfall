@@ -15,7 +15,11 @@ define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, d
             if (self.canMove() && (dx || dy)) {
                 if (self.tryMoveBy(dx, dy)) {
                     failedMoves = 0;
+                    // TODO: this is stupid and ugly!
                     GameState.instance.totalSteps++;
+                    GameState.instance.location.x = Math.floor(self.x);
+                    GameState.instance.location.y = Math.floor(self.y);
+                    GameState.instance.location.direction = self.direction;
                     $.publish("/hero/step");
                 } else {
                     ++failedMoves;
@@ -58,7 +62,7 @@ define(['actors/actor', 'keyboard-input', 'direction'], function(Actor, input, d
         };
 
         this.onUpdate = function(timeScale) {
-            if (!this.isMovementLocked()) {
+            if (!this.isMovementLocked) {
                 takeInput();
             }
         };

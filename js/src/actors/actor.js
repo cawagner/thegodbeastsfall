@@ -5,7 +5,6 @@ define(['jquery', 'direction'], function($, direction) {
         var self = this;
         var moveX = 0, moveY = 0;
         var moveRemaining = 0;
-        var isMovementLocked = false;
 
         var moveHistory = [];
 
@@ -45,16 +44,12 @@ define(['jquery', 'direction'], function($, direction) {
             return true;
         };
 
-        this.isMovementLocked = function() {
-            return isMovementLocked;
-        };
-
         this.lockMovement = function() {
-            isMovementLocked = true;
+            this.isMovementLocked = true;
         };
 
         this.unlockMovement = function() {
-            isMovementLocked = false;
+            this.isMovementLocked = false;
         };
 
         this.isMoving = function() {
@@ -88,6 +83,7 @@ define(['jquery', 'direction'], function($, direction) {
         this.occupiesSpace = true;
         this.isPushable = true;
         this.archetype = archetype;
+        this.isMovementLocked = false;
     }
 
     Actor.MOVE_SPEED = 0.05;

@@ -39,11 +39,17 @@ define([
         map.addActor(hero);
 
         entrance = entrance || "default";
-        if (entrance in map.entrances) {
-            hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
-            if (map.entrances[entrance].direction !== undefined) {
-                hero.direction = direction.fromName(map.entrances[entrance].direction);
+        if (typeof entrance === 'string') {
+            if (entrance in map.entrances) {
+                hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
+                if (map.entrances[entrance].direction !== undefined) {
+                    hero.direction = direction.fromName(map.entrances[entrance].direction);
+                }
             }
+        } else {
+            console.log(entrance);
+            hero.warpTo(entrance.x, entrance.y);
+            hero.direction = entrance.direction || direction.UP;
         }
 
         setTimeout(function() {

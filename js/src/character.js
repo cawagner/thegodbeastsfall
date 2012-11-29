@@ -110,5 +110,10 @@ define(["underscore", "dice"], function(_, Dice) {
         };
     };
 
+    Character.prototype.toJSON = function() {
+        var exclude = _(Character.prototype).keys().concat(['learnSet']);
+        return _(this).omit(exclude);
+    };
+
     return Character;
 });

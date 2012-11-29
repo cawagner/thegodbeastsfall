@@ -53,7 +53,7 @@ define([
                 dataType: "json",
                 cache: false
             }).success(function(data) {
-                var map = self.createMap(data);
+                var map = self.createMap(mapName, data);
                 window.setupMap = function(fn) {
                     fn(map, window.GameState.instance);
                     window.setupMap = null;
@@ -67,7 +67,7 @@ define([
             return deferred.promise();
         };
 
-        this.createMap = function(data) {
+        this.createMap = function(mapName, data) {
             var tileLayers = _(data.layers).filter(function(layer) { return layer.type === "tilelayer"; });
             var objectLayers = _(data.layers).filter(function(layer) { return layer.type === "objectgroup"; })
 
@@ -140,6 +140,7 @@ define([
             });
 
             return new Map(tilemap, mask.data, {
+                name: mapName,
                 tilesets: tilesets,
                 entrances: entrances,
                 exits: exits,

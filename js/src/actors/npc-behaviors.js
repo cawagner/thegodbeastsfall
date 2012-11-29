@@ -6,7 +6,7 @@ define(['underscore'], function(_) {
             var waitForNextMove = 0;
             return function() {
                 var dx = 0, dy = 0, dir;
-                if (!(self.isMoving() || self.isMovementLocked())) {
+                if (!(self.isMoving() || self.isMovementLocked)) {
                     if (waitForNextMove < 0) {
                         dir = Math.random() >= 0.5;
                         if (dir) {

@@ -87,6 +87,9 @@ define([
 
                 sound.playMusic(map.properties.music);
 
+                // TODO: ugly, ugly!
+                GameState.instance.location.currentMap = map.name;
+
                 // HACKY!
                 inDungeon = map.properties.isDungeon;
                 if (!inDungeon) {
