@@ -6,7 +6,8 @@ setupMap(function(map) {
     var Battle = require('battle');
 
     var flags = gameState.flags.town = gameState.flags.town || {
-        stepsUntilMirvMessage: 750
+        stepsUntilMirvMessage: 750,
+        knowAboutMirv: false
     };
 
     var learnAboutMirv = function() {
@@ -33,9 +34,12 @@ setupMap(function(map) {
     });
 
     map.subscribe("/hero/step", function() {
-        flags.stepsUntilMirvMessage--;
-        if (flags.stepsUntilMirvMessage === 0) {
-            map.npcs.mirvMessage.runDialogue("say");
+        if (!flags.knowAboutMirv) {
+            flags.stepsUntilMirvMessage--;
+            if (flags.stepsUntilMirvMessage <= 0) {
+                map.npcs.mirvMessage.runDialogue("say");
+                flags.knowAboutMirv = true;
+            }
         }
     });
 });
