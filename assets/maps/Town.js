@@ -41,7 +41,7 @@ setupMap(function(map, gameState) {
         this.say([
             "No need to thank me. Just take this."
         ]).done(function() {
-            if (GameState.instance.inventory.addItem("potion", 1)) {
+            if (gameState.inventory.addItem("potion", 1)) {
                 self.say(["I gave you a potion."]);
             } else {
                 self.say(["Nevermind. You've already got potions out the wazoo."]);

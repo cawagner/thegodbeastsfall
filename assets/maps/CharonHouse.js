@@ -1,19 +1,14 @@
-setupMap(function(map) {
+setupMap(function(map, gameState) {
 
     var Npc = require('actors/npc');
-    var clurichaun = null;
 
-    map.npcs.drachma.onTalk = function() {
-        map.npcs.drachma.onTalk = function() {};
+    var flags = gameState.flags.charonsHouse = gameState.flags.charonsHouse || {
+        haveDrachma: false,
+        beatenClurichaun: false
+    };
 
-        this.say([
-            "There, on the bookshelf, was a small coin.",
-            "There is a small envelope next to it.",
-            "It fills Helt with an overwhelming sense of rainy days and laughter.",
-            "Helt feels compelled to takes both."
-        ]);
-
-        clurichaun = new Npc({
+    var addClurichaun = function() {
+        var clurichaun = new Npc({
             archetype: 'earl',
             behavior: 'stationary'
         });
@@ -22,6 +17,7 @@ setupMap(function(map) {
         clurichaun.onTalk = function() {
             clurichaun.onTalk = function(){};
             var battle = $.subscribe("/battle/won", function() {
+                flags.beatenClurichaun = true;
                 $.unsubscribe(battle);
                 clurichaun.say([
                     "Fine... beat up a helpless faerie.",
@@ -44,6 +40,30 @@ setupMap(function(map) {
                 $.publish("/battle/start", [["clurichaun"], { isBoss: true }]);
             });
         };
+    };
+
+    map.onLoad = function() {
+        if (flags.haveDrachma && !flags.beatenClurichaun) {
+            addClurichaun();
+        }
+    };
+
+    map.npcs.drachma.onTalk = function() {
+        if (flags.haveDrachma) {
+            this.say(["You've already got the drachma."]);
+            return;
+        }
+
+        flags.haveDrachma = true;
+
+        this.say([
+            "There, on the bookshelf, was a small coin.",
+            "There is a small envelope next to it.",
+            "It fills Helt with an overwhelming sense of rainy days and laughter.",
+            "Helt feels compelled to takes both."
+        ]);
+
+        addClurichaun();
     };
 
 });

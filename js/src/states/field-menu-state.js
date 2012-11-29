@@ -85,8 +85,17 @@ define([
                 {
                     text: "System",
                     childMenu: new Menu({
-                        items: [ "Save", "Load", "Options" ]
-                    })
+                        items: [ "Save", "Load" ],
+                        select: function(index) {
+                            if (index === 0) {
+                                localStorage.setItem("saveGame0", GameState.instance.toJSON());
+                            } else if (index === 1) {
+                                this.close();
+                                self.menu.close();
+                                GameState.instance.loadJSON(localStorage.getItem("saveGame0"));
+                            }
+                        }
+                    }),
                 }
             ]
         });
