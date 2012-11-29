@@ -12,7 +12,7 @@ setupMap(function(map) {
 
     var moveClurichaunInFrontOfDoor = function() {
         clurichaun.warpTo(1, 13);
-    }
+    };
 
     if (flags.haveDrachma && !flags.beatenClurichaun) {
         moveClurichaunInFrontOfDoor();
