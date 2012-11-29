@@ -23,6 +23,14 @@ setupMap(function(map) {
         }
     });
 
+    map.onUnload = function() {
+        $.unsubscribe(stepSubscription);
+    };
+
+    map.npcs.oldman.addBeforeTalk(learnAboutMirv);
+    map.npcs.littlegirl.addBeforeTalk(learnAboutMirv);
+    map.npcs.earl.addBeforeTalk(learnAboutMirv);
+
     map.npcs.earl2.addAfterTalk(function() {
         if (gameState.inventory.addItem("potion", 1)) {
             this.runDialogue("potion");
@@ -31,15 +39,7 @@ setupMap(function(map) {
         }
     });
 
-    map.npcs.barrel1.onTalk = function() {
+    map.npcs.barrel1.addAfterTalk(function() {
         new Battle(["slime", "rat", "slime"]).start();
-    };
-
-    map.onUnload = function() {
-        $.unsubscribe(stepSubscription);
-    };
-
-    map.npcs.oldman.addBeforeTalk(learnAboutMirv);
-    map.npcs.littlegirl.addBeforeTalk(learnAboutMirv);
-    map.npcs.earl.addBeforeTalk(learnAboutMirv);
+    });
 });
