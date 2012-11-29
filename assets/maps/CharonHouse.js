@@ -10,12 +10,13 @@ setupMap(function(map) {
 
     var clurichaun = map.npcs.clurichaun;
 
-    map.onLoad = function() {
-        if (flags.haveDrachma && !flags.beatenClurichaun) {
-            // put the clurichaun in front of the door
-            clurichaun.warpTo(1, 13);
-        }
-    };
+    var moveClurichaunInFrontOfDoor = function() {
+        clurichaun.warpTo(1, 13);
+    }
+
+    if (flags.haveDrachma && !flags.beatenClurichaun) {
+        moveClurichaunInFrontOfDoor();
+    }
 
     clurichaun.addAfterTalk(function() {
         var battle = new Battle(["clurichaun"], { isBoss: true });
@@ -43,6 +44,12 @@ setupMap(function(map) {
     });
     map.npcs.drachma.addBeforeTalk(function() {
         flags.haveDrachma = true;
-        map.onLoad();
+        moveClurichaunInFrontOfDoor();
+    });
+
+    _(map.npcs.drachma).chain().clone().tap(function(d2) {
+        d2.warpTo(map.npcs.drachma.x - 1, map.npcs.drachma.y);
+        map.addActor(d2);
+        console.log(d2);
     });
 });
