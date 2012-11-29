@@ -14,8 +14,7 @@ setupMap(function(map) {
         });
         map.addActor(clurichaun);
         clurichaun.warpTo(1, 13);
-        clurichaun.onTalk = function() {
-            clurichaun.onTalk = function(){};
+        clurichaun.onTalk = _.once(function() {
             var battle = $.subscribe("/battle/won", function() {
                 flags.beatenClurichaun = true;
                 $.unsubscribe(battle);
@@ -39,7 +38,7 @@ setupMap(function(map) {
             ]).done(function() {
                 $.publish("/battle/start", [["clurichaun"], { isBoss: true }]);
             });
-        };
+        });
     };
 
     map.onLoad = function() {
