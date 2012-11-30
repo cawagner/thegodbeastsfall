@@ -138,6 +138,30 @@
                  "width":16,
                  "x":160,
                  "y":80
+                }, 
+                {
+                 "height":0,
+                 "name":"toChurch",
+                 "properties":
+                    {
+                     "map":"Church"
+                    },
+                 "type":"Exit",
+                 "width":32,
+                 "x":96,
+                 "y":224
+                }, 
+                {
+                 "height":16,
+                 "name":"fromChurch",
+                 "properties":
+                    {
+
+                    },
+                 "type":"Entrance",
+                 "width":16,
+                 "x":112,
+                 "y":256
                 }],
          "opacity":1,
          "type":"objectgroup",
