@@ -129,7 +129,7 @@
    <properties>
     <property name="archetype" value="littlegirl"/>
     <property name="behavior" value="wanderlust"/>
-    <property name="say" value="Miav is really pretty. And really strong. And smart."/>
+    <property name="say" value="Mierv is really pretty. And really strong. And smart."/>
     <property name="say2" value="I hope she's okay."/>
    </properties>
   </object>
@@ -138,7 +138,7 @@
     <property name="archetype" value="earl"/>
     <property name="behavior" value="wanderlust"/>
     <property name="say" value="You're the first person like you to come here in like twenty years."/>
-    <property name="say2" value="Miav was the last. She was strong and kind, but she went into the Tomb World and never came back."/>
+    <property name="say2" value="Mierv was the last. She was strong and kind, but she went into the Tomb World and never came back."/>
    </properties>
   </object>
   <object name="barrel1" type="NPC" x="152" y="248">
@@ -174,7 +174,7 @@
   <object name="mirvMessage" type="NPC" x="-166" y="95">
    <properties>
     <property name="archetype" value="heroine"/>
-    <property name="say1" value="Helt... can you hear me? I am Miav. It is preordained that we work together..."/>
+    <property name="say1" value="Helt... can you hear me? I am Mierv. It is preordained that we work together..."/>
     <property name="say2" value="But I came long before you, and was born beyond the boundary of the Fake World..."/>
     <property name="say3" value="I sealed myself in the Tomb World so that I would still be able to help when you appeared."/>
     <property name="say4" value="Charon, who maintains the graveyard north of town, can help you release me."/>
