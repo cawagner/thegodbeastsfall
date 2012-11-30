@@ -6,14 +6,9 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
         var afterTalkHandlers = [];
 
         _.defaults(properties, {
-            "archetype": "oldman",
-            "behavior": "wanderlust"
+            "archetype": "bgobj",
+            "behavior": "stationary"
         });
-
-        // bgobjs can only be stationary.
-        if (properties.archetype === "bgobj") {
-            properties.behavior = "stationary";
-        }
 
         Actor.call(this, properties.archetype);
 
