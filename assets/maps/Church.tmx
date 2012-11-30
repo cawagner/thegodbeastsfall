@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="16" tileheight="16">
+ <properties>
+  <property name="music" value="church"/>
+ </properties>
  <tileset firstgid="1" name="rpgindoor2" tilewidth="16" tileheight="16">
   <image source="../img/rpgindoor2.png" trans="ffffff" width="176" height="192"/>
  </tileset>
