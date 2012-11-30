@@ -59,14 +59,10 @@ define(["constants"], function(constants) {
                         tileset = _(tilesets).find(function(ts) {
                             return tile >= ts.firstTile && tile < ts.firstTile + ts.length;
                         });
-                        console.log(tileset);
                     }
                     tile -= tileset.firstTile;
                     tx = tile % tileset.width;
                     ty = Math.floor(tile / tileset.width);
-                    if (tileset !== tilesets[0]) {
-                        console.log(tile, tx, ty);
-                    }
                     context.drawImage(tileset.image,
                         tx * TILE_SIZE, ty * TILE_SIZE,
                         TILE_SIZE, TILE_SIZE,
