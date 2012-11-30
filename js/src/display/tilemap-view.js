@@ -48,15 +48,26 @@ define(["constants"], function(constants) {
             tile -= 1;
         };
 
+        var lastTile = -1, tileset;
         _(tilemap.layers).times(function(z) {
             _.each2d(tilemap.width, tilemap.height, function(x, y) {
                 var tile = tilemap.getAt(x, y, z);
                 var tx, ty;
-                if (tile) {
-                    tile -= 1;
-                    tx = tile % ts.width;
-                    ty = Math.floor(tile / ts.width);
-                    context.drawImage(tilesets[0].image,
+                if (tile > 0) {
+                    if (tile !== lastTile) {
+                        lastTile = tile;
+                        tileset = _(tilesets).find(function(ts) {
+                            return tile >= ts.firstTile && tile < ts.firstTile + ts.length;
+                        });
+                        console.log(tileset);
+                    }
+                    tile -= tileset.firstTile;
+                    tx = tile % tileset.width;
+                    ty = Math.floor(tile / tileset.width);
+                    if (tileset !== tilesets[0]) {
+                        console.log(tile, tx, ty);
+                    }
+                    context.drawImage(tileset.image,
                         tx * TILE_SIZE, ty * TILE_SIZE,
                         TILE_SIZE, TILE_SIZE,
                         x * TILE_SIZE, y * TILE_SIZE,

@@ -36,7 +36,8 @@ define([
                 height: tilesetData.imageheight / TILE_SIZE,
                 tileWidth: tilesetData.tilewidth,
                 tileHeight: tilesetData.tileheight,
-                length: (tilesetData.imagewidth / TILE_SIZE) * (tilesetData.imageheight / TILE_SIZE)
+                length: (tilesetData.imagewidth / TILE_SIZE) * (tilesetData.imageheight / TILE_SIZE),
+                firstTile: tilesetData.firstgid
             };
 
             deferreds.push(imageLoader.loadImage(path).done(function(image) {
@@ -138,6 +139,8 @@ define([
                     encounters[object.name] = encounter;
                 });
             });
+
+            tilesets = _(tilesets).sortBy("firstTile");
 
             return new Map(tilemap, mask.data, {
                 name: mapName,
