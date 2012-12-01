@@ -12,7 +12,8 @@
         "imagePath": "assets/img/oldwoman.png"
     },
     "littlegirl": {
-        "imagePath": "assets/img/littlegirl.png"
+        "imagePath": "assets/img/npcs.png",
+        "startFrame": 24
     },
     "earl": {
         "imagePath": "assets/img/npcs.png"
