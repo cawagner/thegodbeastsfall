@@ -15,6 +15,10 @@
         "imagePath": "assets/img/npcs.png",
         "startFrame": 24
     },
+    "littleboy": {
+        "imagePath": "assets/img/npcs.png",
+        "startFrame": 48
+    },
     "pfarrer": {
         "imagePath": "assets/img/npcs.png",
         "startFrame": 36

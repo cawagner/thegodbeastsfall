@@ -181,5 +181,15 @@
     <property name="say2" value="I like BOTH of those things."/>
    </properties>
   </object>
+  <object name="norodelFan" type="NPC" x="256" y="80" width="16" height="16">
+   <properties>
+    <property name="answerNo" value="Norodel! Yes! Exactly! He's really cool!"/>
+    <property name="answerYes" value="Yesrodel? YESRODEL? You're really aren't from around here, are you..."/>
+    <property name="archetype" value="littleboy"/>
+    <property name="cancel" value="Hey, you don't have to be a jerk about it."/>
+    <property name="say1" value="Hey! Wanna play a game?"/>
+    <property name="say2" value="____rodel, the god of war and games! Can you fill in the blanks?"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

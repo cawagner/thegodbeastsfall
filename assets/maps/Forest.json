@@ -53,7 +53,7 @@
                  "name":"slimes",
                  "properties":
                     {
-                     "frequency":"10-20",
+                     "frequency":"15-25",
                      "parties":"[[\"slime\"], [\"slime\",\"slime\"]]"
                     },
                  "type":"Encounters",

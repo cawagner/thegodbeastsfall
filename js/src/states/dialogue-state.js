@@ -24,7 +24,6 @@ define([
 
         this.start = function(previousState) {
             this.previousState = previousState;
-            $.publish("/sound/play", ["message"]);
         };
 
         this.end = function() {
@@ -50,7 +49,6 @@ define([
         };
 
         this.advanceText = function() {
-            $.publish("/sound/play", ["message"]);
             ++lineIndex;
             if (lineIndex >= message.text.length) {
                 Game.instance.popState();

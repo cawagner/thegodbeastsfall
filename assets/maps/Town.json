@@ -183,11 +183,10 @@
                  "properties":
                     {
                      "archetype":"heroine",
-                     "say1":"Helt... can you hear me? I am Mierv. It is preordained that we work together...",
-                     "say2":"But I came long before you, and was born beyond the boundary of the Fake World...",
-                     "say3":"I sealed myself in the Tomb World so that I would still be able to help when you appeared.",
+                     "say1":"Helt... can you hear me? I am Mierv.",
+                     "say2":"I came to Guelln many years ago, but have been trapped in the Tomb World, waiting for you to be born.",
                      "say4":"Charon, who maintains the graveyard north of town, can help you release me.",
-                     "say5":"Please, if you can hear me..."
+                     "say5":"Helt, I know we've never met, but this is our fate. Please believe me."
                     },
                  "type":"NPC",
                  "width":0,
