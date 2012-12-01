@@ -15,7 +15,11 @@
         "imagePath": "assets/img/littlegirl.png"
     },
     "earl": {
-        "imagePath": "assets/img/earl.png"
+        "imagePath": "assets/img/npcs.png"
+    },
+    "woman": {
+        "imagePath": "assets/img/npcs.png",
+        "startFrame": 12
     },
     "bgobj": {
         "isHidden": true

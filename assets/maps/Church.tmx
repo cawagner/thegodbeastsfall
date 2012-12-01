@@ -174,5 +174,12 @@
     <property name="map" value="Forest"/>
    </properties>
   </object>
+  <object name="farFollower" type="NPC" x="128" y="80" width="16" height="16">
+   <properties>
+    <property name="archetype" value="woman"/>
+    <property name="say1" value="Far is the goddess of art and music."/>
+    <property name="say2" value="I like BOTH of those things."/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
