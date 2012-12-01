@@ -78,8 +78,8 @@ define(["constants"], function(constants) {
 
         this.draw = function() {
             graphics.setOrigin(0, 0);
-            fullSourceRect.x = this.scrollX;
-            fullSourceRect.y = this.scrollY;
+            fullSourceRect.x = this.scrollX | 0;
+            fullSourceRect.y = this.scrollY | 0;
             graphics.drawImageRect(damnedBigCanvas, fullSourceRect, fullDestRect);
             graphics.setOrigin(-this.scrollX, -this.scrollY);
         };

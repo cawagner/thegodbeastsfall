@@ -12,7 +12,7 @@ define([], function() {
         this.toState = toState;
 
         options = _.defaults(options || {}, {
-            speed: 2
+            speed: 4
         });
 
         //options = _.defaults();

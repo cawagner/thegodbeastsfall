@@ -46,7 +46,10 @@ define(['actors/actor', 'keyboard-input', 'direction', 'game-state'], function(A
             var otherGuy = this.map.getActor(this.x + d.x, this.y + d.y);
             if (otherGuy && otherGuy.isPushable && otherGuy.canMove()) {
                 otherGuy.onShove();
-                otherGuy.tryMoveBy(d.x, d.y);
+                if (otherGuy.tryMoveBy(d.x, d.y)) {
+                    otherGuy.update();
+                    this.update();
+                }
             }
         };
 

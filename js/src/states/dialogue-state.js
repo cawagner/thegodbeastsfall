@@ -64,7 +64,7 @@ define([
                 this.advanceText();
             }
 
-            openProgress = Math.min(1, openProgress + 0.05);
+            openProgress = Math.min(1, openProgress + 0.1);
 
             this.previousState.update(timeScale, false);
         };

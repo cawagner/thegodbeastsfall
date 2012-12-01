@@ -8,7 +8,7 @@ define([], function() {
             return {
                 update: function() {
                     pushDown += pushingDown;
-                    pushingDown -= 0.5;
+                    pushingDown -= 1;
                     return pushDown <= 0;
                 },
                 transform: function(dest) {
@@ -22,7 +22,7 @@ define([], function() {
             return {
                 update: function() {
                     pushUp += pushingUp;
-                    pushingUp -= 0.5;
+                    pushingUp -= 1;
                     return pushUp <= 0;
                 },
                 transform: function(dest) {
@@ -66,7 +66,7 @@ define([], function() {
                     dest.width -= dying * 2;
                 },
                 update: function() {
-                    dying += 2;
+                    dying += 4;
                     if (dying >= pawn.rect.width / 2) {
                         pawn.isHidden = true;
                         return true;

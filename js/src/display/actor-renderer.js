@@ -21,7 +21,7 @@ define(["json!archetypes.json", "image-loader", "constants"], function(archetype
                 image = archetypeImages[archetype.imagePath];
 
             if (!archetype.isHidden) {
-                frameToDraw = actor.direction * 3 + walkFrames[Math.floor(frame)];
+                frameToDraw = actor.direction * 3 + walkFrames[frame|0];
 
                 srcRect = graphics.getRectForFrame(frameToDraw + (archetype.startFrame || 0), image.width, 16, 18);
 

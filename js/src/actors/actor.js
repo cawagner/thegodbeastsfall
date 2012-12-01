@@ -86,7 +86,7 @@ define(['jquery', 'direction'], function($, direction) {
         this.isMovementLocked = false;
     }
 
-    Actor.MOVE_SPEED = 0.05;
+    Actor.MOVE_SPEED = 0.1;
 
     Actor.prototype.warpTo = function(x, y) {
         this.x = x;

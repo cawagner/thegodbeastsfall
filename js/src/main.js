@@ -34,9 +34,9 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
         flippy = !flippy;
         startFrame = endFrame;
 
-        while (collected >= 8) {
+        while (collected >= 16.6) {
             game.update(timeScale);
-            collected -= 8;
+            collected -= 16.6;
         }
         if (flippy) {
             game.draw(timeScale);
