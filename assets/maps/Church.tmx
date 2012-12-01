@@ -128,7 +128,7 @@
  <objectgroup name="Object Layer 1" width="25" height="25">
   <object name="father" type="NPC" x="192" y="128" width="16" height="16">
    <properties>
-    <property name="archetype" value="oldman"/>
+    <property name="archetype" value="pfarrer"/>
     <property name="behavior" value="boulder"/>
     <property name="say1" value="Chateau attendance isn't what it used to be."/>
     <property name="say2" value="..."/>

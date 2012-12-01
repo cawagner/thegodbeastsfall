@@ -15,8 +15,13 @@
         "imagePath": "assets/img/npcs.png",
         "startFrame": 24
     },
+    "pfarrer": {
+        "imagePath": "assets/img/npcs.png",
+        "startFrame": 36
+    },
     "earl": {
-        "imagePath": "assets/img/npcs.png"
+        "imagePath": "assets/img/npcs.png",
+        "startFrame": 0
     },
     "woman": {
         "imagePath": "assets/img/npcs.png",
