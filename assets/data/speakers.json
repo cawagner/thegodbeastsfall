@@ -4,19 +4,7 @@
         "frame": 0
     },
     "heroine": {
-        "name": "Miav",
+        "name": "Mierv",
         "frame": 4
-    },
-    "oldman": {
-        "name": "Old Fogy"
-    },
-    "littlegirl": {
-        "name": "Little Girl"
-    },
-    "earl": {
-        "name": "Man"
-    },
-    "oldwoman": {
-        "name": "Crone"
     }
 }

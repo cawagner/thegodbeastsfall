@@ -152,17 +152,17 @@
     <property name="archetype" value="earl"/>
     <property name="behavior" value="wanderlust"/>
     <property name="potion" value="I gave you a potion."/>
-    <property name="say" value="Guelln is a town that has been blessed by the Goddess Liessin."/>
+    <property name="say" value="Liessin sees to all of the needs of Guelln and its citizens."/>
+    <property name="say2" value="That's why it's so lush and livable compared to what's left of the rest of the world."/>
     <property name="wazoo" value="Nevermind. You've already got potions out the wazoo."/>
    </properties>
   </object>
-  <object name="singer" type="NPC" x="80" y="144">
+  <object name="awedBoy" type="NPC" x="80" y="144">
    <properties>
-    <property name="archetype" value="oldwoman"/>
-    <property name="behavior" value="stationary"/>
-    <property name="say" value="Do you know all eight gods? In Guelln we revere Liessin, Goddess of Life, but there's also..."/>
-    <property name="say2" value="Dichet, God of Order. Far, Goddess of Art and Flow. Mondei, God of Knowledge. Vin, Goddess of Passion. "/>
-    <property name="say3" value="We don't much care for Norodel of War or Ropo of Chaos... and then there's Bilgets the Death..."/>
+    <property name="archetype" value="littleboy"/>
+    <property name="behavior" value="wanderlust"/>
+    <property name="say1" value="Are you really from the Before World?"/>
+    <property name="say2" value="They say it's nothing but a wasteland, but I'd still like to see it..."/>
    </properties>
   </object>
   <object name="toCharonHouse" type="Exit" x="101" y="288">

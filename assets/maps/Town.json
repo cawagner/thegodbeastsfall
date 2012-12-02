@@ -129,7 +129,8 @@
                      "archetype":"earl",
                      "behavior":"wanderlust",
                      "potion":"I gave you a potion.",
-                     "say":"Guelln is a town that has been blessed by the Goddess Liessin.",
+                     "say":"Liessin sees to all of the needs of Guelln and its citizens.",
+                     "say2":"That's why it's so lush and livable compared to what's left of the rest of the world.",
                      "wazoo":"Nevermind. You've already got potions out the wazoo."
                     },
                  "type":"NPC",
@@ -139,14 +140,13 @@
                 }, 
                 {
                  "height":0,
-                 "name":"singer",
+                 "name":"awedBoy",
                  "properties":
                     {
-                     "archetype":"oldwoman",
-                     "behavior":"stationary",
-                     "say":"Do you know all eight gods? In Guelln we revere Liessin, Goddess of Life, but there's also...",
-                     "say2":"Dichet, God of Order. Far, Goddess of Art and Flow. Mondei, God of Knowledge. Vin, Goddess of Passion. ",
-                     "say3":"We don't much care for Norodel of War or Ropo of Chaos... and then there's Bilgets the Death..."
+                     "archetype":"littleboy",
+                     "behavior":"wanderlust",
+                     "say1":"Are you really from the Before World?",
+                     "say2":"They say it's nothing but a wasteland, but I'd still like to see it..."
                     },
                  "type":"NPC",
                  "width":0,
