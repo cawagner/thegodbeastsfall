@@ -91,8 +91,7 @@
                  "name":"grave1",
                  "properties":
                     {
-                     "say1":"Brother Zien",
-                     "say2":"1001AT - 1034AT"
+                     "say1":"Father Dohan"
                     },
                  "type":"NPC",
                  "width":16,
@@ -105,7 +104,6 @@
                  "properties":
                     {
                      "say1":"Charon",
-                     "say2":"1024AT -",
                      "say3":"There's a bull posted on this grave. \"Just saving us all some time. Ha ha ha.\""
                     },
                  "type":"NPC",
@@ -118,8 +116,7 @@
                  "name":"grave3",
                  "properties":
                     {
-                     "say1":"Brother Pido",
-                     "say2":"1007AT - 1082AT"
+                     "say1":"Vicefather Pido"
                     },
                  "type":"NPC",
                  "width":16,
@@ -131,8 +128,8 @@
                  "name":"grave4",
                  "properties":
                     {
-                     "say1":"Father Dohan",
-                     "say2":"998AT - 1070AT"
+                     "say1":"Jaden",
+                     "say2":"Dag ii ha iare butertat, siepta anartim mais."
                     },
                  "type":"NPC",
                  "width":16,
@@ -162,6 +159,30 @@
                  "width":16,
                  "x":112,
                  "y":256
+                }, 
+                {
+                 "height":16,
+                 "name":"toGraveyard",
+                 "properties":
+                    {
+                     "map":"Graveyard"
+                    },
+                 "type":"Exit",
+                 "width":192,
+                 "x":32,
+                 "y":0
+                }, 
+                {
+                 "height":16,
+                 "name":"fromGraveyard",
+                 "properties":
+                    {
+                     "direction":"down"
+                    },
+                 "type":"Entrance",
+                 "width":16,
+                 "x":80,
+                 "y":16
                 }],
          "opacity":1,
          "type":"objectgroup",

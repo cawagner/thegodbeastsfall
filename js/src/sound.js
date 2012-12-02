@@ -5,6 +5,9 @@ define([], function() {
 
     var soundManager = {
         playMusic: function(music) {
+            if (currentMusic === music) {
+                return;
+            }
             currentMusic = music;
             if (musicAudio !== undefined) {
                 musicAudio.pause();

@@ -8,9 +8,14 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         var fullDamage = user.attack() + dice.roll();
         var damage = Math.max(1, (fullDamage * (100-target.damageAbsorption())/100) - target.damageReduction());
         var hitChance = (skill.accuracy * user.accuracy() - target.evade());
-        var criticalChance = 1 + Math.max(0, user.criticalChance() * skill.criticalChance - target.luck());
+        var criticalChance = Math.max(1, user.criticalChance() * skill.criticalChance - target.luck());
         var isCritical = user.isDying || d100.roll() <= criticalChance;
-        var hasConnected = isCritical || (d100.roll() <= hitChance);
+        var hasConnected = d100.roll() <= hitChance;
+
+        if (isCritical && !hasConnected) {
+            hasConnected = true;
+            isCritical = false;
+        }
 
         if (isCritical) {
             damage = (fullDamage * (100-target.damageAbsorption())/100) * skill.criticalMultiplier * user.criticalMultiplier();

@@ -1,4 +1,4 @@
-/*  
+/*
 
     jQuery pub/sub plugin by Peter Higgins (dante@dojotoolkit.org)
 
@@ -7,7 +7,7 @@
     Original is (c) Dojo Foundation 2004-2010. Released under either AFL or new BSD, see:
     http://dojofoundation.org/license for more information.
 
-*/  
+*/
 
 ;(function(d){
 
@@ -15,13 +15,13 @@
     var cache = {};
 
     d.publish = function(/* String */topic, /* Array? */args){
-        // summary: 
+        // summary:
         //      Publish some data on a named topic.
         // topic: String
         //      The channel to publish on
         // args: Array?
         //      The data to publish. Each array item is converted into an ordered
-        //      arguments on the subscribed functions. 
+        //      arguments on the subscribed functions.
         //
         // example:
         //      Publish stuff on '/some/topic'. Anything subscribed will be called
@@ -29,7 +29,13 @@
         //
         //  |       $.publish("/some/topic", ["a","b","c"]);
         cache[topic] && d.each(cache[topic], function(){
-            this.apply(d, args || []);
+            // WHY THIS HAPPEN
+            try {
+                this.apply(d, args || []);
+            }
+            catch (ex) {
+                console.log(ex);
+            }
         });
     };
 
@@ -39,13 +45,13 @@
         // topic: String
         //      The channel to subscribe to
         // callback: Function
-        //      The handler event. Anytime something is $.publish'ed on a 
+        //      The handler event. Anytime something is $.publish'ed on a
         //      subscribed channel, the callback will be called with the
         //      published array as ordered arguments.
         //
         // returns: Array
         //      A handle which can be used to unsubscribe this particular subscription.
-        //  
+        //
         // example:
         //  |   $.subscribe("/some/topic", function(a, b, c){ /* handle data */ });
         //
@@ -64,7 +70,7 @@
         // example:
         //  |   var handle = $.subscribe("/something", function(){});
         //  |   $.unsubscribe(handle);
-        
+
         var t = handle[0];
         cache[t] && d.each(cache[t], function(idx){
             if(this == handle[1]){
