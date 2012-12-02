@@ -54,7 +54,7 @@
                  "properties":
                     {
                      "frequency":"15-25",
-                     "parties":"[[\"slime\"], [\"slime\",\"slime\"]]"
+                     "parties":"[[\"slime\"], [\"pidgeon\"], [\"pidgeon\", \"slime\"], [\"slime\",\"slime\"]]"
                     },
                  "type":"Encounters",
                  "width":292,

@@ -18,7 +18,7 @@ define(["display/fonts"], function(fonts) {
 
         this.setOrigin = function(x, y) {
             context.setTransform(1, 0, 0, 1, 0, 0);
-            context.translate(originOffset.x + (x | 0), originOffset.y + (y | 0));
+            context.translate(originOffset.x + (x | 0), originOffset.y + (y | 0), 0);
         };
 
         this.withOriginOffset = function(x, y, fn) {
@@ -42,10 +42,7 @@ define(["display/fonts"], function(fonts) {
             visibleContext.drawImage(offScreenCanvas, 0, 0);
         };
 
-        this.cls = function() {
-            this.setFillColorRGB(0, 0, 0);
-            this.drawFilledRect(0, 0, width, height);
-        };
+        this.cls = context.clearRect.bind(context, 0,0,width,height);
 
         this.setFillColor = function(color) {
             context.fillStyle = color;
@@ -59,9 +56,7 @@ define(["display/fonts"], function(fonts) {
             context.fillRect(x, y, width, height);
         };
 
-        this.drawImage = function(image, x, y) {
-            context.drawImage(image, x, y);
-        }
+        this.drawImage = context.drawImage.bind(context);
 
         this.drawImageRect = function(image, sourceRect, destRect) {
             context.drawImage(image,

@@ -79,6 +79,22 @@
         "power": "1d4",
         "text": "{{user}} reaches out with a gelatinous pseudopod!"
     },
+    "peck": {
+        "name": "Peck",
+        "target": "enemy",
+        "effect": "damage/melee",
+        "power": "1d4"
+    },
+    "ruffleFeathers": {
+        "name": "RuffleFeathers",
+        "text": "{{user}} shoots its feathers at {{target}}!",
+        "target": "enemy",
+        "effect": "debuff",
+        "stat": "accuracy",
+        "power": "30+2d6",
+        "duration": 4,
+        "cooldown": 6
+    },
     "bite": {
         "name": "Bite",
         "text": "{{user}} bites with vicious fangs!",

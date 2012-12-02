@@ -151,12 +151,12 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
         self.snd("heal");
 
         self.state.enqueueFunc(function() {
-            if (effect.amount > 0) {
+            if (effect.amount !== 0) {
                 effect.target.addBuff(effect.stat, effect.amount, effect.duration);
             }
-        });
 
-        self.msg(effect.target.name + "'s " + effect.stat + " " + buffDir + " by " + Math.abs(effect.amount) + " for " + effect.duration + " rounds!");
+            self.msg(effect.target.name + "'s " + effect.stat + " " + buffDir + " by " + Math.abs(effect.amount) + " for " + effect.duration + " rounds!");
+        });
     };
 
     BattleEffectExecutor.prototype.message = function(effect) {

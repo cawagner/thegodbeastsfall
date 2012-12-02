@@ -59,6 +59,17 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     };
 
+    var standardDebuff = function(user, target, skill) {
+        var dice = Dice.parse(skill.power);
+        return {
+            type: "buff",
+            amount: -Math.floor(user.force() / 2 + dice.roll()),
+            target: target,
+            stat: skill.stat,
+            duration: skill.duration
+        };
+    };
+
     var poison = function(user, target, skill, dice) {
         var dice = Dice.parse(skill.power);
         return {
@@ -98,6 +109,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         "damage/magic": standardSkillEffect(magicDamage),
         "heal/normal": standardSkillEffect(standardHeal),
         "buff": standardSkillEffect(standardBuff),
+        "debuff": standardSkillEffect(standardDebuff),
         "poison": standardSkillEffect(poison),
         "removeStatus": standardSkillEffect(removeStatus),
         "none": _.give([]),

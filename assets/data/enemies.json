@@ -13,6 +13,20 @@
         "rect": { "x": 230, "y": 675, "width": 64, "height": 45 },
         "xp": 20
     },
+    "pidgeon": {
+        "name": "Pidgeon",
+        "family": "vermin",
+        "desc": "Drawn without reference material, apparently.",
+        "skills": ["peck", "ruffleFeathers"],
+        "hp": 20,
+        "mp": 2,
+        "strength": 6,
+        "agility": 10,
+        "intelligence": 1,
+        "luck": 1,
+        "rect": { "x": 226, "y": 434, "width": 55, "height": 62 },
+        "xp": 25
+    },
     "rat": {
         "name": "Rat",
         "family": "vermin",

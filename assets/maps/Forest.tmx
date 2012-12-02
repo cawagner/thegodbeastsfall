@@ -213,7 +213,7 @@
   <object name="slimes" type="Encounters" x="14" y="11" width="292" height="703">
    <properties>
     <property name="frequency" value="15-25"/>
-    <property name="parties" value="[[&quot;slime&quot;], [&quot;slime&quot;,&quot;slime&quot;]]"/>
+    <property name="parties" value="[[&quot;slime&quot;], [&quot;pidgeon&quot;], [&quot;pidgeon&quot;, &quot;slime&quot;], [&quot;slime&quot;,&quot;slime&quot;]]"/>
    </properties>
   </object>
   <object name="default" type="Entrance" x="145" y="676" width="16" height="16"/>
