@@ -182,7 +182,7 @@
                  "type":"Entrance",
                  "width":16,
                  "x":80,
-                 "y":16
+                 "y":32
                 }],
          "opacity":1,
          "type":"objectgroup",

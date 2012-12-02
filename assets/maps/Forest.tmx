@@ -256,7 +256,7 @@
     <property name="map" value="Graveyard"/>
    </properties>
   </object>
-  <object name="fromGraveyard" type="Entrance" x="80" y="16" width="16" height="16">
+  <object name="fromGraveyard" type="Entrance" x="80" y="32" width="16" height="16">
    <properties>
     <property name="direction" value="down"/>
    </properties>

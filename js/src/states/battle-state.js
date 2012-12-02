@@ -87,8 +87,8 @@ define([
         // HACK
         var x = pawn.x + (pawn.rect ? pawn.rect.width / 2 : 0);
         var y = pawn.y - 20;
-        var life = 40;
-        var ym = -2;
+        var life = 30;
+        var ym = -3;
         var wiggle = { x: 0, y: 0 };
         amount = amount+"";
 
@@ -98,7 +98,7 @@ define([
             },
             update: function() {
                 y = Math.min(pawn.y - 20, y + ym);
-                ym += 0.25;
+                ym += 0.5;
                 if (isCritical) {
                     wiggle.x = 6*Math.random() - 3;
                     wiggle.y = 6*Math.random() - 3;
