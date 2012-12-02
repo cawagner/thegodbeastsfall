@@ -58,6 +58,17 @@ define([], function() {
                 }
             }
         },
+        fly: function() {
+            var fly = 0;
+            return {
+                transform: function(dest) {
+                    dest.y += (2.5 * Math.sin(fly) - 20)|0;
+                },
+                update: function() {
+                    fly += 0.15;
+                }
+            }
+        },
         shrinkDie: function(pawn) {
             var dying = 0;
             return {

@@ -36,7 +36,11 @@ define([
 
         this.enemyPawns = _(enemies).map(function(enemy) {
             var pawn = new pawns.EnemyPawn(enemy);
-            pawn.display.effects.push(battleAnimations.slowWiggle());
+            if ("idle" in pawn.enemy) {
+                pawn.display.effects.push(battleAnimations[pawn.enemy.idle](pawn));
+            } else {
+                pawn.display.effects.push(battleAnimations.slowWiggle());
+            }
             return pawn;
         });
 

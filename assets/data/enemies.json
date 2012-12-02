@@ -25,7 +25,8 @@
         "intelligence": 1,
         "luck": 1,
         "rect": { "x": 226, "y": 434, "width": 55, "height": 62 },
-        "xp": 25
+        "xp": 25,
+        "idle": "fly"
     },
     "rat": {
         "name": "Rat",
