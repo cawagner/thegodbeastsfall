@@ -55,7 +55,9 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
         }
 
         self.state.enqueueFunc(function() {
-            if (targetWasAlive && !effect.target.isAlive()) {
+            if (targetWasAlive && !effect.target.isAlive() && !effect.target.hasFallen) {
+                // hack :()
+                effect.target.hasFallen = true;
                 self.state.enqueueFunc(self.battleState.kill(effect.target));
                 self.msg(textProvider.getFallMessage(effect.target), 'endie');
 
