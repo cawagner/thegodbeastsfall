@@ -22,7 +22,6 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
     var game;
 
     var collected = 0;
-    var flippy = false;
     var startFrame;
     var endFrame = Date.now();
     var timeScale = 1;
@@ -31,18 +30,19 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
     var requestAnimationFrame = util.getRequestAnimationFrame();
 
     var mainLoop = function() {
-        flippy = !flippy;
         startFrame = endFrame;
 
-        while (collected >= 16.6) {
+        game.update(timeScale);
+        collected -= 16.6;
+
+        while (collected > 16.7) {
             game.update(timeScale);
             collected -= 16.6;
         }
-        if (flippy) {
-            game.draw(timeScale);
-        }
+        game.draw(timeScale);
+
         endFrame = Date.now();
-        collected += Math.min(16 * 3, endFrame - startFrame);
+        collected += Math.min(16 * 5, endFrame - startFrame);
 
         requestAnimationFrame(mainLoop, canvas);
     };
