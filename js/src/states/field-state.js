@@ -61,9 +61,16 @@ define([
         }, 1);
 
         stepSubscription = $.subscribe("/hero/step", function() {
+            var gone = false;
             _(map.exits).withFirst(containsHero, function(exit) {
                 mapLoader.goToMap(exit.map, exit.entrance);
+                gone = true;
             });
+
+            // can't get into encounter on exit tiles
+            if (gone) {
+                return;
+            }
 
             // TODO: nested encounter regions won't work right now!
             _(map.encounters).withFirst(containsHero, function(encounter) {

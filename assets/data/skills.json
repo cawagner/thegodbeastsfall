@@ -1,6 +1,7 @@
 {
     "slash": {
         "name": "Slash",
+        "desc": "Attack normally.",
         "text": "{{user}}'s attack!",
         "target": "enemy",
         "effect": "damage/melee",
@@ -15,6 +16,7 @@
     },
     "stab": {
         "name": "Stab",
+        "desc": "Attack normally.",
         "text": "{{user}}'s attack!",
         "target": "enemy",
         "effect": "damage/melee",
@@ -24,6 +26,7 @@
     },
     "hard": {
         "name": "Hard",
+        "desc": "Attack forcefully.",
         "text": "{{user}} attacks fiercely!",
         "target": "enemy",
         "effect": "damage/melee",
@@ -33,6 +36,7 @@
     },
     "spin": {
         "name": "Spin",
+        "desc": "Spin to attack all enemies.",
         "text": "{{user}} executes a 360-degree attack!",
         "target": "enemies",
         "effect": "damage/melee",
@@ -42,6 +46,7 @@
     },
     "fire1": {
         "name": "Feu",
+        "desc": "Hurl a small fireball at one enemy.",
         "text": "Flames form at {{user}}'s fingertips!",
         "target": "enemy",
         "effect": "damage/magic",
@@ -50,6 +55,7 @@
     },
     "heal1": {
         "name": "Mend",
+        "desc": "Recover a small amount of HP.",
         "target": "player",
         "effect": "heal/normal",
         "power": "4+2d4",
@@ -58,6 +64,7 @@
     },
     "depoison": {
         "name": "Depoison",
+        "desc": "Remove all poison from an ally.",
         "target": "player",
         "effect": "removeStatus",
         "status": "poison",
@@ -65,6 +72,7 @@
     },
     "extirpate": {
         "name": "Extirpate",
+        "desc": "Deal existential damage to vermin and undead.",
         "target": "enemy",
         "effect": "damage/magic/family",
         "power": "3d6",
@@ -74,6 +82,7 @@
     },
     "braver": {
         "name": "Braver",
+        "desc": "Temporarily increase attack and defense.",
         "target": "self",
         "effect": "buff",
         "stat": "strength",

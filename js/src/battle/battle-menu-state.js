@@ -105,6 +105,7 @@ define([
 
     BattleMenuState.prototype.drawSkillInfo = function(menuItem) {
         this.gui.drawTextWindow(280, 30, 25, 16, [menuItem.cost]);
+        Game.instance.graphics.drawText(20, 0, menuItem.skill.desc || "");
     };
 
     BattleMenuState.prototype.targetPawn = function(pawnType) {
