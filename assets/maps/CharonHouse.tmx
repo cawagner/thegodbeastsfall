@@ -106,13 +106,13 @@
 </data>
  </layer>
  <objectgroup name="Object Layer 1" width="25" height="15">
-  <object name="toTown" type="Exit" x="16" y="224">
+  <object name="toTown" type="Exit" x="16" y="224" width="16" height="16">
    <properties>
     <property name="entrance" value="fromCharonHouse"/>
     <property name="map" value="Town"/>
    </properties>
   </object>
-  <object name="default" type="Entrance" x="28" y="196"/>
+  <object name="default" type="Entrance" x="16" y="224" width="16" height="16"/>
   <object name="main" type="Encounters" x="0" y="0" width="400" height="240">
    <properties>
     <property name="frequency" value="10-30"/>

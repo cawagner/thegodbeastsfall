@@ -17,7 +17,7 @@ define(['jquery', 'direction'], function($, direction) {
             self.y += Actor.MOVE_SPEED * moveY;
 
             moveRemaining -= Actor.MOVE_SPEED;
-            if (moveRemaining < 0) {
+            if (moveRemaining <= 0) {
                 self.resetMove();
             }
         };
@@ -37,8 +37,8 @@ define(['jquery', 'direction'], function($, direction) {
             moveX = dx;
             moveY = dy;
             moveRemaining = 1;
-            this.destX = this.x + dx;
-            this.destY = this.y + dy;
+            this.destX = (this.x + dx) | 0;
+            this.destY = (this.y + dy) | 0;
 
             this.update();
             return true;

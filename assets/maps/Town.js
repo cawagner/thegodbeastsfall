@@ -21,13 +21,13 @@ setupMap(function(map) {
         npc.addBeforeTalk(learnAboutMirv);
     });
 
-    map.npcs.earl2.addAfterTalk(function() {
-        if (gameState.inventory.addItem("potion", 1)) {
-            this.runDialogue("potion");
-        } else {
-            this.runDialogue("wazoo");
-        }
-    });
+    // map.npcs.earl2.addAfterTalk(function() {
+    //     if (gameState.inventory.addItem("potion", 1)) {
+    //         this.runDialogue("potion");
+    //     } else {
+    //         this.runDialogue("wazoo");
+    //     }
+    // });
 
     map.npcs.barrel1.addAfterTalk(function() {
         new Battle(["slime", "rat", "slime"]).start();

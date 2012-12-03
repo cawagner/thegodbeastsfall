@@ -125,16 +125,16 @@
                  "y":80
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "name":"default",
                  "properties":
                     {
 
                     },
                  "type":"Entrance",
-                 "width":0,
-                 "x":197,
-                 "y":350
+                 "width":16,
+                 "x":192,
+                 "y":384
                 }, 
                 {
                  "height":16,

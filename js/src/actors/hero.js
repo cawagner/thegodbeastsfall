@@ -8,19 +8,25 @@ define(['actors/actor', 'keyboard-input', 'direction', 'game-state'], function(A
 
         var moveHistory = [];
         var failedMoves = 0;
+        var isStepping = false;
 
         var takeInput = function() {
             var dx = input.dirX(), dy = input.dirY();
 
+            if (isStepping && self.canMove()) {
+                isStepping = false;
+                $.publish("/hero/step");
+            }
+
             if (self.canMove() && (dx || dy)) {
                 if (self.tryMoveBy(dx, dy)) {
+                    isStepping = true;
                     failedMoves = 0;
                     // TODO: this is stupid and ugly!
                     gameState.totalSteps++;
                     gameState.location.x = Math.floor(self.x);
                     gameState.location.y = Math.floor(self.y);
                     gameState.location.direction = self.direction;
-                    $.publish("/hero/step");
                 } else {
                     ++failedMoves;
                     if (failedMoves > PUSH_AFTER) {

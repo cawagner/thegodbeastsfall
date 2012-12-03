@@ -35,7 +35,7 @@ define([
             actorRenderer = new ActorRenderer(game.graphics),
             gui = new GuiRenderer(game.graphics),
             containsHero = _.bind(util.pointInRect, null, hero),
-            encounterSubscription,
+            stepSubscription,
             sortActors;
 
         map.addActor(hero);
@@ -60,7 +60,11 @@ define([
             }
         }, 1);
 
-        encounterSubscription = $.subscribe("/hero/step", function() {
+        stepSubscription = $.subscribe("/hero/step", function() {
+            _(map.exits).withFirst(containsHero, function(exit) {
+                mapLoader.goToMap(exit.map, exit.entrance);
+            });
+
             // TODO: nested encounter regions won't work right now!
             _(map.encounters).withFirst(containsHero, function(encounter) {
                 encounter.until--;
@@ -81,18 +85,12 @@ define([
                 actor.update(timeScale);
             });
 
-            _(map.exits).withFirst(containsHero, function(exit) {
-                mapLoader.goToMap(exit.map, exit.entrance);
-            });
-
             frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
-
-            tilemapView.focusOn(hero.x, hero.y);
         };
 
         this.end = function() {
-            $.unsubscribe(encounterSubscription);
-        };
+            $.unsubscribe(stepSubscription);
+        };stepSubscription
 
         this.suspend = function() {
             hero.lockMovement();
@@ -107,6 +105,7 @@ define([
         }).throttle(150);
 
         this.draw = function(timeScale) {
+            tilemapView.focusOn(hero.x, hero.y);
             tilemapView.draw();
 
             sortActors();

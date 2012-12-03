@@ -60,7 +60,7 @@
          "name":"Object Layer 1",
          "objects":[
                 {
-                 "height":0,
+                 "height":16,
                  "name":"toTown",
                  "properties":
                     {
@@ -68,21 +68,21 @@
                      "map":"Town"
                     },
                  "type":"Exit",
-                 "width":0,
+                 "width":16,
                  "x":16,
                  "y":224
                 }, 
                 {
-                 "height":0,
+                 "height":16,
                  "name":"default",
                  "properties":
                     {
 
                     },
                  "type":"Entrance",
-                 "width":0,
-                 "x":28,
-                 "y":196
+                 "width":16,
+                 "x":16,
+                 "y":224
                 }, 
                 {
                  "height":240,

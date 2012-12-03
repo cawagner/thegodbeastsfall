@@ -210,14 +210,14 @@
 </data>
  </layer>
  <objectgroup name="Objects" width="20" height="45">
-  <object name="slimes" type="Encounters" x="14" y="11" width="292" height="703">
+  <object name="slimes" type="Encounters" x="10" y="9" width="292" height="703">
    <properties>
     <property name="frequency" value="15-25"/>
     <property name="parties" value="[[&quot;slime&quot;], [&quot;pidgeon&quot;], [&quot;pidgeon&quot;, &quot;slime&quot;], [&quot;slime&quot;,&quot;slime&quot;]]"/>
    </properties>
   </object>
-  <object name="default" type="Entrance" x="145" y="676" width="16" height="16"/>
-  <object name="toTown" type="Exit" x="1" y="701" width="317" height="18">
+  <object name="default" type="Entrance" x="144" y="704" width="16" height="16"/>
+  <object name="toTown" type="Exit" x="0" y="704" width="304" height="16">
    <properties>
     <property name="entrance" value="fromForest"/>
     <property name="map" value="Town"/>
@@ -245,18 +245,22 @@
     <property name="say2" value="Dag ii ha iare butertat, siepta anartim mais."/>
    </properties>
   </object>
-  <object name="toChurch" type="Exit" x="96" y="224" width="32">
+  <object name="toChurch" type="Exit" x="96" y="224" width="32" height="16">
    <properties>
     <property name="map" value="Church"/>
    </properties>
   </object>
-  <object name="fromChurch" type="Entrance" x="112" y="256" width="16" height="16"/>
+  <object name="fromChurch" type="Entrance" x="112" y="240" width="16" height="16">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
   <object name="toGraveyard" type="Exit" x="32" y="0" width="192" height="16">
    <properties>
     <property name="map" value="Graveyard"/>
    </properties>
   </object>
-  <object name="fromGraveyard" type="Entrance" x="80" y="32" width="16" height="16">
+  <object name="fromGraveyard" type="Entrance" x="96" y="0" width="16" height="16">
    <properties>
     <property name="direction" value="down"/>
    </properties>

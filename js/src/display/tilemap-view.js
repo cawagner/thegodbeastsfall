@@ -81,7 +81,7 @@ define(["constants"], function(constants) {
             fullSourceRect.x = this.scrollX | 0;
             fullSourceRect.y = this.scrollY | 0;
             graphics.drawImageRect(damnedBigCanvas, fullSourceRect, fullDestRect);
-            graphics.setOrigin(-this.scrollX, -this.scrollY);
+            graphics.setOrigin(-this.scrollX|0, -this.scrollY|0);
         };
 
         this.focusOn = function(x, y) {

@@ -167,7 +167,7 @@
     <property name="say2" value="Say there, you handsome young man... kwee-hee-hee..."/>
    </properties>
   </object>
-  <object name="default" type="Entrance" x="197" y="350"/>
+  <object name="default" type="Entrance" x="192" y="384" width="16" height="16"/>
   <object name="toForest" type="Exit" x="160" y="384" width="80" height="16">
    <properties>
     <property name="entrance" value="fromChurch"/>
