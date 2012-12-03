@@ -23,6 +23,7 @@
             },
             "Magic": {
                 "braver": { "maxMp": 7 },
+                "extirpate": { "intelligence": 11 },
                 "depoison": { "maxMp": 9 }
             }
         }

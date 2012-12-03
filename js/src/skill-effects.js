@@ -42,7 +42,18 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
             amount: damage,
             target: target
         };
-    }
+    };
+
+    var magicDamageToFamily = function(user, target, skill) {
+        if (target.enemy && _(skill.families).contains(target.enemy.family)) {
+            return magicDamage(user, target, skill);
+        } else {
+            return {
+                type: "message",
+                text: skill.whiff
+            };
+        }
+    };
 
     var standardHeal = function(user, target, skill) {
         var dice = Dice.parse(skill.power);
@@ -112,6 +123,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         "damage/melee": standardSkillEffect(standardDamage),
         "damage/melee/2": standardSkillEffect(standardDamage, standardDamage),
         "damage/magic": standardSkillEffect(magicDamage),
+        "damage/magic/family": standardSkillEffect(magicDamageToFamily),
         "heal/normal": standardSkillEffect(standardHeal),
         "buff": standardSkillEffect(standardBuff),
         "debuff": standardSkillEffect(standardDebuff),
