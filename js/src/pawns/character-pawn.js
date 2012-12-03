@@ -7,13 +7,20 @@ define(["pawns/pawn-base"], function(PawnBase) {
         this.isDying = false;
         this.isDead = false;
         this.type = 'player';
+        this.restoreMpOnNextHit = true;
     };
 
     CharacterPawn.prototype = new PawnBase();
 
+    CharacterPawn.prototype.dealtDamage = function(amount, damageType) {
+        if (damageType === "melee" && this.restoreMpOnNextHit) {
+            this.restoreMpOnNextHit = false;
+            this.restoreMp(1); // only players receive this bonus...
+        }
+    };
+
     CharacterPawn.prototype.takeDamage = function(amount) {
         this.character.hp = Math.max(0, this.character.hp - amount);
-        this.restoreMp(1); // only players receive this bonus...
         if (this.character.hp === 0) {
             this.isDying = true;
         }
@@ -51,6 +58,7 @@ define(["pawns/pawn-base"], function(PawnBase) {
             this.isDead = this.character.hp === 0;
             this.isDying = false;
         }
+        this.restoreMpOnNextHit = true;
         return result;
     };
 

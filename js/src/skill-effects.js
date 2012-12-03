@@ -26,7 +26,8 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
             missed: !hasConnected,
             critical: isCritical,
             amount: hasConnected ? Math.round(damage) : 0,
-            target: target
+            target: target,
+            damageType: "melee"
         }
     };
 
@@ -40,7 +41,8 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
             type: "damage",
             missed: false,
             amount: damage,
-            target: target
+            target: target,
+            damageType: "magic"
         };
     };
 

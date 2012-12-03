@@ -37,6 +37,7 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
 
         self.state.enqueueFunc(function() {
             if (effect.amount > 0) {
+                self.action.user.dealtDamage(Math.min(effect.amount, effect.target.hp()), effect.damageType);
                 effect.target.takeDamage(effect.amount);
             }
         });

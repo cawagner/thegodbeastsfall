@@ -147,6 +147,9 @@ define(["underscore"], function(_) {
                 }
             }
             return result;
+        },
+        dealtDamage: function(amount) {
+
         }
     });
 
