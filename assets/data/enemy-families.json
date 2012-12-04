@@ -1,0 +1,22 @@
+{
+    "vermin": {
+        "name": "Vermin",
+        "weak": ["clean"]
+    },
+    "tomb": {
+        "name": "Tomb",
+        "weak": ["holy", "fire", "silver"]
+    },
+    "sidhe": {
+        "name": "Sidhe",
+        "weak": ["iron", "ice"]
+    },
+    "lycanthrope": {
+        "name": "Lycanthrope",
+        "weak": ["silver"]
+    },
+    "flora": {
+        "name": "Flora",
+        "weak": ["fire"]
+    }
+}
