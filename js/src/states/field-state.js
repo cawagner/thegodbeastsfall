@@ -29,6 +29,7 @@ define([
         var tilemapView = new TilemapView(map.tilemap, map.tilesets),
             hero = new Hero(),
             stepSubscription,
+            containsHero = _.bind(util.pointInRect, null, hero),
             sortActors = _(function() {
                 map.actors = _(map.actors).sortBy("y");
             }).throttle(150);
@@ -50,12 +51,11 @@ define([
 
         setTimeout(function() {
             if (_.isFunction(map.onLoad)) {
-                map.onLoad(hero, entrance);
+                _(map.onLoad(hero, entrance)).defer();
             }
         }, 1);
 
         stepSubscription = pubsub.subscribe("/hero/step", function() {
-            var containsHero = _.bind(util.pointInRect, null, hero);
             var encounter;
 
             var exit = _(map.exits).find(containsHero);

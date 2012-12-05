@@ -9,7 +9,7 @@ define(["underscore", "pubsub"], function(_, pubsub) {
 
         var self = this;
 
-        var subscriptions = [];
+        var subscriptions = pubsub.set();
 
         this.tilemap = tilemap;
         this.actors = [];
@@ -48,15 +48,11 @@ define(["underscore", "pubsub"], function(_, pubsub) {
             }
         };
 
-        this.subscribe = function(topic, fn) {
-            subscriptions.push(pubsub.subscribe(topic, fn));
-        };
+        this.subscribe = subscriptions.subscribe;
 
-        self.subscribe("/map/loading", function() {
-            _(subscriptions).each(function(sub) {
-                pubsub.unsubscribe(sub);
-            });
-        })
+        subscriptions.subscribe("/map/loading", function() {
+            subscriptions.unsubscribe();
+        });
 
         if (data && data.npcs) {
             _(data.npcs).each(function(npc) {

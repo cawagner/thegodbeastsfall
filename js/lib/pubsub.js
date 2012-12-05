@@ -39,6 +39,20 @@ define(function() {
         }
     };
 
+    d.set = function() {
+        var subscriptions = [];
+        return {
+            subscribe: function(topic, callback) {
+                subscriptions.push(d.subscribe(topic, callback));
+            },
+            unsubscribe: function() {
+                _(subscriptions).each(function(subscription) {
+                    d.unsubscribe(subscription);
+                })
+            }
+        };
+    };
+
     d.subscribe = function(/* String */topic, /* Function */callback){
         // summary:
         //      Register a callback on a named topic.
