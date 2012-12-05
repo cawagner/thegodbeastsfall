@@ -1,7 +1,7 @@
 {
     "slime": {
         "name": "Slime",
-        "family": "vermin",
+        "family": "aberration",
         "desc": "An ambulatory slime mould of some sort.",
         "skills": ["ooze", "navelgaze"],
         "hp": 12,
