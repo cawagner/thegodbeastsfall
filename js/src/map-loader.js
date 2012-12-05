@@ -2,6 +2,7 @@
 define([
     "jquery",
     "underscore",
+    "pubsub",
     "tilemap",
     "actors/npc",
     "constants",
@@ -10,6 +11,7 @@ define([
 ], function(
     $,
     _,
+    pubsub,
     tilemap,
     Npc,
     constants,
@@ -157,9 +159,9 @@ define([
     var goToMap = function(mapName, entrance) {
         var mapLoader = new MapLoader();
 
-        $.publish("/map/loading");
+        pubsub.publish("/map/loading");
         mapLoader.load(mapName).done(function(map) {
-            $.publish("/map/loaded", [map, entrance]);
+            pubsub.publish("/map/loaded", [map, entrance]);
         });
     }
 

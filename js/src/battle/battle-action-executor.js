@@ -1,13 +1,13 @@
 define([
     "underscore",
-    "jquery",
+    "pubsub",
     "battle/battle-composite-state",
     "battle/battle-message-state",
     "battle/battle-effect-executor",
     "battle/battle-text-provider"
 ], function(
     _,
-    $,
+    pubsub,
     BattleCompositeState,
     BattleMessageState,
     BattleEffectExecutor,
@@ -83,7 +83,7 @@ define([
             var state = new BattleCompositeState();
             state.enqueueState(new BattleMessageState([textProvider.getMessage("ranAway", { user: action.user.name })]));
             state.enqueueFunc(function() {
-                $.publish("/battle/end", [{ ran: true }]);
+                pubsub.publish("/battle/end", [{ ran: true }]);
             });
             return state;
         },

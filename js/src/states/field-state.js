@@ -1,5 +1,5 @@
 define([
-    "jquery",
+    "pubsub",
     "underscore",
     "map-loader",
     "game",
@@ -12,7 +12,7 @@ define([
     "util",
     "pubsub"
 ], function(
-    $,
+    pubsub,
     _,
     mapLoader,
     Game,
@@ -60,7 +60,7 @@ define([
             }
         }, 1);
 
-        stepSubscription = $.subscribe("/hero/step", function() {
+        stepSubscription = pubsub.subscribe("/hero/step", function() {
             var gone = false;
             _(map.exits).withFirst(containsHero, function(exit) {
                 mapLoader.goToMap(exit.map, exit.entrance);
@@ -96,8 +96,8 @@ define([
         };
 
         this.end = function() {
-            $.unsubscribe(stepSubscription);
-        };stepSubscription
+            pubsub.unsubscribe(stepSubscription);
+        };
 
         this.suspend = function() {
             hero.lockMovement();

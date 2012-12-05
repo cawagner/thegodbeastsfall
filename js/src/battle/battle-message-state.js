@@ -1,4 +1,4 @@
-define(["jquery", "underscore", "gui", "keyboard-input"], function($, _, GuiRenderer, input) {
+define(["pubsub", "underscore", "gui", "keyboard-input"], function(pubsub, _, GuiRenderer, input) {
     "use strict";
 
     var MESSAGE_DELAY = 250;
@@ -12,7 +12,7 @@ define(["jquery", "underscore", "gui", "keyboard-input"], function($, _, GuiRend
 
         this.start = function() {
             if (sound) {
-                $.publish("/sound/play", [sound]);
+                pubsub.publish("/sound/play", [sound]);
             }
         };
 

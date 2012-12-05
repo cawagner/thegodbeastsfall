@@ -1,4 +1,4 @@
-define(["underscore"], function(_) {
+define(["underscore", "pubsub"], function(_, pubsub) {
     "use strict";
 
     function Map(tilemap, mask, data) {
@@ -49,12 +49,12 @@ define(["underscore"], function(_) {
         };
 
         this.subscribe = function(topic, fn) {
-            subscriptions.push($.subscribe(topic, fn));
+            subscriptions.push(pubsub.subscribe(topic, fn));
         };
 
         self.subscribe("/map/loading", function() {
             _(subscriptions).each(function(sub) {
-                $.unsubscribe(sub);
+                pubsub.unsubscribe(sub);
             });
         })
 

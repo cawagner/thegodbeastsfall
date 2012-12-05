@@ -1,4 +1,4 @@
-define([], function() {
+define(["pubsub"], function(pubsub) {
     "use strict";
 
     function MainMenuState() {
@@ -7,7 +7,7 @@ define([], function() {
         };
 
         this.update = _.once(function() {
-            $.publish("/game/new");
+            pubsub.publish("/game/new");
         });
     }
 

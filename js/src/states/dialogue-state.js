@@ -1,10 +1,10 @@
 define([
-    "jquery",
+    "pubsub",
     "gui",
     "json!speakers.json",
     "states/noop-state"
 ], function(
-    $,
+    pubsub,
     GuiRenderer,
     speakers,
     NoopState
@@ -29,7 +29,7 @@ define([
         this.end = function() {
             doneFn();
             setTimeout(function() {
-                $.publish("/npc/talk/done");
+                pubsub.publish("/npc/talk/done");
             }, 1);
         };
 

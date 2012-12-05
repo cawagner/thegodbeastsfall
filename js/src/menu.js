@@ -1,4 +1,4 @@
-define(["jquery", "underscore", "pubsub"], function($, _) {
+define(["pubsub", "underscore"], function(pubsub, _) {
     "use strict";
 
     function Menu(options) {
@@ -64,12 +64,12 @@ define(["jquery", "underscore", "pubsub"], function($, _) {
     }
 
     Menu.prototype.close = function() {
-        $.publish("/menu/close", [this]);
+        pubsub.publish("/menu/close", [this]);
         return this;
     };
 
     Menu.prototype.open = function() {
-        $.publish("/menu/open", [this]);
+        pubsub.publish("/menu/open", [this]);
         return this;
     };
 

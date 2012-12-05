@@ -1,5 +1,6 @@
 define([
     "underscore",
+    "pubsub",
     "game-state",
     "menu",
     "states/menu-state",
@@ -7,7 +8,7 @@ define([
     "states/noop-state",
     "pawns/character-pawn",
     "json!skills.json"
-], function(_, gameState, Menu, MenuState, chars, NoopState, CharacterPawn, skills) {
+], function(_, pubsub, gameState, Menu, MenuState, chars, NoopState, CharacterPawn, skills) {
     "use strict";
 
     function FieldMenuState() {
@@ -25,7 +26,7 @@ define([
                             return { text: member.name, member: member };
                         }),
                         select: function(index, menuItem) {
-                            $.publish("/status/show", [menuItem.member]);
+                            pubsub.publish("/status/show", [menuItem.member]);
                         }
                     })
                 },
@@ -51,7 +52,7 @@ define([
                                         var targetMenu = new Menu({
                                             items: _(gameState.party).pluck("name"),
                                             select: function(index) {
-                                                $.publish("/npc/talk", [{
+                                                pubsub.publish("/npc/talk", [{
                                                     text: ["Du hast " + gameState.party[index].name + " gewaehlt!"]
                                                 }]);
                                             }
@@ -84,7 +85,7 @@ define([
                                     ],
                                     select: function(index) {
                                         if (index === 1) {
-                                            $.publish("/npc/talk", [{ text: [item.item.desc] }]);
+                                            pubsub.publish("/npc/talk", [{ text: [item.item.desc] }]);
                                         }
                                     }
                                 }).open();
@@ -102,7 +103,7 @@ define([
                         select: function(index) {
                             if (index === 0) {
                                 localStorage.setItem("saveGame0", gameState.toJSON());
-                                $.publish("/npc/talk", [
+                                pubsub.publish("/npc/talk", [
                                     { text: ["Game saved!"] }
                                 ]);
                             } else if (index === 1) {

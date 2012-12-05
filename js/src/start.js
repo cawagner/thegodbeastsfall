@@ -4,10 +4,7 @@
     require.config({
         shim: {
             jquery: { exports: "$" },
-            underscore: { exports: "_" },
-            pubsub: {
-                deps: [ "jquery" ]
-            }
+            underscore: { exports: "_" }
         },
         paths: {
             jquery: "../lib/jquery-1.8.2",

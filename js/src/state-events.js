@@ -1,5 +1,6 @@
 define([
     "underscore",
+    "pubsub",
     "states/menu-state",
     "states/field-menu-state",
     "states/dialogue-state",
@@ -11,6 +12,7 @@ define([
     "sound"
 ], function(
     _,
+    pubsub,
     MenuState,
     FieldMenuState,
     DialogueState,
@@ -46,12 +48,12 @@ define([
             var inDungeon = false;
 
             // TODO: elsewhere?
-            $.subscribe("/menu/open", function(menu) {
+            pubsub.subscribe("/menu/open", function(menu) {
                 game.pushState(new MenuState(menu));
             });
 
             // TODO: doesn't go here!
-            $.subscribe("/npc/talk", function(messages, npc) {
+            pubsub.subscribe("/npc/talk", function(messages, npc) {
                 npc = npc || fakeNpc;
 
                 npc.lockMovement();
@@ -61,11 +63,11 @@ define([
                 }));
             });
 
-            $.subscribe("/hero/menu", function() {
+            pubsub.subscribe("/hero/menu", function() {
                 game.pushState(new FieldMenuState());
             });
 
-            $.subscribe("/map/loading", function() {
+            pubsub.subscribe("/map/loading", function() {
                 // TODO: really hackish...
                 if (game.currentState() instanceof FieldState) {
                     game.popState();
@@ -73,17 +75,17 @@ define([
             });
 
 
-            $.subscribe("/music/play", function(name) {
+            pubsub.subscribe("/music/play", function(name) {
                 sound.playMusic(name);
             });
 
             if (!isMobile) {
-                $.subscribe("/sound/play", function(name) {
+                pubsub.subscribe("/sound/play", function(name) {
                     sound.playSound(name);
                 });
             }
 
-            $.subscribe("/map/loaded", function(map, entrance) {
+            pubsub.subscribe("/map/loaded", function(map, entrance) {
                 game.pushState(new FieldState(map, entrance));
 
                 sound.playMusic(map.properties.music);
@@ -94,17 +96,17 @@ define([
                 // HACKY!
                 inDungeon = map.properties.isDungeon;
                 if (!inDungeon) {
-                    $.publish("/party/heal");
+                    pubsub.publish("/party/heal");
                 }
             });
 
-            $.subscribe("/battle/start", function(enemies, flags) {
+            pubsub.subscribe("/battle/start", function(enemies, flags) {
                 var battleState = new BattleState(enemies);
                 var transition = new ScrollTransitionState(battleState);
 
                 oldMusic = sound.getCurrentMusic();
 
-                $.publish("/sound/play", ["battlestart"]);
+                pubsub.publish("/sound/play", ["battlestart"]);
                 if (flags && flags.isBoss) {
                     sound.playMusic("boss");
                 } else {
@@ -114,7 +116,7 @@ define([
                 game.pushState(transition);
             });
 
-            $.subscribe("/battle/end", function() {
+            pubsub.subscribe("/battle/end", function() {
                 // TODO: transition!
                 sound.playMusic(oldMusic);
                 game.popState();
@@ -126,15 +128,15 @@ define([
 
                 // HACKY...
                 if (!inDungeon) {
-                    $.publish("/party/heal");
+                    pubsub.publish("/party/heal");
                 }
             });
 
-            $.subscribe("/status/show", function(member) {
+            pubsub.subscribe("/status/show", function(member) {
                 game.pushState(new StatusState(member));
             });
 
-            $.subscribe("/party/heal", function() {
+            pubsub.subscribe("/party/heal", function() {
                 var anyHealing = false;
                 _(gameState.party).each(function(member) {
                     if (member.hp !== member.maxHp || member.mp !== member.maxMp) {
@@ -144,13 +146,13 @@ define([
                     }
                 });
                 if (anyHealing) {
-                    $.publish("/npc/talk", [{
+                    pubsub.publish("/npc/talk", [{
                         text: ["You have been fully healed."]
                     }]);
                 }
             });
 
-            $.subscribe("/game/new", function() {
+            pubsub.subscribe("/game/new", function() {
                 gameState.newGame();
             });
         }

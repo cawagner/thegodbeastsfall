@@ -4,15 +4,19 @@
 
     Loosely based on Dojo publish/subscribe API, limited in scope. Rewritten blindly.
 
+    Modified by Chris Wagner to remove jQuery use and to be a requirejs module.
+
     Original is (c) Dojo Foundation 2004-2010. Released under either AFL or new BSD, see:
     http://dojofoundation.org/license for more information.
 
 */
 
-;(function(d){
+define(function() {
 
     // the topic/subscription hash
     var cache = {};
+
+    var d = {};
 
     d.publish = function(/* String */topic, /* Array? */args){
         // summary:
@@ -27,16 +31,11 @@
         //      Publish stuff on '/some/topic'. Anything subscribed will be called
         //      with a function signature like: function(a,b,c){ ... }
         //
-        //  |       $.publish("/some/topic", ["a","b","c"]);
-        cache[topic] && d.each(cache[topic], function(){
-            // WHY THIS HAPPEN
-            try {
-                this.apply(d, args || []);
-            }
-            catch (ex) {
-                console.log(ex);
-            }
-        });
+        //  |       pubsub.publish("/some/topic", ["a","b","c"]);
+        var entry = cache[topic], count = entry && entry.length, i;
+        for (i = 0; i < count; ++i) {
+            entry[i].apply(null, args || []);
+        }
     };
 
     d.subscribe = function(/* String */topic, /* Function */callback){
@@ -45,7 +44,7 @@
         // topic: String
         //      The channel to subscribe to
         // callback: Function
-        //      The handler event. Anytime something is $.publish'ed on a
+        //      The handler event. Anytime something is .publish'ed on a
         //      subscribed channel, the callback will be called with the
         //      published array as ordered arguments.
         //
@@ -53,11 +52,9 @@
         //      A handle which can be used to unsubscribe this particular subscription.
         //
         // example:
-        //  |   $.subscribe("/some/topic", function(a, b, c){ /* handle data */ });
+        //  |   pubsub.subscribe("/some/topic", function(a, b, c){ /* handle data */ });
         //
-        if(!cache[topic]){
-            cache[topic] = [];
-        }
+        cache[topic] = cache[topic] || [];
         cache[topic].push(callback);
         return [topic, callback]; // Array
     };
@@ -66,26 +63,30 @@
         // summary:
         //      Disconnect a subscribed function for a topic.
         // handle: Array
-        //      The return value from a $.subscribe call.
+        //      The return value from a .subscribe call.
         // example:
-        //  |   var handle = $.subscribe("/something", function(){});
-        //  |   $.unsubscribe(handle);
+        //  |   var handle = pubsub.subscribe("/something", function(){});
+        //  |   pubsub.unsubscribe(handle);
 
-        var t = handle[0];
-        cache[t] && d.each(cache[t], function(idx){
-            if(this == handle[1]){
-                cache[t].splice(idx, 1);
+        var topic = handle[0],
+            entry = cache[topic],
+            count = entry && entry.length,
+            i;
+        for (i = 0; i < count; ++i) {
+            if (entry[i] === handle[1]) {
+                entry.splice(i, 1);
             }
-        });
+        }
     };
 
     d.subscribeOnce = function(topic, callback) {
         var token;
         var wrappedCallback = function() {
-            this.call(callback, arguments);
+            callback.call(null, arguments);
             d.unsubscribe(token);
         };
         token = d.subscribe(topic, wrappedCallback);
     };
 
-})(jQuery);
+    return d;
+});

@@ -1,4 +1,4 @@
-define(["jquery", "underscore", "gui", "chars", "states/noop-state", "pubsub"], function($, _, GuiRenderer, chars, NoopState) {
+define(["pubsub", "underscore", "gui", "chars", "states/noop-state", "pubsub"], function(pubsub, _, GuiRenderer, chars, NoopState) {
     "use strict";
 
     function MenuState(menu) {
@@ -15,9 +15,9 @@ define(["jquery", "underscore", "gui", "chars", "states/noop-state", "pubsub"], 
 
         this.isPaused = false;
 
-        var subscription = $.subscribe("/menu/close", function(menuToClose) {
+        var subscription = pubsub.subscribe("/menu/close", function(menuToClose) {
             if (menuToClose === menu) {
-                $.unsubscribe(subscription);
+                pubsub.unsubscribe(subscription);
                 game.popState();
             }
         });
@@ -33,29 +33,25 @@ define(["jquery", "underscore", "gui", "chars", "states/noop-state", "pubsub"], 
         if (!this.isPaused) {
             if (this.input.wasUpPressed()) {
                 this.selectionIndex = Math.max(0, this.selectionIndex - this.menu.cols);
-                //$.publish("/sound/play", ["cursor"]);
             }
             if (this.input.wasDownPressed()) {
                 this.selectionIndex = Math.min(this.menu.items.length - 1, this.selectionIndex + this.menu.cols);
-                //$.publish("/sound/play", ["cursor"]);
             }
             if (this.input.wasLeftPressed()) {
                 this.selectionIndex = Math.max(0, this.selectionIndex - 1);
-                ///$.publish("/sound/play", ["cursor"]);
             }
             if (this.input.wasRightPressed()) {
                 this.selectionIndex = Math.min(this.menu.items.length - 1, this.selectionIndex + 1);
-                //$.publish("/sound/play", ["cursor"]);
             }
             if (this.input.wasConfirmPressed()) {
                 if (!_(this.menu.items[this.selectionIndex]).result("disabled")) {
                     this.menu.triggerSelect(this.selectionIndex, this.menu.items[this.selectionIndex]);
-                    $.publish("/sound/play", ["confirm"]);
+                    pubsub.publish("/sound/play", ["confirm"]);
                 }
             }
             if (this.input.wasCancelPressed()) {
                 this.menu.triggerCancel();
-                $.publish("/sound/play", ["cancel"]);
+                pubsub.publish("/sound/play", ["cancel"]);
             }
         }
 

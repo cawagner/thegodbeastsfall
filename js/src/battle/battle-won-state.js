@@ -1,13 +1,13 @@
 define([
     "underscore",
-    "jquery",
+    "pubsub",
     "menu",
     "states/dialogue-state",
     "game-state",
     "json!skills.json"
 ], function(
     _,
-    $,
+    pubsub,
     Menu,
     DialogueState,
     gameState,
@@ -65,7 +65,7 @@ define([
             }).open();
         } else {
             setTimeout(function() {
-                $.publish("/battle/end", [{ won: true }]);
+                pubsub.publish("/battle/end", [{ won: true }]);
             }, 1);
         }
     };

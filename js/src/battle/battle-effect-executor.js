@@ -1,4 +1,4 @@
-define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-text-provider"], function(_, $, BattleMessageState, textProvider) {
+define(["underscore", "pubsub", "battle/battle-message-state", "battle/battle-text-provider"], function(_, pubsub, BattleMessageState, textProvider) {
     "use strict";
 
     var getDamageSound = function(targetType, isCritical) {
@@ -21,7 +21,7 @@ define(["underscore", "jquery", "battle/battle-message-state", "battle/battle-te
 
     BattleEffectExecutor.prototype.snd = function(sound) {
         this.state.enqueueFunc(function() {
-            $.publish("/sound/play", [sound]);
+            pubsub.publish("/sound/play", [sound]);
         });
     }
 

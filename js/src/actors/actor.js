@@ -1,4 +1,4 @@
-define(['jquery', 'direction'], function($, direction) {
+define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
     "use strict";
 
     function Actor(archetype) {
@@ -112,11 +112,10 @@ define(['jquery', 'direction'], function($, direction) {
 
     Actor.prototype.say = function(messages) {
         var d = $.Deferred();
-        var sub = $.subscribe("/npc/talk/done", function() {
-            $.unsubscribe(sub);
+        pubsub.subscribeOnce("/npc/talk/done", function() {
             d.resolve();
         });
-        $.publish("/npc/talk", [{ text: messages, speaker: this.archetype }, this]);
+        pubsub.publish("/npc/talk", [{ text: messages, speaker: this.archetype }, this]);
         return d.promise();
     };
 

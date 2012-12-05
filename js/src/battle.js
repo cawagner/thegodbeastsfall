@@ -1,10 +1,10 @@
-define(['underscore', 'jquery'], function(_, $) {
+define(['underscore', 'pubsub'], function(_, pubsub) {
     "use strict";
 
     return function Battle(enemies, options) {
         var endSubscription;
         var delegate = function(flags) {
-            $.unsubscribe(endSubscription);
+            pubsub.unsubscribe(endSubscription);
             if (flags.ran && this.onRan) {
                 this.onRan();
             } else if (flags.won && this.onWon) {
@@ -17,10 +17,10 @@ define(['underscore', 'jquery'], function(_, $) {
             }
         };
 
-        endSubscription = $.subscribe("/battle/end", _.bind(delegate, this));
+        endSubscription = pubsub.subscribe("/battle/end", _.bind(delegate, this));
 
         this.start = _.once(function() {
-            $.publish("/battle/start", [enemies, options]);
+            pubsub.publish("/battle/start", [enemies, options]);
         });
     };
 });

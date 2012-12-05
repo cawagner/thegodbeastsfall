@@ -1,11 +1,11 @@
 define([
     "underscore",
-    "jquery",
+    "pubsub",
     "battle/battle-message-state",
     "battle/battle-won-state",
     "battle/battle-action-executor",
     "battle/battle-text-provider"
-], function(_, $, BattleMessageState, BattleWonState, actionExecutor, textProvider) {
+], function(_, pubsub, BattleMessageState, BattleWonState, actionExecutor, textProvider) {
     "use strict";
 
     // TODO: this whole file is a mess... lol 3:00AM
@@ -20,7 +20,7 @@ define([
         };
 
         var playMusic = function(name) {
-            battleState.enqueueFunc(function() { $.publish("/music/play", [name]); });
+            battleState.enqueueFunc(function() { pubsub.publish("/music/play", [name]); });
         };
 
         var wonBattle = function() {
@@ -65,7 +65,7 @@ define([
             ]));
 
             battleState.enqueueFunc(function() {
-                $.publish("/battle/end", [{ won: false }]);
+                pubsub.publish("/battle/end", [{ won: false }]);
             });
         }
 
