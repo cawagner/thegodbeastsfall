@@ -34,13 +34,9 @@ define([
             return new pawns.CharacterPawn(character);
         });
 
-        this.enemyPawns = _(enemies).map(function(enemy) {
-            var pawn = new pawns.EnemyPawn(enemy);
-            if ("idle" in pawn.enemy) {
-                pawn.display.effects.push(battleAnimations[pawn.enemy.idle](pawn));
-            } else {
-                pawn.display.effects.push(battleAnimations.slowWiggle());
-            }
+        this.enemyPawns = _(enemies).map(function(enemyId) {
+            var pawn = new pawns.EnemyPawn(enemyId);
+            pawn.display.effects.push(battleAnimations[pawn.enemy.idle || "slowWiggle"](pawn));
             return pawn;
         });
 
