@@ -13,7 +13,7 @@ define([
     pubsub,
     _,
     mapLoader,
-    GuiRenderer,
+    gui,
     TilemapView,
     actorRenderer,
     Hero,
@@ -27,7 +27,6 @@ define([
         var game = Game.instance,
             tilemapView = new TilemapView(map.tilemap, map.tilesets),
             hero = new Hero(),
-            gui = new GuiRenderer(),
             stepSubscription,
             sortActors;
 

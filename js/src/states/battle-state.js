@@ -13,7 +13,7 @@ define([
     _,
     gameState,
     pawns,
-    GuiRenderer,
+    gui,
     BattleMessageState,
     BattleMenuState,
     BattleDecisionState,
@@ -27,8 +27,6 @@ define([
 
     function BattleState(enemies) {
         var self = this;
-
-        this.gui = new GuiRenderer(Game.instance.graphics);
 
         this.playerPawns = _(gameState.party).map(function(character) {
             return new pawns.CharacterPawn(character);
@@ -155,7 +153,6 @@ define([
     };
 
     BattleState.prototype.drawAllies = function() {
-        var gui = this.gui;
         _(this.playerPawns).each(function(pawn, i) {
             pawn.x = 200 + i * 60 + 18;
             pawn.y = 190;

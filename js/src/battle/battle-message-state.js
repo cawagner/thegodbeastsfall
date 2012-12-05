@@ -1,11 +1,9 @@
-define(["pubsub", "underscore", "gui", "keyboard-input"], function(pubsub, _, GuiRenderer, input) {
+define(["pubsub", "underscore", "gui", "keyboard-input"], function(pubsub, _, gui, input) {
     "use strict";
 
     var MESSAGE_DELAY = 250;
 
     function BattleMessageState(messages, sound) {
-        this.gui = new GuiRenderer();
-
         this.messageDelay = 0;
         this.currentMessage = "";
         this.messages = messages;
@@ -33,7 +31,7 @@ define(["pubsub", "underscore", "gui", "keyboard-input"], function(pubsub, _, Gu
 
         this.draw = function() {
             if (this.currentMessage) {
-                this.gui.drawTextWindow(10, 10, 300, 20, [this.currentMessage]);
+                gui.drawTextWindow(10, 10, 300, 20, [this.currentMessage]);
             }
         };
     }

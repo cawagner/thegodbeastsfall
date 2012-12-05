@@ -1,12 +1,10 @@
-define(["pubsub", "underscore", "gui", "chars", "states/noop-state", "pubsub"], function(pubsub, _, GuiRenderer, chars, NoopState) {
+define(["pubsub", "underscore", "graphics", "gui", "chars", "states/noop-state", "pubsub"], function(pubsub, _, graphics, gui, chars, NoopState) {
     "use strict";
 
     function MenuState(menu) {
         var game = Game.instance;
 
         this.menu = menu;
-        this.graphics = game.graphics;
-        this.gui = new GuiRenderer(this.graphics);
         this.previousState = new NoopState();
         this.selectionIndex = 0;
         this.input = game.input;
@@ -70,8 +68,7 @@ define(["pubsub", "underscore", "gui", "chars", "states/noop-state", "pubsub"], 
 
         this.previousState.draw(delta);
 
-        this.gui.drawWindowRect(this.menu.x, this.menu.y, this.menu.cols * colWidth * this.openProgress, this.menu.rows * this.gui.lineHeight * this.openProgress);
-        this.graphics.setFillColor("#fff");
+        gui.drawWindowRect(this.menu.x, this.menu.y, this.menu.cols * colWidth * this.openProgress, this.menu.rows * gui.lineHeight * this.openProgress);
 
         for (i = 0; i < this.menu.items.length; ++i) {
             item = this.menu.items[i] instanceof String ? this.menu.items[i] : this.menu.items[i].text || this.menu.items[i].toString();
@@ -79,18 +76,18 @@ define(["pubsub", "underscore", "gui", "chars", "states/noop-state", "pubsub"], 
             y = Math.floor(i / this.menu.cols);
             disabled = _(this.menu.items[i]).result("disabled");
             if (disabled) {
-                this.graphics.setAlpha(0.5);
+                graphics.setAlpha(0.5);
             }
-            this.graphics.drawText(this.menu.x + x * colWidth + 12, 4 + this.menu.y + y * this.gui.lineHeight, item);
+            graphics.drawText(this.menu.x + x * colWidth + 12, 4 + this.menu.y + y * gui.lineHeight, item);
             if (disabled) {
-                this.graphics.setAlpha(1);
+                graphics.setAlpha(1);
             }
         }
 
         x = this.selectionIndex % this.menu.cols;
         y = Math.floor(this.selectionIndex / this.menu.cols);
 
-        this.graphics.drawText(this.menu.x + x * colWidth, 4 + this.menu.y + y * this.gui.lineHeight, chars.POINTER);
+        graphics.drawText(this.menu.x + x * colWidth, 4 + this.menu.y + y * gui.lineHeight, chars.POINTER);
 
         if (this.menu.options.draw) {
             this.menu.options.draw(this.menu.items[this.selectionIndex], this.menu, this.selectionIndex);

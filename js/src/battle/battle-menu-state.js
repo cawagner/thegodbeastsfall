@@ -2,12 +2,14 @@ define([
     "underscore",
     "menu",
     "gui",
+    "graphics",
     "game-state",
     "json!skills.json"
 ], function(
     _,
     Menu,
-    GuiRenderer,
+    gui,
+    graphics,
     gameState,
     skills
 ) {
@@ -20,8 +22,6 @@ define([
         this.actions = [];
 
         this.battleState = battleState;
-
-        this.gui = new GuiRenderer();
     };
 
     BattleMenuState.prototype.start = function() {
@@ -104,8 +104,8 @@ define([
     };
 
     BattleMenuState.prototype.drawSkillInfo = function(menuItem) {
-        this.gui.drawTextWindow(280, 30, 25, 16, [menuItem.cost]);
-        Game.instance.graphics.drawText(20, 0, menuItem.skill.desc || "");
+        gui.drawTextWindow(280, 30, 25, 16, [menuItem.cost]);
+        graphics.drawText(20, 0, menuItem.skill.desc || "");
     };
 
     BattleMenuState.prototype.targetPawn = function(pawnType) {

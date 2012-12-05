@@ -5,7 +5,7 @@ define([
     "states/noop-state"
 ], function(
     pubsub,
-    GuiRenderer,
+    gui,
     speakers,
     NoopState
 ) {
@@ -17,7 +17,6 @@ define([
         var messageIndex = 0,
             lineIndex = 0,
             lines = message.text[0].wordWrap(LINE_LENGTH),
-            gui = new GuiRenderer(Game.instance.graphics),
             openProgress = 0.0;
 
         this.previousState = new NoopState();

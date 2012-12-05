@@ -2,13 +2,14 @@ define([
     "underscore",
     "pubsub",
     "game-state",
+    "gui",
     "menu",
     "states/menu-state",
     "chars",
     "states/noop-state",
     "pawns/character-pawn",
     "json!skills.json"
-], function(_, pubsub, gameState, Menu, MenuState, chars, NoopState, CharacterPawn, skills) {
+], function(_, pubsub, gameState, gui, Menu, MenuState, chars, NoopState, CharacterPawn, skills) {
     "use strict";
 
     function FieldMenuState() {
@@ -118,7 +119,6 @@ define([
         });
 
         this.menuState = new MenuState(this.menu);
-        this.gui = this.menuState.gui;
         this.previousState = new NoopState();
     }
 
@@ -140,7 +140,7 @@ define([
         this.menuState.draw(delta);
 
         for (i = 0; i < party.length; ++i) {
-            this.gui.drawStatus(x, 180, party[i]);
+            gui.drawStatus(x, 180, party[i]);
             x += 60;
         }
     };

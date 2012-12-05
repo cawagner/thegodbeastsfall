@@ -1,14 +1,11 @@
 define([
-    "underscore", "keyboard-input", "pawns/character-pawn", "gui", "chars", "states/noop-state"
-], function (_, input, CharacterPawn, GuiRenderer, chars, NoopState) {
+    "underscore", "keyboard-input", "pawns/character-pawn", "gui", "graphics", "chars", "states/noop-state"
+], function (_, input, CharacterPawn, gui, graphics, chars, NoopState) {
     "use strict";
 
     function StatusState(character) {
         this.character = character;
         this.pawn = new CharacterPawn(this.character);
-
-        this.graphics = Game.instance.graphics;
-        this.gui = new GuiRenderer(this.graphics);
 
         this.input = input;
 
@@ -61,39 +58,39 @@ define([
 
         this.previousState.draw(delta);
 
-        this.gui.drawWindowRect(20, top, this.graphics.width - 40, 3*this.gui.lineHeight);
+        gui.drawWindowRect(20, top, graphics.width - 40, 3*gui.lineHeight);
 
-        statTop = this.gui.drawTextLines(20, top, [
+        statTop = gui.drawTextLines(20, top, [
             this.character.name,
             "Level " + this.character.level,
             this.character.title
-        ]) + this.gui.lineHeight;
+        ]) + gui.lineHeight;
 
-        this.gui.drawTextLines(160, top + this.gui.lineHeight, [
+        gui.drawTextLines(160, top + gui.lineHeight, [
             chars.HEART + ("" + this.character.hp).rset(3) + "/" + ("" + this.character.maxHp).rset(3),
             chars.STAR + ("" + this.character.mp).rset(3) + "/" + ("" + this.character.maxMp).rset(3),
         ]);
-        this.gui.drawPortrait(250, top, this.character.face);
+        gui.drawPortrait(250, top, this.character.face);
 
-        this.gui.drawWindowRect(20, statTop, 60, 4*this.gui.lineHeight);
-        this.gui.drawTextLines(20, statTop, _(statMapping).map(_.bind(this.formatStat, this)));
+        gui.drawWindowRect(20, statTop, 60, 4*gui.lineHeight);
+        gui.drawTextLines(20, statTop, _(statMapping).map(_.bind(this.formatStat, this)));
 
-        this.gui.drawTextWindow(100, statTop, 200, 2*this.gui.lineHeight, [
-            "W: SBronze    H: Nothing",
+        gui.drawTextWindow(100, statTop, 200, 2*gui.lineHeight, [
+            "W: Nothing    H: Nothing",
             "B: Nothing    A: Nothing",
         ]);
 
-        statTop += 4 * this.gui.lineHeight;
+        statTop += 4 * gui.lineHeight;
 
-        this.gui.drawWindowRect(150, statTop, 150, 5*this.gui.lineHeight);
-        this.gui.drawTextLines(150, statTop, _(skillMapping).map(_.bind(this.formatSkill, this)));
-        xpTop = this.gui.drawTextLines(230, statTop, _(skillMapping2).map(_.bind(this.formatSkill, this))) + this.gui.lineHeight;
+        gui.drawWindowRect(150, statTop, 150, 5*gui.lineHeight);
+        gui.drawTextLines(150, statTop, _(skillMapping).map(_.bind(this.formatSkill, this)));
+        xpTop = gui.drawTextLines(230, statTop, _(skillMapping2).map(_.bind(this.formatSkill, this))) + gui.lineHeight;
 
-        xpTop -= 4 * this.gui.lineHeight
+        xpTop -= 4 * gui.lineHeight
 
         if (this.character.level < 100) {
-            this.gui.drawWindowRect(20, xpTop, this.graphics.width / 2 - 45, 2 * this.gui.lineHeight);
-            this.gui.drawTextLines(20, xpTop, [
+            gui.drawWindowRect(20, xpTop, graphics.width / 2 - 45, 2 * gui.lineHeight);
+            gui.drawTextLines(20, xpTop, [
                 "XP to advance:",
                 ("" + (this.character.xp + "/" + this.character.xpNext)).rset(14)
             ]);

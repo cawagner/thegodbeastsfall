@@ -58,5 +58,5 @@ define(["underscore",
         );
     };
 
-    return GuiRenderer;
+    return new GuiRenderer();
 });
