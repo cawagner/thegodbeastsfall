@@ -2,9 +2,7 @@ define(['underscore', 'pubsub'], function(_, pubsub) {
     "use strict";
 
     return function Battle(enemies, options) {
-        var endSubscription;
         var delegate = function(flags) {
-            pubsub.unsubscribe(endSubscription);
             if (flags.ran && this.onRan) {
                 this.onRan();
             } else if (flags.won && this.onWon) {
@@ -17,7 +15,7 @@ define(['underscore', 'pubsub'], function(_, pubsub) {
             }
         };
 
-        endSubscription = pubsub.subscribe("/battle/end", _.bind(delegate, this));
+        pubsub.subscribeOnce("/battle/end", _.bind(delegate, this));
 
         this.start = _.once(function() {
             pubsub.publish("/battle/start", [enemies, options]);
