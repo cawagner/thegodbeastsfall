@@ -1,9 +1,7 @@
-define(["pubsub", "underscore", "graphics", "gui", "keyboard-input", "chars", "states/noop-state", "pubsub"], function(pubsub, _, graphics, gui, input, chars, NoopState) {
+define(["pubsub", "underscore", "game", "graphics", "gui", "keyboard-input", "chars", "states/noop-state", "pubsub"], function(pubsub, _, game, graphics, gui, input, chars, NoopState) {
     "use strict";
 
     function MenuState(menu) {
-        var game = Game.instance;
-
         this.menu = menu;
         this.previousState = new NoopState();
         this.selectionIndex = 0;

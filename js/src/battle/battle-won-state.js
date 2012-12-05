@@ -1,6 +1,7 @@
 define([
     "underscore",
     "pubsub",
+    "game",
     "menu",
     "states/dialogue-state",
     "graphics",
@@ -9,6 +10,7 @@ define([
 ], function(
     _,
     pubsub,
+    game,
     Menu,
     DialogueState,
     graphics,
@@ -58,7 +60,7 @@ define([
                     growthText.push('Learned the spell "' + skills[learnedSkill.skill].name + '"!');
                 });
 
-                Game.instance.pushState(new DialogueState(
+                game.pushState(new DialogueState(
                     { text: growthText },
                     function() {
                         setTimeout(levelCharacters, 1);

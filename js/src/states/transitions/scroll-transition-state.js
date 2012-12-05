@@ -1,4 +1,4 @@
-define(["graphics"], function(graphics) {
+define(["game", "graphics"], function(game, graphics) {
     "use strict";
 
     function ScrollTransitionState(toState, options) {
@@ -7,7 +7,7 @@ define(["graphics"], function(graphics) {
         // TODO: constructor has side effects! bad, bad!
 
         this.offset = 0;
-        this.fromState = Game.instance.currentState();
+        this.fromState = game.currentState();
         this.toState = toState;
 
         options = _.defaults(options || {}, {
@@ -36,8 +36,8 @@ define(["graphics"], function(graphics) {
         this.update = function(delta) {
             this.offset += options.speed;
             if (this.offset >= maxOffset) {
-                Game.instance.popState(); // pop this state
-                Game.instance.pushState(this.toState); // push state we're transitioning to
+                game.popState(); // pop this state
+                game.pushState(this.toState); // push state we're transitioning to
             }
         };
     }

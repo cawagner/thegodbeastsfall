@@ -1,13 +1,11 @@
 define([
-    "underscore", "keyboard-input", "pawns/character-pawn", "gui", "graphics", "chars", "states/noop-state"
-], function (_, input, CharacterPawn, gui, graphics, chars, NoopState) {
+    "underscore", "game", "keyboard-input", "pawns/character-pawn", "gui", "graphics", "chars", "states/noop-state"
+], function (_, game, input, CharacterPawn, gui, graphics, chars, NoopState) {
     "use strict";
 
     function StatusState(character) {
         this.character = character;
         this.pawn = new CharacterPawn(this.character);
-
-        this.input = input;
 
         this.previousState = new NoopState();
     }
@@ -17,8 +15,8 @@ define([
     };
 
     StatusState.prototype.update = function() {
-        if (this.input.wasCancelPressed()) {
-            Game.instance.popState();
+        if (input.wasCancelPressed()) {
+            game.popState();
         }
     };
 

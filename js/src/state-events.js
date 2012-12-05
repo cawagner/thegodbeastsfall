@@ -9,7 +9,8 @@ define([
     "states/status-state",
     "states/transitions/scroll-transition-state",
     "game-state",
-    "sound"
+    "sound",
+    "game"
 ], function(
     _,
     pubsub,
@@ -21,7 +22,8 @@ define([
     StatusState,
     ScrollTransitionState,
     gameState,
-    sound
+    sound,
+    game
 ) {
     "use strict";
 
@@ -32,7 +34,7 @@ define([
     };
 
     return {
-        init: function(game) {
+        init: function() {
 
             // TODO: move asset loading into common location that isn't here!
             var isMobile = navigator.userAgent.match(/iPhone|iPad|iPod|Android|BlackBerry/i);

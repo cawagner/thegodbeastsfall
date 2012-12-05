@@ -1,12 +1,14 @@
 define([
     "pubsub",
     "gui",
+    "game",
     "keyboard-input",
     "json!speakers.json",
     "states/noop-state"
 ], function(
     pubsub,
     gui,
+    game,
     input,
     speakers,
     NoopState
@@ -52,7 +54,7 @@ define([
         this.advanceText = function() {
             ++lineIndex;
             if (lineIndex >= message.text.length) {
-                Game.instance.popState();
+                game.popState();
             } else {
                 lines = message.text[lineIndex].wordWrap(LINE_LENGTH);
             }

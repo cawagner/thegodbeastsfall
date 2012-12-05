@@ -1,11 +1,9 @@
 define([
     'jquery',
     'underscore',
-    // Classes
     'game',
     'graphics',
     'state-events',
-    // Just return objects
     'keyboard-input',
     'touch-input',
     'util',
@@ -13,7 +11,7 @@ define([
 ], function(
     $,
     _,
-    Game,
+    game,
     graphics,
     stateEvents,
     input,
@@ -51,14 +49,9 @@ define([
     };
 
     var init = function() {
-        game = new Game();
-
         _.templateSettings = {
             interpolate : /\{\{(.+?)\}\}/g
         };
-
-        // HACK: no :(
-        window.Game = { instance: game };
 
         $("[data-scale]").on("click", function() {
             var scale = parseInt($(this).data("scale"), 10);
@@ -69,7 +62,7 @@ define([
         input.init();
         touchInput.init(input);
 
-        stateEvents.init(game);
+        stateEvents.init();
 
         requestAnimationFrame(mainLoop, graphics.canvas);
     };
