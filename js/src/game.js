@@ -1,7 +1,7 @@
-define(['states/main-menu-state'], function(MainMenuState) {
+define(['states/main-menu-state', 'graphics', 'keyboard-input'], function(MainMenuState, graphics, input) {
     "use strict";
 
-    function Game(graphics, input) {
+    function Game() {
         if (Game.instance) {
             throw "too many games!";
         }

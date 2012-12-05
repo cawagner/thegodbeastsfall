@@ -1,4 +1,4 @@
-define(["display/fonts"], function(fonts) {
+define(["constants", "display/fonts"], function(constants, fonts) {
     "use strict";
 
     var Graphics = function(visibleCanvas, width, height, scale) {
@@ -15,6 +15,8 @@ define(["display/fonts"], function(fonts) {
 
         this.width = width;
         this.height = height;
+
+        this.canvas = visibleCanvas;
 
         this.setOrigin = function(x, y) {
             context.setTransform(1, 0, 0, 1, 0, 0);
@@ -86,5 +88,5 @@ define(["display/fonts"], function(fonts) {
         this.setGlobalScale(scale);
     };
 
-    return Graphics;
+    return new Graphics(document.getElementById("gameCanvas"), constants.GAME_WIDTH, constants.GAME_HEIGHT, constants.DEFAULT_SCALE)
 });

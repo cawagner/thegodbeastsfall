@@ -14,7 +14,7 @@ define([
     $,
     _,
     Game,
-    Graphics,
+    graphics,
     stateEvents,
     input,
     touchInput,
@@ -23,14 +23,12 @@ define([
 ) {
     "use strict";
 
-    var graphics;
     var game;
 
     var collected = 0;
     var startFrame;
     var endFrame = Date.now();
     var timeScale = 1;
-    var canvas;
 
     var requestAnimationFrame = util.getRequestAnimationFrame();
 
@@ -49,13 +47,11 @@ define([
         endFrame = Date.now();
         collected += Math.min(16 * 5, endFrame - startFrame);
 
-        requestAnimationFrame(mainLoop, canvas);
+        requestAnimationFrame(mainLoop, graphics.canvas);
     };
 
     var init = function() {
-        canvas = document.getElementById("gameCanvas");
-        graphics = new Graphics(canvas, constants.GAME_WIDTH, constants.GAME_HEIGHT, 1);
-        game = new Game(graphics, input);
+        game = new Game();
 
         _.templateSettings = {
             interpolate : /\{\{(.+?)\}\}/g
@@ -75,7 +71,7 @@ define([
 
         stateEvents.init(game);
 
-        requestAnimationFrame(mainLoop, canvas);
+        requestAnimationFrame(mainLoop, graphics.canvas);
     };
 
     return { init: init };
