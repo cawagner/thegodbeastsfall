@@ -163,7 +163,7 @@ define([
         mapLoader.load(mapName).done(function(map) {
             pubsub.publish("/map/loaded", [map, entrance]);
         });
-    }
+    };
 
     return {
         goToMap: goToMap
