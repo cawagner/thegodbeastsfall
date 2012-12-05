@@ -44,10 +44,6 @@ define(["constants", "graphics"], function(constants, graphics) {
         damnedBigCanvas.width = tilemap.width * TILE_SIZE;
         damnedBigCanvas.height = tilemap.height * TILE_SIZE;
 
-        var drawTile = function(x, y, tile) {
-            tile -= 1;
-        };
-
         var lastTile = -1, tileset;
         _(tilemap.layers).times(function(z) {
             _.each2d(tilemap.width, tilemap.height, function(x, y) {
