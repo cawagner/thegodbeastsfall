@@ -51,5 +51,26 @@ define(["underscore", "json!items.json"], function(_, items) {
         return result;
     };
 
+    Inventory.prototype.serialize = function() {
+        var key, result = {};
+        for (key in this.items) {
+            if (this.items.hasOwnProperty(key)) {
+                result[key] = this.items[key].quantity;
+            }
+        }
+        return result;
+    };
+
+    Inventory.deserialize = function(obj) {
+        var key;
+        var result = new Inventory();
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                result.addItem(key, obj[key]);
+            }
+        }
+        return result;
+    };
+
     return Inventory;
 });

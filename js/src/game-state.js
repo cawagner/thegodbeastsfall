@@ -38,7 +38,7 @@ define([
                 startDate: this.startDate,
                 totalSteps: this.totalSteps,
                 flags: this.flags,
-                inventory: this.inventory.items,
+                inventory: this.inventory.serialize(),
                 location: this.location
             };
             return JSON.stringify(json);
@@ -53,7 +53,7 @@ define([
             this.startDate = json.startDate;
             this.totalSteps = json.totalSteps;
             this.flags = json.flags;
-            this.inventory.items = json.inventory;
+            this.inventory = Inventory.deserialize(json.inventory);
             this.location = json.location;
 
             mapLoader.goToMap(this.location.currentMap, this.location);

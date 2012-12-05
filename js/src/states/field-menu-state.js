@@ -100,7 +100,10 @@ define([
                 {
                     text: "System",
                     childMenu: new Menu({
-                        items: [ "Save", "Load" ],
+                        items: [
+                            "Save",
+                            { text: "Load", disabled: !localStorage.getItem("saveGame0") }
+                        ],
                         select: function(index) {
                             if (index === 0) {
                                 localStorage.setItem("saveGame0", gameState.toJSON());
