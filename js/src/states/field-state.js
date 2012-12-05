@@ -7,7 +7,6 @@ define([
     "display/tilemap-view",
     "display/actor-renderer",
     "actors/hero",
-    "battle",
     "direction",
     "util",
     "pubsub"
@@ -20,7 +19,6 @@ define([
     TilemapView,
     ActorRenderer,
     Hero,
-    Battle,
     direction,
     util
 ) {
@@ -71,16 +69,7 @@ define([
 
             encounter = _(map.encounters).find(containsHero);
             if (encounter) {
-                encounter.until--;
-                if (encounter.until <= 0) {
-                    encounter.triggered++;
-
-                    new Battle(_(encounter.parties).randomElement()).start();
-
-                    encounter.until = 2*encounter.triggered + Math.floor(
-                        Math.random() * (encounter.maxFrequency - encounter.minFrequency) + encounter.minFrequency
-                    );
-                }
+                encounter.step();
             };
         });
 

@@ -5,6 +5,7 @@ define([
     "pubsub",
     "tilemap",
     "actors/npc",
+    "encounter",
     "constants",
     "image-loader",
     "pubsub"
@@ -14,6 +15,7 @@ define([
     pubsub,
     tilemap,
     Npc,
+    Encounter,
     constants,
     imageLoader
 ) {
@@ -125,20 +127,15 @@ define([
 
                 _(objects["Encounters"]).each(function(object) {
                     var frequency = object.properties.frequency.split("-");
-                    var encounter = {
+                    encounters[object.name] = new Encounter({
                         x: (object.x / TILE_SIZE) | 0,
                         y: (object.y / TILE_SIZE) | 0,
                         width: (object.width / TILE_SIZE) | 0,
                         height: (object.height / TILE_SIZE) | 0,
                         minFrequency: parseInt(frequency[0] || 30),
                         maxFrequency: parseInt(frequency[1] || frequency[0] || 40),
-                        parties: JSON.parse(object.properties.parties),
-                        triggered: 0
-                    };
-                    encounter.until = Math.floor(
-                        Math.random() * (encounter.maxFrequency - encounter.minFrequency) + encounter.minFrequency
-                    );
-                    encounters[object.name] = encounter;
+                        parties: JSON.parse(object.properties.parties)
+                    });
                 });
             });
 
