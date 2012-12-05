@@ -4,7 +4,7 @@ define(["pubsub", "underscore", "gui", "keyboard-input"], function(pubsub, _, Gu
     var MESSAGE_DELAY = 250;
 
     function BattleMessageState(messages, sound) {
-        this.gui = new GuiRenderer(Game.instance.graphics);
+        this.gui = new GuiRenderer();
 
         this.messageDelay = 0;
         this.currentMessage = "";

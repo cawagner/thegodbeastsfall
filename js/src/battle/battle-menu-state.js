@@ -21,7 +21,7 @@ define([
 
         this.battleState = battleState;
 
-        this.gui = new GuiRenderer(Game.instance.graphics);
+        this.gui = new GuiRenderer();
     };
 
     BattleMenuState.prototype.start = function() {

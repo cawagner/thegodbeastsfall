@@ -2,7 +2,6 @@ define([
     "pubsub",
     "underscore",
     "map-loader",
-    "game",
     "gui",
     "display/tilemap-view",
     "display/actor-renderer",
@@ -14,7 +13,6 @@ define([
     pubsub,
     _,
     mapLoader,
-    Game,
     GuiRenderer,
     TilemapView,
     ActorRenderer,
@@ -27,10 +25,10 @@ define([
     // TODO: make some function to open the state instead of having such a horrible constructor
     function FieldState(map, entrance) {
         var game = Game.instance,
-            tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
+            tilemapView = new TilemapView(map.tilemap, map.tilesets),
             hero = new Hero(),
-            actorRenderer = new ActorRenderer(game.graphics),
-            gui = new GuiRenderer(game.graphics),
+            actorRenderer = new ActorRenderer(),
+            gui = new GuiRenderer(),
             stepSubscription,
             sortActors;
 

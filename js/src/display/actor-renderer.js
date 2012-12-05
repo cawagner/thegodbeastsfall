@@ -1,4 +1,4 @@
-define(["json!archetypes.json", "image-loader", "constants"], function(archetypes, imageLoader, constants) {
+define(["json!archetypes.json", "image-loader", "graphics", "constants"], function(archetypes, imageLoader, graphics, constants) {
     "use strict";
 
     // TODO: doesn't really live here...
@@ -9,7 +9,7 @@ define(["json!archetypes.json", "image-loader", "constants"], function(archetype
         }
     });
 
-    return function ActorRenderer(graphics) {
+    return function ActorRenderer() {
         var walkFrames = [1,0,1,2];
 
         var destRect = { x: 0, y: 0, width: constants.ACTOR_WIDTH, height: constants.ACTOR_HEIGHT };

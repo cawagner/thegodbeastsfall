@@ -1,5 +1,5 @@
 // I think there may be a race condition based on when this loads relative to when other things load...
-define(["constants"], function(constants) {
+define(["constants", "graphics"], function(constants, graphics) {
     "use strict";
 
     var TILE_SIZE = constants.TILE_SIZE;
@@ -21,7 +21,7 @@ define(["constants"], function(constants) {
         height: constants.GAME_HEIGHT
     };
 
-    var TilemapView = function(tilemap, tilesets, graphics) {
+    var TilemapView = function(tilemap, tilesets) {
         // TODO: support multiple tilesets!
         var ts = tilesets[0];
 
