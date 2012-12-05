@@ -1,5 +1,6 @@
-var dependencies = [
+define([
     'jquery',
+    'underscore',
     // Classes
     'game',
     'graphics',
@@ -8,13 +9,18 @@ var dependencies = [
     'keyboard-input',
     'touch-input',
     'util',
-    'constants',
-    // After this point, other objects are extended
-    'pubsub',
-    'underscore-mixins',
-    'string'
-];
-define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput, util, constants) {
+    'constants'
+], function(
+    $,
+    _,
+    Game,
+    Graphics,
+    stateEvents,
+    input,
+    touchInput,
+    util,
+    constants
+) {
     "use strict";
 
     var graphics;
