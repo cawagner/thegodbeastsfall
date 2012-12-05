@@ -9,10 +9,10 @@ define(["json!archetypes.json", "image-loader", "constants"], function(archetype
         }
     });
 
-    var ActorRenderer = function(graphics) {
+    return function ActorRenderer(graphics) {
         var walkFrames = [1,0,1,2];
 
-        var destRect = { x: 0, y: 0, width: 16, height: 18 };
+        var destRect = { x: 0, y: 0, width: constants.ACTOR_WIDTH, height: constants.ACTOR_HEIGHT };
 
         this.drawActor = function(actor, frame) {
             var frameToDraw,
@@ -23,15 +23,13 @@ define(["json!archetypes.json", "image-loader", "constants"], function(archetype
             if (!archetype.isHidden) {
                 frameToDraw = actor.direction * 3 + walkFrames[frame|0];
 
-                srcRect = graphics.getRectForFrame(frameToDraw + (archetype.startFrame || 0), image.width, 16, 18);
+                srcRect = graphics.getRectForFrame(frameToDraw + (archetype.startFrame || 0), image.width, constants.ACTOR_WIDTH, constants.ACTOR_HEIGHT);
 
                 destRect.x = actor.x * constants.TILE_SIZE;
-                destRect.y = actor.y * constants.TILE_SIZE - 4;
+                destRect.y = actor.y * constants.TILE_SIZE - constants.ACTOR_HEAD;
 
                 graphics.drawImageRect(image, srcRect, destRect);
             }
         };
     };
-
-    return ActorRenderer;
 });
