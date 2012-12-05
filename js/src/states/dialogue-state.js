@@ -1,11 +1,13 @@
 define([
     "pubsub",
     "gui",
+    "keyboard-input",
     "json!speakers.json",
     "states/noop-state"
 ], function(
     pubsub,
     gui,
+    input,
     speakers,
     NoopState
 ) {
@@ -57,7 +59,7 @@ define([
         };
 
         this.update = function(timeScale) {
-            if (Game.instance.input.wasConfirmPressed() || Game.instance.input.wasCancelPressed()) {
+            if (input.wasConfirmPressed() || input.wasCancelPressed()) {
                 this.advanceText();
             }
 

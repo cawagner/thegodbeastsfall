@@ -2,6 +2,7 @@ define([
     "pubsub",
     "underscore",
     "map-loader",
+    "graphics",
     "gui",
     "display/tilemap-view",
     "display/actor-renderer",
@@ -13,6 +14,7 @@ define([
     pubsub,
     _,
     mapLoader,
+    graphics,
     gui,
     TilemapView,
     actorRenderer,
@@ -24,11 +26,12 @@ define([
 
     // TODO: make some function to open the state instead of having such a horrible constructor
     function FieldState(map, entrance) {
-        var game = Game.instance,
-            tilemapView = new TilemapView(map.tilemap, map.tilesets),
+        var tilemapView = new TilemapView(map.tilemap, map.tilesets),
             hero = new Hero(),
             stepSubscription,
-            sortActors;
+            sortActors = _(function() {
+                map.actors = _(map.actors).sortBy("y");
+            }).throttle(150);
 
         map.addActor(hero);
 
@@ -52,8 +55,7 @@ define([
         }, 1);
 
         stepSubscription = pubsub.subscribe("/hero/step", function() {
-            var containsHero = _.bind(util.pointInRect, null, hero)
-
+            var containsHero = _.bind(util.pointInRect, null, hero);
             var encounter;
 
             var exit = _(map.exits).find(containsHero);
@@ -86,10 +88,6 @@ define([
             hero.unlockMovement();
         };
 
-        sortActors = _(function() {
-            map.actors = _(map.actors).sortBy("y");
-        }).throttle(150);
-
         this.draw = function(timeScale) {
             tilemapView.focusOn(hero.x, hero.y);
             tilemapView.draw();
@@ -99,7 +97,7 @@ define([
                 actorRenderer.drawActor(actor);
             });
 
-            game.graphics.setOrigin();
+            graphics.setOrigin();
         };
     }
 

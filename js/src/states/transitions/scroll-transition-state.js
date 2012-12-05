@@ -1,8 +1,7 @@
-define([], function() {
+define(["graphics"], function(graphics) {
     "use strict";
 
     function ScrollTransitionState(toState, options) {
-        var graphics = Game.instance.graphics;
         var maxOffset = graphics.height;
 
         // TODO: constructor has side effects! bad, bad!

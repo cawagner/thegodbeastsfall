@@ -9,9 +9,6 @@ define(['states/main-menu-state', 'graphics', 'keyboard-input'], function(MainMe
         var gameStates = [ new MainMenuState() ];
         var game = this;
 
-        this.input = input;
-        this.graphics = graphics;
-
         Game.instance = this;
 
         this.currentState = function() {

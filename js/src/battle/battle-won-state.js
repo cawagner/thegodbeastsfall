@@ -3,6 +3,7 @@ define([
     "pubsub",
     "menu",
     "states/dialogue-state",
+    "graphics",
     "game-state",
     "json!skills.json"
 ], function(
@@ -10,6 +11,7 @@ define([
     pubsub,
     Menu,
     DialogueState,
+    graphics,
     gameState,
     skills
 ) {
@@ -87,8 +89,8 @@ define([
         this.update = _.noop;
         this.draw = function() {
             if (character) {
-                Game.instance.graphics.drawText(120, 20, character.name + " grew to level " + (character.level + 1) + "!");
-                Game.instance.graphics.drawText(120, 36, "Choose an attribute to increase.");
+                graphics.drawText(120, 20, character.name + " grew to level " + (character.level + 1) + "!");
+                graphics.drawText(120, 36, "Choose an attribute to increase.");
             }
         }
     };

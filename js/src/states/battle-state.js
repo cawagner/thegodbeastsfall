@@ -2,6 +2,7 @@ define([
     "underscore",
     "game-state",
     "pawns/pawns",
+    "graphics",
     "gui",
     "battle/battle-message-state",
     "battle/battle-menu-state",
@@ -13,6 +14,7 @@ define([
     _,
     gameState,
     pawns,
+    graphics,
     gui,
     BattleMessageState,
     BattleMenuState,
@@ -101,7 +103,7 @@ define([
                 return life < 0;
             },
             draw: function() {
-                Game.instance.graphics.drawText(x + wiggle.x, y + wiggle.y, amount);
+                graphics.drawText(x + wiggle.x, y + wiggle.y, amount);
             }
         };
     };
@@ -119,8 +121,8 @@ define([
     };
 
     BattleState.prototype.draw = function() {
-        Game.instance.graphics.setFillColorRGB(0, 0, 0);
-        Game.instance.graphics.drawFilledRect(0, 0, 320, 240);
+        graphics.setFillColorRGB(0, 0, 0);
+        graphics.drawFilledRect(0, 0, 320, 240);
 
         this.drawEnemies();
         this.drawAllies();
@@ -147,7 +149,7 @@ define([
                 pawn.x = dest.x;
                 pawn.y = dest.y;
 
-                Game.instance.graphics.drawImageRect(pawn.image, pawn.rect, dest);
+                graphics.drawImageRect(pawn.image, pawn.rect, dest);
             }
         });
     };

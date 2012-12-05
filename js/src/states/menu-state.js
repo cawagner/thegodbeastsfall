@@ -1,4 +1,4 @@
-define(["pubsub", "underscore", "graphics", "gui", "chars", "states/noop-state", "pubsub"], function(pubsub, _, graphics, gui, chars, NoopState) {
+define(["pubsub", "underscore", "graphics", "gui", "keyboard-input", "chars", "states/noop-state", "pubsub"], function(pubsub, _, graphics, gui, input, chars, NoopState) {
     "use strict";
 
     function MenuState(menu) {
@@ -7,7 +7,6 @@ define(["pubsub", "underscore", "graphics", "gui", "chars", "states/noop-state",
         this.menu = menu;
         this.previousState = new NoopState();
         this.selectionIndex = 0;
-        this.input = game.input;
 
         this.openProgress = 0.0;
 
@@ -29,25 +28,25 @@ define(["pubsub", "underscore", "graphics", "gui", "chars", "states/noop-state",
         this.openProgress = Math.min(1, this.openProgress + 0.2);
 
         if (!this.isPaused) {
-            if (this.input.wasUpPressed()) {
+            if (input.wasUpPressed()) {
                 this.selectionIndex = Math.max(0, this.selectionIndex - this.menu.cols);
             }
-            if (this.input.wasDownPressed()) {
+            if (input.wasDownPressed()) {
                 this.selectionIndex = Math.min(this.menu.items.length - 1, this.selectionIndex + this.menu.cols);
             }
-            if (this.input.wasLeftPressed()) {
+            if (input.wasLeftPressed()) {
                 this.selectionIndex = Math.max(0, this.selectionIndex - 1);
             }
-            if (this.input.wasRightPressed()) {
+            if (input.wasRightPressed()) {
                 this.selectionIndex = Math.min(this.menu.items.length - 1, this.selectionIndex + 1);
             }
-            if (this.input.wasConfirmPressed()) {
+            if (input.wasConfirmPressed()) {
                 if (!_(this.menu.items[this.selectionIndex]).result("disabled")) {
                     this.menu.triggerSelect(this.selectionIndex, this.menu.items[this.selectionIndex]);
                     pubsub.publish("/sound/play", ["confirm"]);
                 }
             }
-            if (this.input.wasCancelPressed()) {
+            if (input.wasCancelPressed()) {
                 this.menu.triggerCancel();
                 pubsub.publish("/sound/play", ["cancel"]);
             }
