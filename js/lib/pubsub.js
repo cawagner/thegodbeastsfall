@@ -12,6 +12,7 @@
 */
 
 define(function() {
+    "use strict";
 
     // the topic/subscription hash
     var cache = {};
