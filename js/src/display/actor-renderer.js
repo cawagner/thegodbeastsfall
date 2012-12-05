@@ -14,14 +14,14 @@ define(["json!archetypes.json", "image-loader", "constants"], function(archetype
 
         var destRect = { x: 0, y: 0, width: constants.ACTOR_WIDTH, height: constants.ACTOR_HEIGHT };
 
-        this.drawActor = function(actor, frame) {
+        this.drawActor = function(actor) {
             var frameToDraw,
                 srcRect,
                 archetype = archetypes[actor.archetype],
                 image = archetypeImages[archetype.imagePath];
 
             if (!archetype.isHidden) {
-                frameToDraw = actor.direction * 3 + walkFrames[frame|0];
+                frameToDraw = actor.direction * 3 + walkFrames[actor.frame|0];
 
                 srcRect = graphics.getRectForFrame(frameToDraw + (archetype.startFrame || 0), image.width, constants.ACTOR_WIDTH, constants.ACTOR_HEIGHT);
 

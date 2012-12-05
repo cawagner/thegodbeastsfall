@@ -29,7 +29,6 @@ define([
         var game = Game.instance,
             tilemapView = new TilemapView(map.tilemap, map.tilesets, game.graphics),
             hero = new Hero(),
-            frame = 0,
             actorRenderer = new ActorRenderer(game.graphics),
             gui = new GuiRenderer(game.graphics),
             stepSubscription,
@@ -77,8 +76,6 @@ define([
             _(map.actors).each(function(actor) {
                 actor.update(timeScale);
             });
-
-            frame = (frame + 0.05 + hero.isMoving() * 0.1) % 4;
         };
 
         this.end = function() {
@@ -103,7 +100,7 @@ define([
 
             sortActors();
             _(map.actors).each(function(actor) {
-                actorRenderer.drawActor(actor, frame);
+                actorRenderer.drawActor(actor);
             });
 
             game.graphics.setOrigin();

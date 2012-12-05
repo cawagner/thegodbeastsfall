@@ -57,6 +57,7 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         };
 
         this.update = function(timeScale) {
+            this.frame = (this.frame + 0.05 + this.isMoving() * 0.1) % 4;
             moveTowardNewSquare(timeScale);
             this.onUpdate(timeScale);
         };
@@ -84,6 +85,7 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         this.isPushable = true;
         this.archetype = archetype;
         this.isMovementLocked = false;
+        this.frame = 0;
     }
 
     Actor.MOVE_SPEED = 0.1;
