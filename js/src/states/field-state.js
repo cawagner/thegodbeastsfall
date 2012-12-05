@@ -34,7 +34,6 @@ define([
             frame = 0,
             actorRenderer = new ActorRenderer(game.graphics),
             gui = new GuiRenderer(game.graphics),
-            containsHero = _.bind(util.pointInRect, null, hero),
             stepSubscription,
             sortActors;
 
@@ -49,7 +48,6 @@ define([
                 }
             }
         } else {
-            console.log(entrance);
             hero.warpTo(entrance.x, entrance.y);
             hero.direction = entrance.direction || direction.UP;
         }
@@ -61,19 +59,18 @@ define([
         }, 1);
 
         stepSubscription = pubsub.subscribe("/hero/step", function() {
-            var gone = false;
-            _(map.exits).withFirst(containsHero, function(exit) {
-                mapLoader.goToMap(exit.map, exit.entrance);
-                gone = true;
-            });
+            var containsHero = _.bind(util.pointInRect, null, hero)
 
-            // can't get into encounter on exit tiles
-            if (gone) {
+            var encounter;
+
+            var exit = _(map.exits).find(containsHero);
+            if (exit) {
+                mapLoader.goToMap(exit.map, exit.entrance);
                 return;
             }
 
-            // TODO: nested encounter regions won't work right now!
-            _(map.encounters).withFirst(containsHero, function(encounter) {
+            encounter = _(map.encounters).find(containsHero);
+            if (encounter) {
                 encounter.until--;
                 if (encounter.until <= 0) {
                     encounter.triggered++;
@@ -84,7 +81,7 @@ define([
                         Math.random() * (encounter.maxFrequency - encounter.minFrequency) + encounter.minFrequency
                     );
                 }
-            });
+            };
         });
 
         this.update = function(timeScale) {

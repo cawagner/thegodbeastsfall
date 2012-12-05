@@ -33,12 +33,6 @@ define(["underscore"], function(_) {
         pluckResult: function(collection, field) {
             return _(collection).map(function(item) { return _(item).result(field); });
         },
-        withFirst: function(collection, filter, fn) {
-            var first = _(collection).filter(filter)[0];
-            if (first !== undefined) {
-                fn(first);
-            }
-        },
         randomElement: function(collection) {
             return collection[Math.floor(collection.length * Math.random())];
         }
