@@ -1,7 +1,6 @@
 define(["underscore", "constants", "chars", "json!speakers.json", "image!assets/img/faces.png"], function(_, constants, chars, speakers, facesImage) {
     "use strict";
 
-    var FACE_WIDTH = 48, FACE_HEIGHT = 48;
     var STATUS_WINDOW_WIDTH = 36, STATUS_WINDOW_HEIGHT = 44;
 
     function GuiRenderer(graphics) {
@@ -36,8 +35,8 @@ define(["underscore", "constants", "chars", "json!speakers.json", "image!assets/
         var speaker = speakers[name] || {};
         var speakerSrcRect, speakerDestRect;
         if (speaker.frame !== undefined) {
-            speakerSrcRect = this.graphics.getRectForFrame(speaker.frame, facesImage.width, FACE_WIDTH, FACE_HEIGHT);
-            speakerDestRect = { x: x, y: y, width: FACE_WIDTH, height: FACE_HEIGHT };
+            speakerSrcRect = this.graphics.getRectForFrame(speaker.frame, facesImage.width, constants.FACE_WIDTH, constants.FACE_HEIGHT);
+            speakerDestRect = { x: x, y: y, width: constants.FACE_WIDTH, height: constants.FACE_HEIGHT };
 
             if (withBorder) {
                 this.drawWindowRect(speakerDestRect.x, speakerDestRect.y, speakerDestRect.width, speakerDestRect.height);
