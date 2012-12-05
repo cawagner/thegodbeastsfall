@@ -9,13 +9,12 @@ var dependencies = [
     'touch-input',
     'util',
     'constants',
-    'json!campaign.json',
     // After this point, other objects are extended
     'pubsub',
     'underscore-mixins',
     'string'
 ];
-define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput, util, constants, campaign) {
+define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput, util, constants) {
     "use strict";
 
     var graphics;
@@ -58,8 +57,6 @@ define(dependencies, function($, Game, Graphics, stateEvents, input, touchInput,
 
         // HACK: no :(
         window.Game = { instance: game };
-
-        window.document.title = campaign.title;
 
         $("[data-scale]").on("click", function() {
             var scale = parseInt($(this).data("scale"), 10);
