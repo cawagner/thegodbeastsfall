@@ -15,7 +15,7 @@ define([
     mapLoader,
     GuiRenderer,
     TilemapView,
-    ActorRenderer,
+    actorRenderer,
     Hero,
     direction,
     util
@@ -27,7 +27,6 @@ define([
         var game = Game.instance,
             tilemapView = new TilemapView(map.tilemap, map.tilesets),
             hero = new Hero(),
-            actorRenderer = new ActorRenderer(),
             gui = new GuiRenderer(),
             stepSubscription,
             sortActors;

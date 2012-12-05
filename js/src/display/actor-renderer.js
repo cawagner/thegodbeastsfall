@@ -9,12 +9,12 @@ define(["json!archetypes.json", "image-loader", "graphics", "constants"], functi
         }
     });
 
-    return function ActorRenderer() {
-        var walkFrames = [1,0,1,2];
+    var walkFrames = [1,0,1,2];
 
-        var destRect = { x: 0, y: 0, width: constants.ACTOR_WIDTH, height: constants.ACTOR_HEIGHT };
+    var destRect = { x: 0, y: 0, width: constants.ACTOR_WIDTH, height: constants.ACTOR_HEIGHT };
 
-        this.drawActor = function(actor) {
+    return {
+        drawActor: function(actor) {
             var frameToDraw,
                 srcRect,
                 archetype = archetypes[actor.archetype],
@@ -30,6 +30,6 @@ define(["json!archetypes.json", "image-loader", "graphics", "constants"], functi
 
                 graphics.drawImageRect(image, srcRect, destRect);
             }
-        };
+        }
     };
 });
