@@ -15,20 +15,6 @@ define([
 ) {
     "use strict";
 
-    var formatCondition = function(pawn) {
-        var condition = "on death's door";
-        var pct = pawn.hp() / pawn.maxHp();
-
-        if (pct > 0.3)
-            condition = "wounded";
-        if (pct > 0.5)
-            condition = "okay";
-        if (pct > 0.9)
-            condition = "unhurt";
-
-        return condition + ".";
-    };
-
     return {
         skill: function(action, battleState) {
             var state = new BattleCompositeState();
@@ -45,7 +31,7 @@ define([
                 // retarget if enemy died
                 if (action.user.type === 'player' && action.skill.target === 'enemy') {
                     if (!action.targets[0].isAlive()) {
-                        action.targets = [_(battleState.enemyPawns).filter(function(pawn) { return pawn.isAlive(); })[0]];
+                        action.targets = [_(battleState.enemyPawns).find(function(pawn) { return pawn.isAlive(); })];
                         if (!action.targets[0]) {
                             action.targets = [];
                         }
@@ -97,7 +83,7 @@ define([
                         // TODO: shouldn't know about entity...
                         messages.push(enemy.entity.family + "/" + enemy.name);
                         messages.push.apply(messages, enemy.entity.desc.split('|'));
-                        messages.push("It looks " + formatCondition(enemy));
+                        messages.push("Health: " + Math.round(enemy.hp()/enemy.maxHp() * 100) + "%");
                     }
                 });
             });
