@@ -18,5 +18,9 @@
     "flora": {
         "name": "Flora",
         "weak": ["fire"]
+    },
+    "aberration": {
+        "name": "Aberration",
+        "weak": ["holy"]
     }
 }
