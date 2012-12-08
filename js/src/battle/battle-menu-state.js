@@ -54,9 +54,9 @@ define([
                     text: "Tactic",
                     childMenu: new Menu({
                         items: [
-                            { text: "Defend", action: "defend", priorityBoost: 20 },
-                            { text: "Run Away", action: "flee", priorityBoost: -10 },
-                            { text: "Inspect", action: "inspect", priorityBoost: 0 }
+                            { text: "Defend", action: "defend", priorityBoost: 60 },
+                            { text: "Run Away", action: "flee", priorityBoost: -5 },
+                            { text: "Inspect", action: "inspect", priorityBoost: 10 }
                         ],
                         rows: 1,
                         cols: 3,

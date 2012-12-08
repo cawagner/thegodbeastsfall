@@ -52,7 +52,8 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         } else {
             return {
                 type: "message",
-                text: skill.whiff
+                text: skill.whiff,
+                success: false
             };
         }
     };
