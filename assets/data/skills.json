@@ -30,7 +30,7 @@
         "text": "{{user}} attacks fiercely!",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "3d6",
+        "power": "4+3d6k2",
         "cooldown": 3,
         "accuracy": 1.5
     },

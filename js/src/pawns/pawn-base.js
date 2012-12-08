@@ -71,7 +71,7 @@ define(["underscore"], function(_) {
             return Math.floor((this.intelligence() + this.strength()) / 2);
         },
         criticalChance: function() {
-            return this.luck() - 1;
+            return Math.floor(this.luck() / 2) + 1;
         },
         criticalMultiplier: function() {
             return 2;
