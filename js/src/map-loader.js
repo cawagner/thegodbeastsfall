@@ -27,6 +27,17 @@ define([
 
     var TILE_SIZE = constants.TILE_SIZE;
 
+    var getParties = function(properties) {
+        var partiesRegex = /^party/;
+        var parties = [];
+        for (var key in properties) {
+            if (partiesRegex.test(key)) {
+                parties.push(properties[key].split('/'));
+            }
+        }
+        return parties;
+    };
+
     function MapLoader() {
         var self = this;
 
@@ -134,7 +145,7 @@ define([
                         height: (object.height / TILE_SIZE) | 0,
                         minFrequency: parseInt(frequency[0] || 30),
                         maxFrequency: parseInt(frequency[1] || frequency[0] || 40),
-                        parties: JSON.parse(object.properties.parties)
+                        parties: getParties(object.properties)
                     });
                 });
             });

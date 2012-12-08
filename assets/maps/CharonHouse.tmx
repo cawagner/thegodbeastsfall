@@ -116,7 +116,8 @@
   <object name="main" type="Encounters" x="0" y="0" width="400" height="240">
    <properties>
     <property name="frequency" value="10-30"/>
-    <property name="parties" value="[[&quot;rat&quot;, &quot;rat&quot;], [&quot;rat&quot;, &quot;rat&quot;, &quot;rat&quot;]]"/>
+    <property name="party1" value="rat,rat"/>
+    <property name="party2" value="rat,rat,rat"/>
    </properties>
   </object>
   <object name="book1" type="NPC" x="48" y="80" width="16" height="16">
@@ -131,9 +132,9 @@
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
-    <property name="say" value="Buteritoi Teotsairas (in the Original Kesj)"/>
-    <property name="say2" value="Vrevelk sieptato &quot;Mana&quot; an sjifta. Bramda &quot;Mana&quot; uterta Teotsairan mu."/>
-    <property name="say3" value="Teotsair prusan ut leven teia zeit dait iare sjifta."/>
+    <property name="say" value="Buteritoi Teotsarais (in the Original Kesj)"/>
+    <property name="say2" value="Vrevelk sieptato &quot;Mana&quot; an sjifta. Bramda &quot;Mana&quot; uterta Teotsarain mu."/>
+    <property name="say3" value="Teotsair prusut leven teia zeit dait iare sjifta."/>
    </properties>
   </object>
   <object name="book3" type="NPC" x="96" y="80" width="16" height="16">

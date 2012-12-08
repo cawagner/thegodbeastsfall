@@ -54,7 +54,10 @@
                  "properties":
                     {
                      "frequency":"15-25",
-                     "parties":"[[\"slime\"], [\"pidgeon\"], [\"pidgeon\", \"slime\"], [\"slime\",\"slime\"]]"
+                     "party1":"slime",
+                     "party2":"pidgeon",
+                     "party3":"slime,slime",
+                     "party4":"pidgeon,slime"
                     },
                  "type":"Encounters",
                  "width":292,
@@ -153,7 +156,7 @@
                  "name":"fromChurch",
                  "properties":
                     {
-
+                     "direction":"down"
                     },
                  "type":"Entrance",
                  "width":16,

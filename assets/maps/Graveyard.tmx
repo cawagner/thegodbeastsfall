@@ -122,7 +122,8 @@
   <object name="encounters" type="Encounters" x="0" y="0" width="400" height="320">
    <properties>
     <property name="frequency" value="15-30"/>
-    <property name="parties" value="[[&quot;pidgeon&quot;, &quot;pidgeon&quot;], [&quot;slime&quot;, &quot;slime&quot;], [&quot;slime&quot;, &quot;pidgeon&quot;, &quot;slime&quot;]]"/>
+    <property name="party1" value="pidgeon,pidgeon"/>
+    <property name="party2" value="slime,pidgeon,slime"/>
    </properties>
   </object>
  </objectgroup>

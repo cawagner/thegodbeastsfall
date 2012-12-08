@@ -177,7 +177,8 @@
                  "properties":
                     {
                      "frequency":"15-30",
-                     "parties":"[[\"pidgeon\", \"pidgeon\"], [\"slime\", \"slime\"], [\"slime\", \"pidgeon\", \"slime\"]]"
+                     "party1":"pidgeon,pidgeon",
+                     "party2":"slime,pidgeon,slime"
                     },
                  "type":"Encounters",
                  "width":400,

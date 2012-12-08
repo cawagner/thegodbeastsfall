@@ -90,7 +90,8 @@
                  "properties":
                     {
                      "frequency":"10-30",
-                     "parties":"[[\"rat\", \"rat\"], [\"rat\", \"rat\", \"rat\"]]"
+                     "party1":"rat,rat",
+                     "party2":"rat,rat,rat"
                     },
                  "type":"Encounters",
                  "width":400,
@@ -119,9 +120,9 @@
                     {
                      "archetype":"bgobj",
                      "behavior":"stationary",
-                     "say":"Buteritoi Teotsairas (in the Original Kesj)",
-                     "say2":"Vrevelk sieptato \"Mana\" an sjifta. Bramda \"Mana\" uterta Teotsairan mu.",
-                     "say3":"Teotsair prusan ut leven teia zeit dait iare sjifta."
+                     "say":"Buteritoi Teotsarais (in the Original Kesj)",
+                     "say2":"Vrevelk sieptato \"Mana\" an sjifta. Bramda \"Mana\" uterta Teotsarain mu.",
+                     "say3":"Teotsair prusut leven teia zeit dait iare sjifta."
                     },
                  "type":"NPC",
                  "width":16,
