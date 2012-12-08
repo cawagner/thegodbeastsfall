@@ -32,7 +32,7 @@ define([
         var parties = [];
         for (var key in properties) {
             if (partiesRegex.test(key)) {
-                parties.push(properties[key].split('/'));
+                parties.push(properties[key].split(','));
             }
         }
         return parties;
