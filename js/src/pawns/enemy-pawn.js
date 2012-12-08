@@ -1,4 +1,16 @@
-define(["dice", "pawns/pawn-base", "json!enemies.json", "json!skills.json"], function(Dice, PawnBase, enemies, skills) {
+define([
+    "dice",
+    "pawns/pawn-base",
+    "json!enemies.json",
+    "json!skills.json",
+    "json!enemy-families.json"
+], function(
+    Dice,
+    PawnBase,
+    enemies,
+    skills,
+    enemyFamilies
+) {
     "use strict";
 
     var enemyImage = new Image();
@@ -17,6 +29,7 @@ define(["dice", "pawns/pawn-base", "json!enemies.json", "json!skills.json"], fun
         this.skills = proto.skills;
         this.image = enemyImage;
         this.buffs = proto.buffs || {};
+        this.family = enemyFamilies[proto.family] || enemyFamilies["default"];
 
         hitDice = Dice.parse(proto.hp + "");
         this.rolledHp = hitDice.roll();

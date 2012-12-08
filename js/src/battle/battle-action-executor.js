@@ -81,9 +81,9 @@ define([
                 state.enqueueFunc(function() {
                     if (enemy.isAlive()) {
                         // TODO: shouldn't know about entity...
-                        messages.push(enemy.entity.family + "/" + enemy.name);
+                        messages.push(enemy.family.name + "/" + enemy.name);
                         messages.push.apply(messages, enemy.entity.desc.split('|'));
-                        messages.push("Health: " + Math.round(enemy.hp()/enemy.maxHp() * 100) + "%");
+                        messages.push("Health: " + Math.round(enemy.hp() / enemy.maxHp() * 100) + "%");
                     }
                 });
             });

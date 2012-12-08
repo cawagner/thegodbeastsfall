@@ -22,5 +22,9 @@
     "aberration": {
         "name": "Aberration",
         "weak": ["holy"]
+    },
+    "default": {
+        "name": "Normal",
+        "weak": []
     }
 }
