@@ -1,7 +1,7 @@
-define(["image!../assets/img/deathwake.png"], function(image) {
+define(["image!../assets/img/deathwake.png", "image!../assets/img/deathwake_disabled.png"], function(normal, disabled) {
     "use strict";
 
-    function DeathwakeFont() {
+    function DeathwakeFont(image) {
         var rows = [
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
             "abcdefghijklmnopqrstuvwxyz",
@@ -36,6 +36,7 @@ define(["image!../assets/img/deathwake.png"], function(image) {
     };
 
     return {
-        deathwake: new DeathwakeFont()
+        normal: new DeathwakeFont(normal),
+        disabled: new DeathwakeFont(disabled),
     }
 });

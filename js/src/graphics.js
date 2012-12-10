@@ -8,7 +8,7 @@ define(["constants", "display/fonts"], function(constants, fonts) {
 
         var originOffset = { x: 0, y : 0 };
 
-        var font = fonts.deathwake;
+        var font = fonts.normal;
 
         offScreenCanvas.width = width;
         offScreenCanvas.height = height;

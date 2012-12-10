@@ -72,13 +72,7 @@ define(["pubsub", "underscore", "game", "graphics", "gui", "keyboard-input", "st
             x = i % this.menu.cols;
             y = Math.floor(i / this.menu.cols);
             disabled = _(this.menu.items[i]).result("disabled");
-            if (disabled) {
-                graphics.setAlpha(0.5);
-            }
-            graphics.drawText(this.menu.x + x * colWidth + 12, 4 + this.menu.y + y * gui.lineHeight, item);
-            if (disabled) {
-                graphics.setAlpha(1);
-            }
+            graphics.drawText(this.menu.x + x * colWidth + 12, 4 + this.menu.y + y * gui.lineHeight, item, disabled ? "disabled" : null);
         }
 
         x = this.selectionIndex % this.menu.cols;
