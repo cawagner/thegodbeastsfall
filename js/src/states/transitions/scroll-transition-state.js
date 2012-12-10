@@ -2,7 +2,7 @@ define(["game", "constants", "graphics"], function(game, constants, graphics) {
     "use strict";
 
     function ScrollTransitionState(toState, options) {
-        var maxOffset = graphics.height;
+        var maxOffset = constants.GAME_HEIGHT;
 
         // TODO: constructor has side effects! bad, bad!
 
