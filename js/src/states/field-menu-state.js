@@ -5,11 +5,10 @@ define([
     "gui",
     "menu",
     "states/menu-state",
-    "chars",
     "states/noop-state",
     "pawns/character-pawn",
     "json!skills.json"
-], function(_, pubsub, gameState, gui, Menu, MenuState, chars, NoopState, CharacterPawn, skills) {
+], function(_, pubsub, gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills) {
     "use strict";
 
     function FieldMenuState() {

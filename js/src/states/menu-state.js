@@ -1,4 +1,4 @@
-define(["pubsub", "underscore", "game", "graphics", "gui", "keyboard-input", "chars", "states/noop-state", "pubsub"], function(pubsub, _, game, graphics, gui, input, chars, NoopState) {
+define(["pubsub", "underscore", "game", "graphics", "gui", "keyboard-input", "states/noop-state"], function(pubsub, _, game, graphics, gui, input, NoopState) {
     "use strict";
 
     function MenuState(menu) {
@@ -84,7 +84,7 @@ define(["pubsub", "underscore", "game", "graphics", "gui", "keyboard-input", "ch
         x = this.selectionIndex % this.menu.cols;
         y = Math.floor(this.selectionIndex / this.menu.cols);
 
-        graphics.drawText(this.menu.x + x * colWidth, 4 + this.menu.y + y * gui.lineHeight, chars.POINTER);
+        gui.drawPointer(this.menu.x + x * colWidth, this.menu.y + y * gui.lineHeight);
 
         if (this.menu.options.draw) {
             this.menu.options.draw(this.menu.items[this.selectionIndex], this.menu, this.selectionIndex);

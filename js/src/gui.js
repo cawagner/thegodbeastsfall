@@ -1,10 +1,9 @@
 define(["underscore",
     "constants",
     "graphics",
-    "chars",
     "json!speakers.json",
     "image!assets/img/faces.png"
-], function(_, constants, graphics, chars, speakers, facesImage) {
+], function(_, constants, graphics, speakers, facesImage) {
     "use strict";
 
     var STATUS_WINDOW_WIDTH = 36, STATUS_WINDOW_HEIGHT = 44;
@@ -53,9 +52,13 @@ define(["underscore",
     GuiRenderer.prototype.drawStatus = function(x, y, ally) {
         this.drawTextWindow(x, y, STATUS_WINDOW_WIDTH, STATUS_WINDOW_HEIGHT, [
             _(ally).result("name").toUpperCase(),
-            chars.HEART + (""+_(ally).result("hp")).rset(3),
-            chars.STAR + (""+_(ally).result("mp")).rset(3)]
+            constants.chars.HEART + (""+_(ally).result("hp")).rset(3),
+            constants.chars.STAR + (""+_(ally).result("mp")).rset(3)]
         );
+    };
+
+    GuiRenderer.prototype.drawPointer = function(x, y) {
+        graphics.drawText(x, y + 4, constants.chars.POINTER);
     };
 
     return new GuiRenderer();

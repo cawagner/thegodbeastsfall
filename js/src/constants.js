@@ -14,5 +14,10 @@ define({
     STATUS_WINDOW_HEIGHT: 44,
     ACTOR_WIDTH: 16,
     ACTOR_HEIGHT: 18,
-    ACTOR_HEAD: 4
+    ACTOR_HEAD: 4,
+    chars: {
+        HEART: "HP",
+        STAR: "MP",
+        POINTER: "*"
+    }
 });

@@ -1,6 +1,6 @@
 define([
-    "underscore", "game", "keyboard-input", "pawns/character-pawn", "gui", "graphics", "chars", "states/noop-state"
-], function (_, game, input, CharacterPawn, gui, graphics, chars, NoopState) {
+    "underscore", "game", "keyboard-input", "pawns/character-pawn", "gui", "constants", "states/noop-state"
+], function (_, game, input, CharacterPawn, gui, constants, NoopState) {
     "use strict";
 
     function StatusState(character) {
@@ -56,7 +56,7 @@ define([
 
         this.previousState.draw(delta);
 
-        gui.drawWindowRect(20, top, graphics.width - 40, 3*gui.lineHeight);
+        gui.drawWindowRect(20, top, constants.GAME_WIDTH - 40, 3 * gui.lineHeight);
 
         statTop = gui.drawTextLines(20, top, [
             this.character.name,
@@ -65,8 +65,8 @@ define([
         ]) + gui.lineHeight;
 
         gui.drawTextLines(160, top + gui.lineHeight, [
-            chars.HEART + ("" + this.character.hp).rset(3) + "/" + ("" + this.character.maxHp).rset(3),
-            chars.STAR + ("" + this.character.mp).rset(3) + "/" + ("" + this.character.maxMp).rset(3),
+            constants.chars.HEART + ("" + this.character.hp).rset(3) + "/" + ("" + this.character.maxHp).rset(3),
+            constants.chars.STAR + ("" + this.character.mp).rset(3) + "/" + ("" + this.character.maxMp).rset(3),
         ]);
         gui.drawPortrait(250, top, this.character.face);
 
@@ -87,7 +87,7 @@ define([
         xpTop -= 4 * gui.lineHeight
 
         if (this.character.level < 100) {
-            gui.drawWindowRect(20, xpTop, graphics.width / 2 - 45, 2 * gui.lineHeight);
+            gui.drawWindowRect(20, xpTop, constants.GAME_WIDTH / 2 - 45, 2 * gui.lineHeight);
             gui.drawTextLines(20, xpTop, [
                 "XP to advance:",
                 ("" + (this.character.xp + "/" + this.character.xpNext)).rset(14)

@@ -89,7 +89,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
         };
     };
 
-    var poison = function(user, target, skill, dice) {
+    var poison = function(user, target, skill) {
         var dice = Dice.parse(skill.power);
         return {
             type: "poison",
