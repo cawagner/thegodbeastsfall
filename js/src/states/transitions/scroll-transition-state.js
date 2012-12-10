@@ -1,4 +1,4 @@
-define(["game", "graphics"], function(game, graphics) {
+define(["game", "constants", "graphics"], function(game, constants, graphics) {
     "use strict";
 
     function ScrollTransitionState(toState, options) {
@@ -26,7 +26,7 @@ define(["game", "graphics"], function(game, graphics) {
                 graphics.setOrigin();
                 self.fromState.draw(delta);
             });
-            graphics.withOriginOffset(0, -this.offset + graphics.height, function() {
+            graphics.withOriginOffset(0, -this.offset + constants.GAME_HEIGHT, function() {
                 graphics.setOrigin();
                 self.toState.draw(delta);
             });

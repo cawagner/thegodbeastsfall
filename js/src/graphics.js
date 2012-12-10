@@ -13,9 +13,6 @@ define(["constants", "display/fonts"], function(constants, fonts) {
         offScreenCanvas.width = width;
         offScreenCanvas.height = height;
 
-        this.width = width;
-        this.height = height;
-
         this.canvas = visibleCanvas;
 
         this.setOrigin = function(x, y) {
@@ -62,7 +59,7 @@ define(["constants", "display/fonts"], function(constants, fonts) {
 
         this.drawImageRect = function(image, sourceRect, destRect) {
             context.drawImage(image,
-                    sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height,
+                    sourceRect.x | 0, sourceRect.y | 0, sourceRect.width, sourceRect.height,
                     destRect.x | 0, destRect.y | 0, destRect.width, destRect.height);
         };
 

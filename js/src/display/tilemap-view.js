@@ -38,8 +38,8 @@ define(["constants", "graphics"], function(constants, graphics) {
             height: TILE_SIZE
         };
 
-        var maxScrollX = tilemap.width * TILE_SIZE - graphics.width;
-        var maxScrollY = tilemap.height * TILE_SIZE - graphics.height;
+        var maxScrollX = tilemap.width * TILE_SIZE - constants.GAME_WIDTH;
+        var maxScrollY = tilemap.height * TILE_SIZE - constants.GAME_HEIGHT;
 
         damnedBigCanvas.width = tilemap.width * TILE_SIZE;
         damnedBigCanvas.height = tilemap.height * TILE_SIZE;
@@ -81,8 +81,8 @@ define(["constants", "graphics"], function(constants, graphics) {
         };
 
         this.focusOn = function(x, y) {
-            var scrollX = x * TILE_SIZE - graphics.width / 2;
-            var scrollY = y * TILE_SIZE - graphics.height / 2;
+            var scrollX = x * TILE_SIZE - constants.GAME_WIDTH / 2;
+            var scrollY = y * TILE_SIZE - constants.GAME_HEIGHT / 2;
             this.scrollX = _(scrollX).boundWithin(0, maxScrollX);
             this.scrollY = _(scrollY).boundWithin(0, maxScrollY);
         };
