@@ -1,4 +1,4 @@
-define(["underscore", "underscore-mixins"], function(_) {
+define(["underscore"], function(_) {
     "use strict";
 
     String.prototype.repeat = function(times) {
