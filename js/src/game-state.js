@@ -39,7 +39,8 @@ define([
                 totalSteps: this.totalSteps,
                 flags: this.flags,
                 inventory: this.inventory.serialize(),
-                location: this.location
+                location: this.location,
+                description: this.totalSteps + " steps taken"
             };
             return JSON.stringify(json);
         },
@@ -57,6 +58,14 @@ define([
             this.location = json.location;
 
             mapLoader.goToMap(this.location.currentMap, this.location);
+        },
+
+        save: function(slot) {
+            localStorage.setItem("saveGame" + slot, this.toJSON());
+        },
+
+        load: function(slot) {
+            this.loadJSON(localStorage.getItem("saveGame" + slot));
         }
     };
 });

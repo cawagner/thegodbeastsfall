@@ -105,14 +105,14 @@ define([
                         ],
                         select: function(index) {
                             if (index === 0) {
-                                localStorage.setItem("saveGame0", gameState.toJSON());
+                                gameState.save(0);
                                 pubsub.publish("/npc/talk", [
                                     { text: ["Game saved!"] }
                                 ]);
                             } else if (index === 1) {
+                                gameState.load(0);
                                 this.close();
                                 self.menu.close();
-                                gameState.loadJSON(localStorage.getItem("saveGame0"));
                             }
                         }
                     }),
