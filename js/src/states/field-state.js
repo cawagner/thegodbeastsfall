@@ -8,7 +8,6 @@ define([
     "display/actor-renderer",
     "actors/hero",
     "direction",
-    "util",
     "pubsub"
 ], function(
     pubsub,
@@ -19,17 +18,23 @@ define([
     TilemapView,
     actorRenderer,
     Hero,
-    direction,
-    util
+    direction
 ) {
     "use strict";
+
+    var pointInRect = function(point, rect) {
+        return (
+            (point.x >= rect.x && point.x < rect.x + rect.width) &&
+            (point.y >= rect.y && point.y < rect.y + rect.height)
+        );
+    };
 
     // TODO: make some function to open the state instead of having such a horrible constructor
     function FieldState(map, entrance) {
         var tilemapView = new TilemapView(map.tilemap, map.tilesets),
             hero = new Hero(),
             stepSubscription,
-            containsHero = _.bind(util.pointInRect, null, hero),
+            containsHero = _.bind(pointInRect, null, hero),
             sortActors = _(function() {
                 map.actors = _(map.actors).sortBy("y");
             }).throttle(150);

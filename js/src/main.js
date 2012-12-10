@@ -6,7 +6,6 @@ define([
     'state-events',
     'keyboard-input',
     'touch-input',
-    'util',
     'constants'
 ], function(
     $,
@@ -16,7 +15,6 @@ define([
     stateEvents,
     input,
     touchInput,
-    util,
     constants
 ) {
     "use strict";
@@ -28,7 +26,14 @@ define([
     var endFrame = Date.now();
     var timeScale = 1;
 
-    var requestAnimationFrame = util.getRequestAnimationFrame();
+    var requestAnimationFrame = window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function(callback) {
+                    setTimeout(callback, 16);
+                };
 
     var mainLoop = function() {
         startFrame = endFrame;
