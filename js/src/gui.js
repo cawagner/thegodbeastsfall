@@ -28,7 +28,6 @@ define(["underscore",
 
     GuiRenderer.prototype.drawTextLines = function(x, y, lines) {
         var self = this;
-        graphics.setFillColor(constants.WINDOW_TEXT_COLOR);
         _(lines).each(function(text, i) {
             graphics.drawText(x + 2, y + 2 + i * self.lineHeight, text);
         });
