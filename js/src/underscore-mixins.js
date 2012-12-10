@@ -35,6 +35,15 @@ define(["underscore"], function(_) {
         },
         randomElement: function(collection) {
             return collection[Math.floor(collection.length * Math.random())];
+        },
+        valuesOfPropertiesStartingWith: function(obj, initial) {
+            var result = [];
+            _(obj).each(function(value, key) {
+                if (key.startsWith(initial)) {
+                    result.push(value);
+                }
+            });
+            return result;
         }
     });
 });

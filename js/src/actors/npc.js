@@ -32,17 +32,7 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
 
         this.runDialogue = function(dialogueName) {
             var self = this;
-            var text = [];
-            var sayProperty = new RegExp('^' + dialogueName);
-            var sayProperties = _(Object.keys(properties)).filter(function(key) {
-                return sayProperty.test(key);
-            });
-
-            sayProperties.sort();
-
-            _(sayProperties).each(function(key) {
-                text.push(properties[key]);
-            });
+            var text = _(properties).valuesOfPropertiesStartingWith(dialogueName);
 
             if (text.length) {
                 return this.say(text);

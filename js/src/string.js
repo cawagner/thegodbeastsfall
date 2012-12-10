@@ -27,5 +27,9 @@ define(["underscore", "underscore-mixins"], function(_) {
         }
 
         return lines;
-    }
+    };
+
+    String.prototype.startsWith = function(start) {
+        return this.substr(0, start.length) === start;
+    };
 });
