@@ -1,31 +1,44 @@
 define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
     "use strict";
 
-    var d20 = Dice.parse("1d20"), d100 = Dice.parse("1d100");
+    var d20 = Dice.parse("1d20"),
+        d100 = Dice.parse("1d100");
 
     var standardDamage = function(user, target, skill) {
+        var attack = user.attack();
+        var da = (100-target.damageAbsorption()) / 100;
+        var dr = target.damageReduction();
         var dice = Dice.parse(skill.power);
-        var fullDamage = user.attack() + dice.roll();
-        var damage = Math.max(1, (fullDamage * (100-target.damageAbsorption())/100) - target.damageReduction());
-        var hitChance = (skill.accuracy * user.accuracy() - target.evade());
-        var criticalChance = Math.max(1, user.criticalChance() * skill.criticalChance - target.luck());
+        var roll = dice.roll();
+
+        var damage = 0;
+
+        var hitChance = skill.accuracy * (user.accuracy() + 60) - target.evade();
+        var criticalChance = Math.max(1, 1 + user.criticalChance() * skill.criticalChance - target.luck());
+
         var isCritical = user.isDying || d100.roll() <= criticalChance;
         var hasConnected = d100.roll() <= hitChance;
 
-        if (isCritical && !hasConnected) {
-            hasConnected = true;
-            isCritical = false;
+        if (isCritical) {
+            if (hasConnected) {
+                attack = attack * user.criticalMultiplier();
+                roll = roll * skill.criticalMultiplier * user.criticalMultiplier();
+                dr = 0;
+            } else {
+                isCritical = false;
+                hasConnected = true;
+            }
         }
 
-        if (isCritical) {
-            damage = (fullDamage * (100-target.damageAbsorption())/100) * skill.criticalMultiplier * user.criticalMultiplier();
+        if (hasConnected) {
+            damage = (attack + roll) * da - dr;
         }
 
         return {
             type: "damage",
             missed: !hasConnected,
             critical: isCritical,
-            amount: hasConnected ? Math.round(damage) : 0,
+            amount: hasConnected ? Math.round(Math.max(1, damage)) : 0,
             target: target,
             damageType: "melee"
         }

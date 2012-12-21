@@ -56,10 +56,10 @@ define(["underscore"], function(_) {
             return this.agility();
         },
         accuracy: function() {
-            return Math.floor((this.strength() + this.agility() + this.luck()/2) + 50 + (this.buffs["accuracy"]||0));
+            return Math.floor((this.strength() + this.agility() + this.luck()/2) + (this.buffs["accuracy"]||0));
         },
         evade: function() {
-            return Math.floor((2 * this.agility() + this.luck()) / 4 + (this.buffs["evade"]||0));
+            return Math.floor((2 * this.agility() + this.luck()) / 5 + (this.buffs["evade"]||0));
         },
         force: function() {
             return Math.floor((2 * this.intelligence() + this.agility()) / 3);
@@ -71,7 +71,7 @@ define(["underscore"], function(_) {
             return Math.floor((this.intelligence() + this.strength()) / 2);
         },
         criticalChance: function() {
-            return Math.floor(this.luck() / 2) + 1;
+            return this.luck();
         },
         criticalMultiplier: function() {
             return 2;
