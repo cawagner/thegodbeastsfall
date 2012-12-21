@@ -245,7 +245,7 @@
   <object name="grave4" type="NPC" x="160" y="80" width="16" height="16">
    <properties>
     <property name="say1" value="Jaden"/>
-    <property name="say2" value="Dag ii ha iare butertat, siepta anartim mais."/>
+    <property name="say2" value="Dag ii ha iare butertat, sjepta anartim mais."/>
    </properties>
   </object>
   <object name="toChurch" type="Exit" x="96" y="224" width="32" height="16">

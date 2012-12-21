@@ -133,7 +133,7 @@
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
     <property name="say" value="Buteritoi Teotsarais (in the Original Kesj)"/>
-    <property name="say2" value="Vrevelk sieptato &quot;Mana&quot; an sjifta. Bramda &quot;Mana&quot; uterta Teotsarain mu."/>
+    <property name="say2" value="Vrevelk sjeptato &quot;Mana&quot; an sjifta. Bramda &quot;Mana&quot; uterta Teotsarain mu."/>
     <property name="say3" value="Teotsair prusut leven teia zeit dait iare sjifta."/>
    </properties>
   </object>
