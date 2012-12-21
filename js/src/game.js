@@ -4,6 +4,7 @@ define(['underscore', 'states/main-menu-state', 'graphics'], function(_, MainMen
     var gameStates = [ new MainMenuState() ];
 
     return {
+        states: gameStates,
         currentState: function() {
             return gameStates[gameStates.length - 1];
         },

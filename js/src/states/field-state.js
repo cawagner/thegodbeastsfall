@@ -75,6 +75,10 @@ define([
             };
         });
 
+        this.start = function() {
+            
+        };
+
         this.update = function(timeScale) {
             _(map.actors).each(function(actor) {
                 actor.update(timeScale);

@@ -8,6 +8,7 @@ define([
     "states/battle-state",
     "states/status-state",
     "states/transitions/scroll-transition-state",
+    "states/transitions/fade-transition-state",
     "game-state",
     "sound",
     "game"
@@ -21,6 +22,7 @@ define([
     BattleState,
     StatusState,
     ScrollTransitionState,
+    FadeTransitionState,
     gameState,
     sound,
     game
@@ -32,6 +34,8 @@ define([
         lockMovement: _.noop,
         unlockMovement: _.noop
     };
+
+    var firstMap = true;
 
     return {
         init: function() {
@@ -71,6 +75,7 @@ define([
 
             pubsub.subscribe("/map/loading", function() {
                 // TODO: really hackish...
+
                 if (game.currentState() instanceof FieldState) {
                     game.popState();
                 }
@@ -88,7 +93,14 @@ define([
             }
 
             pubsub.subscribe("/map/loaded", function(map, entrance) {
-                game.pushState(new FieldState(map, entrance));
+                var fieldState = new FieldState(map, entrance);
+
+                if (firstMap) {
+                    firstMap = false;
+                    game.pushState(fieldState);
+                } else {
+                    game.pushState(new FadeTransitionState(fieldState));
+                }
 
                 sound.playMusic(map.properties.music);
 

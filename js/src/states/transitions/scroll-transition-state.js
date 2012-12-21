@@ -4,8 +4,6 @@ define(["game", "constants", "graphics"], function(game, constants, graphics) {
     function ScrollTransitionState(toState, options) {
         var maxOffset = constants.GAME_HEIGHT;
 
-        // TODO: constructor has side effects! bad, bad!
-
         this.offset = 0;
         this.fromState = game.currentState();
         this.toState = toState;
@@ -13,8 +11,6 @@ define(["game", "constants", "graphics"], function(game, constants, graphics) {
         options = _.defaults(options || {}, {
             speed: 4
         });
-
-        //options = _.defaults();
 
         this.start = function(previousState) {
             this.fromState = previousState || this.fromState;
