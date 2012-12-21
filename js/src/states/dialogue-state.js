@@ -20,6 +20,8 @@ define([
     function DialogueState(message, doneFn) {
         var messageIndex = 0,
             lineIndex = 0,
+            charactersRevealed = 0,
+            charactersToReveal = message.text[0].length,
             lines = message.text[0].wordWrap(LINE_LENGTH),
             openProgress = 0.0;
 
@@ -41,7 +43,7 @@ define([
 
             this.previousState.draw(timeScale);
 
-            gui.drawTextWindow(x, y + 240*(1-openProgress), 230, 48, lines);
+            gui.drawTextWindow(x, y + 240*(1-openProgress), 230, 48, lines, charactersRevealed);
 
             if (speaker) {
                 gui.drawPortrait(x + 250, y, message.speaker, true);
@@ -52,11 +54,17 @@ define([
         };
 
         this.advanceText = function() {
+            if (charactersRevealed < charactersToReveal) {
+                charactersRevealed = charactersToReveal;
+                return;
+            }
             ++lineIndex;
             if (lineIndex >= message.text.length) {
                 game.popState();
             } else {
                 lines = message.text[lineIndex].wordWrap(LINE_LENGTH);
+                charactersRevealed = 0;
+                charactersToReveal = message.text[lineIndex].length;
             }
         };
 
@@ -66,6 +74,10 @@ define([
             }
 
             openProgress = Math.min(1, openProgress + 0.1);
+
+            if (charactersRevealed < charactersToReveal) {
+                charactersRevealed += 2;
+            }
 
             this.previousState.update(timeScale, false);
         };
