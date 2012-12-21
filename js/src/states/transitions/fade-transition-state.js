@@ -6,13 +6,11 @@ define(["game", "constants", "graphics"], function(game, constants, graphics) {
 
         this.step = 0;
         this.fade = 1;
-        this.delay = 0;
         this.fromState = game.currentState();
         this.toState = toState;
 
         options = _.defaults(options || {}, {
-            speed: 0.33,
-            delay: 5
+            speed: 0.1
         });
 
         this.start = function(previousState) {
@@ -34,12 +32,6 @@ define(["game", "constants", "graphics"], function(game, constants, graphics) {
         };
 
         this.update = function(delta) {
-            if (this.delay > 0) {
-                this.delay--;
-                return;
-            }
-
-            this.delay = options.delay;
             if (self.step === 0) {
                 self.fade -= options.speed;
                 if (self.fade < 0) {
