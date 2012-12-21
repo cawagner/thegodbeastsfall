@@ -76,7 +76,6 @@ define([
         });
 
         this.start = function() {
-            
         };
 
         this.update = function(timeScale) {

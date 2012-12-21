@@ -13,12 +13,12 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
                 return;
             }
 
-            self.x += Actor.MOVE_SPEED * moveX;
-            self.y += Actor.MOVE_SPEED * moveY;
-
             moveRemaining -= Actor.MOVE_SPEED;
             if (moveRemaining <= 0) {
                 self.resetMove();
+            } else {
+                self.x += Actor.MOVE_SPEED * moveX;
+                self.y += Actor.MOVE_SPEED * moveY;
             }
         };
 
