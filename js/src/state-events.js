@@ -160,9 +160,7 @@ define([
                     }
                 });
                 if (anyHealing) {
-                    pubsub.publish("/npc/talk", [{
-                        text: ["You have been fully healed."]
-                    }]);
+                    // TODO: notify user that they've been healed in some way...
                 }
             });
 
