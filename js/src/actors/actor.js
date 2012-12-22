@@ -14,7 +14,7 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
             }
 
             moveRemaining -= Actor.MOVE_SPEED;
-            if (moveRemaining <= 0) {
+            if (moveRemaining <= Actor.MOVE_SPEED) {
                 self.resetMove();
             } else {
                 self.x += Actor.MOVE_SPEED * moveX;
