@@ -14,7 +14,7 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
             }
 
             moveRemaining -= Actor.MOVE_SPEED;
-            if (moveRemaining <= 0) {
+            if (moveRemaining <= Actor.MOVE_SPEED) {
                 self.resetMove();
             } else {
                 self.x += Actor.MOVE_SPEED * moveX;
@@ -59,6 +59,9 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         this.update = function(timeScale) {
             this.frame = (this.frame + 0.05 + this.isMoving() * 0.1) % 4;
             moveTowardNewSquare(timeScale);
+            if (this.isDashing) {
+                moveTowardNewSquare(timeScale);
+            }
             this.onUpdate(timeScale);
         };
 
@@ -85,6 +88,7 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         this.isPushable = true;
         this.archetype = archetype;
         this.isMovementLocked = false;
+        this.isDashing = false;
         this.frame = 0;
         this.font = undefined;
     }
