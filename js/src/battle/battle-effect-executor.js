@@ -16,7 +16,8 @@ define(["underscore", "pubsub", "battle/battle-message-state", "battle/battle-te
     }
 
     BattleEffectExecutor.prototype.msg = function(m, s) {
-        this.state.enqueueState(new BattleMessageState([m], s));
+        this.snd(s);
+        this.state.enqueueState(new BattleMessageState([m]));
     };
 
     BattleEffectExecutor.prototype.snd = function(sound) {

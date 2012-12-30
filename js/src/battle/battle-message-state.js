@@ -1,28 +1,22 @@
-define(["pubsub", "underscore", "gui", "keyboard-input"], function(pubsub, _, gui, input) {
+define(["gui", "keyboard-input"], function(gui, input) {
     "use strict";
 
     var MESSAGE_DELAY = 250;
 
-    function BattleMessageState(messages, sound) {
+    function BattleMessageState(messages) {
         this.messageDelay = 0;
         this.currentMessage = "";
         this.messages = messages;
 
-        this.start = function() {
-            if (sound) {
-                pubsub.publish("/sound/play", [sound]);
-            }
-        };
+        this.start = function() { };
 
         this.update = function() {
             this.messageDelay--;
             if (input.wasConfirmPressed() || this.messageDelay < 0) {
-                if (this.advanceMessage()) {
-                    this.messageDelay = MESSAGE_DELAY;
-                } else {
-                    return true;
-                }
+                this.advanceMessage();
+                this.messageDelay = MESSAGE_DELAY;
             }
+            return !this.currentMessage;
         };
 
         this.advanceMessage = function() {
