@@ -7,7 +7,7 @@ define([
     "battle/battle-message-state",
     "battle/battle-menu-state",
     "battle/battle-decision-state",
-    "battle/battle-composite-state",
+    "states/composite-state",
     "battle/battle-animations",
     "battle/battle-text-provider"
 ], function(
@@ -19,7 +19,7 @@ define([
     BattleMessageState,
     BattleMenuState,
     BattleDecisionState,
-    BattleCompositeState,
+    CompositeState,
     battleAnimations,
     textProvider
 ) {
@@ -40,7 +40,7 @@ define([
             return pawn;
         });
 
-        this.rootState = new BattleCompositeState();
+        this.rootState = new CompositeState();
 
         this.enqueueState(new BattleMessageState(textProvider.getAggressionText(this.enemyPawns)));
         this.enqueueState(new BattleMenuState(this));
