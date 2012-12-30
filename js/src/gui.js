@@ -21,21 +21,21 @@ define(["underscore",
         graphics.drawFilledRect(x - 3, y - 3, width + 6, height + 6);
     };
 
-    GuiRenderer.prototype.drawTextWindow = function(x, y, width, height, lines, charactersRevealed) {
+    GuiRenderer.prototype.drawTextWindow = function(x, y, width, height, lines, charactersRevealed, font) {
         this.drawWindowRect(x, y, width, height);
-        this.drawTextLines(x, y, lines, charactersRevealed);
+        this.drawTextLines(x, y, lines, charactersRevealed, font);
     };
 
-    GuiRenderer.prototype.drawTextLines = function(x, y, lines, charactersRevealed) {
+    GuiRenderer.prototype.drawTextLines = function(x, y, lines, charactersRevealed, font) {
         var self = this, charsSoFar = 0, charsInLine;
         _(lines).each(function(text, i) {
             if (charactersRevealed === undefined || charactersRevealed >= charsSoFar + text.length) {
-                graphics.drawText(x + 2, y + 2 + i * self.lineHeight, text);
+                graphics.drawText(x + 2, y + 2 + i * self.lineHeight, text, font);
                 charsSoFar += text.length;
             } else {
                 charsInLine = charactersRevealed - charsSoFar;
                 if (charsInLine > 0) {
-                    graphics.drawText(x + 2, y + 2 + i * self.lineHeight, text.substring(0, charsInLine));
+                    graphics.drawText(x + 2, y + 2 + i * self.lineHeight, text.substring(0, charsInLine), font);
                 }
                 charsSoFar += charsInLine;
             }

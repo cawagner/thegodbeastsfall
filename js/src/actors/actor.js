@@ -86,6 +86,7 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         this.archetype = archetype;
         this.isMovementLocked = false;
         this.frame = 0;
+        this.font = undefined;
     }
 
     Actor.MOVE_SPEED = 0.1;
@@ -117,7 +118,7 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         pubsub.subscribeOnce("/npc/talk/done", function() {
             d.resolve();
         });
-        pubsub.publish("/npc/talk", [{ text: messages, speaker: this.archetype }, this]);
+        pubsub.publish("/npc/talk", [{ text: messages, font: this.font, speaker: this.archetype }, this]);
         return d.promise();
     };
 
