@@ -1,4 +1,14 @@
 {
+    "defend": {
+        "name": "Defend",
+        "text": "{{user}} is defending.",
+        "effect": "buff",
+        "stat": "strength",
+        "target": "self",
+        "power": "60",
+        "duration": 1,
+        "suppressDefaultText": true
+    },
     "slash": {
         "name": "Slash",
         "desc": "Attack normally.",

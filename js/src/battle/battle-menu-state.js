@@ -54,7 +54,7 @@ define([
                     text: "Tactic",
                     childMenu: new Menu({
                         items: [
-                            { text: "Defend", action: "defend", priorityBoost: 60 },
+                            { text: "Defend", action: "skill", skillId: "defend", priorityBoost: 60 },
                             { text: "Run Away", action: "flee", priorityBoost: -5 },
                             { text: "Inspect", action: "inspect", priorityBoost: 10 }
                         ],
@@ -64,7 +64,12 @@ define([
                         y: 200,
                         select: function(index, item) {
                             this.close();
-                            self.setAction(item.action, { priorityBoost: item.priorityBoost })
+                            self.setAction(item.action, {
+                                skillId: item.skillId,
+                                skill: skills[item.skillId],
+                                targets: [self.currentPawn()],
+                                priorityBoost: item.priorityBoost
+                            });
                         }
                     })
                 }

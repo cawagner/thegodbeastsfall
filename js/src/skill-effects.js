@@ -127,7 +127,9 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
             var results = [];
             _(fns).each(function(fn) {
                 _(targets).each(function(target) {
-                    results.push(fn(user, target, skill));
+                    var result = fn(user, target, skill);
+                    result.skill = skill;
+                    results.push(result);
                 });
             });
             return results;

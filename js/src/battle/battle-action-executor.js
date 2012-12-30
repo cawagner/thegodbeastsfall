@@ -92,18 +92,6 @@ define([
 
             return state;
         },
-        defend: function(action) {
-            var state = new CompositeState();
-
-            state.enqueueFunc(function() {
-                action.user.addBuff("strength", 10000, 1);
-            });
-
-            state.enqueueState(new BattleMessageState([
-                textProvider.getMessage("defending", { user: action.user.name })
-            ]));
-            return state;
-        },
         refresh: function(action, battleState) {
             var state = new CompositeState();
             var battleEffectExecutor = new BattleEffectExecutor(action, battleState, state);
