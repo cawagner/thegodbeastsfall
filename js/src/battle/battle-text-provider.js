@@ -30,10 +30,8 @@ define(["underscore", "skill-text-functions", "json!battle-messages.json"], func
             return _(text).template(params || {});
         },
         getAggressionText: function(pawns) {
-            var template = _("Aggressed by {{name}}!").template();
-            return _(pawns).map(function(pawn) {
-                return template(pawn);
-            });
+            var names = _(pawns).chain().pluck("name").formatList().value();
+            return [_("Aggressed by {{names}}!").template({names: names})];
         }
     }
 });
