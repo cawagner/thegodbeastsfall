@@ -121,9 +121,9 @@
                      "archetype":"bgobj",
                      "behavior":"stationary",
                      "font": "kesj",
-                     "say":"Buteritoi Teotsarais",
-                     "say2":"Vrevelk syeptato \"Mana\" an syifta. Bramda \"Mana\" uterta Teotsarain mu.",
-                     "say3":"Teotsair prusut leven teia zeit dait iare syifta."
+                     "say":"buteritoi teotsarais",
+                     "say2":"vrevelk syeptato Mana an syifta. bramda Mana uterta teotsarain mu.",
+                     "say3":"teotsair prusut leven teia zeit dait iare syifta."
                     },
                  "type":"NPC",
                  "width":16,
@@ -138,7 +138,7 @@
                      "archetype":"bgobj",
                      "behavior":"stationary",
                      "say":"Birth of the God-Beasts (translated by Charon)",
-                     "say2":"The death of the Before World created \"Mana.\" Combined \"Mana\" gave birth to all God-Beasts.",
+                     "say2":"The death of the Before World created Mana. Combined Mana gave birth to all God-Beasts.",
                      "say3":"The God-Beasts created their language and culture over thousands of years."
                     },
                  "type":"NPC",

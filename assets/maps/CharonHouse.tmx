@@ -132,9 +132,9 @@
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="behavior" value="stationary"/>
-    <property name="say" value="Buteritoi Teotsarais (in the Original Kesj)"/>
-    <property name="say2" value="Vrevelk sjeptato &quot;Mana&quot; an sjifta. Bramda &quot;Mana&quot; uterta Teotsarain mu."/>
-    <property name="say3" value="Teotsair prusut leven teia zeit dait iare sjifta."/>
+    <property name="say" value="buteritoi teotsarais"/>
+    <property name="say2" value="vrevelk syeptato Mana an syifta. bramda Mana uterta teotsarain mu."/>
+    <property name="say3" value="teotsair prusut leven teia zeit dait iare syifta."/>
    </properties>
   </object>
   <object name="book3" type="NPC" x="96" y="80" width="16" height="16">
