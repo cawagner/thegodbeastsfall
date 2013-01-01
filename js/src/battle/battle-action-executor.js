@@ -1,14 +1,14 @@
 define([
     "underscore",
     "pubsub",
-    "battle/battle-composite-state",
+    "states/composite-state",
     "battle/battle-message-state",
     "battle/battle-effect-executor",
     "battle/battle-text-provider"
 ], function(
     _,
     pubsub,
-    BattleCompositeState,
+    CompositeState,
     BattleMessageState,
     BattleEffectExecutor,
     textProvider
@@ -17,7 +17,7 @@ define([
 
     return {
         skill: function(action, battleState) {
-            var state = new BattleCompositeState();
+            var state = new CompositeState();
             var battleEffectExecutor = new BattleEffectExecutor(action, battleState, state);
 
             // exit the state if the user is dead, otherwise assess costs/cooldown
@@ -66,7 +66,7 @@ define([
             return state;
         },
         flee: function(action) {
-            var state = new BattleCompositeState();
+            var state = new CompositeState();
             state.enqueueState(new BattleMessageState([textProvider.getMessage("ranAway", { user: action.user.name })]));
             state.enqueueFunc(function() {
                 pubsub.publish("/battle/end", [{ ran: true }]);
@@ -74,7 +74,7 @@ define([
             return state;
         },
         inspect: function(action, battleState) {
-            var state = new BattleCompositeState();
+            var state = new CompositeState();
             var messages = [textProvider.getMessage("inspecting", { user: action.user.name })];
 
             _(battleState.enemyPawns).each(function(enemy) {
@@ -92,20 +92,8 @@ define([
 
             return state;
         },
-        defend: function(action) {
-            var state = new BattleCompositeState();
-
-            state.enqueueFunc(function() {
-                action.user.addBuff("strength", 10000, 1);
-            });
-
-            state.enqueueState(new BattleMessageState([
-                textProvider.getMessage("defending", { user: action.user.name })
-            ]));
-            return state;
-        },
         refresh: function(action, battleState) {
-            var state = new BattleCompositeState();
+            var state = new CompositeState();
             var battleEffectExecutor = new BattleEffectExecutor(action, battleState, state);
 
             state.enqueueFunc(function() {

@@ -39,6 +39,8 @@ define(['pubsub', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], 
                 self.talk();
             }
 
+            self.isDashing = input.isConfirmDown();
+
             // TODO: move this elsewhere?
             if (input.wasCancelPressed()) {
                 pubsub.publish("/hero/menu");

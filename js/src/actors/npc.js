@@ -14,6 +14,8 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
 
         this.wander = npcBehaviors[properties.behavior](this);
 
+        this.font = properties.font;
+
         if ("direction" in properties) {
             this.direction = direction.fromName(properties.direction);
         }
@@ -35,6 +37,7 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             var text = _(properties).valuesOfPropertiesStartingWith(dialogueName);
 
             if (text.length) {
+                console.log(this.font);
                 return this.say(text);
             } else {
                 return {

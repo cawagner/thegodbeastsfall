@@ -43,7 +43,7 @@ define([
 
             this.previousState.draw(timeScale);
 
-            gui.drawTextWindow(x, y + 240*(1-openProgress), 230, 48, lines, charactersRevealed);
+            gui.drawTextWindow(x, y + 240*(1-openProgress), 230, 48, lines, charactersRevealed, message.font);
 
             if (speaker) {
                 gui.drawPortrait(x + 250, y, message.speaker, true);

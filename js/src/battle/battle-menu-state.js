@@ -54,7 +54,7 @@ define([
                     text: "Tactic",
                     childMenu: new Menu({
                         items: [
-                            { text: "Defend", action: "defend", priorityBoost: 60 },
+                            { text: "Defend", action: "skill", skillId: "defend", priorityBoost: 60 },
                             { text: "Run Away", action: "flee", priorityBoost: -5 },
                             { text: "Inspect", action: "inspect", priorityBoost: 10 }
                         ],
@@ -64,7 +64,12 @@ define([
                         y: 200,
                         select: function(index, item) {
                             this.close();
-                            self.setAction(item.action, { priorityBoost: item.priorityBoost })
+                            self.setAction(item.action, {
+                                skillId: item.skillId,
+                                skill: skills[item.skillId],
+                                targets: [self.currentPawn()],
+                                priorityBoost: item.priorityBoost
+                            });
                         }
                     })
                 }
@@ -108,6 +113,10 @@ define([
         graphics.drawText(20, 0, menuItem.skill.desc || "");
     };
 
+    BattleMenuState.prototype.currentPawn = function() {
+        return this.battleState.playerPawns[this.partyIndex];
+    };
+
     BattleMenuState.prototype.targetPawn = function(pawnType) {
         var pawns = _(this.battleState[pawnType + "Pawns"]).chain().filter(function(pawn) { return pawn.isAlive(); }).map(function(pawn) {
             return { text: _(pawn).result("name"), target: pawn };
@@ -121,9 +130,14 @@ define([
         var self = this;
 
         return function() {
-            var member = self.battleState.playerPawns[self.partyIndex];
+            var member = this.currentPawn();
             var items = _(gameState.inventory.getItems("battleUsable")).map(function(item) {
-                return { text: "x" + item.quantity + " " + item.item.name, item: item.item, itemId: item.itemId, quantity: item.quantity };
+                return {
+                    text: "x" + item.quantity + " " + item.item.name,
+                    item: item.item,
+                    itemId: item.itemId,
+                    quantity: item.quantity
+                };
             });
             return new Menu({
                 rows: 2,
@@ -170,7 +184,7 @@ define([
         var self = this;
 
         return function() {
-            var member = self.battleState.playerPawns[self.partyIndex];
+            var member = self.currentPawn();
             var skillMenuItems = _(member.character.skills[type]).map(function(skillName) {
                 var skill = skills[skillName];
                 return {

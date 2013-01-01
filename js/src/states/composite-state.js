@@ -1,17 +1,17 @@
 define([], function() {
     "use strict";
 
-    function BattleCompositeState() {
+    function CompositeState() {
         this.queuedStates = [];
         this.currentState = {};
         this.isDone = false;
     };
 
-    BattleCompositeState.prototype.enqueueState = function(state) {
+    CompositeState.prototype.enqueueState = function(state) {
         this.queuedStates.push(state);
     };
 
-    BattleCompositeState.prototype.enqueueFunc = function(fn, args, context) {
+    CompositeState.prototype.enqueueFunc = function(fn, args, context) {
         args = args || [];
         this.queuedStates.push({
             start: function() {
@@ -22,16 +22,16 @@ define([], function() {
         });
     };
 
-    BattleCompositeState.prototype.enqueueDone = function() {
+    CompositeState.prototype.enqueueDone = function() {
         var self = this;
         this.enqueueFunc(self.done, self);
     };
 
-    BattleCompositeState.prototype.start = function(args) {
+    CompositeState.prototype.start = function(args) {
         this.advanceState(args);
     };
 
-    BattleCompositeState.prototype.update = function() {
+    CompositeState.prototype.update = function() {
         if (this.isDone)
             return true;
 
@@ -41,15 +41,15 @@ define([], function() {
         }
     };
 
-    BattleCompositeState.prototype.done = function() {
+    CompositeState.prototype.done = function() {
         this.isDone = true;
     };
 
-    BattleCompositeState.prototype.draw = function() {
+    CompositeState.prototype.draw = function() {
         this.currentState.draw();
     };
 
-    BattleCompositeState.prototype.advanceState = function(result) {
+    CompositeState.prototype.advanceState = function(result) {
         var newState = this.queuedStates.shift();
         if (newState === undefined) {
             this.done();
@@ -59,5 +59,5 @@ define([], function() {
         }
     };
 
-    return BattleCompositeState;
+    return CompositeState;
 });

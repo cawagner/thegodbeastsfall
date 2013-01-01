@@ -6,6 +6,8 @@ define(["underscore", "skill-text-functions", "json!battle-messages.json"], func
             var text = battleMessages.defaultSkillUse, target = '<null>';
             if (action.skillId in skillTextFunctions) {
                 text = skillTextFunctions[action.skillId](action, effects);
+            } else if (action.skillId in battleMessages) {
+                return battleMessages[action.skillId];
             } else if (action.skill.text) {
                 text = action.skill.text; /*.template({
                     user: action.user.name,
@@ -30,10 +32,11 @@ define(["underscore", "skill-text-functions", "json!battle-messages.json"], func
             return _(text).template(params || {});
         },
         getAggressionText: function(pawns) {
-            var template = _("Aggressed by {{name}}!").template();
-            return _(pawns).map(function(pawn) {
-                return template(pawn);
-            });
+            var names = _(pawns).chain().pluck("name").formatList().value();
+            return [_("Aggressed by {{names}}!").template({names: names})];
+        },
+        getBuffText: function(params) {
+            return _("{{target}}'s {{stat}} {{buffDir}} by {{amount}} for {{duration}} rounds!").template(params);
         }
     }
 });

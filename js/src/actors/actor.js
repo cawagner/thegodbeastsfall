@@ -59,6 +59,9 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         this.update = function(timeScale) {
             this.frame = (this.frame + 0.05 + this.isMoving() * 0.1) % 4;
             moveTowardNewSquare(timeScale);
+            if (this.isDashing) {
+                moveTowardNewSquare(timeScale);
+            }
             this.onUpdate(timeScale);
         };
 
@@ -85,7 +88,9 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         this.isPushable = true;
         this.archetype = archetype;
         this.isMovementLocked = false;
+        this.isDashing = false;
         this.frame = 0;
+        this.font = undefined;
     }
 
     Actor.MOVE_SPEED = 0.1;
@@ -117,7 +122,7 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         pubsub.subscribeOnce("/npc/talk/done", function() {
             d.resolve();
         });
-        pubsub.publish("/npc/talk", [{ text: messages, speaker: this.archetype }, this]);
+        pubsub.publish("/npc/talk", [{ text: messages, font: this.font, speaker: this.archetype }, this]);
         return d.promise();
     };
 

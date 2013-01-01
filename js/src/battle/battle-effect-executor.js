@@ -16,7 +16,8 @@ define(["underscore", "pubsub", "battle/battle-message-state", "battle/battle-te
     }
 
     BattleEffectExecutor.prototype.msg = function(m, s) {
-        this.state.enqueueState(new BattleMessageState([m], s));
+        this.snd(s);
+        this.state.enqueueState(new BattleMessageState([m]));
     };
 
     BattleEffectExecutor.prototype.snd = function(sound) {
@@ -144,7 +145,6 @@ define(["underscore", "pubsub", "battle/battle-message-state", "battle/battle-te
     BattleEffectExecutor.prototype.buff = function(effect) {
         var self = this;
         var targetWasAlive = effect.target.isAlive();
-        var buffDir = effect.amount < 0 ? "down" : "up";
 
         if (!targetWasAlive) {
             self.msg(textProvider.getMessage("positiveTargetGone", { target: effect.target.name }));
@@ -158,7 +158,15 @@ define(["underscore", "pubsub", "battle/battle-message-state", "battle/battle-te
                 effect.target.addBuff(effect.stat, effect.amount, effect.duration);
             }
 
-            self.msg(effect.target.name + "'s " + effect.stat + " " + buffDir + " by " + Math.abs(effect.amount) + " for " + effect.duration + " rounds!");
+            if (!effect.skill.suppressDefaultText) {
+                self.msg(textProvider.getBuffText({
+                    target: effect.target.name,
+                    stat: effect.stat,
+                    buffDir: effect.amount < 0 ? "down" : "up",
+                    amount: Math.abs(effect.amount),
+                    duration: effect.duration
+                }));
+            }
         });
     };
 
