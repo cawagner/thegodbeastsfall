@@ -50,7 +50,7 @@ define(["underscore"], function(_) {
             if (slice.length > 1) {
                 slice[slice.length - 1] = "and " + slice[slice.length - 1];
             }
-            return slice.length > 2 ? slice.join(", ") : slice[0] + " " + slice[1];
+            return slice.length === 1 ? slice[0] : slice.join(slice.length > 2 ? ", " : " ");
         }
     });
 });
