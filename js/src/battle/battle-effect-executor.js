@@ -9,10 +9,16 @@ define(["underscore", "pubsub", "battle/battle-message-state", "battle/battle-te
         }
     };
 
-    function BattleEffectExecutor(action, battleState, state) {
+    function BattleEffectExecutor(action, state, displayDamage) {
         this.state = state;
         this.action = action;
-        this.battleState = battleState;
+        this.displayDamage = displayDamage || function() {
+            return {
+                start: _.noop,
+                update: function() { return true; },
+                draw: _.noop
+            };
+        };
     }
 
     BattleEffectExecutor.prototype.msg = function(m, s) {
@@ -45,21 +51,25 @@ define(["underscore", "pubsub", "battle/battle-message-state", "battle/battle-te
 
         // TODO: move most of this text into the text provider...
         if (effect.missed) {
-            self.state.enqueueFunc(self.battleState.displayMiss(effect.target));
+            self.state.enqueueFunc(function() {
+                pubsub.publish("/display/miss", [effect.target]);
+            });
             self.msg(textProvider.getMessage("missed", { target: effect.target.name }), "miss");
         } else {
             if (effect.critical) {
                 self.msg(textProvider.getMessage("criticalHit"));
             }
             self.snd(sound);
-            self.state.enqueueState(self.battleState.displayDamage(effect.target, "-"+effect.amount, effect.critical));
+            self.state.enqueueState(self.displayDamage(effect.target, "-"+effect.amount, effect.critical));
         }
 
         self.state.enqueueFunc(function() {
             if (targetWasAlive && !effect.target.isAlive() && !effect.target.hasFallen) {
                 // hack :()
                 effect.target.hasFallen = true;
-                self.state.enqueueFunc(self.battleState.kill(effect.target));
+                self.state.enqueueFunc(function() {
+                    pubsub.publish("/kill", [effect.target]);
+                });
                 self.msg(textProvider.getFallMessage(effect.target), 'endie');
 
                 if (self.action.user.isDying) {
@@ -87,7 +97,7 @@ define(["underscore", "pubsub", "battle/battle-message-state", "battle/battle-te
                 effect.target.restoreHp(effect.amount);
             }
         });
-        self.state.enqueueState(self.battleState.displayDamage(effect.target, "+"+effect.amount, effect.critical));
+        self.state.enqueueState(self.displayDamage(effect.target, "+"+effect.amount, effect.critical));
     };
 
     BattleEffectExecutor.prototype.poison = function(effect) {

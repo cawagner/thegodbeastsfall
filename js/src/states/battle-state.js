@@ -1,5 +1,6 @@
 define([
     "underscore",
+    "pubsub",
     "game-state",
     "pawns/pawns",
     "graphics",
@@ -12,6 +13,7 @@ define([
     "battle/battle-text-provider"
 ], function(
     _,
+    pubsub,
     gameState,
     pawns,
     graphics,
@@ -46,6 +48,20 @@ define([
         this.enqueueState(new BattleMenuState(this));
         this.enqueueState(new BattleDecisionState(this));
 
+        this.sub1 = pubsub.subscribe("/display/miss", function() {
+
+        });
+
+        this.subscriptions = pubsub.set();
+        this.subscriptions.subscribe("/display/miss", function(pawn) {
+            pawn.display.effects.push(battleAnimations.pushUp());
+        });
+        this.subscriptions.subscribe("/kill", function(pawn) {
+            if (pawn.type === 'enemy') {
+                pawn.display.effects.push(battleAnimations.shrinkDie(pawn));
+            }
+        });
+
         this.rootState.start();
     };
 
@@ -70,12 +86,8 @@ define([
         _(this.enemyPawns).each(updatePawnEffects);
     };
 
-    BattleState.prototype.kill = function(pawn) {
-        return function() {
-            if (pawn.type === 'enemy') {
-                pawn.display.effects.push(battleAnimations.shrinkDie(pawn));
-            }
-        };
+    BattleState.prototype.end = function() {
+        this.subscriptions.unsubscribe();
     };
 
     // OH NO this is wrong!
@@ -105,12 +117,6 @@ define([
             draw: function() {
                 graphics.drawText(x + wiggle.x, y + wiggle.y, amount);
             }
-        };
-    };
-
-    BattleState.prototype.displayMiss = function(pawn) {
-        return function() {
-            pawn.display.effects.push(battleAnimations.pushUp());
         };
     };
 
