@@ -135,7 +135,6 @@ define([
                 return {
                     text: "x" + item.quantity + " " + item.item.name,
                     item: item.item,
-                    itemId: item.itemId,
                     quantity: item.quantity
                 };
             });

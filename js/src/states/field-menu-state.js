@@ -73,7 +73,7 @@ define([
                     text: "Items",
                     childMenu: function() {
                         var items = _(gameState.inventory.getItems()).map(function(item) {
-                            return { text: "x" + item.quantity + " " + item.item.name, itemId: item.id, item: item.item, quantity: item.quantity };
+                            return { text: "x" + item.quantity + " " + item.item.name, item: item.item, quantity: item.quantity };
                         });
                         var itemsMenu = new Menu({
                             items: items,

@@ -1,4 +1,4 @@
-define(["underscore", "json!items.json"], function(_, items) {
+define(["underscore", "data/items"], function(_, items) {
     "use strict";
 
     var MAX_ITEMS_OF_TYPE = 5;
