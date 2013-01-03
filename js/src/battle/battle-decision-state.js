@@ -19,12 +19,11 @@ define([
 
     var d20 = Dice.parse("d20");
 
-    var createUseSkillAction = function(user, skillId, skill, targets) {
+    var createUseSkillAction = function(user, skill, targets) {
         return {
             type: "skill",
             targets: targets,
             skill: skill,
-            skillId: skillId,
             user: user,
             skillEffect: skillEffects[skill.effect],
             priority: user.priority() + (skill.priorityBoost||0) + d20.roll()
@@ -43,7 +42,7 @@ define([
             _(commands).each(function(command) {
                 var pawn = battleState.playerPawns[command.partyIndex];
                 if (command.action === "skill") {
-                    actions.push(createUseSkillAction(pawn, command.param.skillId, command.param.skill, command.param.targets));
+                    actions.push(createUseSkillAction(pawn, command.param.skill, command.param.targets));
                 } else if (command.action === "item") {
                     /// guess I've got brain problems!
                 } else {
@@ -66,7 +65,7 @@ define([
                 if (skills[skill].target === "self") {
                     target = [enemy];
                 }
-                actions.push(createUseSkillAction(enemy, skill, skills[skill], target));
+                actions.push(createUseSkillAction(enemy, skills[skill], target));
             });
 
             actions.sort(function(a, b) {

@@ -4,10 +4,10 @@ define(["underscore", "skill-text-functions", "json!battle-messages.json"], func
     return {
         getSkillText: function(action, effects) {
             var text = battleMessages.defaultSkillUse, target = '<null>';
-            if (action.skillId in skillTextFunctions) {
-                text = skillTextFunctions[action.skillId](action, effects);
-            } else if (action.skillId in battleMessages) {
-                return battleMessages[action.skillId];
+            if (action.skill.id in skillTextFunctions) {
+                text = skillTextFunctions[action.skill.id](action, effects);
+            } else if (action.skill.id in battleMessages) {
+                return battleMessages[action.skill.id];
             } else if (action.skill.text) {
                 text = action.skill.text; /*.template({
                     user: action.user.name,

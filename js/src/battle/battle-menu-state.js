@@ -65,8 +65,7 @@ define([
                         select: function(index, item) {
                             this.close();
                             self.setAction(item.action, {
-                                skillId: item.skillId,
-                                skill: skills[item.skillId],
+                                skill: item.skill,
                                 targets: [self.currentPawn()],
                                 priorityBoost: item.priorityBoost
                             });
@@ -190,7 +189,6 @@ define([
                     text: skill.name,
                     cost: member.formatCost(skill),
                     skill: skill,
-                    skillId: skillName,
                     disabled: !member.canUseSkill(skill)
                 };
             });
@@ -206,7 +204,6 @@ define([
                         skillMenu.close();
                         self.setAction("skill", {
                             skill: item.skill,
-                            skillId: item.skillId,
                             targets: targets
                         });
                     }).open();
