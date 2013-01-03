@@ -19,11 +19,19 @@
     },
     "cigar": {
         "name": "Cigar",
-        "desc": "The wrapper says \"Excelentes cigarros cubanos. Su boca se pudre con deleite!\""
+        "desc": "Looks like some kind of leaves have been wrapped in paper."
     },
     "drachma": {
         "name": "Drachma",
         "desc": "A small metal coin from antiquity.",
         "key": true
+    },
+    "bronzeSword": {
+        "name": "BrSword",
+        "desc": "A sword inexpertly made of bronze.",
+        "buff": {
+            "attack": 10
+        },
+        "equipment": "weapon"
     }
 }
