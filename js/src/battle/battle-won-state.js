@@ -6,7 +6,7 @@ define([
     "states/dialogue-state",
     "graphics",
     "game-state",
-    "json!skills.json"
+    "data/skills"
 ], function(
     _,
     pubsub,

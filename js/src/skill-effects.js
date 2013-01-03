@@ -1,4 +1,4 @@
-define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
+define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
     "use strict";
 
     var d20 = Dice.parse("1d20"),
@@ -122,7 +122,7 @@ define(["underscore", "dice", "json!skills.json"], function(_, Dice, Skills) {
     var standardSkillEffect = function() {
         var fns = arguments;
         return function(skill, user, targets) {
-            var skill = _.extend({}, Skills["default"], skill);
+            var skill = _.extend({}, skills["default"], skill);
 
             var results = [];
             _(fns).each(function(fn) {

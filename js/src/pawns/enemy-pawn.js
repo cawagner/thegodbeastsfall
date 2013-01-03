@@ -3,15 +3,15 @@ define([
     "equipment",
     "pawns/pawn-base",
     "json!enemies.json",
-    "json!skills.json",
-    "json!enemy-families.json"
+    "json!enemy-families.json",
+    "data/skills"
 ], function(
     Dice,
     Equipment,
     PawnBase,
     enemies,
-    skills,
-    enemyFamilies
+    enemyFamilies,
+    skills
 ) {
     "use strict";
 

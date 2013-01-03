@@ -4,7 +4,7 @@ define([
     "battle/battle-menu-state",
     'battle/battle-execute-state',
     'dice',
-    "json!skills.json",  // TODO: move handling the skill doing into another place...
+    "data/skills",
     "skill-effects"
 ], function(
     _,

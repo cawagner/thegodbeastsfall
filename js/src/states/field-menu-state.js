@@ -7,7 +7,7 @@ define([
     "states/menu-state",
     "states/noop-state",
     "pawns/character-pawn",
-    "json!skills.json"
+    "data/skills"
 ], function(_, pubsub, gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills) {
     "use strict";
 
