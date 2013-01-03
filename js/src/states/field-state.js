@@ -29,62 +29,64 @@ define([
         );
     };
 
-    // TODO: make some function to open the state instead of having such a horrible constructor
     function FieldState(map, entrance) {
-        var tilemapView = new TilemapView(map.tilemap, map.tilesets),
-            hero = new Hero(),
-            containsHero = _.bind(pointInRect, null, hero),
-            sortActors = _(function() {
-                map.actors = _(map.actors).sortBy("y");
-            }).throttle(150);
+        var that = this;
 
-        this.hero = hero;
-        this.entrance = entrance;
+        this.tilemapView = new TilemapView(map.tilemap, map.tilesets);
+
+        this.sortActors = _(function() {
+            map.actors = _(map.actors).sortBy("y");
+        }).throttle(150);
+
+        this.hero = new Hero();
         this.map = map;
         this.subscriptions = pubsub.set();
 
-        map.addActor(hero);
+        this.regionContainsHero = function(rect) {
+            return pointInRect(that.hero, rect);
+        };
 
         entrance = entrance || "default";
         if (typeof entrance === 'string') {
             entrance = map.entrances[entrance];
         }
-        this.warpHeroToEntrance(entrance);
+        this.entrance = entrance;
+    };
 
-        this.subscriptions.subscribe("/hero/step", function() {
-            var encounter;
+    FieldState.prototype.draw = function() {
+        this.tilemapView.focusOn(this.hero.x, this.hero.y);
+        this.tilemapView.draw();
 
-            var exit = _(map.exits).find(containsHero);
-            if (exit) {
-                mapLoader.goToMap(exit.map, exit.entrance);
-                return;
-            }
-
-            encounter = _(map.encounters).find(containsHero);
-            if (encounter) {
-                encounter.step();
-            };
+        this.sortActors();
+        _(this.map.actors).each(function(actor) {
+            actorRenderer.drawActor(actor);
         });
 
-        this.suspend = function() {
-            hero.lockMovement();
+        graphics.setOrigin();
+    };
+
+    FieldState.prototype.checkDoors = function() {
+        var exit = _(this.map.exits).find(this.regionContainsHero);
+        if (exit) {
+            mapLoader.goToMap(exit.map, exit.entrance);
+            return exit;
+        }
+        return false;
+    }
+
+    FieldState.prototype.angerMonsters = function() {
+        var encounter = _(this.map.encounters).find(this.regionContainsHero);
+        if (encounter) {
+            encounter.step();
         };
+    };
 
-        this.reactivate = function() {
-            hero.unlockMovement();
-        };
+    FieldState.prototype.suspend = function() {
+        this.hero.lockMovement();
+    };
 
-        this.draw = function(timeScale) {
-            tilemapView.focusOn(hero.x, hero.y);
-            tilemapView.draw();
-
-            sortActors();
-            _(map.actors).each(function(actor) {
-                actorRenderer.drawActor(actor);
-            });
-
-            graphics.setOrigin();
-        };
+    FieldState.prototype.reactivate = function() {
+        this.hero.unlockMovement();
     };
 
     FieldState.prototype.warpHeroToEntrance = function(entrance) {
@@ -93,6 +95,15 @@ define([
 
     FieldState.prototype.start = function() {
         var that = this;
+
+        this.map.addActor(this.hero);
+        this.warpHeroToEntrance(this.entrance);
+
+        this.subscriptions.subscribe("/hero/step", function() {
+            if (!that.checkDoors()) {
+                that.angerMonsters();
+            }
+        });
 
         setTimeout(function() {
             if (_.isFunction(that.map.onLoad)) {
