@@ -85,8 +85,8 @@ define(['pubsub', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], 
         gameState.location.direction = this.direction;
     };
 
-    Hero.prototype.warpTo = function(x, y) {
-        Actor.prototype.warpTo.call(this, x, y);
+    Hero.prototype.warpTo = function(x, y, direction) {
+        Actor.prototype.warpTo.call(this, x, y, direction);
         this.savePosition();
     };
 

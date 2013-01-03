@@ -77,9 +77,12 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         this.font = undefined;
     };
 
-    Actor.prototype.warpTo = function(x, y) {
+    Actor.prototype.warpTo = function(x, y, direction) {
         this.destX = x;
         this.destY = y;
+        if (direction !== undefined) {
+            this.direction = direction;
+        }
         this.resetMove();
     };
 

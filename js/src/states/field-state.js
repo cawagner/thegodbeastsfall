@@ -33,34 +33,25 @@ define([
     function FieldState(map, entrance) {
         var tilemapView = new TilemapView(map.tilemap, map.tilesets),
             hero = new Hero(),
-            stepSubscription,
             containsHero = _.bind(pointInRect, null, hero),
             sortActors = _(function() {
                 map.actors = _(map.actors).sortBy("y");
             }).throttle(150);
 
+        this.hero = hero;
+        this.entrance = entrance;
+        this.map = map;
+        this.subscriptions = pubsub.set();
+
         map.addActor(hero);
 
         entrance = entrance || "default";
         if (typeof entrance === 'string') {
-            if (entrance in map.entrances) {
-                hero.warpTo(map.entrances[entrance].x, map.entrances[entrance].y);
-                if (map.entrances[entrance].direction !== undefined) {
-                    hero.direction = direction.fromName(map.entrances[entrance].direction);
-                }
-            }
-        } else {
-            hero.warpTo(entrance.x, entrance.y);
-            hero.direction = entrance.direction || direction.UP;
+            entrance = map.entrances[entrance];
         }
+        this.warpHeroToEntrance(entrance);
 
-        setTimeout(function() {
-            if (_.isFunction(map.onLoad)) {
-                _(map.onLoad(hero, entrance)).defer();
-            }
-        }, 1);
-
-        stepSubscription = pubsub.subscribe("/hero/step", function() {
+        this.subscriptions.subscribe("/hero/step", function() {
             var encounter;
 
             var exit = _(map.exits).find(containsHero);
@@ -74,19 +65,6 @@ define([
                 encounter.step();
             };
         });
-
-        this.start = function() {
-        };
-
-        this.update = function(timeScale) {
-            _(map.actors).each(function(actor) {
-                actor.update(timeScale);
-            });
-        };
-
-        this.end = function() {
-            pubsub.unsubscribe(stepSubscription);
-        };
 
         this.suspend = function() {
             hero.lockMovement();
@@ -107,7 +85,31 @@ define([
 
             graphics.setOrigin();
         };
-    }
+    };
+
+    FieldState.prototype.warpHeroToEntrance = function(entrance) {
+        this.hero.warpTo(entrance.x, entrance.y, entrance.direction);
+    };
+
+    FieldState.prototype.start = function() {
+        var that = this;
+
+        setTimeout(function() {
+            if (_.isFunction(that.map.onLoad)) {
+                that.map.onLoad(that.hero, that.entrance);
+            }
+        }, 1);
+    };
+
+    FieldState.prototype.end = function() {
+        this.subscriptions.unsubscribe();
+    };
+
+    FieldState.prototype.update = function(timeScale) {
+        _(this.map.actors).each(function(actor) {
+            actor.update(timeScale);
+        });
+    };
 
     return FieldState;
 });
