@@ -3,22 +3,17 @@ define([
     "underscore",
     "map-loader",
     "graphics",
-    "gui",
     "display/tilemap-view",
     "display/actor-renderer",
-    "actors/hero",
-    "direction",
-    "pubsub"
+    "actors/hero"
 ], function(
     pubsub,
     _,
     mapLoader,
     graphics,
-    gui,
     TilemapView,
     actorRenderer,
-    Hero,
-    direction
+    Hero
 ) {
     "use strict";
 
