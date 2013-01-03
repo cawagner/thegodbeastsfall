@@ -2,7 +2,7 @@ define([
     "dice",
     "equipment",
     "pawns/pawn-base",
-    "json!enemies.json",
+    "data/enemies",
     "json!enemy-families.json",
     "data/skills"
 ], function(
