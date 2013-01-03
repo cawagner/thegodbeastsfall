@@ -1,31 +1,31 @@
 define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
     "use strict";
 
+    var MOVE_SPEED = 0.1;
+
     function Actor(archetype) {
         var self = this;
         var moveX = 0, moveY = 0;
         var moveRemaining = 0;
-
-        var moveHistory = [];
 
         var moveTowardNewSquare = function(timeScale) {
             if (self.canMove()) {
                 return;
             }
 
-            moveRemaining -= Actor.MOVE_SPEED;
-            if (moveRemaining <= Actor.MOVE_SPEED) {
+            moveRemaining -= MOVE_SPEED;
+            if (moveRemaining <= MOVE_SPEED) {
                 self.resetMove();
             } else {
-                self.x += Actor.MOVE_SPEED * moveX;
-                self.y += Actor.MOVE_SPEED * moveY;
+                self.x += MOVE_SPEED * moveX;
+                self.y += MOVE_SPEED * moveY;
             }
         };
 
         this.resetMove = function() {
             moveRemaining = 0;
-            self.x = this.destX;
-            self.y = this.destY;
+            this.x = this.destX;
+            this.y = this.destY;
             moveX = 0;
             moveY = 0;
         };
@@ -42,14 +42,6 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
 
             this.update();
             return true;
-        };
-
-        this.lockMovement = function() {
-            this.isMovementLocked = true;
-        };
-
-        this.unlockMovement = function() {
-            this.isMovementLocked = false;
         };
 
         this.isMoving = function() {
@@ -71,14 +63,6 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
             return moveRemaining === 0;
         };
 
-        this.canMoveTo = function(x, y) {
-            return this.map.isWalkable(x, y);
-        }
-
-        this.canMoveBy = function(dx, dy) {
-            return this.canMoveTo(this.x + dx, this.y + dy);
-        };
-
         this.x = 0;
         this.y = 0;
         this.destX = 0;
@@ -91,15 +75,12 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         this.isDashing = false;
         this.frame = 0;
         this.font = undefined;
-    }
-
-    Actor.MOVE_SPEED = 0.1;
+    };
 
     Actor.prototype.warpTo = function(x, y) {
-        this.x = x;
-        this.y = y;
         this.destX = x;
         this.destY = y;
+        this.resetMove();
     };
 
     Actor.prototype.tryMoveBy = function(dx, dy) {
@@ -124,6 +105,22 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
         });
         pubsub.publish("/npc/talk", [{ text: messages, font: this.font, speaker: this.archetype }, this]);
         return d.promise();
+    };
+
+    Actor.prototype.canMoveTo = function(x, y) {
+        return this.map.isWalkable(x, y);
+    };
+
+    Actor.prototype.canMoveBy = function(dx, dy) {
+        return this.canMoveTo(this.x + dx, this.y + dy);
+    };
+
+    Actor.prototype.lockMovement = function() {
+        this.isMovementLocked = true;
+    };
+
+    Actor.prototype.unlockMovement = function() {
+        this.isMovementLocked = false;
     };
 
     return Actor;
