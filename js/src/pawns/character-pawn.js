@@ -8,6 +8,7 @@ define(["pawns/pawn-base"], function(PawnBase) {
         this.isDead = false;
         this.type = 'player';
         this.restoreMpOnNextHit = true;
+        this.equipment = character.equipment;
     };
 
     CharacterPawn.prototype = new PawnBase();

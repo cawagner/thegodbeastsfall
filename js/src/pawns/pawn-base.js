@@ -43,7 +43,7 @@ define(["underscore"], function(_) {
         },
         attack: function() {
             // TODO: factor in weapon / buffs!
-            return this.strength();
+            return this.strength() + this.equipment.attack();
         },
         damageAbsorption: function() {
             // TODO: factor in armor / buffs!

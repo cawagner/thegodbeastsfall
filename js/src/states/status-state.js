@@ -29,6 +29,7 @@ define([
     };
 
     StatusState.prototype.draw = function(delta) {
+        var empty = { name: "Nothing" };
         var top = 20,
             lines = 0,
             statTop, xpTop,
@@ -74,7 +75,8 @@ define([
         gui.drawTextLines(20, statTop, _(statMapping).map(_.bind(this.formatStat, this)));
 
         gui.drawTextWindow(100, statTop, 200, 2*gui.lineHeight, [
-            "W: Nothing    H: Nothing",
+            //"W: Nothing    H: Nothing",
+            "W: " + (this.character.equipment.get("weapon") || empty).name,
             "B: Nothing    A: Nothing",
         ]);
 

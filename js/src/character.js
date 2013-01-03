@@ -1,4 +1,4 @@
-define(["underscore", "dice"], function(_, Dice) {
+define(["underscore", "dice", "equipment"], function(_, Dice, Equipment) {
     "use strict";
 
     function Character(options) {
@@ -30,6 +30,8 @@ define(["underscore", "dice"], function(_, Dice) {
         character.face = options.face;
 
         character.lastStatIncreased = options.lastStatIncreased;
+
+        character.equipment = new Equipment();
 
         while (character.level < (options.level || 1)) {
             character.gainLevel('');

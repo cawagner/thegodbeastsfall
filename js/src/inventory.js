@@ -14,7 +14,7 @@ define(["underscore", "json!items.json"], function(_, items) {
             item: items[itemId]
         };
         var previousQuantity = item.quantity;
-        item.quantity = Math.min(MAX_ITEMS_OF_TYPE, item.quantity + (quantityToAdd || 0));
+        item.quantity = Math.min(MAX_ITEMS_OF_TYPE, item.quantity + (quantityToAdd || 1));
         this.items[itemId] = item;
 
         return item.quantity - previousQuantity;
@@ -26,7 +26,7 @@ define(["underscore", "json!items.json"], function(_, items) {
         if (itemId in this.items) {
             item = this.items[itemId];
             previousQuantity = item.quantity;
-            item.quantity = Math.max(0, item.quantity - quantityToRemove);
+            item.quantity = Math.max(0, item.quantity - (quantityToRemove || 1));
             if (item.quantity === 0) {
                 delete this.items[itemId];
             }

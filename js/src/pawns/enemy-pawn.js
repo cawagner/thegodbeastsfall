@@ -1,11 +1,13 @@
 define([
     "dice",
+    "equipment",
     "pawns/pawn-base",
     "json!enemies.json",
     "json!skills.json",
     "json!enemy-families.json"
 ], function(
     Dice,
+    Equipment,
     PawnBase,
     enemies,
     skills,
@@ -35,6 +37,8 @@ define([
         this.rolledHp = hitDice.roll();
         this.currentHp = this.rolledHp;
         this.currentMp = proto.mp || 0;
+
+        this.equipment = new Equipment();
 
         this.type = 'enemy';
     };

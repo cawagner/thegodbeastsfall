@@ -80,10 +80,19 @@ define([
                             select: function(index, item) {
                                 new Menu({
                                     items: [
-                                        { text: "Use " + item.item.name, disabled: !item.item.isFieldUsable },
+                                        { text: "Use " + item.item.name, disabled: !(item.item.isFieldUsable || item.item.equipment) },
                                         "Look"
                                     ],
                                     select: function(index) {
+                                        var oldItem;
+                                        if (index === 0) {
+                                            // TODO: don't just try to equip it to Held...
+                                            if (item.item.equipment) {
+                                                oldItem = gameState.party[0].equipment.wear(item.item);
+                                                // TODO: remove new item from inventory, add old item to inventory
+                                                this.close();
+                                            }
+                                        }
                                         if (index === 1) {
                                             pubsub.publish("/npc/talk", [{ text: [item.item.desc] }]);
                                         }

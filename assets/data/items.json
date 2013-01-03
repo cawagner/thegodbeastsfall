@@ -28,10 +28,18 @@
     },
     "bronzeSword": {
         "name": "BrSword",
-        "desc": "A sword inexpertly made of bronze.",
-        "buff": {
+        "desc": "A decent sword made of bronze.",
+        "equipment": {
+            "slot": "weapon",
             "attack": 10
-        },
-        "equipment": "weapon"
+        }
+    },
+    "ironSword": {
+        "name": "IrSword",
+        "desc": "A nice sword made of iron.",
+        "equipment": {
+            "slot": "weapon",
+            "attack": 20
+        }
     }
 }
