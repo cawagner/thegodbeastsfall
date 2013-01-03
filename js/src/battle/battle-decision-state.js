@@ -27,7 +27,7 @@ define([
             user: user,
             skillEffect: skillEffects[skill.effect],
             priority: user.priority() + (skill.priorityBoost||0) + d20.roll()
-        }
+        };
     };
 
     return function BattleDecisionState(battleState) {
