@@ -46,6 +46,9 @@ define([
             entrance = map.entrances[entrance];
         }
         this.entrance = entrance;
+
+        this.map.addActor(this.hero);
+        this.warpHeroToEntrance(this.entrance);
     };
 
     FieldState.prototype.draw = function() {
@@ -90,9 +93,6 @@ define([
 
     FieldState.prototype.start = function() {
         var that = this;
-
-        this.map.addActor(this.hero);
-        this.warpHeroToEntrance(this.entrance);
 
         this.subscriptions.subscribe("/hero/step", function() {
             if (!that.checkDoors()) {
