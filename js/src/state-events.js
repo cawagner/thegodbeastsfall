@@ -2,13 +2,13 @@ define([
     "underscore",
     "pubsub",
     "states/menu-state",
-    "states/field-menu-state",
     "states/dialogue-state",
     "states/field-state",
     "states/battle-state",
     "states/status-state",
     "states/transitions/scroll-transition-state",
     "states/transitions/fade-transition-state",
+    "menus/field/root",
     "game-state",
     "sound",
     "game"
@@ -16,13 +16,13 @@ define([
     _,
     pubsub,
     MenuState,
-    FieldMenuState,
     DialogueState,
     FieldState,
     BattleState,
     StatusState,
     ScrollTransitionState,
     FadeTransitionState,
+    fieldMenu,
     gameState,
     sound,
     game
@@ -70,7 +70,7 @@ define([
             });
 
             pubsub.subscribe("/hero/menu", function() {
-                game.pushState(new FieldMenuState());
+                fieldMenu.open();
             });
 
             pubsub.subscribe("/map/loading", function() {
