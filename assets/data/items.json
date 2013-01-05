@@ -41,5 +41,14 @@
             "slot": "weapon",
             "attack": 20
         }
+    },
+    "tunic": {
+        "name": "CtnTunic",
+        "desc": "A tunic made of a sturdy cloth.",
+        "equipment": {
+            "slot": "body",
+            "damageReduction": 3,
+            "damageAbsorption": 10
+        }
     }
 }

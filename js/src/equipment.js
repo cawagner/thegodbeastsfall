@@ -19,12 +19,12 @@ define([
         return oldItem;
     };
 
-    Equipment.prototype.attack = function() {
-        var attack = 0;
+    Equipment.prototype.calc = function(stat) {
+        var sum = 0;
         _(this.slots).each(function(item) {
-            attack += item.equipment.attack || 0;
+            sum += item.equipment[stat] || 0;
         });
-        return attack;
+        return sum;
     };
 
     return Equipment;

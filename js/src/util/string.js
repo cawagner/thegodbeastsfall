@@ -5,6 +5,13 @@ define(["underscore"], function(_) {
         return new Array(times + 1).join(this);
     };
 
+    String.prototype.lset = function(length) {
+        if (this.length < length) {
+            return this + " ".repeat(length - this.length);
+        }
+        return this;
+    };
+
     String.prototype.rset = function(length) {
         if (this.length < length) {
             return " ".repeat(length - this.length) + this;

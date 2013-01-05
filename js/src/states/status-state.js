@@ -76,8 +76,8 @@ define([
 
         gui.drawTextWindow(100, statTop, 200, 2*gui.lineHeight, [
             //"W: Nothing    H: Nothing",
-            "W: " + (this.character.equipment.get("weapon") || empty).name,
-            "B: Nothing    A: Nothing",
+            "W: " + (this.character.equipment.get("weapon") || empty).name.lset(10),
+            "B: " + (this.character.equipment.get("body") || empty).name.lset(10),
         ]);
 
         statTop += 4 * gui.lineHeight;

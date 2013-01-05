@@ -43,14 +43,14 @@ define(["underscore"], function(_) {
         },
         attack: function() {
             // TODO: factor in weapon / buffs!
-            return this.strength() + this.equipment.attack();
+            return this.strength() + this.equipment.calc("attack");
         },
         damageAbsorption: function() {
             // TODO: factor in armor / buffs!
-            return Math.min(100, this.strength());
+            return Math.min(100, this.strength() + this.equipment.calc("damageAbsorption"));
         },
         damageReduction: function() {
-            return Math.floor(Math.max(0, this.strength() - 10));
+            return Math.floor(Math.max(0, this.strength() - 10) + this.equipment.calc("damageReduction"));
         },
         priority: function() {
             return this.agility();
