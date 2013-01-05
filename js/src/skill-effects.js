@@ -21,8 +21,9 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
 
         if (isCritical) {
             if (hasConnected) {
-                attack = attack * user.criticalMultiplier();
-                roll = roll * skill.criticalMultiplier * user.criticalMultiplier();
+                _(skill.criticalMultiplier * user.criticalMultiplier() - 1).times(function() {
+                    roll += dice.roll();
+                });
                 dr = 0;
             } else {
                 isCritical = false;
