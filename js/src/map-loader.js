@@ -8,7 +8,7 @@ define([
     "encounter",
     "constants",
     "image-loader",
-    "pubsub"
+    "direction"
 ], function(
     $,
     _,
@@ -17,7 +17,8 @@ define([
     Npc,
     Encounter,
     constants,
-    imageLoader
+    imageLoader,
+    direction
 ) {
     "use strict";
 
@@ -105,7 +106,7 @@ define([
                     entrances[object.name] = {
                         x: (object.x / TILE_SIZE) | 0,
                         y: (object.y / TILE_SIZE) | 0,
-                        direction: object.properties.direction
+                        direction: direction.fromName(object.properties.direction || "up")
                     };
                 });
 

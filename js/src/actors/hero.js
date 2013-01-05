@@ -22,11 +22,7 @@ define(['pubsub', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], 
                 if (self.tryMoveBy(dx, dy)) {
                     isStepping = true;
                     failedMoves = 0;
-                    // TODO: this is stupid and ugly!
-                    gameState.totalSteps++;
-                    gameState.location.x = Math.floor(self.x);
-                    gameState.location.y = Math.floor(self.y);
-                    gameState.location.direction = self.direction;
+                    self.savePosition();
                 } else {
                     ++failedMoves;
                     if (failedMoves > PUSH_AFTER) {
@@ -80,6 +76,19 @@ define(['pubsub', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], 
     };
 
     Hero.prototype = new Actor();
+
+    Hero.prototype.savePosition = function() {
+        // TODO: this is stupid and ugly!
+        gameState.totalSteps++;
+        gameState.location.x = Math.floor(this.x);
+        gameState.location.y = Math.floor(this.y);
+        gameState.location.direction = this.direction;
+    };
+
+    Hero.prototype.warpTo = function(x, y, direction) {
+        Actor.prototype.warpTo.call(this, x, y, direction);
+        this.savePosition();
+    };
 
     return Hero;
 });

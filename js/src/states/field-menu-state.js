@@ -7,8 +7,10 @@ define([
     "states/menu-state",
     "states/noop-state",
     "pawns/character-pawn",
-    "data/skills"
-], function(_, pubsub, gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills) {
+    "data/skills",
+    "menus/field/items",
+    "menus/field/system"
+], function(_, pubsub, gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills, itemsMenu, systemMenu) {
     "use strict";
 
     function FieldMenuState() {
@@ -69,72 +71,8 @@ define([
                         });
                     }
                 },
-                {
-                    text: "Items",
-                    childMenu: function() {
-                        var items = _(gameState.inventory.getItems()).map(function(item) {
-                            return { text: "x" + item.quantity + " " + item.item.name, item: item.item, quantity: item.quantity };
-                        });
-                        var itemsMenu = new Menu({
-                            items: items,
-                            select: function(index, item) {
-                                new Menu({
-                                    items: [
-                                        { text: "Use " + item.item.name, disabled: !(item.item.isFieldUsable || item.item.equipment) },
-                                        "Look"
-                                    ],
-                                    select: function(index) {
-                                        var oldItem, text, member = gameState.party[0];
-                                        if (index === 0) {
-                                            // TODO: don't just try to equip it to Held...
-                                            if (item.item.equipment) {
-                                                oldItem = member.equipment.wear(item.item);
-                                                // TODO: remove new item from inventory, add old item to inventory
-
-                                                text = oldItem
-                                                    ? member.name + " took off " + oldItem.name + " and wore " + item.item.name + "."
-                                                    : member.name + " wore " + item.item.name + ".";
-
-                                                this.close();
-                                                itemsMenu.close();
-
-                                                pubsub.publish("/npc/talk", [{ text: [text] }]);
-                                            }
-                                        }
-                                        if (index === 1) {
-                                            pubsub.publish("/npc/talk", [{ text: [item.item.desc] }]);
-                                        }
-                                    }
-                                }).open();
-                            }
-                        });
-                        return itemsMenu;
-                    },
-                    disabled: function() {
-                        return gameState.inventory.getItems().length === 0;
-                    }
-                },
-                {
-                    text: "System",
-                    childMenu: new Menu({
-                        items: [
-                            "Save",
-                            { text: "Load", disabled: !localStorage.getItem("saveGame0") }
-                        ],
-                        select: function(index) {
-                            if (index === 0) {
-                                gameState.save(0);
-                                pubsub.publish("/npc/talk", [
-                                    { text: ["Game saved!"] }
-                                ]);
-                            } else if (index === 1) {
-                                gameState.load(0);
-                                this.close();
-                                self.menu.close();
-                            }
-                        }
-                    }),
-                }
+                itemsMenu,
+                systemMenu
             ]
         });
 
