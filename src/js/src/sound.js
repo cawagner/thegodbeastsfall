@@ -3,6 +3,17 @@ define([], function() {
 
     var musicAudio, currentMusic, cachedSounds = {};
 
+    // Sometimes Chrome doesn't even expose the Audio type if audio is
+    // unavailable
+    var FakeAudio = function() { };
+    FakeAudio.prototype.canPlayType = function() {
+        return false;
+    };
+    FakeAudio.prototype.pause =
+    FakeAudio.prototype.play = function() { };
+
+    var Audio = Audio || FakeAudio;
+
     var soundManager = {
         playMusic: function(music) {
             if (currentMusic === music) {
