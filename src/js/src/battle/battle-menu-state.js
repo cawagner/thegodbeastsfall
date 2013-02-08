@@ -54,7 +54,7 @@ define([
                     text: "Tactic",
                     childMenu: new Menu({
                         items: [
-                            { text: "Defend", action: "skill", skillId: "defend", priorityBoost: 60 },
+                            { text: "Defend", action: "skill", skill: skills["defend"], priorityBoost: 60 },
                             { text: "Run Away", action: "flee", priorityBoost: -5 },
                             { text: "Inspect", action: "inspect", priorityBoost: 10 }
                         ],
