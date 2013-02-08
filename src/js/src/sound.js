@@ -13,7 +13,7 @@ define([], function() {
     FakeAudio.prototype.play =
     FakeAudio.prototype.addEventListener = function() { };
 
-    var Audio = Audio || FakeAudio;
+    var Sound = Audio || FakeAudio;
 
     var soundManager = {
         playMusic: function(music) {
@@ -24,7 +24,7 @@ define([], function() {
             if (musicAudio !== undefined) {
                 musicAudio.pause();
             }
-            musicAudio = new Audio();
+            musicAudio = new Sound();
             if (musicAudio.canPlayType('audio/ogg') !== "") {
                 musicAudio.type = "audio/ogg";
                 musicAudio.src = 'assets/mus/' + music + '.ogg';
@@ -44,13 +44,13 @@ define([], function() {
             musicAudio.play();
         },
         loadSound: function(name) {
-            var audio = new Audio('assets/snd/' + name + ".wav");
+            var audio = new Sound('assets/snd/' + name + ".wav");
             audio.autoplay = false;
             audio.preload = true;
             cachedSounds[name] = audio;
         },
         playSound: function(name) {
-            new Audio('assets/snd/' + name + ".wav").play();
+            new Sound('assets/snd/' + name + ".wav").play();
         },
         getCurrentMusic: function() {
             return currentMusic;
