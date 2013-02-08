@@ -10,7 +10,8 @@ define([], function() {
         return false;
     };
     FakeAudio.prototype.pause =
-    FakeAudio.prototype.play = function() { };
+    FakeAudio.prototype.play =
+    FakeAudio.prototype.addEventListener = function() { };
 
     var Audio = Audio || FakeAudio;
 
