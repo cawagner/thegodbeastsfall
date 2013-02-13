@@ -7,6 +7,7 @@
         "target": "self",
         "power": "60",
         "duration": 1,
+        "priorityBoost": 65535,
         "suppressDefaultText": true
     },
     "slash": {
