@@ -65,6 +65,14 @@ define([
 
             return state;
         },
+        item: function(action) {
+            var state = new CompositeState();
+            state.enqueueState(new BattleMessageState([
+                // TODO: message is not sufficient...
+                action.user.name + " used " + action.item.name + "!"
+            ]));
+            return state;
+        },
         flee: function(action) {
             var state = new CompositeState();
             state.enqueueState(new BattleMessageState([textProvider.getMessage("ranAway", { user: action.user.name })]));

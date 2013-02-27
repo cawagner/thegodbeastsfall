@@ -6,7 +6,8 @@
         "effect": "heal/normal",
         "power": "4+3d4",
         "fieldUsable": true,
-        "battleUsable": true
+        "battleUsable": true,
+        "consumable": true
     },
     "soma": {
         "name": "Soma",
@@ -15,7 +16,8 @@
         "effect": "heal/mp",
         "power": "10",
         "fieldUsable": true,
-        "battleUsable": true
+        "battleUsable": true,
+        "consumable": true
     },
     "cigar": {
         "name": "Cigar",

@@ -129,7 +129,7 @@ define([
         var self = this;
 
         return function() {
-            var member = this.currentPawn();
+            var member = self.currentPawn();
             var items = _(gameState.inventory.getItems("battleUsable")).map(function(item) {
                 return {
                     text: "x" + item.quantity + " " + item.item.name,
@@ -145,6 +145,10 @@ define([
                     var itemsMenu = this;
                     self.getTargetMenu(member, item.item.target, function(targets) {
                         itemsMenu.close();
+                        self.setAction("item", {
+                            item: item.item,
+                            targets: targets
+                        });
                     }).open();
                 }
             });

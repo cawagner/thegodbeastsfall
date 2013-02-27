@@ -44,7 +44,13 @@ define([
                 if (command.action === "skill") {
                     actions.push(createUseSkillAction(pawn, command.param.skill, command.param.targets));
                 } else if (command.action === "item") {
-                    /// guess I've got brain problems!
+                    actions.push({
+                        type: "item",
+                        user: pawn,
+                        item: command.param.item,
+                        targets: command.param.targets,
+                        priority: pawn.priority()
+                    });
                 } else {
                     actions.push({
                         type: command.action,
