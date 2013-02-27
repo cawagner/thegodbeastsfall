@@ -4,16 +4,14 @@ define([
     "battle/battle-menu-state",
     'battle/battle-execute-state',
     'dice',
-    "data/skills",
-    "skill-effects"
+    "data/skills"
 ], function(
     _,
     BattleMessageState,
     BattleMenuState,
     BattleExecuteState,
     Dice,
-    skills,
-    skillEffects
+    skills
 ) {
     "use strict";
 
@@ -25,7 +23,6 @@ define([
             targets: targets,
             skill: skill,
             user: user,
-            skillEffect: skillEffects[skill.effect],
             priority: user.priority() + (skill.priorityBoost||0) + d20.roll()
         };
     };

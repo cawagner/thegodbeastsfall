@@ -4,14 +4,18 @@ define([
     "states/composite-state",
     "battle/battle-message-state",
     "battle/battle-effect-executor",
-    "battle/battle-text-provider"
+    "battle/battle-text-provider",
+    "skill-effects",
+    "item-effects"
 ], function(
     _,
     pubsub,
     CompositeState,
     BattleMessageState,
     BattleEffectExecutor,
-    textProvider
+    textProvider,
+    skillEffects,
+    itemEffects
 ) {
     "use strict";
 
@@ -44,7 +48,7 @@ define([
             });
 
             state.enqueueFunc(function() {
-                var effects = action.skillEffect(action.skill, action.user, action.targets);
+                var effects = skillEffects[action.skill.effect](action.skill, action.user, action.targets);
 
                 if (action.user.type !== 'player') {
                     state.enqueueFunc(battleState.displayAttack(action.user));
