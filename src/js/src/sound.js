@@ -36,10 +36,16 @@ define([], function() {
             if (typeof musicAudio.loop === "boolean") {
                 musicAudio.loop = true;
             } else {
-                musicAudio.addEventListener('ended', function() {
-                    this.currentTime = this.startTime;
-                    this.play();
-                }, false);
+                try {
+                    musicAudio.addEventListener('ended', function() {
+                        this.currentTime = this.startTime;
+                        this.play();
+                    }, false);
+                } catch (ex) {
+                    // nothing is okay and everything is terrible.
+                    // nothing we can do except accept that
+                    // we live in a cruel and unyielding reality.
+                }
             }
             musicAudio.play();
         },
