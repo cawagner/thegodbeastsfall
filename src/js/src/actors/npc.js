@@ -59,7 +59,7 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             });
 
             if (!cancelled) {
-                this.runDialogue("say").done(function() {
+                this.runDialogue("say").then(function() {
                     _(afterTalkHandlers).each(function(fn) {
                         fn.call(self);
                     });

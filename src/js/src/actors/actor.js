@@ -1,4 +1,4 @@
-define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
+define(['rsvp', 'pubsub', 'direction'], function(RSVP, pubsub, direction) {
     "use strict";
 
     var MOVE_SPEED = 0.1;
@@ -102,12 +102,12 @@ define(['jquery', 'pubsub', 'direction'], function($, pubsub, direction) {
     Actor.prototype.onTalk = $.noop;
 
     Actor.prototype.say = function(messages) {
-        var d = $.Deferred();
-        pubsub.subscribeOnce("/npc/talk/done", function() {
-            d.resolve();
+        return new RSVP.Promise(function(resolve, reject) {
+            pubsub.subscribeOnce("/npc/talk/done", function() {
+                resolve();
+            });
+            pubsub.publish("/npc/talk", [{ text: messages, font: this.font, speaker: this.archetype }, this]);
         });
-        pubsub.publish("/npc/talk", [{ text: messages, font: this.font, speaker: this.archetype }, this]);
-        return d.promise();
     };
 
     Actor.prototype.canMoveTo = function(x, y) {

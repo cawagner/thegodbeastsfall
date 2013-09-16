@@ -1,15 +1,18 @@
-define(['jquery'], function($) {
+define(['rsvp'], function(RSVP) {
     "use strict";
 
     return {
         loadImage: function(path) {
-            var d = $.Deferred()
-            var image = new Image();
-            image.onload = function() {
-                d.resolve(image);
-            };
-            image.src = path;
-            return d.promise();
+            return new RSVP.Promise(function(resolve, reject) {
+                var image = new Image();
+                image.onload = function() {
+                    resolve(image);
+                };
+                image.onerror = function(err) {
+                    reject(err);
+                };
+                image.src = path;
+            });
         },
         loadImageSync: function(path) {
             var image = new Image();

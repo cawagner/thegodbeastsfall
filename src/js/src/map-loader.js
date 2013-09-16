@@ -1,6 +1,7 @@
 // This is awful. I was actually drunk when I wrote it, unfortunately.
 define([
     "jquery",
+    "rsvp",
     "underscore",
     "pubsub",
     "tilemap",
@@ -11,6 +12,7 @@ define([
     "direction"
 ], function(
     $,
+    RSVP,
     _,
     pubsub,
     tilemap,
@@ -45,7 +47,7 @@ define([
                 firstTile: tilesetData.firstgid
             };
 
-            deferreds.push(imageLoader.loadImage(path).done(function(image) {
+            deferreds.push(imageLoader.loadImage(path).then(function(image) {
                 tileset.image = image;
             }));
 
@@ -53,24 +55,24 @@ define([
         };
 
         this.load = function(mapName) {
-            var deferred = $.Deferred();
-            $.ajax({
-                url: "assets/maps/" + mapName + ".json",
-                dataType: "json",
-                cache: false
-            }).success(function(data) {
-                var map = self.createMap(mapName, data);
-                window.setupMap = function(fn) {
-                    fn(map);
-                    window.setupMap = null;
-                };
-                $.getScript("assets/maps/" + mapName + ".js", function() {
-                    $.when.apply($, deferreds).then(function() {
-                        deferred.resolve(map);
+            return new RSVP.Promise(function(resolve, reject) {
+                $.ajax({
+                    url: "assets/maps/" + mapName + ".json",
+                    dataType: "json",
+                    cache: false
+                }).success(function(data) {
+                    var map = self.createMap(mapName, data);
+                    window.setupMap = function(fn) {
+                        fn(map);
+                        window.setupMap = null;
+                    };
+                    $.getScript("assets/maps/" + mapName + ".js", function() {
+                        $.when.apply($, deferreds).then(function() {
+                            resolve(map);
+                        });
                     });
-                });
-            })
-            return deferred.promise();
+                })
+            });
         };
 
         this.createMap = function(mapName, data) {
@@ -160,7 +162,7 @@ define([
         var mapLoader = new MapLoader();
 
         pubsub.publish("/map/loading");
-        mapLoader.load(mapName).done(function(map) {
+        mapLoader.load(mapName).then(function(map) {
             pubsub.publish("/map/loaded", [map, entrance]);
         });
     };

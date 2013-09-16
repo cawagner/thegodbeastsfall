@@ -8,6 +8,7 @@
         },
         paths: {
             "jquery": "../lib/jquery-1.8.2",
+            "rsvp": "../lib/rsvp-latest.amd",
             "underscore": "../lib/underscore",
             "pubsub": "../lib/pubsub",
             "text": "../lib/requirejs-plugins/text",
@@ -24,8 +25,7 @@
             "speakers": '../../assets/data/speakers',
             "skill-text-functions": "../../assets/code/skill-text-functions",
             "battle-messages": "../../assets/text/battle-messages"
-        },
-        urlArgs: "bust=" + Date.now()
+        }
     });
 
     require(["main", "underscore", "util/underscore-mixins", "util/string"], function(main) {
