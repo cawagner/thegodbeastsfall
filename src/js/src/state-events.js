@@ -1,5 +1,4 @@
 define([
-    "pubsub",
     "radio",
     "states/menu-state",
     "states/dialogue-state",
@@ -13,7 +12,6 @@ define([
     "sound",
     "game"
 ], function(
-    pubsub,
     radio,
     MenuState,
     DialogueState,

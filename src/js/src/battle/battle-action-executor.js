@@ -1,6 +1,5 @@
 define([
     "underscore",
-    "pubsub",
     "radio",
     "states/composite-state",
     "battle/battle-message-state",
@@ -10,7 +9,6 @@ define([
     "item-effects"
 ], function(
     _,
-    pubsub,
     radio,
     CompositeState,
     BattleMessageState,
