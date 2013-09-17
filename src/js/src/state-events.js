@@ -114,7 +114,7 @@ define([
 
                 oldMusic = sound.getCurrentMusic();
 
-                pubsub.publish("/sound/play", ["battlestart"]);
+                sound.playSound("battlestart");
                 if (flags && flags.isBoss) {
                     sound.playMusic("boss");
                 } else {

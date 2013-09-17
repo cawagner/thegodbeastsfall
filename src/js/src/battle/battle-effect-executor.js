@@ -1,11 +1,12 @@
 define([
     "underscore",
     "pubsub",
+    "sound",
     "battle/battle-message-state",
     "battle/battle-text-provider",
     "battle/status-factory"
 ],
-function(_, pubsub, BattleMessageState, textProvider, statusFactory) {
+function(_, pubsub, sound, BattleMessageState, textProvider, statusFactory) {
     "use strict";
 
     var getDamageSound = function(targetType, isCritical) {
@@ -35,9 +36,9 @@ function(_, pubsub, BattleMessageState, textProvider, statusFactory) {
         this.state.enqueueState(new BattleMessageState([m]));
     };
 
-    BattleEffectExecutor.prototype.snd = function(sound) {
+    BattleEffectExecutor.prototype.snd = function(soundName) {
         this.state.enqueueFunc(function() {
-            pubsub.publish("/sound/play", [sound]);
+            sound.playSound(soundName);
         });
     }
 
