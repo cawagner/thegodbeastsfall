@@ -61,14 +61,6 @@ define(["underscore", "pubsub", "radio"], function(_, pubsub, radio) {
         }
     }
 
-    Map.prototype.width = function() {
-        return this.tilemap.width;
-    };
-
-    Map.prototype.height = function() {
-        return this.tilemap.height;
-    };
-
     Map.prototype.onLoad = function() { };
 
     function Tilemap(width, height, layers) {
