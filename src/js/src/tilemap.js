@@ -50,7 +50,7 @@ define(["underscore", "radio", "util/subscription-set"], function(_, radio, subs
 
         this.subscribe = subscriptions.subscribe;
         radio("/map/loading").subscribe(function() {
-            subscriptionSet.unsubscribe();
+            subscriptions.unsubscribe();
         });
 
         if (data && data.npcs) {
