@@ -1,24 +1,26 @@
-define(['underscore', 'pubsub'], function(_, pubsub) {
+define(['underscore', 'radio'], function(_, radio) {
     "use strict";
 
     return function Battle(enemies, options) {
+        var self = this;
         var delegate = function(flags) {
-            if (flags.ran && this.onRan) {
-                this.onRan();
-            } else if (flags.won && this.onWon) {
-                this.onWon();
-            } else if (this.onLost) {
-                this.onLost()
+            if (flags.ran && self.onRan) {
+                self.onRan();
+            } else if (flags.won && self.onWon) {
+                self.onWon();
+            } else if (self.onLost) {
+                self.onLost()
             }
-            if (this.onDone) {
-                this.onDone();
+            if (self.onDone) {
+                self.onDone();
             }
+            radio("/battle/end").unsubscribe(delegate);
         };
 
-        pubsub.subscribeOnce("/battle/end", _.bind(delegate, this));
+        radio("/battle/end").subscribe(delegate);
 
         this.start = _.once(function() {
-            pubsub.publish("/battle/start", [enemies, options]);
+            radio("/battle/start").broadcast(enemies, options);
         });
     };
 });

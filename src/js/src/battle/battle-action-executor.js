@@ -1,6 +1,7 @@
 define([
     "underscore",
     "pubsub",
+    "radio",
     "states/composite-state",
     "battle/battle-message-state",
     "battle/battle-effect-executor",
@@ -10,6 +11,7 @@ define([
 ], function(
     _,
     pubsub,
+    radio,
     CompositeState,
     BattleMessageState,
     BattleEffectExecutor,
@@ -81,7 +83,7 @@ define([
             var state = new CompositeState();
             state.enqueueState(new BattleMessageState([textProvider.getMessage("ranAway", { user: action.user.name })]));
             state.enqueueFunc(function() {
-                pubsub.publish("/battle/end", [{ ran: true }]);
+                radio("/battle/end").broadcast({ ran: true });
             });
             return state;
         },

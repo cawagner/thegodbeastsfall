@@ -105,7 +105,7 @@ define([
                 }
             });
 
-            pubsub.subscribe("/battle/start", function(enemies, flags) {
+            radio("/battle/start").subscribe(function(enemies, flags) {
                 var battleState = new BattleState(enemies);
                 var transition = new ScrollTransitionState(battleState);
 
@@ -121,7 +121,7 @@ define([
                 game.pushState(transition);
             });
 
-            pubsub.subscribe("/battle/end", function() {
+            radio("/battle/end").subscribe(function() {
                 // TODO: transition!
                 sound.playMusic(oldMusic);
                 game.popState();

@@ -1,6 +1,5 @@
 define([
-    "underscore",
-    "pubsub",
+    "radio",
     "game",
     "menu",
     "states/dialogue-state",
@@ -8,8 +7,7 @@ define([
     "game-state",
     "data/skills"
 ], function(
-    _,
-    pubsub,
+    radio,
     game,
     Menu,
     DialogueState,
@@ -53,10 +51,10 @@ define([
                 growthText.push("Maximum HP went up by " + gains.hpGain + "!");
                 growthText.push("Maximum MP went up by " + gains.mpGain + "!");
 
-                _(gains.learnedSkills.Fight).each(function(learnedSkill) {
+                (gains.learnedSkills.Fight || []).forEach(function(learnedSkill) {
                     growthText.push('Learned the technique "' + skills[learnedSkill.skill].name + '"!');
                 });
-                _(gains.learnedSkills.Magic).each(function(learnedSkill) {
+                (gains.learnedSkills.Magic || []).forEach(function(learnedSkill) {
                     growthText.push('Learned the spell "' + skills[learnedSkill.skill].name + '"!');
                 });
 
@@ -69,7 +67,7 @@ define([
             }).open();
         } else {
             setTimeout(function() {
-                pubsub.publish("/battle/end", [{ won: true }]);
+                radio("/battle/end").broadcast({ won: true });
             }, 1);
         }
     };
@@ -77,18 +75,18 @@ define([
     return function BattleWonState(xpPerPerson, drops) {
         this.start = function() {
             // TODO: handle leveling properly for multiple people!
-            _(gameState.party).each(function(member) {
+            gameState.party.forEach(function(member) {
                 member.xp += xpPerPerson;
             });
 
             // TODO: display spoils to the user!
-            _(drops).each(function(quantity, item) {
+            (drops || []).forEach(function(quantity, item) {
                 gameState.inventory.addItem(item, quantity);
             });
 
             levelCharacters();
         };
-        this.update = _.noop;
+        this.update = function() {};
         this.draw = function() {
             if (character) {
                 graphics.drawText(120, 20, character.name + " grew to level " + (character.level + 1) + "!");
