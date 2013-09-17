@@ -72,10 +72,6 @@ define([
                 fieldMenu.open();
             });
 
-            pubsub.subscribe("/music/play", function(name) {
-                sound.playMusic(name);
-            });
-
             radio("/map/loading").subscribe(function() {
                 // TODO: really hackish...
                 if (game.currentState() instanceof FieldState) {
