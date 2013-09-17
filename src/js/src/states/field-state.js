@@ -1,5 +1,5 @@
 define([
-    "radio",
+    "util/subscription-set",
     "underscore",
     "map-loader",
     "graphics",
@@ -7,7 +7,7 @@ define([
     "display/actor-renderer",
     "actors/hero"
 ], function(
-    radio,
+    subscriptionSet,
     _,
     mapLoader,
     graphics,
@@ -35,7 +35,7 @@ define([
 
         this.hero = new Hero();
         this.map = map;
-        this.subscriptions = [];
+        this.subscriptions = subscriptionSet();
 
         this.regionContainsHero = function(rect) {
             return pointInRect(that.hero, rect);
@@ -100,8 +100,7 @@ define([
             }
         };
 
-        radio("/hero/step").subscribe(step);
-        this.subscriptions.push(["/hero/step", step]);
+        this.subscriptions.subscribe("/hero/step", step);
 
         setTimeout(function() {
             that.map.onLoad(that.hero, that.entrance);
@@ -109,9 +108,7 @@ define([
     };
 
     FieldState.prototype.end = function() {
-        this.subscriptions.forEach(function(sub) {
-            radio(sub[0]).unsubscribe(sub[1]);
-        });
+        this.subscriptions.unsubscribe();
     };
 
     FieldState.prototype.update = function(timeScale) {

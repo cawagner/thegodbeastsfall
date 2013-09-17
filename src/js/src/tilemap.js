@@ -1,4 +1,4 @@
-define(["underscore", "radio"], function(_, radio) {
+define(["underscore", "radio", "util/subscription-set"], function(_, radio, subscriptionSet) {
     "use strict";
 
     function Map(tilemap, mask, data) {
@@ -9,7 +9,7 @@ define(["underscore", "radio"], function(_, radio) {
 
         var self = this;
 
-        var subscriptions = [];
+        var subscriptions = subscriptionSet();
 
         this.tilemap = tilemap;
         this.actors = [];
@@ -48,16 +48,9 @@ define(["underscore", "radio"], function(_, radio) {
             }
         };
 
-        this.subscribe = function(channel, fn) {
-            radio(channel).subscribe(fn);
-            subscriptions.push([channel, fn]);
-        };
-
+        this.subscribe = subscriptions.subscribe;
         radio("/map/loading").subscribe(function() {
-            subscriptions.forEach(function(sub) {
-                radio(sub[0]).unsubscribe(sub[1]);
-            });
-            subscriptions = [];
+            subscriptionSet.unsubscribe();
         });
 
         if (data && data.npcs) {
