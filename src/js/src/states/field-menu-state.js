@@ -1,6 +1,4 @@
 define([
-    "underscore",
-    "pubsub",
     "game-state",
     "gui",
     "menu",
@@ -11,7 +9,7 @@ define([
     "menus/field/items",
     "menus/field/system",
     "menus/field/status"
-], function(_, pubsub, gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills, skillsMenu, itemsMenu, systemMenu, statusMenu) {
+], function(gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills, skillsMenu, itemsMenu, systemMenu, statusMenu) {
     "use strict";
 
     function FieldMenuState() {
