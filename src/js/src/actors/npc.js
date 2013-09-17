@@ -37,7 +37,6 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             var text = _(properties).valuesOfPropertiesStartingWith(dialogueName);
 
             if (text.length) {
-                console.log(this.font);
                 return this.say(text);
             } else {
                 return {

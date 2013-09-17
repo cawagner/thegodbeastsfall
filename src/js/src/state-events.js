@@ -38,6 +38,7 @@ define([
     };
 
     var firstMap = true;
+    var inDungeon = false;
 
     return {
         init: function() {
@@ -52,8 +53,6 @@ define([
             sound.loadSound("confirm");
             sound.loadSound("cancel");
             sound.loadSound("heal");
-
-            var inDungeon = false;
 
             // TODO: elsewhere?
             radio("/menu/open").subscribe(function(menu) {

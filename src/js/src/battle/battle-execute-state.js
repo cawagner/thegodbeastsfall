@@ -1,11 +1,12 @@
 define([
     "underscore",
     "pubsub",
+    "sound",
     "battle/battle-message-state",
     "battle/battle-won-state",
     "battle/battle-action-executor",
     "battle/battle-text-provider"
-], function(_, pubsub, BattleMessageState, BattleWonState, actionExecutor, textProvider) {
+], function(_, pubsub, sound, BattleMessageState, BattleWonState, actionExecutor, textProvider) {
     "use strict";
 
     // TODO: this whole file is a mess... lol 3:00AM
@@ -17,10 +18,6 @@ define([
                 totalXp += pawn.xp();
             });
             return Math.ceil(totalXp / battleState.playerPawns.length);
-        };
-
-        var playMusic = function(name) {
-            battleState.enqueueFunc(function() { pubsub.publish("/music/play", [name]); });
         };
 
         var wonBattle = function() {
@@ -48,7 +45,7 @@ define([
                 });
             });
 
-            playMusic("victory");
+            sound.playMusic("victory");
 
             battleState.enqueueState(new BattleMessageState([
                 textProvider.getMessage("wonBattle"),
@@ -58,7 +55,7 @@ define([
         };
 
         var loseBattle = function() {
-            playMusic("defeat");
+            sound.playMusic("defeat");
 
             battleState.enqueueState(new BattleMessageState([
                 "It looks like you got your head handed to you...."
