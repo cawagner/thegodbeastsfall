@@ -17,6 +17,10 @@ define([
 
     var game;
 
+    var aspectRatio = 4.0/3.0;
+
+    var canvas;
+
     var collected = 0;
     var startFrame;
     var endFrame = Date.now();
@@ -49,14 +53,40 @@ define([
         requestAnimationFrame(mainLoop, graphics.canvas);
     };
 
+    var resizeCanvas = function() {
+        var newWidth = window.innerWidth;
+        var newHeight = window.innerHeight;
+        var newAspectRatio = newWidth / newHeight;
+
+        if (newAspectRatio > aspectRatio) {
+            newWidth = newHeight * aspectRatio;
+        } else {
+            newHeight = newWidth / aspectRatio;
+        }
+
+        container.style.width = newWidth + "px";
+        container.style.height = newHeight + "px";
+        container.style.marginTop = (-newHeight / 2) + "px";
+        container.style.marginLeft = (-newWidth / 2) + "px";
+    };
+
     var init = function() {
         _.templateSettings = {
             interpolate : /\{\{(.+?)\}\}/g
         };
 
+        canvas = document.getElementById("gameCanvas");
+
         input.init();
 
         stateEvents.init();
+
+        window.addEventListener("resize", resizeCanvas);
+        window.addEventListener("orientationchange", resizeCanvas);
+
+        setTimeout(function() {
+            resizeCanvas();
+        }, 10);
 
         requestAnimationFrame(mainLoop, graphics.canvas);
     };

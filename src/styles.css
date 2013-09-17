@@ -9,92 +9,20 @@
 body {
     background: #103;
     color: white;
+    padding: 0;
+    margin: 0;
     overflow: hidden;
-    font: 10pt 'Segoe UI', 'Lucida Grande', 'Helvetica', sans-serif;
-}
-a:link {
-    color: yellow;
-    text-decoration: underline;
-}
-a:visited {
-    color: olive;
 }
 #container {
-    margin: auto;
-    position: relative;
+    position: absolute;
+    left: 50%;
+    top: 50%;
 }
-canvas {
-    display: block;
+#gameCanvas {
+    position: absolute;
     margin: auto;
+    width: 100%;
+    height: 100%;
     image-rendering: optimizeSpeed;
     -ms-interpolation-mode: nearest-neighbor;
-}
-p, h3 {
-    max-width: 640px;
-    margin: auto;
-    margin-top: 1em;
-}
-
-h1, .buttons a {
-    font-size: 14px;
-    color: white;
-}
-
-h1 { text-align: center; }
-.scales { text-align: center; }
-
-.dpad {
-    position: fixed;
-    bottom: 1.2in;
-    left: 0;
-    display: none;
-}
-.dpad span {
-    position: absolute;
-    width: 0.6in;
-    height: 0.6in;
-    margin: 0;
-    padding: 0;
-    border: 1px solid gray;
-    background: silver;
-    display: block;
-}
-.dpad .up {
-    top: -.6in;
-    left: .6in;
-}
-.dpad .left {
-    top:  0;
-    left: 0;
-}
-.dpad .down {
-    top: .6in;
-    left: .6in;
-}
-.dpad .right {
-    top:  0;
-    left: 1.2in;
-}
-.buttons {
-    bottom: 0;
-    right: 0;
-    position: fixed;
-    display: none;
-}
-.buttons span {
-    background-color: maroon;
-    display: inline-block;
-    -webkit-border-radius: 1in;
-    width: 0.6in;
-    height: 0.6in;
-    margin: 0.2in;
-    line-height: 0.5in;
-    text-align: center;
-    font: 0.4in 'Helvetica', 'Arial';
-}
-
-body.touchControls .dpad,
-body.touchControls .buttons {
-    display: block;
-    opacity: 0.25;
 }

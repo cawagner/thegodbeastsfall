@@ -1,10 +1,10 @@
 define(["constants", "display/fonts"], function(constants, fonts) {
     "use strict";
 
-    var Graphics = function(visibleCanvas, width, height, scale) {
-        var offScreenCanvas = document.createElement("canvas"),
-            visibleContext = visibleCanvas.getContext('2d'),
-            context = offScreenCanvas.getContext('2d');
+    var Graphics = function(visibleCanvas, width, height) {
+        var offScreenCanvas = document.createElement("canvas");
+        var visibleContext = visibleCanvas.getContext('2d');
+        var context = offScreenCanvas.getContext('2d');
 
         var originOffset = { x: 0, y : 0 };
 
@@ -41,7 +41,7 @@ define(["constants", "display/fonts"], function(constants, fonts) {
             visibleContext.drawImage(offScreenCanvas, 0, 0);
         };
 
-        this.cls = context.clearRect.bind(context, 0,0,width,height);
+        this.cls = context.clearRect.bind(context, 0,0, width,height);
 
         this.setFillColor = function(color) {
             context.fillStyle = color;
@@ -70,20 +70,7 @@ define(["constants", "display/fonts"], function(constants, fonts) {
         this.drawText = function(x, y, text, fontId) {
             (fonts[fontId]||font).drawText(this, x | 0, (y | 0) - 6, text);
         };
-
-        this.setGlobalScale = function(newScale) {
-            scale = newScale;
-            visibleCanvas.width = newScale * width;
-            visibleCanvas.height = newScale * height;
-            visibleContext.restore();
-            visibleContext.webkitImageSmoothingEnabled = false;
-            visibleContext.mozImageSmoothingEnabled = false;
-            visibleContext.imageSmoothingEnabled = false;
-            visibleContext.scale(newScale, newScale);
-        };
-
-        this.setGlobalScale(scale);
     };
 
-    return new Graphics(document.getElementById("gameCanvas"), constants.GAME_WIDTH, constants.GAME_HEIGHT, constants.DEFAULT_SCALE)
+    return new Graphics(document.getElementById("gameCanvas"), constants.GAME_WIDTH, constants.GAME_HEIGHT);
 });
