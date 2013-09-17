@@ -1,4 +1,4 @@
-define(["underscore", "pubsub", "radio"], function(_, pubsub, radio) {
+define(["underscore", "radio"], function(_, radio) {
     "use strict";
 
     function Map(tilemap, mask, data) {
@@ -9,7 +9,7 @@ define(["underscore", "pubsub", "radio"], function(_, pubsub, radio) {
 
         var self = this;
 
-        var subscriptions = pubsub.set();
+        var subscriptions = [];
 
         this.tilemap = tilemap;
         this.actors = [];
@@ -48,14 +48,20 @@ define(["underscore", "pubsub", "radio"], function(_, pubsub, radio) {
             }
         };
 
-        this.subscribe = subscriptions.subscribe;
+        this.subscribe = function(channel, fn) {
+            radio(channel).subscribe(fn);
+            subscriptions.push([channel, fn]);
+        };
 
         radio("/map/loading").subscribe(function() {
-            subscriptions.unsubscribe();
+            subscriptions.forEach(function(sub) {
+                radio(sub[0]).unsubscribe(sub[1]);
+            });
+            subscriptions = [];
         });
 
         if (data && data.npcs) {
-            _(data.npcs).each(function(npc) {
+            _(data.npcs).forEach(function(npc) {
                 self.addActor(npc);
             });
         }
