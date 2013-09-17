@@ -1,4 +1,4 @@
-define(["underscore", "data/items"], function(_, items) {
+define(["data/items"], function(items) {
     "use strict";
 
     var MAX_ITEMS_OF_TYPE = 5;
@@ -43,7 +43,7 @@ define(["underscore", "data/items"], function(_, items) {
     Inventory.prototype.getItems = function(flag) {
         var self = this;
         var result = [];
-        _(Object.keys(this.items)).each(function(key) {
+        Object.keys(this.items).forEach(function(key) {
             if ((!flag) || self.items[key].item[flag]) {
                 result.push({ itemId: key, item: self.items[key].item, quantity: self.items[key].quantity });
             }
