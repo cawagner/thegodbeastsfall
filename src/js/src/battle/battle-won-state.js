@@ -1,4 +1,5 @@
 define([
+    "underscore",
     "radio",
     "game",
     "menu",
@@ -7,6 +8,7 @@ define([
     "game-state",
     "data/skills"
 ], function(
+    _,
     radio,
     game,
     Menu,
@@ -80,7 +82,7 @@ define([
             });
 
             // TODO: display spoils to the user!
-            (drops || []).forEach(function(quantity, item) {
+            _(drops).each(function(quantity, item) {
                 gameState.inventory.addItem(item, quantity);
             });
 
