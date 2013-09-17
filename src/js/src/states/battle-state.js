@@ -1,6 +1,6 @@
 define([
     "underscore",
-    "pubsub",
+    "util/subscription-set",
     "game-state",
     "pawns/pawns",
     "graphics",
@@ -13,7 +13,7 @@ define([
     "battle/battle-text-provider"
 ], function(
     _,
-    pubsub,
+    subscriptionSet,
     gameState,
     pawns,
     graphics,
@@ -48,11 +48,7 @@ define([
         this.enqueueState(new BattleMenuState(this));
         this.enqueueState(new BattleDecisionState(this));
 
-        this.sub1 = pubsub.subscribe("/display/miss", function() {
-
-        });
-
-        this.subscriptions = pubsub.set();
+        this.subscriptions = subscriptionSet();
         this.subscriptions.subscribe("/display/miss", function(pawn) {
             pawn.display.effects.push(battleAnimations.pushUp());
         });

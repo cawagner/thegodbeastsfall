@@ -1,13 +1,12 @@
 define([
     "underscore",
-    "pubsub",
     "radio",
     "sound",
     "battle/battle-message-state",
     "battle/battle-won-state",
     "battle/battle-action-executor",
     "battle/battle-text-provider"
-], function(_, pubsub, radio, sound, BattleMessageState, BattleWonState, actionExecutor, textProvider) {
+], function(_, radio, sound, BattleMessageState, BattleWonState, actionExecutor, textProvider) {
     "use strict";
 
     // TODO: this whole file is a mess... lol 3:00AM
@@ -15,7 +14,7 @@ define([
     return function BattleExecuteState(battleState, actions, nextRound) {
         var xpPerPerson = function() {
             var totalXp = 0;
-            _(battleState.enemyPawns).each(function(pawn) {
+            battleState.enemyPawns.forEach(function(pawn) {
                 totalXp += pawn.xp();
             });
             return Math.ceil(totalXp / battleState.playerPawns.length);
@@ -34,7 +33,7 @@ define([
             var drops = {};
 
             // get spoils
-            _(battleState.enemyPawns).each(function(pawn) {
+            battleState.enemyPawns.forEach(function(pawn) {
                 _(pawn.enemy.drops || {}).each(function(chance, item) {
                     if (Math.random() <= chance) {
                         if (item in drops) {
@@ -70,16 +69,16 @@ define([
         this.start = function() {
             var xp;
 
-            _(actions).each(function(action) {
+            actions.forEach(function(action) {
                 battleState.enqueueState(actionExecutor[action.type](action, battleState));
             });
 
             battleState.enqueueFunc(function refresh() {
-                _(battleState.playerPawns).each(function(player) {
+                battleState.playerPawns.forEach(function(player) {
                     var refresh = player.refresh();
                     battleState.enqueueState(actionExecutor.refresh({ effects: refresh, targets: [player] }, battleState));
                 });
-                _(battleState.enemyPawns).each(function(enemy) {
+                battleState.enemyPawns.forEach(function(enemy) {
                     var refresh = enemy.refresh();
                     battleState.enqueueState(actionExecutor.refresh({ effects: refresh, targets: [enemy] }, battleState));
                 });
@@ -95,6 +94,6 @@ define([
             });
         };
         this.update = function() { return true; };
-        this.draw = _.noop;
+        this.draw = function() { };
     };
 });

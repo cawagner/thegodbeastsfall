@@ -1,12 +1,12 @@
 define([
     "underscore",
-    "pubsub",
+    "radio",
     "sound",
     "battle/battle-message-state",
     "battle/battle-text-provider",
     "battle/status-factory"
 ],
-function(_, pubsub, sound, BattleMessageState, textProvider, statusFactory) {
+function(_, radio, sound, BattleMessageState, textProvider, statusFactory) {
     "use strict";
 
     var getDamageSound = function(targetType, isCritical) {
@@ -22,9 +22,9 @@ function(_, pubsub, sound, BattleMessageState, textProvider, statusFactory) {
         this.action = action;
         this.displayDamage = displayDamage || function() {
             return {
-                start: _.noop,
+                start: function() {},
                 update: function() { return true; },
-                draw: _.noop
+                draw: function() {}
             };
         };
     }
@@ -64,7 +64,7 @@ function(_, pubsub, sound, BattleMessageState, textProvider, statusFactory) {
         // TODO: move most of this text into the text provider...
         if (effect.missed) {
             self.state.enqueueFunc(function() {
-                pubsub.publish("/display/miss", [effect.target]);
+                radio("/display/miss").broadcast(effect.target);
             });
             self.msg(textProvider.getMessage("missed", { target: effect.target.name }), "miss");
         } else {
@@ -80,7 +80,7 @@ function(_, pubsub, sound, BattleMessageState, textProvider, statusFactory) {
                 // hack :()
                 effect.target.hasFallen = true;
                 self.state.enqueueFunc(function() {
-                    pubsub.publish("/kill", [effect.target]);
+                    radio("/kill").broadcast(effect.target);
                 });
                 self.msg(textProvider.getFallMessage(effect.target), 'endie');
 
