@@ -137,7 +137,7 @@ define([
                 }
             });
 
-            pubsub.subscribe("/status/show", function(member) {
+            radio("/status/show").subscribe(function(member) {
                 game.pushState(new StatusState(member));
             });
 

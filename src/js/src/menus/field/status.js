@@ -1,14 +1,14 @@
-define(["underscore", "pubsub", "game-state", "menu"], function(_, pubsub, gameState, Menu) {
+define(["radio", "game-state", "menu"], function(radio, gameState, Menu) {
     "use strict";
     return {
         text: "Status",
         childMenu: function() {
             return new Menu({
-                items: _(gameState.party).map(function(member) {
+                items: gameState.party.map(function(member) {
                     return { text: member.name, member: member };
                 }),
                 select: function(index, menuItem) {
-                    pubsub.publish("/status/show", [menuItem.member]);
+                    radio("/status/show").broadcast(menuItem.member);
                 }
             });
         }

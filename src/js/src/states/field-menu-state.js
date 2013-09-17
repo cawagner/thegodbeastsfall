@@ -9,8 +9,9 @@ define([
     "pawns/character-pawn",
     "data/skills",
     "menus/field/items",
-    "menus/field/system"
-], function(_, pubsub, gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills, itemsMenu, systemMenu) {
+    "menus/field/system",
+    "menus/field/status"
+], function(_, pubsub, gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills, itemsMenu, systemMenu, statusMenu) {
     "use strict";
 
     function FieldMenuState() {
@@ -21,17 +22,7 @@ define([
             cols: 2,
             hierarchical: true,
             items: [
-                {
-                    text: "Status",
-                    childMenu: new Menu({
-                        items: _(gameState.party).map(function(member) {
-                            return { text: member.name, member: member };
-                        }),
-                        select: function(index, menuItem) {
-                            pubsub.publish("/status/show", [menuItem.member]);
-                        }
-                    })
-                },
+                statusMenu,
                 {
                     text: "Magic",
                     childMenu: function() {
