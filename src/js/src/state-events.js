@@ -41,10 +41,7 @@ define([
 
     return {
         init: function() {
-
             // TODO: move asset loading into common location that isn't here!
-            var isMobile = navigator.userAgent.match(/iPhone|iPad|iPod|Android|BlackBerry/i);
-
             sound.loadSound("hit");
             sound.loadSound("playerhit");
             sound.loadSound("soft");
@@ -78,26 +75,18 @@ define([
                 fieldMenu.open();
             });
 
-            pubsub.subscribe("/map/loading", function() {
-                // TODO: really hackish...
+            pubsub.subscribe("/music/play", function(name) {
+                sound.playMusic(name);
+            });
 
+            radio("/map/loading").subscribe(function() {
+                // TODO: really hackish...
                 if (game.currentState() instanceof FieldState) {
                     game.popState();
                 }
             });
 
-
-            pubsub.subscribe("/music/play", function(name) {
-                sound.playMusic(name);
-            });
-
-            if (!isMobile) {
-                pubsub.subscribe("/sound/play", function(name) {
-                    sound.playSound(name);
-                });
-            }
-
-            pubsub.subscribe("/map/loaded", function(map, entrance) {
+            radio("/map/loaded").subscribe(function(map, entrance) {
                 var fieldState = new FieldState(map, entrance);
 
                 if (firstMap) {

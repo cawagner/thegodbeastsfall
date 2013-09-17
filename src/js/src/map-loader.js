@@ -3,7 +3,7 @@ define([
     "reqwest",
     "rsvp",
     "underscore",
-    "pubsub",
+    "radio",
     "tilemap",
     "actors/npc",
     "encounter",
@@ -14,7 +14,7 @@ define([
     reqwest,
     RSVP,
     _,
-    pubsub,
+    radio,
     tilemap,
     Npc,
     Encounter,
@@ -157,9 +157,9 @@ define([
     var goToMap = function(mapName, entrance) {
         var mapLoader = new MapLoader();
 
-        pubsub.publish("/map/loading");
+        radio("/map/loading").broadcast();
         mapLoader.load(mapName).then(function(map) {
-            pubsub.publish("/map/loaded", [map, entrance]);
+            radio("/map/loaded").broadcast(map, entrance);
         });
     };
 

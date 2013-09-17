@@ -1,4 +1,4 @@
-define(["underscore", "pubsub"], function(_, pubsub) {
+define(["underscore", "pubsub", "radio"], function(_, pubsub, radio) {
     "use strict";
 
     function Map(tilemap, mask, data) {
@@ -50,7 +50,7 @@ define(["underscore", "pubsub"], function(_, pubsub) {
 
         this.subscribe = subscriptions.subscribe;
 
-        subscriptions.subscribe("/map/loading", function() {
+        radio("/map/loading").subscribe(function() {
             subscriptions.unsubscribe();
         });
 
