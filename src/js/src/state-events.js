@@ -68,7 +68,7 @@ define([
                 }));
             });
 
-            pubsub.subscribe("/hero/menu", function() {
+            radio("/hero/menu").subscribe(function() {
                 fieldMenu.open();
             });
 

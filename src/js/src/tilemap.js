@@ -69,6 +69,8 @@ define(["underscore", "pubsub", "radio"], function(_, pubsub, radio) {
         return this.tilemap.height;
     };
 
+    Map.prototype.onLoad = function() { };
+
     function Tilemap(width, height, layers) {
         var tiles;
 

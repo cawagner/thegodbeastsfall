@@ -1,5 +1,5 @@
 define([
-    "pubsub",
+    "radio",
     "underscore",
     "map-loader",
     "graphics",
@@ -7,7 +7,7 @@ define([
     "display/actor-renderer",
     "actors/hero"
 ], function(
-    pubsub,
+    radio,
     _,
     mapLoader,
     graphics,
@@ -35,7 +35,7 @@ define([
 
         this.hero = new Hero();
         this.map = map;
-        this.subscriptions = pubsub.set();
+        this.subscriptions = [];
 
         this.regionContainsHero = function(rect) {
             return pointInRect(that.hero, rect);
@@ -56,7 +56,7 @@ define([
         this.tilemapView.draw();
 
         this.sortActors();
-        _(this.map.actors).each(function(actor) {
+        this.map.actors.forEach(function(actor) {
             actorRenderer.drawActor(actor);
         });
 
@@ -94,25 +94,28 @@ define([
     FieldState.prototype.start = function() {
         var that = this;
 
-        this.subscriptions.subscribe("/hero/step", function() {
+        var step = function() {
             if (!that.checkDoors()) {
                 that.angerMonsters();
             }
-        });
+        };
+
+        radio("/hero/step").subscribe(step);
+        this.subscriptions.push(["/hero/step", step]);
 
         setTimeout(function() {
-            if (_.isFunction(that.map.onLoad)) {
-                that.map.onLoad(that.hero, that.entrance);
-            }
+            that.map.onLoad(that.hero, that.entrance);
         }, 1);
     };
 
     FieldState.prototype.end = function() {
-        this.subscriptions.unsubscribe();
+        this.subscriptions.forEach(function(sub) {
+            radio(sub[0]).unsubscribe(sub[1]);
+        });
     };
 
     FieldState.prototype.update = function(timeScale) {
-        _(this.map.actors).each(function(actor) {
+        this.map.actors.forEach(function(actor) {
             actor.update(timeScale);
         });
     };

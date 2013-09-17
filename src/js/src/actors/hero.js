@@ -1,4 +1,4 @@
-define(['pubsub', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], function(pubsub, Actor, input, direction, gameState) {
+define(['radio', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], function(radio, Actor, input, direction, gameState) {
     "use strict";
 
     var PUSH_AFTER = 15;
@@ -15,7 +15,7 @@ define(['pubsub', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], 
 
             if (isStepping && self.canMove()) {
                 isStepping = false;
-                pubsub.publish("/hero/step");
+                radio("/hero/step").broadcast();
             }
 
             if (self.canMove() && (dx || dy)) {
@@ -39,7 +39,7 @@ define(['pubsub', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], 
 
             // TODO: move this elsewhere?
             if (input.wasCancelPressed()) {
-                pubsub.publish("/hero/menu");
+                radio("/hero/menu").broadcast();
             }
         };
 
