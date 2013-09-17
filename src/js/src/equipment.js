@@ -1,8 +1,4 @@
-define([
-    "underscore"
-], function(
-    _
-) {
+define([], function() {
     "use strict";
 
     function Equipment() {
@@ -21,7 +17,7 @@ define([
 
     Equipment.prototype.calc = function(stat) {
         var sum = 0;
-        _(this.slots).each(function(item) {
+        this.slots.forEach(function(item) {
             sum += item.equipment[stat] || 0;
         });
         return sum;
