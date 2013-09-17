@@ -11,11 +11,6 @@ define(["underscore"], function(_) {
                 }
             }
         },
-        getter: function(obj, key) {
-            return function() {
-                return obj[key];
-            };
-        },
         noop: function() {},
         give: function(value) {
             return function() { return value; };

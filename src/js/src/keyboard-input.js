@@ -1,5 +1,11 @@
-define(["underscore"], function(_) {
+define([], function() {
     "use strict";
+
+    var getter = function(obj, key) {
+        return function() {
+            return obj[key];
+        };
+    };
 
     var KeyboardInput = function() {
         var keys = {
@@ -11,7 +17,6 @@ define(["underscore"], function(_) {
             cancel: false
         };
         var pressed = { };
-        var uKeys = _(keys);
 
         var isConfirmDown;
 
@@ -26,7 +31,7 @@ define(["underscore"], function(_) {
 
         var setKeyTo = function(state) {
             return function(e) {
-                if (e.keyCode in keyCodesToKeys) {
+                if (keyCodesToKeys[e.keyCode]) {
                     keys[keyCodesToKeys[e.keyCode]] = state;
                     pressed[keyCodesToKeys[e.keyCode]] = state;
                 }
@@ -44,12 +49,12 @@ define(["underscore"], function(_) {
         this.onKeyDown = setKeyTo(true);
         this.onKeyUp = setKeyTo(false);
 
-        this.isLeftDown = uKeys.getter('left');
-        this.isRightDown = uKeys.getter('right');
-        this.isUpDown = uKeys.getter('up');
-        this.isDownDown = uKeys.getter('down');
-        this.isConfirmDown = uKeys.getter('confirm');
-        this.isCancelDown = uKeys.getter('cancel');
+        this.isLeftDown = getter(keys, 'left');
+        this.isRightDown = getter(keys, 'right');
+        this.isUpDown = getter(keys, 'up');
+        this.isDownDown = getter(keys, 'down');
+        this.isConfirmDown = getter(keys, 'confirm');
+        this.isCancelDown = getter(keys, 'cancel');
 
         this.wasConfirmPressed = wasPressed('confirm');
         this.wasCancelPressed = wasPressed('cancel');
@@ -73,7 +78,12 @@ define(["underscore"], function(_) {
         };
 
         this.anyInput = function() {
-            return uKeys.any(function(value) { return value === true });
+            // TODO: use lazy.
+            for (var key in keys) {
+                if (keys[key])
+                    return true;
+            }
+            return false;
         };
     };
 
