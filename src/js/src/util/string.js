@@ -1,4 +1,4 @@
-define(["underscore"], function(_) {
+define([], function() {
     "use strict";
 
     String.prototype.repeat = function(times) {
@@ -22,7 +22,7 @@ define(["underscore"], function(_) {
     String.prototype.wordWrap = function(maxLength) {
         var str = this, lines = [], line = "", i;
 
-        _(str.split(' ')).each(function(word) {
+        str.split(' ').forEach(function(word) {
             if (line.length + word.length >= maxLength) {
                 lines.push(line);
                 line = "";
