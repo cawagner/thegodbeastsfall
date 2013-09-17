@@ -1,14 +1,14 @@
 define([
     "underscore",
     "game-state",
-    "pubsub",
+    "radio",
     "data/skills",
     "menu",
     "pawns/character-pawn"
 ], function(
     _,
     gameState,
-    pubsub,
+    radio,
     skills,
     Menu,
     CharacterPawn
@@ -37,9 +37,9 @@ define([
                             var targetMenu = new Menu({
                                 items: _(gameState.party).pluck("name"),
                                 select: function(index) {
-                                    pubsub.publish("/npc/talk", [{
+                                    radio("/npc/talk").broadcast({
                                         text: ["Du hast " + gameState.party[index].name + " gewaehlt!"]
-                                    }]);
+                                    });
                                 }
                             }).open();
                         }

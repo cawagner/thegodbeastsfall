@@ -1,12 +1,13 @@
 define([
     "underscore",
     "pubsub",
+    "radio",
     "sound",
     "battle/battle-message-state",
     "battle/battle-won-state",
     "battle/battle-action-executor",
     "battle/battle-text-provider"
-], function(_, pubsub, sound, BattleMessageState, BattleWonState, actionExecutor, textProvider) {
+], function(_, pubsub, radio, sound, BattleMessageState, BattleWonState, actionExecutor, textProvider) {
     "use strict";
 
     // TODO: this whole file is a mess... lol 3:00AM
@@ -62,7 +63,7 @@ define([
             ]));
 
             battleState.enqueueFunc(function() {
-                pubsub.publish("/battle/end", [{ won: false }]);
+                radio("/battle/end").broadcast({ won: false });
             });
         }
 

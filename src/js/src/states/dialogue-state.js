@@ -1,12 +1,12 @@
 define([
-    "pubsub",
+    "radio",
     "gui",
     "game",
     "keyboard-input",
     "json!speakers.json",
     "states/noop-state"
 ], function(
-    pubsub,
+    radio,
     gui,
     game,
     input,
@@ -34,7 +34,7 @@ define([
         this.end = function() {
             doneFn();
             setTimeout(function() {
-                pubsub.publish("/npc/talk/done");
+                radio("/npc/talk/done").broadcast();
             }, 1);
         };
 

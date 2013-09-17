@@ -1,10 +1,10 @@
-define(["menu", "pubsub", "underscore", "game-state"], function(Menu, pubsub, _, gameState) {
+define(["menu", "radio", "game-state"], function(Menu, radio, gameState) {
     "use strict";
 
     return {
         text: "Items",
         childMenu: function() {
-            var items = _(gameState.inventory.getItems()).map(function(item) {
+            var items = gameState.inventory.getItems().map(function(item) {
                 return { text: "x" + item.quantity + " " + item.item.name, item: item.item, quantity: item.quantity };
             });
             var itemsMenu = new Menu({
@@ -33,11 +33,11 @@ define(["menu", "pubsub", "underscore", "game-state"], function(Menu, pubsub, _,
                                     this.close();
                                     itemsMenu.close();
 
-                                    pubsub.publish("/npc/talk", [{ text: [text] }]);
+                                    radio("/npc/talk").broadcast({ text: [text] });
                                 }
                             }
                             if (index === 1) {
-                                pubsub.publish("/npc/talk", [{ text: [item.item.desc] }]);
+                                radio("/npc/talk").broadcast({ text: [item.item.desc] });
                             }
                         }
                     }).open();

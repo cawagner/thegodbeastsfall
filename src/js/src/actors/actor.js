@@ -1,4 +1,4 @@
-define(['rsvp', 'pubsub', 'direction'], function(RSVP, pubsub, direction) {
+define(['rsvp', 'radio', 'direction'], function(RSVP, radio, direction) {
     "use strict";
 
     var MOVE_SPEED = 0.1;
@@ -75,8 +75,6 @@ define(['rsvp', 'pubsub', 'direction'], function(RSVP, pubsub, direction) {
         this.font = undefined;
     };
 
-    Actor.prototype.onUpdate = _.noop;
-
     Actor.prototype.warpTo = function(x, y, direction) {
         this.destX = x;
         this.destY = y;
@@ -98,16 +96,18 @@ define(['rsvp', 'pubsub', 'direction'], function(RSVP, pubsub, direction) {
         return false;
     };
 
-    Actor.prototype.onShove = _.noop;
-    Actor.prototype.onTalk = _.noop;
+    Actor.prototype.onUpdate = function() {};
+    Actor.prototype.onShove = function() {};
+    Actor.prototype.onTalk = function() {};
 
     Actor.prototype.say = function(messages) {
         var self = this;
         return new RSVP.Promise(function(resolve, reject) {
-            pubsub.subscribeOnce("/npc/talk/done", function() {
+            var channel = radio("/npc/talk/done").subscribe(function done() {
                 resolve();
+                channel.unsubscribe(done);
             });
-            pubsub.publish("/npc/talk", [{ text: messages, font: self.font, speaker: self.archetype }, self]);
+            radio("/npc/talk").broadcast({ text: messages, font: self.font, speaker: self.archetype }, self);
         });
     };
 

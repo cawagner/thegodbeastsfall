@@ -1,4 +1,4 @@
-define(["menu", "pubsub", "game-state"], function(Menu, pubsub, gameState) {
+define(["menu", "radio", "game-state"], function(Menu, radio, gameState) {
     "use strict";
 
     return {
@@ -9,9 +9,7 @@ define(["menu", "pubsub", "game-state"], function(Menu, pubsub, gameState) {
                     text: "Save",
                     select: function() {
                         gameState.save(0);
-                        pubsub.publish("/npc/talk", [
-                            { text: ["Game saved!"] }
-                        ]);
+                        radio("/npc/talk").broadcast({ text: ["Game saved!"] });
                     }
                 },
                 {

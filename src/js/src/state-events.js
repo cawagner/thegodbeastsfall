@@ -58,7 +58,7 @@ define([
             });
 
             // TODO: doesn't go here!
-            pubsub.subscribe("/npc/talk", function(messages, npc) {
+            radio("/npc/talk").subscribe(function(messages, npc) {
                 npc = npc || fakeNpc;
 
                 npc.lockMovement();
