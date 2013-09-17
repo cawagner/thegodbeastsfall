@@ -1,5 +1,4 @@
 define([
-    "underscore",
     "pubsub",
     "radio",
     "states/menu-state",
@@ -14,7 +13,6 @@ define([
     "sound",
     "game"
 ], function(
-    _,
     pubsub,
     radio,
     MenuState,
@@ -33,8 +31,8 @@ define([
 
     var oldMusic;
     var fakeNpc = {
-        lockMovement: _.noop,
-        unlockMovement: _.noop
+        lockMovement: function() {},
+        unlockMovement: function() {}
     };
 
     var firstMap = true;
@@ -129,7 +127,7 @@ define([
                 game.popState();
 
                 // TODO: ugly, ugly!
-                _(gameState.party).each(function(character) {
+                gameState.party.forEach(function(character) {
                     character.hp = Math.max(1, character.hp);
                 });
 
@@ -145,7 +143,7 @@ define([
 
             pubsub.subscribe("/party/heal", function() {
                 var anyHealing = false;
-                _(gameState.party).each(function(member) {
+                gameState.party.forEach(function(member) {
                     if (member.hp !== member.maxHp || member.mp !== member.maxMp) {
                         anyHealing = true;
                         member.hp = member.maxHp;
@@ -157,7 +155,7 @@ define([
                 }
             });
 
-            pubsub.subscribe("/game/new", function() {
+            radio("/game/new").subscribe(function() {
                 gameState.newGame();
             });
         }

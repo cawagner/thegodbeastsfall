@@ -1,4 +1,4 @@
-define(["pubsub"], function(pubsub) {
+define(["radio"], function(radio) {
     "use strict";
 
     function MainMenuState() {
@@ -7,7 +7,7 @@ define(["pubsub"], function(pubsub) {
         };
 
         this.update = _.once(function() {
-            pubsub.publish("/game/new");
+            radio("/game/new").broadcast();
         });
     }
 
