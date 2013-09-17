@@ -1,3 +1,3 @@
-setupMap(function(map) {
-    "use strict";
+define([], function() {
+    return function() {};
 });

@@ -1,23 +1,26 @@
-setupMap(function(map){
+define(['menu'], function(Menu) {
     "use strict";
 
-    var Menu = require('menu');
+    var setupNorodelFan = function(norodelFan) {
+        var menu = new Menu({
+            items: ["Yes", "No"],
+            select: function(index, item) {
+                this.close();
+                norodelFan.runDialogue("answer" + item);
+            },
+            cancel: function() {
+                this.close();
+                norodelFan.runDialogue("cancel");
+            }
+        });
 
-    var norodelFan = map.npcs.norodelFan;
+        norodelFan.menu = menu;
+        norodelFan.addAfterTalk(function() {
+            norodelFan.menu.open();
+        });
+    };
 
-    norodelFan.menu = new Menu({
-        items: ["Yes", "No"],
-        select: function(index, item) {
-            this.close();
-            norodelFan.runDialogue("answer" + item);
-        },
-        cancel: function() {
-            this.close();
-            norodelFan.runDialogue("cancel");
-        }
-    });
-
-    norodelFan.addAfterTalk(function() {
-        norodelFan.menu.open();
-    });
+    return function(map) {
+        setupNorodelFan(map.npcs.norodelFan);
+    };
 });

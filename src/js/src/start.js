@@ -8,6 +8,7 @@
         },
         paths: {
             "jquery": "../lib/jquery-1.8.2",
+            "reqwest": "../lib/reqwest",
             "rsvp": "../lib/rsvp-latest.amd",
             "underscore": "../lib/underscore",
             "pubsub": "../lib/pubsub",
@@ -17,6 +18,7 @@
             "noext": '../lib/requirejs-plugins/noext',
             "audio": '../lib/requirejs-plugins/audio',
             "campaign": '../../assets/data/campaign',
+            "map": '../../assets/maps',
             "skills": '../../assets/data/skills',
             "enemies": '../../assets/data/enemies',
             "enemy-families": '../../assets/data/enemy-families',

@@ -1,6 +1,6 @@
 // This is awful. I was actually drunk when I wrote it, unfortunately.
 define([
-    "jquery",
+    "reqwest",
     "rsvp",
     "underscore",
     "pubsub",
@@ -11,7 +11,7 @@ define([
     "image-loader",
     "direction"
 ], function(
-    $,
+    reqwest,
     RSVP,
     _,
     pubsub,
@@ -56,43 +56,39 @@ define([
 
         this.load = function(mapName) {
             return new RSVP.Promise(function(resolve, reject) {
-                $.ajax({
+                reqwest({
                     url: "assets/maps/" + mapName + ".json",
-                    dataType: "json",
-                    cache: false
-                }).success(function(data) {
+                    type: "json"
+                }).then(function(data) {
                     var map = self.createMap(mapName, data);
-                    window.setupMap = function(fn) {
-                        fn(map);
-                        window.setupMap = null;
-                    };
-                    $.getScript("assets/maps/" + mapName + ".js", function() {
-                        $.when.apply($, deferreds).then(function() {
+                    require(['map/' + mapName], function(setupMap) {
+                        setupMap(map);
+                        RSVP.all(deferreds).then(function() {
                             resolve(map);
                         });
                     });
-                })
+                });
             });
         };
 
         this.createMap = function(mapName, data) {
-            var tileLayers = _(data.layers).filter(function(layer) { return layer.type === "tilelayer"; });
-            var objectLayers = _(data.layers).filter(function(layer) { return layer.type === "objectgroup"; })
+            var tileLayers = data.layers.filter(function(layer) { return layer.type === "tilelayer"; });
+            var objectLayers = data.layers.filter(function(layer) { return layer.type === "objectgroup"; })
 
-            var mask = _(tileLayers).filter(function(layer) { return layer.name === "Mask"; })[0];
+            var mask = tileLayers.filter(function(layer) { return layer.name === "Mask"; })[0];
             var layerCount = tileLayers.length - (mask !== undefined);
 
             // TODO: don't use mask data directly?
             var tilemap = new Tilemap(data.width, data.height, layerCount, mask ? mask.data : []);
 
-            var tilesets = _(data.tilesets).map(this.loadTileSet);
+            var tilesets = data.tilesets.map(this.loadTileSet);
             var entrances = {};
             var exits = {};
             var npcs = {};
             var encounters = {};
 
             var z = 0;
-            _(tileLayers).each(function() {
+            tileLayers.forEach(function() {
                 if (tileLayers[z] !== mask) {
                     _.each2d(data.width, data.height, function(x, y) {
                         tilemap.setAt(x, y, z, tileLayers[z].data[x + y * data.width]);
@@ -101,10 +97,10 @@ define([
                 }
             });
 
-            _(objectLayers).each(function(objectLayer) {
+            objectLayers.forEach(function(objectLayer) {
                 var objects = _(objectLayer.objects).groupBy("type");
 
-                _(objects["Entrance"]).each(function(object) {
+                (objects["Entrance"] || []).forEach(function(object) {
                     entrances[object.name] = {
                         x: (object.x / TILE_SIZE) | 0,
                         y: (object.y / TILE_SIZE) | 0,
@@ -112,7 +108,7 @@ define([
                     };
                 });
 
-                _(objects["Exit"]).each(function(object) {
+                (objects["Exit"] || []).forEach(function(object) {
                     exits[object.name] = {
                         x: (object.x / TILE_SIZE) | 0,
                         y: (object.y / TILE_SIZE) | 0,
@@ -123,12 +119,12 @@ define([
                     };
                 });
 
-                _(objects["NPC"]).each(function(object) {
+                (objects["NPC"] || []).forEach(function(object) {
                     npcs[object.name] = new Npc(object.properties);
                     npcs[object.name].warpTo((object.x / TILE_SIZE) | 0, (object.y / TILE_SIZE) | 0);
                 });
 
-                _(objects["Encounters"]).each(function(object) {
+                (objects["Encounters"] || []).forEach(function(object) {
                     var frequency = object.properties.frequency.split("-");
                     encounters[object.name] = new Encounter({
                         x: (object.x / TILE_SIZE) | 0,

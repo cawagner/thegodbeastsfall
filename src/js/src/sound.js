@@ -54,9 +54,14 @@ define([], function() {
             audio.autoplay = false;
             audio.preload = true;
             cachedSounds[name] = audio;
+            return audio;
         },
         playSound: function(name) {
-            new Sound('assets/snd/' + name + ".wav").play();
+            if (cachedSounds[name]) {
+                cachedSounds[name].play();
+            } else {
+                new Sound("assets/snd/" + name + ".wav").play();
+            }
         },
         getCurrentMusic: function() {
             return currentMusic;

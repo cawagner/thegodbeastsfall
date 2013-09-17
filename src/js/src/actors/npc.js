@@ -41,7 +41,7 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
                 return this.say(text);
             } else {
                 return {
-                    done: function(fn) {
+                    then: function(fn) {
                         fn.call(self);
                     }
                 };
@@ -54,7 +54,7 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             var cancelled = false;
             var sayProperties;
 
-            _(beforeTalkHandlers).each(function(fn){
+            beforeTalkHandlers.forEach(function(fn){
                 cancelled = cancelled || (fn.call(self) === false);
             });
 

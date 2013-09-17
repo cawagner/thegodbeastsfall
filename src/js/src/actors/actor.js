@@ -57,8 +57,6 @@ define(['rsvp', 'pubsub', 'direction'], function(RSVP, pubsub, direction) {
             this.onUpdate(timeScale);
         };
 
-        this.onUpdate = $.noop;
-
         this.canMove = function() {
             return moveRemaining === 0;
         };
@@ -76,6 +74,8 @@ define(['rsvp', 'pubsub', 'direction'], function(RSVP, pubsub, direction) {
         this.frame = 0;
         this.font = undefined;
     };
+
+    Actor.prototype.onUpdate = _.noop;
 
     Actor.prototype.warpTo = function(x, y, direction) {
         this.destX = x;
@@ -98,15 +98,16 @@ define(['rsvp', 'pubsub', 'direction'], function(RSVP, pubsub, direction) {
         return false;
     };
 
-    Actor.prototype.onShove = $.noop;
-    Actor.prototype.onTalk = $.noop;
+    Actor.prototype.onShove = _.noop;
+    Actor.prototype.onTalk = _.noop;
 
     Actor.prototype.say = function(messages) {
+        var self = this;
         return new RSVP.Promise(function(resolve, reject) {
             pubsub.subscribeOnce("/npc/talk/done", function() {
                 resolve();
             });
-            pubsub.publish("/npc/talk", [{ text: messages, font: this.font, speaker: this.archetype }, this]);
+            pubsub.publish("/npc/talk", [{ text: messages, font: self.font, speaker: self.archetype }, self]);
         });
     };
 
