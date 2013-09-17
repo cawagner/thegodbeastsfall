@@ -44,12 +44,15 @@ define([
             var isMobile = navigator.userAgent.match(/iPhone|iPad|iPod|Android|BlackBerry/i);
 
             sound.loadSound("hit");
+            sound.loadSound("playerhit");
+            sound.loadSound("soft");
             sound.loadSound("miss");
             sound.loadSound("critical");
             sound.loadSound("message");
             sound.loadSound("cursor");
             sound.loadSound("confirm");
             sound.loadSound("cancel");
+            sound.loadSound("heal");
 
             var inDungeon = false;
 

@@ -57,11 +57,7 @@ define([], function() {
             return audio;
         },
         playSound: function(name) {
-            if (cachedSounds[name]) {
-                cachedSounds[name].play();
-            } else {
-                new Sound("assets/snd/" + name + ".wav").play();
-            }
+            new Sound("assets/snd/" + name + ".wav").play();
         },
         getCurrentMusic: function() {
             return currentMusic;
