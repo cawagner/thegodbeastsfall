@@ -7,11 +7,11 @@ define([
     "states/menu-state",
     "states/noop-state",
     "pawns/character-pawn",
-    "data/skills",
+    "menus/field/skills",
     "menus/field/items",
     "menus/field/system",
     "menus/field/status"
-], function(_, pubsub, gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills, itemsMenu, systemMenu, statusMenu) {
+], function(_, pubsub, gameState, gui, Menu, MenuState, NoopState, CharacterPawn, skills, skillsMenu, itemsMenu, systemMenu, statusMenu) {
     "use strict";
 
     function FieldMenuState() {
@@ -23,45 +23,7 @@ define([
             hierarchical: true,
             items: [
                 statusMenu,
-                {
-                    text: "Magic",
-                    childMenu: function() {
-                        var partyMembers = _(gameState.party).map(function(member) {
-                            var pawn = new CharacterPawn(member);
-                            var fieldSkills = _(member.skills["Magic"]).chain().filter(function(skill) {
-                                return skills[skill].isFieldUsable;
-                            }).map(function(skill) {
-                                return { text: skills[skill].name, skill: skills[skill], disabled: !pawn.canUseSkill(skills[skill]) };
-                            }).value();
-
-                            return {
-                                text: member.name,
-                                childMenu: new Menu({
-                                    items: fieldSkills,
-                                    hierarchical: true,
-                                    select: function(index) {
-                                        var skillMenu = this;
-                                        var fieldSkill = fieldSkills[index];
-                                        var targetMenu = new Menu({
-                                            items: _(gameState.party).pluck("name"),
-                                            select: function(index) {
-                                                pubsub.publish("/npc/talk", [{
-                                                    text: ["Du hast " + gameState.party[index].name + " gewaehlt!"]
-                                                }]);
-                                            }
-                                        }).open();
-                                    }
-                                }),
-                                disabled: !fieldSkills.length,
-                                hierarchical: true
-                            };
-                        });
-                        return new Menu({
-                            items: partyMembers,
-                            hierarchical: true
-                        });
-                    }
-                },
+                skillsMenu,
                 itemsMenu,
                 systemMenu
             ]
