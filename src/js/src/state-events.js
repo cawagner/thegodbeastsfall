@@ -101,7 +101,7 @@ define([
                 // HACKY!
                 inDungeon = map.properties.isDungeon;
                 if (!inDungeon) {
-                    pubsub.publish("/party/heal");
+                    radio("/party/heal").broadcast();
                 }
             });
 
@@ -133,7 +133,7 @@ define([
 
                 // HACKY...
                 if (!inDungeon) {
-                    pubsub.publish("/party/heal");
+                    radio("/party/heal").broadcast();
                 }
             });
 
@@ -141,7 +141,7 @@ define([
                 game.pushState(new StatusState(member));
             });
 
-            pubsub.subscribe("/party/heal", function() {
+            radio("/party/heal").subscribe(function() {
                 var anyHealing = false;
                 gameState.party.forEach(function(member) {
                     if (member.hp !== member.maxHp || member.mp !== member.maxMp) {
