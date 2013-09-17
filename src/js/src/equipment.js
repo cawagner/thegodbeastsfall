@@ -17,9 +17,11 @@ define([], function() {
 
     Equipment.prototype.calc = function(stat) {
         var sum = 0;
-        this.slots.forEach(function(item) {
+        var slot, item;
+        for (slot in this.slots) {
+            item = this.slots[slot];
             sum += item.equipment[stat] || 0;
-        });
+        }
         return sum;
     };
 
