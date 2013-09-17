@@ -1,4 +1,4 @@
-define(["pubsub", "underscore", "game", "graphics", "gui", "keyboard-input", "states/noop-state"], function(pubsub, _, game, graphics, gui, input, NoopState) {
+define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-input", "states/noop-state"], function(radio, _, game, graphics, gui, sound, input, NoopState) {
     "use strict";
 
     function MenuState(menu) {
@@ -10,9 +10,9 @@ define(["pubsub", "underscore", "game", "graphics", "gui", "keyboard-input", "st
 
         this.isPaused = false;
 
-        var subscription = pubsub.subscribe("/menu/close", function(menuToClose) {
+        radio("/menu/close").subscribe(function closeMenu(menuToClose) {
             if (menuToClose === menu) {
-                pubsub.unsubscribe(subscription);
+                radio("/menu/close").unsubscribe(closeMenu);
                 game.popState();
             }
         });
@@ -41,12 +41,12 @@ define(["pubsub", "underscore", "game", "graphics", "gui", "keyboard-input", "st
             if (input.wasConfirmPressed()) {
                 if (!_(this.menu.items[this.selectionIndex]).result("disabled")) {
                     this.menu.triggerSelect(this.selectionIndex, this.menu.items[this.selectionIndex]);
-                    pubsub.publish("/sound/play", ["confirm"]);
+                    sound.playSound("confirm");
                 }
             }
             if (input.wasCancelPressed()) {
                 this.menu.triggerCancel();
-                pubsub.publish("/sound/play", ["cancel"]);
+                sound.playSound("cancel");
             }
         }
 

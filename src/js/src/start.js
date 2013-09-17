@@ -3,10 +3,12 @@
 
     require.config({
         shim: {
-            underscore: { exports: "_" }
+            underscore: { exports: "_" },
+            radio: { exports: "radio" }
         },
         paths: {
             "reqwest": "../lib/reqwest",
+            "radio": "../lib/radio.min",
             "rsvp": "../lib/rsvp-latest.amd",
             "underscore": "../lib/underscore",
             "pubsub": "../lib/pubsub",

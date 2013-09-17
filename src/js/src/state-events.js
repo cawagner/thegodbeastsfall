@@ -1,6 +1,7 @@
 define([
     "underscore",
     "pubsub",
+    "radio",
     "states/menu-state",
     "states/dialogue-state",
     "states/field-state",
@@ -15,6 +16,7 @@ define([
 ], function(
     _,
     pubsub,
+    radio,
     MenuState,
     DialogueState,
     FieldState,
@@ -57,7 +59,7 @@ define([
             var inDungeon = false;
 
             // TODO: elsewhere?
-            pubsub.subscribe("/menu/open", function(menu) {
+            radio("/menu/open").subscribe(function(menu) {
                 game.pushState(new MenuState(menu));
             });
 

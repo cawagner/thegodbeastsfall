@@ -1,4 +1,4 @@
-define(["pubsub", "underscore"], function(pubsub, _) {
+define(["radio", "underscore"], function(radio, _) {
     "use strict";
 
     function Menu(options) {
@@ -64,12 +64,12 @@ define(["pubsub", "underscore"], function(pubsub, _) {
     }
 
     Menu.prototype.close = function() {
-        pubsub.publish("/menu/close", [this]);
+        radio("/menu/close").broadcast(this);
         return this;
     };
 
     Menu.prototype.open = function() {
-        pubsub.publish("/menu/open", [this]);
+        radio("/menu/open").broadcast(this);
         return this;
     };
 
