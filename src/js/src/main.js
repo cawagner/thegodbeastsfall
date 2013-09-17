@@ -1,20 +1,16 @@
 define([
-    'jquery',
     'underscore',
     'game',
     'graphics',
     'state-events',
     'keyboard-input',
-    'touch-input',
     'constants'
 ], function(
-    $,
     _,
     game,
     graphics,
     stateEvents,
     input,
-    touchInput,
     constants
 ) {
     "use strict";
@@ -58,14 +54,7 @@ define([
             interpolate : /\{\{(.+?)\}\}/g
         };
 
-        $("[data-scale]").on("click", function() {
-            var scale = parseInt($(this).data("scale"), 10);
-            graphics.setGlobalScale(scale);
-            $("#container").width(constants.GAME_WIDTH * scale).height(constants.GAME_HEIGHT * scale);
-        });
-
         input.init();
-        touchInput.init(input);
 
         stateEvents.init();
 

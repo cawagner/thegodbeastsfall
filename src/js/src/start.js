@@ -3,11 +3,9 @@
 
     require.config({
         shim: {
-            jquery: { exports: "$" },
             underscore: { exports: "_" }
         },
         paths: {
-            "jquery": "../lib/jquery-1.8.2",
             "reqwest": "../lib/reqwest",
             "rsvp": "../lib/rsvp-latest.amd",
             "underscore": "../lib/underscore",
