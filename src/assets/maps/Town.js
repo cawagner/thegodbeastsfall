@@ -1,4 +1,4 @@
-define(["game-state", "battle"], function(gameState, Battle) {
+define(["game-state", "battle", "menu", "character", "json!campaign.json"], function(gameState, Battle, Menu, Character, campaign) {
     "use strict";
 
     var flags = gameState.flags.town = gameState.flags.town || {
@@ -13,13 +13,26 @@ define(["game-state", "battle"], function(gameState, Battle) {
         }
     };
 
+    var debugMenu = new Menu({
+        items: ["Get Mierv", "Get Potion"],
+        select: function(index, item) {
+            if (item === "Get Mierv") {
+                gameState.party.push(Character.create(campaign["heroine"]));
+            }
+            this.close();
+        },
+        cancel: function() {
+            this.close();
+        }
+    });
+
     return function setupMap(map) {
         [map.npcs.oldman, map.npcs.littlegirl, map.npcs.earl].forEach(function(npc) {
             npc.addBeforeTalk(learnAboutMirv);
         });
 
         map.npcs.barrel1.addAfterTalk(function() {
-            new Battle(["slime", "rat", "slime"]).start();
+            debugMenu.open();
         });
 
         map.subscribe("/hero/step", function() {
