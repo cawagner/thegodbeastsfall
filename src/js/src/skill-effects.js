@@ -4,6 +4,14 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
     var d20 = Dice.parse("1d20"),
         d100 = Dice.parse("1d100");
 
+    var meleeHitChance = function(user, target, skill) {
+        return skill.accuracy * (user.accuracy() + 60) - target.evade();
+    };
+
+    var meleeCriticalChance = function(user, target, skill) {
+        return Math.max(1, 1 + user.criticalChance() * skill.criticalChance - target.luck());
+    };
+
     var standardDamage = function(user, target, skill) {
         var attack = user.attack();
         var da = (100-target.damageAbsorption()) / 100;
@@ -13,8 +21,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
 
         var damage = 0;
 
-        var hitChance = skill.accuracy * (user.accuracy() + 60) - target.evade();
-        var criticalChance = Math.max(1, 1 + user.criticalChance() * skill.criticalChance - target.luck());
+        var hitChance = meleeHitChance(user, target, skill);
+        var criticalChance = meleeCriticalChance(user, target, skill);
 
         var isCritical = user.isDying || d100.roll() <= criticalChance;
         var hasConnected = d100.roll() <= hitChance;
@@ -24,7 +32,7 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
                 _(skill.criticalMultiplier * user.criticalMultiplier() - 1).times(function() {
                     roll += dice.roll();
                 });
-                dr = 0;
+                dr = Math.floor(dr / 4);
             } else {
                 isCritical = false;
                 hasConnected = true;
