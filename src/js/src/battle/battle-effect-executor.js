@@ -1,21 +1,12 @@
 define([
     "underscore",
     "radio",
-    "sound",
     "battle/battle-message-state",
     "battle/battle-text-provider",
     "battle/status-factory"
 ],
-function(_, radio, sound, BattleMessageState, textProvider, statusFactory) {
+function(_, radio, BattleMessageState, textProvider, statusFactory) {
     "use strict";
-
-    var getDamageSound = function(targetType, isCritical) {
-        if (targetType === 'enemy') {
-            return isCritical ? "critical" : "hit";
-        } else {
-            return "playerhit";
-        }
-    };
 
     function BattleEffectExecutor(action, state, displayDamage) {
         this.state = state;
@@ -29,24 +20,14 @@ function(_, radio, sound, BattleMessageState, textProvider, statusFactory) {
         };
     }
 
-    BattleEffectExecutor.prototype.msg = function(m, s) {
-        if (s) {
-            this.snd(s);
-        }
+    BattleEffectExecutor.prototype.msg = function(m) {
         this.state.enqueueState(new BattleMessageState([m]));
     };
-
-    BattleEffectExecutor.prototype.snd = function(soundName) {
-        this.state.enqueueFunc(function() {
-            sound.playSound(soundName);
-        });
-    }
 
     BattleEffectExecutor.prototype.damage = function(effect) {
         var self = this;
 
         var targetWasAlive = effect.target.isAlive();
-        var sound = getDamageSound(effect.target.type, effect.critical);
 
         if (!targetWasAlive) {
             return;
@@ -71,7 +52,6 @@ function(_, radio, sound, BattleMessageState, textProvider, statusFactory) {
             if (effect.critical) {
                 self.msg(textProvider.getMessage("criticalHit"));
             }
-            self.snd(sound);
             self.state.enqueueState(self.displayDamage(effect.target, "-"+effect.amount, effect.critical));
         }
 
@@ -102,8 +82,6 @@ function(_, radio, sound, BattleMessageState, textProvider, statusFactory) {
             return;
         }
 
-        self.snd("heal");
-
         self.state.enqueueFunc(function() {
             if (effect.amount > 0) {
                 effect.target.restoreHp(effect.amount);
@@ -131,8 +109,6 @@ function(_, radio, sound, BattleMessageState, textProvider, statusFactory) {
             return;
         }
 
-        self.snd("heal");
-
         self.state.enqueueFunc(function() {
             var result = effect.target.removeStatus(effect.status);
             _(result).each(function(e) {
@@ -149,8 +125,6 @@ function(_, radio, sound, BattleMessageState, textProvider, statusFactory) {
             self.msg(textProvider.getMessage("positiveTargetGone", { target: effect.target.name }));
             return;
         }
-
-        self.snd("heal");
 
         self.state.enqueueFunc(function() {
             if (effect.amount !== 0) {

@@ -19,6 +19,14 @@ define([
 ) {
     "use strict";
 
+    var getDamageSound = function(targetType, isCritical) {
+        if (targetType === 'enemy') {
+            return isCritical ? "critical" : "hit";
+        } else {
+            return "playerhit";
+        }
+    };
+
     return {
         skill: function(action, battleState) {
             var state = new CompositeState();
