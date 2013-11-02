@@ -26,7 +26,9 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
         effects.forEach(function(effect) {
             self.state.enqueueFunc(function() {
                 if (effect.sound) {
-                    sound.playSound(effect.sound);
+                    self.state.enqueueFunc(function() {
+                        sound.playSound(effect.sound);
+                    });
                 }
                 self[effect.type](effect);
             });
@@ -62,10 +64,10 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
             });
             self.msg(textProvider.getMessage("missed", { target: effect.target.name }), "miss");
         } else {
+            self.state.enqueueState(self.displayDamage(effect.target, "-"+effect.amount, effect.critical));
             if (effect.critical) {
                 self.msg(textProvider.getMessage("criticalHit"));
             }
-            self.state.enqueueState(self.displayDamage(effect.target, "-"+effect.amount, effect.critical));
         }
 
         self.state.enqueueFunc(function() {
@@ -74,8 +76,9 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
                 effect.target.hasFallen = true;
                 self.state.enqueueFunc(function() {
                     radio("/kill").broadcast(effect.target);
+                    sound.playSound("endie");
                 });
-                self.msg(textProvider.getFallMessage(effect.target), 'endie');
+                self.msg(textProvider.getFallMessage(effect.target));
 
                 if (self.action.user.isDying) {
                     self.action.user.isDying = false;
