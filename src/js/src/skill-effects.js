@@ -146,16 +146,19 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         };
     };
 
-    var standardSkillEffect = function(effector) {
+    var standardSkillEffect = function(effectors) {
         var fns = arguments;
+        effectors = [].concat(effectors);
         return function(skill, user, targets) {
             var skill = _.extend({}, skills["default"], skill);
 
             var effects = [];
-            _(targets).each(function(target) {
-                var result = effector(user, target, skill);
-                result.skill = skill;
-                effects = effects.concat(result);
+            effectors.forEach(function(effector) {
+                targets.forEach(function(target) {
+                    var result = effector(user, target, skill);
+                    result.skill = skill;
+                    effects = effects.concat(result);
+                });
             });
             return {
                 skill: skill,
@@ -167,6 +170,7 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
     // TODO: assess skill costs, etc.
     return {
         "damage/melee": standardSkillEffect(standardDamage),
+        "damage/melee/2": standardSkillEffect([standardDamage, standardDamage]),
         "damage/magic": standardSkillEffect(magicDamage),
         "damage/magic/family": standardSkillEffect(magicDamageToFamily),
         "heal/normal": standardSkillEffect(standardHeal),
