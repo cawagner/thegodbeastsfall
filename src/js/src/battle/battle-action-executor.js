@@ -19,14 +19,6 @@ define([
 ) {
     "use strict";
 
-    var getDamageSound = function(targetType, isCritical) {
-        if (targetType === 'enemy') {
-            return isCritical ? "critical" : "hit";
-        } else {
-            return "playerhit";
-        }
-    };
-
     return {
         skill: function(action, battleState) {
             var state = new CompositeState();
@@ -56,15 +48,15 @@ define([
             });
 
             state.enqueueFunc(function() {
-                var effects = skillEffects[action.skill.effect](action.skill, action.user, action.targets);
+                var skillResult = skillEffects[action.skill.effect](action.skill, action.user, action.targets);
 
                 if (action.user.type !== 'player') {
                     state.enqueueFunc(battleState.displayAttack(action.user));
                 }
 
-                battleEffectExecutor.msg(textProvider.getSkillText(action, effects));
+                battleEffectExecutor.msg(textProvider.getSkillText(action, skillResult.effects));
 
-                _(effects).each(function(effect) {
+                skillResult.effects.forEach(function(effect) {
                     state.enqueueFunc(function() {
                         battleEffectExecutor[effect.type](effect);
                     });

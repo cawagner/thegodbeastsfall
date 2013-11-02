@@ -8,6 +8,14 @@ define([
 function(_, radio, BattleMessageState, textProvider, statusFactory) {
     "use strict";
 
+    var getDamageSound = function(targetType, isCritical) {
+        if (targetType === 'enemy') {
+            return isCritical ? "critical" : "hit";
+        } else {
+            return "playerhit";
+        }
+    };
+
     function BattleEffectExecutor(action, state, displayDamage) {
         this.state = state;
         this.action = action;

@@ -49,6 +49,7 @@ define([
             sound.loadSound("confirm");
             sound.loadSound("cancel");
             sound.loadSound("heal");
+            sound.loadSound("goofy");
 
             // TODO: elsewhere?
             radio("/menu/open").subscribe(function(menu) {

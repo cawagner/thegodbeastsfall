@@ -18,13 +18,6 @@
         "effect": "damage/melee",
         "power": "1d8"
     },
-    "slash2": {
-        "name": "Slash2",
-        "text": "{{user}}'s attack!",
-        "target": "enemy",
-        "effect": "damage/melee/2",
-        "power": "1d8"
-    },
     "stab": {
         "name": "Stab",
         "desc": "Attack normally.",

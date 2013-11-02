@@ -128,27 +128,27 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         };
     };
 
-    var standardSkillEffect = function() {
+    var standardSkillEffect = function(effector, sound) {
         var fns = arguments;
         return function(skill, user, targets) {
             var skill = _.extend({}, skills["default"], skill);
 
-            var results = [];
-            _(fns).each(function(fn) {
-                _(targets).each(function(target) {
-                    var result = fn(user, target, skill);
-                    result.skill = skill;
-                    results.push(result);
-                });
+            var effects = [];
+            _(targets).each(function(target) {
+                var result = effector(user, target, skill);
+                result.skill = skill;
+                effects = effects.concat(result);
             });
-            return results;
+            return {
+                effects: effects,
+                sound: skill.sound || sound
+            };
         };
     };
 
     // TODO: assess skill costs, etc.
     return {
         "damage/melee": standardSkillEffect(standardDamage),
-        "damage/melee/2": standardSkillEffect(standardDamage, standardDamage),
         "damage/magic": standardSkillEffect(magicDamage),
         "damage/magic/family": standardSkillEffect(magicDamageToFamily),
         "heal/normal": standardSkillEffect(standardHeal),
@@ -156,11 +156,10 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         "debuff": standardSkillEffect(standardDebuff),
         "poison": standardSkillEffect(poison),
         "removeStatus": standardSkillEffect(removeStatus),
-        "none": _.give([]),
         "navelgaze": function(skill, user, targets) {
-            return [
-                { type: "message", text: skill.message }
-            ]
+            return {
+                effects: [ { type: "message", text: skill.message } ]
+            };
         }
     }
 });
