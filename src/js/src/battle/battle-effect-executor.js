@@ -3,18 +3,11 @@ define([
     "radio",
     "battle/battle-message-state",
     "battle/battle-text-provider",
-    "battle/status-factory"
+    "battle/status-factory",
+    "sound"
 ],
-function(_, radio, BattleMessageState, textProvider, statusFactory) {
+function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
     "use strict";
-
-    var getDamageSound = function(targetType, isCritical) {
-        if (targetType === 'enemy') {
-            return isCritical ? "critical" : "hit";
-        } else {
-            return "playerhit";
-        }
-    };
 
     function BattleEffectExecutor(action, state, displayDamage) {
         this.state = state;
@@ -27,6 +20,18 @@ function(_, radio, BattleMessageState, textProvider, statusFactory) {
             };
         };
     }
+
+    BattleEffectExecutor.prototype.enqueueEffects = function(effects) {
+        var self = this;
+        effects.forEach(function(effect) {
+            self.state.enqueueFunc(function() {
+                if (effect.sound) {
+                    sound.playSound(effect.sound);
+                }
+                self[effect.type](effect);
+            });
+        });
+    };
 
     BattleEffectExecutor.prototype.msg = function(m) {
         this.state.enqueueState(new BattleMessageState([m]));

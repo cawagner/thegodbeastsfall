@@ -99,7 +99,8 @@
         "target": "enemy",
         "effect": "damage/melee",
         "power": "1d4",
-        "text": "{{user}} reaches out with a gelatinous pseudopod!"
+        "text": "{{user}} reaches out with a gelatinous pseudopod!",
+        "sound": "goofy"
     },
     "peck": {
         "name": "Peck",

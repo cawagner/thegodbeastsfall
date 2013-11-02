@@ -4,6 +4,14 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
     var d20 = Dice.parse("1d20"),
         d100 = Dice.parse("1d100");
 
+    var getDamageSound = function(targetType, isCritical) {
+        if (targetType === 'enemy') {
+            return isCritical ? "critical" : "hit";
+        } else {
+            return "playerhit";
+        }
+    };
+
     var meleeHitChance = function(user, target, skill) {
         return skill.accuracy * (user.accuracy() + 60) - target.evade();
     };
@@ -49,7 +57,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
             critical: isCritical,
             amount: hasConnected ? Math.round(Math.max(1, damage)) : 0,
             target: target,
-            damageType: "melee"
+            damageType: "melee",
+            sound: skill.sound || getDamageSound(target, isCritical)
         }
     };
 
@@ -64,7 +73,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
             missed: false,
             amount: damage,
             target: target,
-            damageType: "magic"
+            damageType: "magic",
+            sound: "feu"
         };
     };
 
@@ -75,7 +85,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
             return {
                 type: "message",
                 text: skill.whiff,
-                success: false
+                success: false,
+                sound: "miss"
             };
         }
     };
@@ -85,7 +96,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         return {
             type: "heal",
             amount: Math.floor(user.support() / 2 + dice.roll()),
-            target: target
+            target: target,
+            sound: "heal"
         };
     };
 
@@ -96,7 +108,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
             amount: Math.floor(user.support() / 2 + dice.roll()),
             target: target,
             stat: skill.stat,
-            duration: skill.duration
+            duration: skill.duration,
+            sound: "heal"
         };
     };
 
@@ -107,7 +120,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
             amount: -Math.floor(user.force() / 2 + dice.roll()),
             target: target,
             stat: skill.stat,
-            duration: skill.duration
+            duration: skill.duration,
+            sound: "feu"
         };
     };
 
@@ -116,7 +130,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         return {
             type: "poison",
             target: target,
-            duration: dice.roll()
+            duration: dice.roll(),
+            sound: "soft"
         };
     };
 
@@ -124,11 +139,12 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         return {
             type: "removeStatus",
             status: skill.status,
-            target: target
+            target: target,
+            sound: "heal"
         };
     };
 
-    var standardSkillEffect = function(effector, sound) {
+    var standardSkillEffect = function(effector) {
         var fns = arguments;
         return function(skill, user, targets) {
             var skill = _.extend({}, skills["default"], skill);
@@ -140,8 +156,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
                 effects = effects.concat(result);
             });
             return {
-                effects: effects,
-                sound: skill.sound || sound
+                skill: skill,
+                effects: effects
             };
         };
     };

@@ -50,6 +50,7 @@ define([
             sound.loadSound("cancel");
             sound.loadSound("heal");
             sound.loadSound("goofy");
+            sound.loadSound("feu");
 
             // TODO: elsewhere?
             radio("/menu/open").subscribe(function(menu) {

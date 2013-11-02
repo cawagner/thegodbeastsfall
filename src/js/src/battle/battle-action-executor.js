@@ -6,7 +6,8 @@ define([
     "battle/battle-effect-executor",
     "battle/battle-text-provider",
     "skill-effects",
-    "item-effects"
+    "item-effects",
+    "sound"
 ], function(
     _,
     radio,
@@ -15,7 +16,8 @@ define([
     BattleEffectExecutor,
     textProvider,
     skillEffects,
-    itemEffects
+    itemEffects,
+    sound
 ) {
     "use strict";
 
@@ -56,10 +58,8 @@ define([
 
                 battleEffectExecutor.msg(textProvider.getSkillText(action, skillResult.effects));
 
-                skillResult.effects.forEach(function(effect) {
-                    state.enqueueFunc(function() {
-                        battleEffectExecutor[effect.type](effect);
-                    });
+                state.enqueueFunc(function() {
+                    battleEffectExecutor.enqueueEffects(skillResult.effects);
                 });
 
                 state.enqueueFunc(function() {
@@ -109,9 +109,7 @@ define([
             var battleEffectExecutor = new BattleEffectExecutor(action, state, battleState.displayDamage);
 
             state.enqueueFunc(function() {
-                _(action.effects).each(function(effect) {
-                    battleEffectExecutor[effect.type](effect);
-                });
+                battleEffectExecutor.enqueueEffects(action.effects);
             });
             return state;
         }
