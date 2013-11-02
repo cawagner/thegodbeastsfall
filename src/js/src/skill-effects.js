@@ -4,8 +4,10 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
     var d20 = Dice.parse("1d20"),
         d100 = Dice.parse("1d100");
 
-    var getDamageSound = function(targetType, isCritical) {
-        if (targetType === 'enemy') {
+    var getDamageSound = function(target, isCritical, hasConnected) {
+        if (!hasConnected)
+            return "miss";
+        if (target.type === 'enemy') {
             return isCritical ? "critical" : "hit";
         } else {
             return "playerhit";
@@ -58,7 +60,7 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
             amount: hasConnected ? Math.round(Math.max(1, damage)) : 0,
             target: target,
             damageType: "melee",
-            sound: skill.sound || getDamageSound(target, isCritical)
+            sound: skill.sound || getDamageSound(target, isCritical, hasConnected)
         }
     };
 
@@ -174,7 +176,7 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         "removeStatus": standardSkillEffect(removeStatus),
         "navelgaze": function(skill, user, targets) {
             return {
-                effects: [ { type: "message", text: skill.message } ]
+                effects: [ { type: "message", text: skill.message, sound: "goofy" } ],
             };
         }
     }
