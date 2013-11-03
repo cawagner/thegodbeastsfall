@@ -17,12 +17,19 @@ define([
 
     var LINE_LENGTH = 38;
 
+    var processMessage = function(text) {
+        text = text.replace(/%([A-Za-z0-9-_]+)\b/g, function(match, name) {
+            return name in speakers ? speakers[name].name : match;
+        });
+        return text.wordWrap(LINE_LENGTH);
+    };
+
     function DialogueState(message, doneFn) {
         var messageIndex = 0,
             lineIndex = 0,
             charactersRevealed = 0,
             charactersToReveal = message.text[0].length,
-            lines = message.text[0].wordWrap(LINE_LENGTH),
+            lines = processMessage(message.text[0]),
             openProgress = 0.0;
 
         this.previousState = new NoopState();
@@ -62,7 +69,7 @@ define([
             if (lineIndex >= message.text.length) {
                 game.popState();
             } else {
-                lines = message.text[lineIndex].wordWrap(LINE_LENGTH);
+                lines = processMessage(message.text[lineIndex]);
                 charactersRevealed = 0;
                 charactersToReveal = message.text[lineIndex].length;
             }

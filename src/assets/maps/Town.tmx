@@ -213,10 +213,10 @@
   <object name="mirvMessage" type="NPC" x="-166" y="95">
    <properties>
     <property name="archetype" value="heroine"/>
-    <property name="say1" value="Helt... can you hear me? I am Mierv."/>
+    <property name="say1" value="%hero... can you hear me? I am Mierv."/>
     <property name="say2" value="I came to Guelln many years ago, but have been trapped in the Tomb World, waiting for you to be born."/>
     <property name="say4" value="Charon, who maintains the graveyard north of town, can help you release me."/>
-    <property name="say5" value="Helt, I know we've never met, but this is our fate. Please believe me."/>
+    <property name="say5" value="%hero, I know we've never met, but this is our fate. Please believe me."/>
    </properties>
   </object>
   <object name="toForest" type="Exit" x="176" y="0" width="128" height="16">

@@ -3,10 +3,10 @@
     "startMap": "Town",
     "initialParty": ["hero"],
     "hero": {
-        "name": "Helt",
+        "name": "Seln",
         "face": "hero",
         "archetype": "hero",
-        "title": "Mysterious Hero",
+        "title": "The Sand that Stood",
         "strength": 15,
         "agility": 10,
         "intelligence": 10,
