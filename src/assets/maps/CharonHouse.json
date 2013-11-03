@@ -241,8 +241,8 @@
                     {
                      "archetype":"bgobj",
                      "say1":"There, on the bookshelf, was a small coin.",
-                     "say2":"There's a little envelope next to it that reminds Helt of rainy days and hot beverages.",
-                     "say3":"Helt gets the drachma, and decides to bring the envelope with him to Charon."
+                     "say2":"There's a little envelope next to it that reminds %hero of rainy days and hot beverages.",
+                     "say3":"%hero gets the drachma, and decides to bring the envelope with him to Charon."
                     },
                  "type":"NPC",
                  "width":16,

@@ -188,8 +188,8 @@
    <properties>
     <property name="archetype" value="bgobj"/>
     <property name="say1" value="There, on the bookshelf, was a small coin."/>
-    <property name="say2" value="There's a little envelope next to it that reminds Helt of rainy days and hot beverages."/>
-    <property name="say3" value="Helt gets the drachma, and decides to bring the envelope with him to Charon."/>
+    <property name="say2" value="There's a little envelope next to it that reminds %hero of rainy days and hot beverages."/>
+    <property name="say3" value="%hero gets the drachma, and decides to bring the envelope with him to Charon."/>
    </properties>
   </object>
   <object name="clurichaun" type="NPC" x="-109" y="23" width="16" height="16">
