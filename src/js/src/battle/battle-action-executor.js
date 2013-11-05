@@ -3,7 +3,7 @@ define([
     "radio",
     "states/composite-state",
     "battle/battle-message-state",
-    "battle/battle-effect-executor",
+    "battle/effect-executor",
     "battle/battle-text-provider",
     "skill-effects",
     "item-effects",
@@ -13,7 +13,7 @@ define([
     radio,
     CompositeState,
     BattleMessageState,
-    BattleEffectExecutor,
+    EffectExecutor,
     textProvider,
     skillEffects,
     itemEffects,
@@ -24,7 +24,7 @@ define([
     return {
         skill: function(action, battleState) {
             var state = new CompositeState();
-            var battleEffectExecutor = new BattleEffectExecutor(action, state, battleState.displayDamage);
+            var battleEffectExecutor = new EffectExecutor(action, state, battleState.displayDamage);
 
             // exit the state if the user is dead, otherwise assess costs/cooldown
             state.enqueueFunc(function() {
@@ -106,7 +106,7 @@ define([
         },
         refresh: function(action, battleState) {
             var state = new CompositeState();
-            var battleEffectExecutor = new BattleEffectExecutor(action, state, battleState.displayDamage);
+            var battleEffectExecutor = new EffectExecutor(action, state, battleState.displayDamage);
 
             state.enqueueFunc(function() {
                 battleEffectExecutor.enqueueEffects(action.effects);
