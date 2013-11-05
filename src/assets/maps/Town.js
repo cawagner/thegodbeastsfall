@@ -14,10 +14,13 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
     };
 
     var debugMenu = new Menu({
-        items: ["Get Mierv", "Get Potion"],
+        items: ["Get Mierv", "Get Potions"],
         select: function(index, item) {
             if (item === "Get Mierv") {
                 gameState.party.push(Character.create(campaign["heroine"]));
+            } else if (item === "Get Potions") {
+                gameState.inventory.addItem("potion");
+                gameState.inventory.addItem("soma");
             }
             this.close();
         },
