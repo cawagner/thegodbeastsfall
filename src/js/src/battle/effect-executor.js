@@ -19,6 +19,7 @@ function(_, radio, textProvider, statusFactory, sound) {
         var self = this;
         effects.forEach(function(effect) {
             self.state.enqueueFunc(function() {
+                // TODO: prevent sound when effect didn't really happen
                 if (effect.sound) {
                     self.state.enqueueFunc(function() {
                         sound.playSound(effect.sound);
