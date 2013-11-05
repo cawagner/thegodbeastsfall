@@ -21,10 +21,21 @@ define([
 ) {
     "use strict";
 
+    var createBattleEffectExecutor = function(action, state, battleState) {
+        return new EffectExecutor({
+            action: action,
+            state: state,
+            displayDamage: battleState.displayDamage.bind(battleState),
+            displayMessage: function(m) {
+                return new BattleMessageState([m]);
+            }
+        });
+    };
+
     return {
         skill: function(action, battleState) {
             var state = new CompositeState();
-            var battleEffectExecutor = new EffectExecutor(action, state, battleState.displayDamage);
+            var battleEffectExecutor = createBattleEffectExecutor(action, state, battleState);
 
             // exit the state if the user is dead, otherwise assess costs/cooldown
             state.enqueueFunc(function() {
@@ -106,7 +117,7 @@ define([
         },
         refresh: function(action, battleState) {
             var state = new CompositeState();
-            var battleEffectExecutor = new EffectExecutor(action, state, battleState.displayDamage);
+            var battleEffectExecutor = createBattleEffectExecutor(action, state, battleState);
 
             state.enqueueFunc(function() {
                 battleEffectExecutor.enqueueEffects(action.effects);

@@ -1,24 +1,18 @@
 define([
     "underscore",
     "radio",
-    "battle/battle-message-state",
     "battle/battle-text-provider",
     "battle/status-factory",
     "sound"
 ],
-function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
+function(_, radio, textProvider, statusFactory, sound) {
     "use strict";
 
-    function EffectExecutor(action, state, displayDamage) {
-        this.state = state;
-        this.action = action;
-        this.displayDamage = displayDamage || function() {
-            return {
-                start: function() {},
-                update: function() { return true; },
-                draw: function() {}
-            };
-        };
+    function EffectExecutor(options) {
+        this.state = options.state;
+        this.action = options.action;
+        this.displayMessage = options.displayMessage;
+        this.displayDamage = options.displayDamage;
     }
 
     EffectExecutor.prototype.enqueueEffects = function(effects) {
@@ -36,7 +30,7 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
     };
 
     EffectExecutor.prototype.msg = function(m) {
-        this.state.enqueueState(new BattleMessageState([m]));
+        this.state.enqueueState(this.displayMessage(m));
     };
 
     EffectExecutor.prototype.damage = function(effect) {
