@@ -59,5 +59,12 @@ define([], function() {
         }
     };
 
+    CompositeState.prototype.runAll = function() {
+        this.start();
+        while (!this.isDone) {
+            this.update();
+        }
+    };
+
     return CompositeState;
 });

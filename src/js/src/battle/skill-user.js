@@ -6,8 +6,9 @@ define([
     textProvider
 ) {
     return {
-        useSkill: function(action, effectExecutor, beforeMessage) {
+        useSkill: function(effectExecutor, beforeMessage) {
             var state = effectExecutor.state;
+            var action = effectExecutor.action;
 
             state.enqueueFunc(function() {
                 var skillResult = skillEffects[action.skill.effect](action.skill, action.user, action.targets);

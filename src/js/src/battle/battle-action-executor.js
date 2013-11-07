@@ -59,7 +59,7 @@ define([
                 }
             });
 
-            skillUser.useSkill(action, createBattleEffectExecutor(action, state, battleState), function() {
+            skillUser.useSkill(createBattleEffectExecutor(action, state, battleState), function() {
                 if (action.user.type !== 'player') {
                     state.enqueueFunc(battleState.displayAttack(action.user));
                 }

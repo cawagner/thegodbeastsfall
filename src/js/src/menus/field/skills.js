@@ -4,14 +4,20 @@ define([
     "radio",
     "data/skills",
     "menu",
-    "pawns/character-pawn"
+    "pawns/character-pawn",
+    "states/composite-state",
+    "battle/effect-executor",
+    "battle/skill-user"
 ], function(
     _,
     gameState,
     radio,
     skills,
     Menu,
-    CharacterPawn
+    CharacterPawn,
+    CompositeState,
+    EffectExecutor,
+    skillUser
 ) {
     "use strict";
 
@@ -37,8 +43,27 @@ define([
                             var targetMenu = new Menu({
                                 items: _(gameState.party).pluck("name"),
                                 select: function(index) {
+                                    var targetPawn = gameState.party[index] === member ? pawn : new CharacterPawn(gameState.party[index]);
+                                    var messages = [];
+                                    var executor = new EffectExecutor({
+                                        state: new CompositeState(),
+                                        action: {
+                                            user: pawn,
+                                            skill: fieldSkill.skill,
+                                            targets: [targetPawn]
+                                        },
+                                        displayMessage: function(msg) {
+                                            messages.push(msg);
+                                        },
+                                        displayDamage: function() {
+                                            // TODO: implement
+                                        }
+                                    });
+                                    skillUser.useSkill(executor);
+                                    debugger
+                                    executor.state.runAll();
                                     radio("/npc/talk").broadcast({
-                                        text: ["Du hast " + gameState.party[index].name + " gewaehlt!"]
+                                        text: messages
                                     });
                                 }
                             }).open();
