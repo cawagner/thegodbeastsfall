@@ -5,7 +5,7 @@ define([
     "battle/battle-message-state",
     "battle/effect-executor",
     "battle/battle-text-provider",
-    "skill-effects",
+    "battle/skill-user",
     "item-effects",
     "sound"
 ], function(
@@ -15,7 +15,7 @@ define([
     BattleMessageState,
     EffectExecutor,
     textProvider,
-    skillEffects,
+    skillUser,
     itemEffects,
     sound
 ) {
@@ -35,7 +35,6 @@ define([
     return {
         skill: function(action, battleState) {
             var state = new CompositeState();
-            var battleEffectExecutor = createBattleEffectExecutor(action, state, battleState);
 
             // exit the state if the user is dead, otherwise assess costs/cooldown
             state.enqueueFunc(function() {
@@ -60,23 +59,11 @@ define([
                 }
             });
 
-            state.enqueueFunc(function() {
-                var skillResult = skillEffects[action.skill.effect](action.skill, action.user, action.targets);
-
+            skillUser.useSkill(action, createBattleEffectExecutor(action, state, battleState), function() {
                 if (action.user.type !== 'player') {
                     state.enqueueFunc(battleState.displayAttack(action.user));
                 }
-
-                battleEffectExecutor.msg(textProvider.getSkillText(action, skillResult.effects));
-
-                state.enqueueFunc(function() {
-                    battleEffectExecutor.enqueueEffects(skillResult.effects);
-                });
-
-                state.enqueueFunc(function() {
-                    action.user.useSkill(action.skill);
-                });
-            })
+            });
 
             return state;
         },
