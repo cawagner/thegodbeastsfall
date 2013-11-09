@@ -32,8 +32,13 @@ define(["underscore", "skill-text-functions", "json!battle-messages.json"], func
             return _(text).template(params || {});
         },
         getAggressionText: function(pawns) {
-            var names = _(pawns).chain().pluck("name").formatList().value();
-            return [_("Aggressed by {{names}}!").template({names: names})];
+            var leader = Math.floor(pawns.length / 2);
+            var cohort = "";
+            if (pawns.length > 1) {
+                cohort = pawns.length === 2 ? " and cohort" : " and cohorts";
+            }
+
+            return [_("Aggressed by {{leader}}{{cohort}}!").template({leader: pawns[leader].name, cohort: cohort})];
         },
         getBuffText: function(params) {
             return _("{{target}}'s {{stat}} {{buffDir}} by {{amount}} for {{duration}} rounds!").template(params);

@@ -25,6 +25,11 @@ define([
     };
 
     BattleMenuState.prototype.start = function() {
+        // HACK: handle >2 party members.
+        if (!this.currentPawn().isAlive()) {
+            this.partyIndex = 1;
+        };
+
         this.menu = this.getMenu().open();
     };
 
@@ -75,6 +80,10 @@ define([
             ],
             cancel: function() {
                 if (self.partyIndex > 0) {
+                    // TODO: handle >2 party members
+                    if (!self.battleState.playerPawns[self.partyIndex - 1].isAlive()) {
+                        return false;
+                    }
                     self.partyIndex--;
                     self.actions.pop();
                     setTimeout(function() {
@@ -88,13 +97,14 @@ define([
     };
 
     BattleMenuState.prototype.areActionsReady = function() {
-        return this.actions.length === this.battleState.playerPawns.length;
+        return this.actions.length === this.battleState.playerPawns.filter(function(pp) {
+            return pp.isAlive();
+        }).length;
     };
 
     BattleMenuState.prototype.setAction = function(action, param) {
         var self = this;
 
-        // TODO: handle multiple allies!
         this.actions.push({
             action: action,
             param: param,
