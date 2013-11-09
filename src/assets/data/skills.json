@@ -51,11 +51,20 @@
     "fire1": {
         "name": "Feu",
         "desc": "Hurl a small fireball at one enemy.",
-        "text": "Flames form at {{user}}'s fingertips!",
+        "text": "A small flame forms at {{user}}'s fingertips!",
         "target": "enemy",
         "effect": "damage/magic",
         "power": "5d6",
         "mp": 4
+    },
+    "fire1multi": {
+        "name": "Feumu",
+        "desc": "A small wall of flame hits all enemies.",
+        "text": "Many small flames form at {{user}}'s fingertips!",
+        "target": "enemies",
+        "effect": "damage/magic",
+        "power": "4d6",
+        "mp": 5
     },
     "heal1": {
         "name": "Mend",

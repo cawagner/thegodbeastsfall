@@ -44,7 +44,9 @@
         },
         "learnSet": {
             "Fight": { },
-            "Magic": { }
+            "Magic": {
+                "fire1multi": { "intelligence": 13 }
+            }
         }
     }
 }
