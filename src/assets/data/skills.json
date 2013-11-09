@@ -75,14 +75,15 @@
         "mp": 3
     },
     "extirpate": {
-        "name": "Extirpate",
+        "name": "Judge",
         "desc": "Deal existential damage to vermin and undead.",
+        "text": "{{user}} looks intensely at {{target}}.",
         "target": "enemy",
         "effect": "damage/magic/family",
         "power": "3d6",
         "mp": 3,
         "families": ["vermin", "tomb"],
-        "whiff": "Extirpate only works on vermin and undead!"
+        "whiff": "Judge only works on vermin and undead!"
     },
     "braver": {
         "name": "Braver",
