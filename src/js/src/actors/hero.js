@@ -1,4 +1,15 @@
-define(['radio', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], function(radio, Actor, input, direction, gameState) {
+define([
+    'radio',
+    'actors/actor',
+    'keyboard-input',
+    'direction',
+    'game-state'
+], function(radio,
+    Actor,
+    input,
+    direction,
+    gameState
+) {
     "use strict";
 
     var PUSH_AFTER = 15;
@@ -43,7 +54,7 @@ define(['radio', 'actors/actor', 'keyboard-input', 'direction', 'game-state'], f
             }
         };
 
-        Actor.call(this, "hero");
+        Actor.call(this, gameState.party[0].archetype);
 
         this.shove = function() {
             var d = direction.convertToXY(this.direction);
