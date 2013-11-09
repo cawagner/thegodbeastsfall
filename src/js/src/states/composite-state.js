@@ -8,6 +8,9 @@ define([], function() {
     };
 
     CompositeState.prototype.enqueueState = function(state) {
+        if (!state) {
+            debugger;
+        }
         this.queuedStates.push(state);
     };
 
