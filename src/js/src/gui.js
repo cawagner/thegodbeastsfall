@@ -12,17 +12,17 @@ define(["underscore",
         this.lineHeight = 16;
     }
 
-    GuiRenderer.prototype.drawWindowRect = function(x, y, width, height) {
+    GuiRenderer.prototype.drawWindowRect = function(x, y, width, height, bgColor) {
         graphics.setFillColor(constants.WINDOW_OB_COLOR);
         graphics.drawFilledRect(x - 7, y - 7, width + 14, height + 14);
         graphics.setFillColor(constants.WINDOW_IB_COLOR);
         graphics.drawFilledRect(x - 5, y - 5, width + 10, height + 10);
-        graphics.setFillColor(constants.WINDOW_BG_COLOR);
+        graphics.setFillColor(bgColor || constants.WINDOW_BG_COLOR);
         graphics.drawFilledRect(x - 3, y - 3, width + 6, height + 6);
     };
 
-    GuiRenderer.prototype.drawTextWindow = function(x, y, width, height, lines, charactersRevealed, font) {
-        this.drawWindowRect(x, y, width, height);
+    GuiRenderer.prototype.drawTextWindow = function(x, y, width, height, lines, charactersRevealed, font, bgColor) {
+        this.drawWindowRect(x, y, width, height, bgColor);
         this.drawTextLines(x, y, lines, charactersRevealed, font);
     };
 
@@ -61,8 +61,8 @@ define(["underscore",
         this.drawTextWindow(x, y, STATUS_WINDOW_WIDTH, STATUS_WINDOW_HEIGHT, [
             _(ally).result("name").toUpperCase(),
             constants.chars.HEART + (""+_(ally).result("hp")).rset(3),
-            constants.chars.STAR + (""+_(ally).result("mp")).rset(3)]
-        );
+            constants.chars.STAR + (""+_(ally).result("mp")).rset(3)
+        ], undefined, 'normal', _(ally).result("hp") > 0 ? null : constants.DEAD_WINDOW_BG_COLOR);
     };
 
     GuiRenderer.prototype.drawPointer = function(x, y) {
