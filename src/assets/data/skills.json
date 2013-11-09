@@ -54,7 +54,7 @@
         "text": "A small flame forms at {{user}}'s fingertips!",
         "target": "enemy",
         "effect": "damage/magic",
-        "power": "5d6",
+        "power": "4d6",
         "mp": 4
     },
     "fire1multi": {
@@ -63,7 +63,7 @@
         "text": "Many small flames form at {{user}}'s fingertips!",
         "target": "enemies",
         "effect": "damage/magic",
-        "power": "4d6",
+        "power": "3d6",
         "mp": 5
     },
     "heal1": {
