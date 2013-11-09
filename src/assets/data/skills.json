@@ -54,8 +54,8 @@
         "text": "A small flame forms at {{user}}'s fingertips!",
         "target": "enemy",
         "effect": "damage/magic",
-        "power": "4d6",
-        "mp": 4
+        "power": "4d6k3",
+        "mp": 3
     },
     "fire1multi": {
         "name": "Feumu",
@@ -63,8 +63,8 @@
         "text": "Many small flames form at {{user}}'s fingertips!",
         "target": "enemies",
         "effect": "damage/magic",
-        "power": "3d6",
-        "mp": 5
+        "power": "3d6k2",
+        "mp": 4
     },
     "heal1": {
         "name": "Mend",
