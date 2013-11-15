@@ -1,30 +1,25 @@
 define([
     "underscore",
     "radio",
-    "battle/battle-message-state",
     "battle/battle-text-provider",
     "battle/status-factory",
     "sound"
 ],
-function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
+function(_, radio, textProvider, statusFactory, sound) {
     "use strict";
 
-    function BattleEffectExecutor(action, state, displayDamage) {
-        this.state = state;
-        this.action = action;
-        this.displayDamage = displayDamage || function() {
-            return {
-                start: function() {},
-                update: function() { return true; },
-                draw: function() {}
-            };
-        };
+    function EffectExecutor(options) {
+        this.state = options.state;
+        this.action = options.action;
+        this.displayMessage = options.displayMessage;
+        this.displayDamage = options.displayDamage;
     }
 
-    BattleEffectExecutor.prototype.enqueueEffects = function(effects) {
+    EffectExecutor.prototype.enqueueEffects = function(effects) {
         var self = this;
         effects.forEach(function(effect) {
             self.state.enqueueFunc(function() {
+                // TODO: prevent sound when effect didn't really happen
                 if (effect.sound) {
                     self.state.enqueueFunc(function() {
                         sound.playSound(effect.sound);
@@ -35,11 +30,11 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
         });
     };
 
-    BattleEffectExecutor.prototype.msg = function(m) {
-        this.state.enqueueState(new BattleMessageState([m]));
+    EffectExecutor.prototype.msg = function(m) {
+        this.state.enqueueState(this.displayMessage(m));
     };
 
-    BattleEffectExecutor.prototype.damage = function(effect) {
+    EffectExecutor.prototype.damage = function(effect) {
         var self = this;
 
         var targetWasAlive = effect.target.isAlive();
@@ -89,7 +84,7 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
         });
     };
 
-    BattleEffectExecutor.prototype.heal = function(effect) {
+    EffectExecutor.prototype.heal = function(effect) {
         var self = this;
         var targetWasAlive = effect.target.isAlive();
 
@@ -106,7 +101,7 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
         self.state.enqueueState(self.displayDamage(effect.target, "+"+effect.amount, effect.critical));
     };
 
-    BattleEffectExecutor.prototype.poison = function(effect) {
+    EffectExecutor.prototype.poison = function(effect) {
         this.msg(textProvider.getMessage("wasPoisoned", {
             target: effect.target.name
         }));
@@ -116,7 +111,7 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
         });
     };
 
-    BattleEffectExecutor.prototype.removeStatus = function(effect) {
+    EffectExecutor.prototype.removeStatus = function(effect) {
         var self = this;
         var targetWasAlive = effect.target.isAlive();
 
@@ -133,7 +128,7 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
         });
     };
 
-    BattleEffectExecutor.prototype.buff = function(effect) {
+    EffectExecutor.prototype.buff = function(effect) {
         var self = this;
         var targetWasAlive = effect.target.isAlive();
 
@@ -159,9 +154,9 @@ function(_, radio, BattleMessageState, textProvider, statusFactory, sound) {
         });
     };
 
-    BattleEffectExecutor.prototype.message = function(effect) {
+    EffectExecutor.prototype.message = function(effect) {
         this.msg(effect.text);
     };
 
-    return BattleEffectExecutor;
+    return EffectExecutor;
 });

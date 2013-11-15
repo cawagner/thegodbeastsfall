@@ -8,6 +8,9 @@ define([], function() {
     };
 
     CompositeState.prototype.enqueueState = function(state) {
+        if (!state) {
+            debugger;
+        }
         this.queuedStates.push(state);
     };
 
@@ -56,6 +59,13 @@ define([], function() {
         } else {
             this.currentState = newState;
             this.currentState.start(result);
+        }
+    };
+
+    CompositeState.prototype.runAll = function() {
+        this.start();
+        while (!this.isDone) {
+            this.update();
         }
     };
 

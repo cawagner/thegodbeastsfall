@@ -14,10 +14,19 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
     };
 
     var debugMenu = new Menu({
-        items: ["Get Mierv", "Get Potion"],
+        items: ["Get Potions", "Get Mierv"],
         select: function(index, item) {
             if (item === "Get Mierv") {
-                gameState.party.push(Character.create(campaign["heroine"]));
+                if (gameState.party.length < 2) {
+                    gameState.party.push(Character.create(campaign["heroine"]));
+                } else {
+                    setTimeout(function() {
+                        debugMenu.owner.say(["Don't get greedy. You've already got a Mierv!"]);
+                    }, 0);
+                }
+            } else if (item === "Get Potions") {
+                gameState.inventory.addItem("potion");
+                gameState.inventory.addItem("soma");
             }
             this.close();
         },
@@ -27,6 +36,8 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
     });
 
     return function setupMap(map) {
+        debugMenu.owner = map.npcs.barrel1;
+
         [map.npcs.oldman, map.npcs.littlegirl, map.npcs.earl].forEach(function(npc) {
             npc.addBeforeTalk(learnAboutMirv);
         });

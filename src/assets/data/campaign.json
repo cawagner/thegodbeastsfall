@@ -34,7 +34,7 @@
         "archetype": "heroine",
         "title": "Woman from the Vrevelk",
         "level": 1,
-        "strength": 12,
+        "strength": 13,
         "agility": 11,
         "intelligence": 12,
         "luck": 10,
@@ -44,7 +44,9 @@
         },
         "learnSet": {
             "Fight": { },
-            "Magic": { }
+            "Magic": {
+                "fire1multi": { "intelligence": 13 }
+            }
         }
     }
 }

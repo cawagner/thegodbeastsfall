@@ -3,9 +3,9 @@ define([
     "radio",
     "states/composite-state",
     "battle/battle-message-state",
-    "battle/battle-effect-executor",
+    "battle/effect-executor",
     "battle/battle-text-provider",
-    "skill-effects",
+    "battle/skill-user",
     "item-effects",
     "sound"
 ], function(
@@ -13,18 +13,28 @@ define([
     radio,
     CompositeState,
     BattleMessageState,
-    BattleEffectExecutor,
+    EffectExecutor,
     textProvider,
-    skillEffects,
+    skillUser,
     itemEffects,
     sound
 ) {
     "use strict";
 
+    var createBattleEffectExecutor = function(action, state, battleState) {
+        return new EffectExecutor({
+            action: action,
+            state: state,
+            displayDamage: battleState.displayDamage.bind(battleState),
+            displayMessage: function(m) {
+                return new BattleMessageState([m]);
+            }
+        });
+    };
+
     return {
         skill: function(action, battleState) {
             var state = new CompositeState();
-            var battleEffectExecutor = new BattleEffectExecutor(action, state, battleState.displayDamage);
 
             // exit the state if the user is dead, otherwise assess costs/cooldown
             state.enqueueFunc(function() {
@@ -49,23 +59,11 @@ define([
                 }
             });
 
-            state.enqueueFunc(function() {
-                var skillResult = skillEffects[action.skill.effect](action.skill, action.user, action.targets);
-
+            skillUser.useSkill(createBattleEffectExecutor(action, state, battleState), function() {
                 if (action.user.type !== 'player') {
                     state.enqueueFunc(battleState.displayAttack(action.user));
                 }
-
-                battleEffectExecutor.msg(textProvider.getSkillText(action, skillResult.effects));
-
-                state.enqueueFunc(function() {
-                    battleEffectExecutor.enqueueEffects(skillResult.effects);
-                });
-
-                state.enqueueFunc(function() {
-                    action.user.useSkill(action.skill);
-                });
-            })
+            });
 
             return state;
         },
@@ -106,7 +104,7 @@ define([
         },
         refresh: function(action, battleState) {
             var state = new CompositeState();
-            var battleEffectExecutor = new BattleEffectExecutor(action, state, battleState.displayDamage);
+            var battleEffectExecutor = createBattleEffectExecutor(action, state, battleState);
 
             state.enqueueFunc(function() {
                 battleEffectExecutor.enqueueEffects(action.effects);
