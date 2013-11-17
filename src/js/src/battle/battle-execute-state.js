@@ -75,8 +75,15 @@ define([
 
             battleState.enqueueFunc(function refresh() {
                 battleState.playerPawns.forEach(function(player) {
+                    var isDying = player.isDying;
                     var refresh = player.refresh();
                     battleState.enqueueState(actionExecutor.refresh({ effects: refresh, targets: [player] }, battleState));
+
+                    if (isDying && player.isDead) {
+                        battleState.enqueueState(new BattleMessageState([
+                            player.name + " collapsed!"
+                        ]));
+                    }
                 });
                 battleState.enemyPawns.forEach(function(enemy) {
                     var refresh = enemy.refresh();

@@ -38,7 +38,7 @@ function(_, radio, textProvider, statusFactory, sound) {
     EffectExecutor.prototype.damage = function(effect) {
         var self = this;
 
-        var targetWasAlive = effect.target.isAlive();
+        var targetWasAlive = effect.target.isAlive() && !effect.target.isDying;
 
         if (!targetWasAlive) {
             return;
@@ -69,6 +69,9 @@ function(_, radio, textProvider, statusFactory, sound) {
         }
 
         self.state.enqueueFunc(function() {
+            if (targetWasAlive && effect.target.isDying) {
+                self.msg(effect.target.name + " was mortally wounded!");
+            }
             if (targetWasAlive && !effect.target.isAlive() && !effect.target.hasFallen) {
                 // hack :()
                 effect.target.hasFallen = true;
