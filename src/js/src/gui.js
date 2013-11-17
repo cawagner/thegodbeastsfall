@@ -63,8 +63,8 @@ define(["underscore",
 
         this.drawTextWindow(x, y, STATUS_WINDOW_WIDTH, STATUS_WINDOW_HEIGHT, [
             _(ally).result("name").toUpperCase(),
-            constants.chars.HEART + (""+_(ally).result("hp")).rset(3),
-            constants.chars.STAR + (""+_(ally).result("mp")).rset(3)
+            constants.chars.HEART + (""+_(ally).result("hp")).rset(4),
+            constants.chars.STAR + (""+_(ally).result("mp")).rset(4)
         ], undefined, 'normal', color);
     };
 
