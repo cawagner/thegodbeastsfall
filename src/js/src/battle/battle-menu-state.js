@@ -36,6 +36,9 @@ define([
     BattleMenuState.prototype.update = function() {
         if (this.areActionsReady()) {
             this.menu.close();
+            this.battleState.playerPawns.forEach(function(p) {
+                p.isActive = false;
+            });
             return this.actions;
         }
     };
@@ -45,6 +48,13 @@ define([
 
     BattleMenuState.prototype.getMenu = function() {
         var self = this;
+        self.battleState.playerPawns.forEach(function(p) {
+            p.isActive = false;
+        });
+        if (self.currentPawn()) {
+            self.currentPawn().isActive = true;
+        }
+
         return new Menu({
             hierarchical: true,
             rows: 2,
