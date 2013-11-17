@@ -34,7 +34,7 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         var hitChance = meleeHitChance(user, target, skill);
         var criticalChance = meleeCriticalChance(user, target, skill);
 
-        var isCritical = user.isDying || d100.roll() <= criticalChance;
+        var isCritical = d100.roll() <= criticalChance;
         var hasConnected = d100.roll() <= hitChance;
 
         if (isCritical) {

@@ -54,13 +54,23 @@ define(["pawns/pawn-base"], function(PawnBase) {
     };
 
     CharacterPawn.prototype.refresh = function() {
-        var result = PawnBase.prototype.refresh.apply(this);
+        var result = PawnBase.prototype.refresh.call(this);
         if (this.isDying) {
             this.isDead = this.character.hp === 0;
             this.isDying = false;
         }
         this.restoreMpOnNextHit = true;
         return result;
+    };
+
+    CharacterPawn.prototype.criticalChance = function() {
+        var chance = PawnBase.prototype.criticalChance.call(this);
+        return this.isDying ? chance * 3 : chance;
+    };
+
+    CharacterPawn.prototype.priority = function() {
+        var priority = PawnBase.prototype.priority.call(this);
+        return this.isDying ? Math.floor(priority / 2) : priority;
     };
 
     return CharacterPawn;
