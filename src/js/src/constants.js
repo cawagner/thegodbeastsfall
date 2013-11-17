@@ -19,7 +19,7 @@ define({
     ACTOR_HEAD: 4,
     chars: {
         HEART: "&",
-        STAR: "^",
+        STAR: "<",
         POINTER: ">"
     }
 });
