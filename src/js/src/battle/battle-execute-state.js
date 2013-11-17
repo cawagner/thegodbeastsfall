@@ -62,9 +62,6 @@ define([
             var xp;
 
             actions.forEach(function(action) {
-                battleState.enqueueFunc(function() {
-                    action.user.isActive = true;
-                });
                 battleState.enqueueState(actionExecutor[action.type](action, battleState));
                 battleState.enqueueFunc(function() {
                     action.user.isActive = false;

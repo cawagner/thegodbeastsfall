@@ -38,6 +38,8 @@ define([
         state.enqueueFunc(function() {
             if (battleState.wonBattle() || !action.user.isAlive()) {
                 state.done();
+            } else {
+                action.user.isActive = true;
             }
         });
         return state;
