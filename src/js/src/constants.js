@@ -20,6 +20,6 @@ define({
     chars: {
         HEART: "HP",
         STAR: "MP",
-        POINTER: "*"
+        POINTER: ">"
     }
 });

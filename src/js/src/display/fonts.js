@@ -9,7 +9,7 @@ define([
         var rows = [
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
             "abcdefghijklmnopqrstuvwxyz",
-            "0123456789.:,;+-*/=^_?",
+            "0123456789.:,;+-*/=^_?>",
             "!\"#$%`'(){@"
         ];
 
