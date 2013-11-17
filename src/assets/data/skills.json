@@ -196,6 +196,13 @@
         "target": "self",
         "effect": "navelgaze"
     },
+    "giantess": {
+        "name": "Giantess",
+        "desc": "Become a gianess.",
+        "mp": 4,
+        "target": "self",
+        "effect": "giantess"
+    },
     "default": {
         "name": "Default",
         "power": 1,
