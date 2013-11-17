@@ -14,6 +14,8 @@ define(["underscore", "skill-text-functions", "json!battle-messages.json"], func
                     target: effects.length && effects[0].target.name
                 }));*/
             }
+            if (!effects)
+                debugger;
             if (effects.length && effects[0].target) {
                 target = effects[0].target.name;
             }

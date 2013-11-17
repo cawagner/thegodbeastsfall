@@ -19,12 +19,6 @@ function(_, radio, textProvider, statusFactory, sound) {
         var self = this;
         effects.forEach(function(effect) {
             self.state.enqueueFunc(function() {
-                // TODO: prevent sound when effect didn't really happen
-                if (effect.sound) {
-                    self.state.enqueueFunc(function() {
-                        sound.playSound(effect.sound);
-                    });
-                }
                 self[effect.type](effect);
             });
         });
@@ -34,14 +28,23 @@ function(_, radio, textProvider, statusFactory, sound) {
         this.state.enqueueState(this.displayMessage(m));
     };
 
+    EffectExecutor.prototype.snd = function(snd) {
+        // TODO: prevent sound when effect didn't really happen
+        if (snd) {
+            this.state.enqueueFunc(function() { sound.playSound(snd); });
+        }
+    }
+
     EffectExecutor.prototype.damage = function(effect) {
         var self = this;
 
-        var targetWasAlive = effect.target.isAlive();
+        var targetWasAlive = effect.target.isAlive() && !effect.target.isDying;
 
         if (!targetWasAlive) {
             return;
         }
+
+        self.snd(effect.sound);
 
         self.state.enqueueFunc(function() {
             if (effect.amount > 0) {
@@ -66,6 +69,9 @@ function(_, radio, textProvider, statusFactory, sound) {
         }
 
         self.state.enqueueFunc(function() {
+            if (targetWasAlive && effect.target.isDying) {
+                self.msg(effect.target.name + " was mortally wounded!");
+            }
             if (targetWasAlive && !effect.target.isAlive() && !effect.target.hasFallen) {
                 // hack :()
                 effect.target.hasFallen = true;
@@ -93,11 +99,12 @@ function(_, radio, textProvider, statusFactory, sound) {
             return;
         }
 
-        self.state.enqueueFunc(function() {
-            if (effect.amount > 0) {
+        if (effect.amount > 0) {
+            self.snd(effect.sound);
+            self.state.enqueueFunc(function() {
                 effect.target.restoreHp(effect.amount);
-            }
-        });
+            });
+        }
         self.state.enqueueState(self.displayDamage(effect.target, "+"+effect.amount, effect.critical));
     };
 
@@ -106,6 +113,7 @@ function(_, radio, textProvider, statusFactory, sound) {
             target: effect.target.name
         }));
 
+        this.snd(effect.sound);
         this.state.enqueueFunc(function() {
             effect.target.addStatus(statusFactory.createPoison(effect));
         });
@@ -120,6 +128,7 @@ function(_, radio, textProvider, statusFactory, sound) {
             return;
         }
 
+        self.snd(effect.sound);
         self.state.enqueueFunc(function() {
             var result = effect.target.removeStatus(effect.status);
             _(result).each(function(e) {
@@ -136,6 +145,8 @@ function(_, radio, textProvider, statusFactory, sound) {
             self.msg(textProvider.getMessage("positiveTargetGone", { target: effect.target.name }));
             return;
         }
+
+        self.snd(effect.sound);
 
         self.state.enqueueFunc(function() {
             if (effect.amount !== 0) {
@@ -155,6 +166,7 @@ function(_, radio, textProvider, statusFactory, sound) {
     };
 
     EffectExecutor.prototype.message = function(effect) {
+        this.snd(effect.sound);
         this.msg(effect.text);
     };
 

@@ -20,14 +20,6 @@ define([
             return Math.ceil(totalXp / battleState.playerPawns.length);
         };
 
-        var wonBattle = function() {
-            return _(battleState.enemyPawns).all(function(pawn) { return !pawn.isAlive(); });
-        };
-
-        var lostBattle = function() {
-            return _(battleState.playerPawns).all(function(pawn) { return pawn.isDying || !pawn.isAlive(); });
-        };
-
         var winBattle = function() {
             var xp = xpPerPerson();
             var drops = {};
@@ -71,21 +63,31 @@ define([
 
             actions.forEach(function(action) {
                 battleState.enqueueState(actionExecutor[action.type](action, battleState));
+                battleState.enqueueFunc(function() {
+                    action.user.isActive = false;
+                });
             });
 
             battleState.enqueueFunc(function refresh() {
                 battleState.playerPawns.forEach(function(player) {
+                    var isDying = player.isDying;
                     var refresh = player.refresh();
                     battleState.enqueueState(actionExecutor.refresh({ effects: refresh, targets: [player] }, battleState));
+
+                    if (isDying && player.isDead) {
+                        battleState.enqueueState(new BattleMessageState([
+                            player.name + " collapsed!"
+                        ]));
+                    }
                 });
                 battleState.enemyPawns.forEach(function(enemy) {
                     var refresh = enemy.refresh();
                     battleState.enqueueState(actionExecutor.refresh({ effects: refresh, targets: [enemy] }, battleState));
                 });
                 battleState.enqueueFunc(function() {
-                    if (wonBattle()) {
+                    if (battleState.wonBattle()) {
                         winBattle();
-                    } else if (lostBattle()) {
+                    } else if (battleState.lostBattle()) {
                         loseBattle();
                     } else {
                         nextRound();

@@ -32,16 +32,22 @@ define([
         });
     };
 
+    var guardedState = function(action, battleState) {
+        var state = new CompositeState();
+        // exit the state if the user is dead, otherwise assess costs/cooldown
+        state.enqueueFunc(function() {
+            if (battleState.wonBattle() || !action.user.isAlive()) {
+                state.done();
+            } else {
+                action.user.isActive = true;
+            }
+        });
+        return state;
+    };
+
     return {
         skill: function(action, battleState) {
-            var state = new CompositeState();
-
-            // exit the state if the user is dead, otherwise assess costs/cooldown
-            state.enqueueFunc(function() {
-                if (!action.user.isAlive()) {
-                    state.done();
-                }
-            });
+            var state = guardedState(action, battleState);
 
             state.enqueueFunc(function() {
                 // retarget if enemy died
@@ -67,16 +73,17 @@ define([
 
             return state;
         },
-        item: function(action) {
-            var state = new CompositeState();
+        item: function(action, battleState) {
+            var state = guardedState(action, battleState);
+
             state.enqueueState(new BattleMessageState([
                 // TODO: message is not sufficient...
                 action.user.name + " used " + action.item.name + "!"
             ]));
             return state;
         },
-        flee: function(action) {
-            var state = new CompositeState();
+        flee: function(action, battleState) {
+            var state = guardedState(action, battleState);
             state.enqueueState(new BattleMessageState([textProvider.getMessage("ranAway", { user: action.user.name })]));
             state.enqueueFunc(function() {
                 radio("/battle/end").broadcast({ ran: true });
@@ -84,7 +91,7 @@ define([
             return state;
         },
         inspect: function(action, battleState) {
-            var state = new CompositeState();
+            var state = guardedState(action, battleState);
             var messages = [textProvider.getMessage("inspecting", { user: action.user.name })];
 
             _(battleState.enemyPawns).each(function(enemy) {

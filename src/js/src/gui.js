@@ -58,11 +58,14 @@ define(["underscore",
     };
 
     GuiRenderer.prototype.drawStatus = function(x, y, ally) {
+        var color = ally.isActive ? constants.HILIGHT_WINDOW_BG_COLOR : null;
+        color = _(ally).result("hp") > 0 ? color : constants.DEAD_WINDOW_BG_COLOR;
+
         this.drawTextWindow(x, y, STATUS_WINDOW_WIDTH, STATUS_WINDOW_HEIGHT, [
             _(ally).result("name").toUpperCase(),
             constants.chars.HEART + (""+_(ally).result("hp")).rset(3),
             constants.chars.STAR + (""+_(ally).result("mp")).rset(3)
-        ], undefined, 'normal', _(ally).result("hp") > 0 ? null : constants.DEAD_WINDOW_BG_COLOR);
+        ], undefined, 'normal', color);
     };
 
     GuiRenderer.prototype.drawPointer = function(x, y) {

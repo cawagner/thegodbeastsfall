@@ -8,6 +8,7 @@ define({
     WINDOW_OB_COLOR: "#ddd",
     WINDOW_BG_COLOR: "#025",
     DEAD_WINDOW_BG_COLOR: "#520",
+    HILIGHT_WINDOW_BG_COLOR: "#136",
     WINDOW_TEXT_COLOR: "#fff",
     FACE_WIDTH: 48,
     FACE_HEIGHT: 48,

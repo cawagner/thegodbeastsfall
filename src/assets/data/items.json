@@ -1,13 +1,17 @@
 {
     "potion": {
-        "name": "Potion",
-        "desc": "A small red potion. It looks like you would recover some health if you were to drink it.",
+        "name": "Aloe",
+        "desc": "Juice from the aloe plant. Used to treat minor wounds.",
         "target": "player",
         "effect": "heal/normal",
         "power": "4+3d4",
         "fieldUsable": true,
         "battleUsable": true,
         "consumable": true
+    },
+    "antidote": {
+        "name": "Cardamom",
+        "desc": "Tradtionally used to treat poison."
     },
     "soma": {
         "name": "Soma",

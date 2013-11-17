@@ -34,7 +34,7 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         var hitChance = meleeHitChance(user, target, skill);
         var criticalChance = meleeCriticalChance(user, target, skill);
 
-        var isCritical = user.isDying || d100.roll() <= criticalChance;
+        var isCritical = d100.roll() <= criticalChance;
         var hasConnected = d100.roll() <= hitChance;
 
         if (isCritical) {
@@ -146,6 +146,38 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         };
     };
 
+    var giantess = function(skill, user) {
+        user.height = user.height || (5 * 12 + 4);
+
+        var dice =  Dice.parse(("" + Math.floor(user.height / 10 - 3)) + "d4");
+        var addInches = Math.floor((user.support() / 15.0) * dice.roll());
+        var feet, inches;
+
+        user.height += addInches;
+
+        feet = Math.floor(user.height / 12) | 0;
+        inches = user.height % 12;
+        return {
+            effects: [
+                {
+                    type: "message",
+                    text: user.name + " grew " + addInches + " inches to " + feet + "'" + inches + '"',
+                    skill: skill
+                },
+                {
+                    type: "buff", target: user, stat: "strength", amount: addInches, duration: 15, skill: skill
+                },
+                {
+                    type: "buff", target: user, stat: "maxHp", amount: addInches * 3, duration: 15, skill: skill
+                },
+                {
+                    type: "heal", amount: addInches, target: user, skill: skill
+                }
+            ],
+            skill: skill
+        };
+    };
+
     var standardSkillEffect = function(effectors) {
         var fns = arguments;
         effectors = [].concat(effectors);
@@ -178,6 +210,7 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         "debuff": standardSkillEffect(standardDebuff),
         "poison": standardSkillEffect(poison),
         "removeStatus": standardSkillEffect(removeStatus),
+        "giantess": giantess,
         "navelgaze": function(skill, user, targets) {
             return {
                 effects: [ { type: "message", text: skill.message, sound: "goofy" } ],

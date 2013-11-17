@@ -13,7 +13,8 @@ define(["battle/battle-text-provider"], function(textProvider) {
                 result.push({
                     type: "damage",
                     amount: Math.ceil(effect.target.maxHp() / 30),
-                    target: effect.target
+                    target: effect.target,
+                    sound: "playerhit"
                 });
                 return result;
             },
