@@ -18,8 +18,8 @@ define({
     ACTOR_HEIGHT: 18,
     ACTOR_HEAD: 4,
     chars: {
-        HEART: "HP",
-        STAR: "MP",
-        POINTER: "*"
+        HEART: "&",
+        STAR: "^",
+        POINTER: ">"
     }
 });

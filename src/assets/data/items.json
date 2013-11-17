@@ -11,7 +11,11 @@
     },
     "antidote": {
         "name": "Cardamom",
-        "desc": "Tradtionally used to treat poison."
+        "desc": "Tradtionally used to treat poison.",
+        "target": "player",
+        "fieldUsable": false,
+        "battleUsable": true,
+        "consumable": true
     },
     "soma": {
         "name": "Soma",
