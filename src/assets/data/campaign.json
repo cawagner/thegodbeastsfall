@@ -40,7 +40,7 @@
         "luck": 10,
         "skills": {
             "Fight": [ "stab", "hard" ],
-            "Magic": [ "fire1", "giantess" ]
+            "Magic": [ "fire1" ]
         },
         "learnSet": {
             "Fight": { },
