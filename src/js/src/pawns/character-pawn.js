@@ -70,7 +70,12 @@ define(["pawns/pawn-base"], function(PawnBase) {
 
     CharacterPawn.prototype.priority = function() {
         var priority = PawnBase.prototype.priority.call(this);
-        return this.isDying ? Math.floor(Math.random() * 5) : priority;
+        return this.isDying ? -Math.floor(Math.random() * 5) : priority;
+    };
+
+    CharacterPawn.prototype.accuracy = function() {
+        var accuracy = PawnBase.prototype.accuracy.call(this);
+        return this.isDying ? accuracy * 2 : accuracy;
     };
 
     return CharacterPawn;

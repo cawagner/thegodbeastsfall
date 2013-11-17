@@ -46,7 +46,7 @@
         "effect": "damage/melee",
         "power": "1d6",
         "cooldown": 4,
-        "accuracy": 1.25
+        "accuracy": 1.1
     },
     "fire1": {
         "name": "Feu",
