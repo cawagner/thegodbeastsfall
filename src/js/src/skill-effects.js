@@ -147,15 +147,15 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
     };
 
     var giantess = function(skill, user) {
-        user.height = user.height || (5 * 12 + 4);
+        user.height = user.height || (5 * 12 + 7);
 
-        var dice =  Dice.parse(("" + Math.floor(user.height / 10 - 3)) + "d4");
-        var addInches = Math.floor((user.support() / 15.0) * dice.roll());
+        var dice =  Dice.parse("3d4");
+        var addInches = Math.round((user.support() / 12.0) * dice.roll());
         var feet, inches;
 
         user.height += addInches;
 
-        feet = Math.floor(user.height / 12) | 0;
+        feet = Math.floor(user.height / 12);
         inches = user.height % 12;
         return {
             effects: [

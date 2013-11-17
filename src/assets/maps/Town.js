@@ -27,6 +27,7 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
             } else if (item === "Get Potions") {
                 gameState.inventory.addItem("potion");
                 gameState.inventory.addItem("soma");
+                gameState.inventory.addItem("antidote");
             }
             this.close();
         },
