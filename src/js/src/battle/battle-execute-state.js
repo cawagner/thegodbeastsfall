@@ -20,14 +20,6 @@ define([
             return Math.ceil(totalXp / battleState.playerPawns.length);
         };
 
-        var wonBattle = function() {
-            return _(battleState.enemyPawns).all(function(pawn) { return !pawn.isAlive(); });
-        };
-
-        var lostBattle = function() {
-            return _(battleState.playerPawns).all(function(pawn) { return pawn.isDying || !pawn.isAlive(); });
-        };
-
         var winBattle = function() {
             var xp = xpPerPerson();
             var drops = {};
@@ -96,9 +88,9 @@ define([
                     battleState.enqueueState(actionExecutor.refresh({ effects: refresh, targets: [enemy] }, battleState));
                 });
                 battleState.enqueueFunc(function() {
-                    if (wonBattle()) {
+                    if (battleState.wonBattle()) {
                         winBattle();
-                    } else if (lostBattle()) {
+                    } else if (battleState.lostBattle()) {
                         loseBattle();
                     } else {
                         nextRound();

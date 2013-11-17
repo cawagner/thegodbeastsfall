@@ -168,7 +168,15 @@ define([
 
             gui.drawStatus(pawn.x - 18, pawn.y - 5, pawn);
         });
-    }
+    };
+
+    BattleState.prototype.wonBattle = function() {
+        return _(this.enemyPawns).all(function(pawn) { return !pawn.isAlive(); });
+    };
+
+    BattleState.prototype.lostBattle = function() {
+        return _(this.playerPawns).all(function(pawn) { return pawn.isDying || !pawn.isAlive(); });
+    };
 
     return BattleState;
 });
