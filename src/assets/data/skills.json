@@ -55,6 +55,7 @@
         "target": "enemy",
         "effect": "damage/magic",
         "power": "4d6k3",
+        "element": "fire",
         "mp": 3
     },
     "fire1multi": {
@@ -64,6 +65,7 @@
         "target": "enemies",
         "effect": "damage/magic",
         "power": "3d6k2",
+        "element": "fire",
         "mp": 4
     },
     "heal1": {

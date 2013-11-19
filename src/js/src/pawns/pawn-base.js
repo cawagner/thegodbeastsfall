@@ -150,6 +150,9 @@ define(["underscore"], function(_) {
         },
         dealtDamage: function(amount) {
 
+        },
+        weaknesses: function() {
+            return this.entity.weak || [];
         }
     });
 

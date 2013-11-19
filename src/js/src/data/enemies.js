@@ -8,7 +8,7 @@ define([
     _(enemies).each(function(enemy) {
         var family = enemyFamilies[enemy.family];
         if (family) {
-            enemy.weak = enemy.weak || family.weak;
+            enemy.weak = enemy.weak || family.weak || [];
         }
     });
 
