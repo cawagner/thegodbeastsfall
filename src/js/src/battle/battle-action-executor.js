@@ -94,12 +94,22 @@ define([
             var state = guardedState(action, battleState);
             var messages = [textProvider.getMessage("inspecting", { user: action.user.name })];
 
+            var haveSeen = {};
+
             _(battleState.enemyPawns).each(function(enemy) {
                 state.enqueueFunc(function() {
                     if (enemy.isAlive()) {
                         // TODO: shouldn't know about entity...
                         messages.push(enemy.family.name + "/" + enemy.name);
-                        messages.push.apply(messages, enemy.entity.desc.split('|'));
+                        if (!haveSeen[enemy.name]) {
+                            messages.push.apply(messages, enemy.entity.desc.split('|'));
+
+                            (enemy.entity.weak || []).forEach(function(weak) {
+                                messages.push(enemy.name + " fears " + weak + "!");
+                            });
+
+                            haveSeen[enemy.name] = true;
+                        }
                         messages.push("Health: " + Math.round(enemy.hp() / enemy.maxHp() * 100) + "%");
                     }
                 });

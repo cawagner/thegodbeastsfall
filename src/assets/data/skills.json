@@ -48,6 +48,23 @@
         "cooldown": 4,
         "accuracy": 1.1
     },
+    "ray": {
+        "name": "Ray",
+        "text": "{{user}} shoots a beam!",
+        "target": "enemy",
+        "effect": "damage/magic",
+        "power": "6+1d10",
+        "mp": 2
+    },
+    "bloodsuck": {
+        "name": "Bloodsuck",
+        "text": "{{user}} sucks {{target}}'s blood!",
+        "target": "enemy",
+        "effect": "damage/melee/vampire",
+        "power": "1d6",
+        "cooldown": 3,
+        "accuracy": 99999999
+    },
     "fire1": {
         "name": "Feu",
         "desc": "Hurl a small fireball at one enemy.",
@@ -55,6 +72,7 @@
         "target": "enemy",
         "effect": "damage/magic",
         "power": "4d6k3",
+        "element": "fire",
         "mp": 3
     },
     "fire1multi": {
@@ -64,6 +82,7 @@
         "target": "enemies",
         "effect": "damage/magic",
         "power": "3d6k2",
+        "element": "fire",
         "mp": 4
     },
     "heal1": {
@@ -92,7 +111,8 @@
         "power": "3d6",
         "mp": 3,
         "families": ["vermin", "tomb"],
-        "whiff": "Judge only works on vermin and undead!"
+        "whiff": "Judge only works on vermin and undead!",
+        "element": "clean"
     },
     "braver": {
         "name": "Braver",

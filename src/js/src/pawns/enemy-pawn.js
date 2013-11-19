@@ -83,7 +83,7 @@ define([
         return this.enemy.xp;
     };
 
-    EnemyPawn.prototype.consumeMp = function() {
+    EnemyPawn.prototype.consumeMp = function(amount) {
         this.currentMp -= amount;
     };
 

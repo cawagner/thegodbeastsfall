@@ -64,11 +64,28 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         }
     };
 
+    var vampire = function(user, target, skill) {
+        var damageEffect = standardDamage(user, target, skill);
+        var suckEffect = {
+            type: "heal",
+            amount: Math.ceil(damageEffect.amount / 2),
+            target: user
+        };
+
+        return [
+            damageEffect,
+            suckEffect
+        ];
+    }
+
     var magicDamage = function(user, target, skill) {
         var dice = Dice.parse(skill.power);
         var damage = Math.ceil((user.force() / target.resist()) * dice.roll());
+        var isWeak = skill.element && _(target.weaknesses()).contains(skill.element);
 
-        // TODO: apply weakness / resistance, etc.
+        if (isWeak) {
+            damage = Math.floor(damage * 1.5);
+        }
 
         return {
             type: "damage",
@@ -76,7 +93,8 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
             amount: damage,
             target: target,
             damageType: "magic",
-            sound: "feu"
+            sound: "feu",
+            critical: isWeak
         };
     };
 
@@ -202,6 +220,7 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
     // TODO: assess skill costs, etc.
     return {
         "damage/melee": standardSkillEffect(standardDamage),
+        "damage/melee/vampire": standardSkillEffect(vampire),
         "damage/melee/2": standardSkillEffect([standardDamage, standardDamage]),
         "damage/magic": standardSkillEffect(magicDamage),
         "damage/magic/family": standardSkillEffect(magicDamageToFamily),

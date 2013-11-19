@@ -45,6 +45,26 @@
             "cigar": 0.5
         }
     },
+    "bat": {
+        "name": "Bat",
+        "family": "vermin",
+        "desc": "A bat is a mouse that took to the skies.",
+        "skills": ["bite", "ray", "bloodsuck"],
+        "hp": "20+2d6",
+        "mp": 5,
+        "strength": 10,
+        "agility": 20,
+        "intelligence": 6,
+        "luck": 5,
+        "rect": {
+            "x": 242,
+            "y": 323,
+            "width": 70,
+            "height": 54
+        },
+        "idle": "fly",
+        "xp": 150
+    },
     "zombie": {
         "name": "Zombie",
         "family": "tomb",
