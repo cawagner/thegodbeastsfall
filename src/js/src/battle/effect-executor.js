@@ -63,7 +63,7 @@ function(_, radio, textProvider, statusFactory, sound) {
             self.msg(textProvider.getMessage("missed", { target: effect.target.name }), "miss");
         } else {
             self.state.enqueueState(self.displayDamage(effect.target, "-"+effect.amount, effect.critical));
-            if (effect.critical) {
+            if (effect.critical && effect.damageType === "melee") {
                 self.msg(textProvider.getMessage("criticalHit"));
             }
         }
