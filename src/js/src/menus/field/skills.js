@@ -26,7 +26,11 @@ define([
         var fieldSkills = _(member.skills["Magic"]).chain().filter(function(skill) {
             return skills[skill].isFieldUsable;
         }).map(function(skill) {
-            return { text: skills[skill].name, skill: skills[skill], disabled: !pawn.canUseSkill(skills[skill]) };
+            return {
+                text: skills[skill].name,
+                skill: skills[skill],
+                disabled: function() { return !pawn.canUseSkill(skills[skill]); }
+            };
         }).value();
 
         var userPartyMemberSelected = function(index) {
@@ -76,7 +80,14 @@ define([
                 });
             };
             var targetMenu = new Menu({
-                items: _(gameState.party).pluck("name"),
+                items: _(gameState.party).pluck("name").map(function(memberName) {
+                    return {
+                        text: memberName,
+                        disabled: function() {
+                            return !pawn.canUseSkill(fieldSkill.skill);
+                        }
+                    }
+                }),
                 select: targetPartyMenuSelected
             }).open();
         };
