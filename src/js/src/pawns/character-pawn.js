@@ -44,7 +44,7 @@ define(["constants", "pawns/pawn-base"], function(constants, PawnBase) {
             return skill.cooldown + constants.chars.REFRESH + (skill.cooldown - this.cooldowns[skill.name] || skill.cooldown);
         }
         if (skill.mp) {
-            return skill.mp + constants.chars.STAR;
+            return constants.chars.STAR + (""+skill.mp).rset(2);
         }
         return "";
     };
