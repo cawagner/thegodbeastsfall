@@ -13,23 +13,35 @@ define(["json!archetypes.json", "image-loader", "graphics", "constants"], functi
 
     var destRect = { x: 0, y: 0, width: constants.ACTOR_WIDTH, height: constants.ACTOR_HEIGHT };
 
-    return {
-        drawActor: function(actor) {
-            var frameToDraw,
-                srcRect,
-                archetype = archetypes[actor.archetype],
-                image = archetypeImages[archetype.imagePath];
+    var renderer = {
+        drawArchetypeFrame: function(archetypeName, frame, direction, x, y) {
+            var archetype = archetypes[archetypeName];
+            var frameToDraw = direction * 3 + walkFrames[frame];
+            var srcRect;
+            var image = archetypeImages[archetype.imagePath];
 
             if (!archetype.isHidden) {
-                frameToDraw = actor.direction * 3 + walkFrames[actor.frame|0];
+                frameToDraw = direction * 3 + walkFrames[frame|0];
 
-                srcRect = graphics.getRectForFrame(frameToDraw + (archetype.startFrame || 0), image.width, constants.ACTOR_WIDTH, constants.ACTOR_HEIGHT);
+                srcRect = graphics.getRectForFrame(frameToDraw + (archetype.startFrame || 0), image.width,
+                    constants.ACTOR_WIDTH,
+                    constants.ACTOR_HEIGHT);
 
-                destRect.x = actor.x * constants.TILE_SIZE;
-                destRect.y = actor.y * constants.TILE_SIZE - constants.ACTOR_HEAD;
+                destRect.x = x;
+                destRect.y = y;
 
                 graphics.drawImageRect(image, srcRect, destRect);
             }
+        },
+        drawActor: function(actor) {
+            renderer.drawArchetypeFrame(
+                actor.archetype,
+                actor.frame,
+                actor.direction,
+                actor.x * constants.TILE_SIZE,
+                actor.y * constants.TILE_SIZE - constants.ACTOR_HEAD
+            );
         }
     };
+    return renderer;
 });
