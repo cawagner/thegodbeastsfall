@@ -1,4 +1,4 @@
-define(["pawns/pawn-base"], function(PawnBase) {
+define(["constants", "pawns/pawn-base"], function(constants, PawnBase) {
     "use strict";
 
     function CharacterPawn(character) {
@@ -41,10 +41,10 @@ define(["pawns/pawn-base"], function(PawnBase) {
 
     CharacterPawn.prototype.formatCost = function(skill) {
         if (skill.cooldown) {
-            return skill.cooldown + "^" + (skill.cooldown - this.cooldowns[skill.name] || skill.cooldown);
+            return skill.cooldown + constants.chars.REFRESH + (skill.cooldown - this.cooldowns[skill.name] || skill.cooldown);
         }
         if (skill.mp) {
-            return skill.mp + "MP";
+            return skill.mp + constants.chars.STAR;
         }
         return "";
     };

@@ -49,18 +49,18 @@
         "name": "Bat",
         "family": "vermin",
         "desc": "A bat is a mouse that took to the skies.",
-        "skills": ["bite", "ray", "bloodsuck"],
-        "hp": "20+2d6",
-        "mp": 5,
+        "skills": ["ray", "bloodsuck"],
+        "hp": "20+2d8",
+        "mp": 0,
         "strength": 10,
         "agility": 20,
         "intelligence": 6,
         "luck": 5,
         "rect": {
-            "x": 242,
-            "y": 323,
-            "width": 70,
-            "height": 54
+            "x": 240,
+            "y": 321,
+            "width": 74,
+            "height": 58
         },
         "idle": "fly",
         "xp": 150

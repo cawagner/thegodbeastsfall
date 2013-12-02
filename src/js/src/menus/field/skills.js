@@ -21,12 +21,47 @@ define([
 ) {
     "use strict";
 
+    var createEffectExecutor = function(action, messages) {
+        return new EffectExecutor({
+            state: new CompositeState(),
+            action: action,
+            displayMessage: function(msg) {
+                // HACK: ugh, gross
+                return {
+                    start: function() { messages.push(msg); },
+                    update: _.give(true),
+                    draw: _.noop
+                };
+            },
+            displayDamage: function(target, amount) {
+                // HACK: ugh, gross AND don't hardcode text
+                return {
+                    start: function() {
+                        if (amount === 0) {
+                            return;
+                        } else if (amount > 0) {
+                            messages.push(target.name + " recovered " + amount + " hit points!");
+                        } else if (amount < 0) {
+                            messages.push(target.name + " took " + amount + " damage!");
+                        }
+                    },
+                    update: _.give(true),
+                    draw: _.noop
+                };
+            }
+        });
+    };
+
     var createSkillMenuForMember = function(member) {
         var pawn = new CharacterPawn(member);
         var fieldSkills = _(member.skills["Magic"]).chain().filter(function(skill) {
             return skills[skill].isFieldUsable;
         }).map(function(skill) {
-            return { text: skills[skill].name, skill: skills[skill], disabled: !pawn.canUseSkill(skills[skill]) };
+            return {
+                text: skills[skill].name,
+                skill: skills[skill],
+                disabled: function() { return !pawn.canUseSkill(skills[skill]); }
+            };
         }).value();
 
         var userPartyMemberSelected = function(index) {
@@ -37,46 +72,27 @@ define([
                     ? pawn
                     : new CharacterPawn(gameState.party[index]);
                 var messages = [];
-                var executor = new EffectExecutor({
-                    state: new CompositeState(),
-                    action: {
-                        user: pawn,
-                        skill: fieldSkill.skill,
-                        targets: [targetPawn]
-                    },
-                    displayMessage: function(msg) {
-                        // HACK: ugh, gross
-                        return {
-                            start: function() { messages.push(msg); },
-                            update: _.give(true),
-                            draw: _.noop
-                        };
-                    },
-                    displayDamage: function(target, amount) {
-                        // HACK: ugh, gross AND don't hardcode text
-                        return {
-                            start: function() {
-                                if (amount === 0) {
-                                    return;
-                                } else if (amount > 0) {
-                                    messages.push(target.name + " recovered " + amount + " hit points!");
-                                } else if (amount < 0) {
-                                    messages.push(target.name + " took " + amount + " damage!");
-                                }
-                            },
-                            update: _.give(true),
-                            draw: _.noop
-                        };
-                    }
-                });
+                var executor = createEffectExecutor({
+                    user: pawn,
+                    skill: fieldSkill.skill,
+                    targets: [targetPawn]
+                }, messages);
                 skillUser.useSkill(executor);
                 executor.state.runAll();
                 radio("/npc/talk").broadcast({
                     text: messages
                 });
             };
+            var skillIsUsable = function() {
+                return !pawn.canUseSkill(fieldSkill.skill);
+            };
             var targetMenu = new Menu({
-                items: _(gameState.party).pluck("name"),
+                items: _(gameState.party).map(function(member) {
+                    return {
+                        text: member.name,
+                        disabled: skillIsUsable
+                    };
+                }),
                 select: targetPartyMenuSelected
             }).open();
         };
