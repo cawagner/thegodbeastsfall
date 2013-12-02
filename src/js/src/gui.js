@@ -1,9 +1,11 @@
 define(["underscore",
     "constants",
     "graphics",
+    "direction",
+    "display/actor-renderer",
     "json!speakers.json",
     "image!assets/img/faces.png"
-], function(_, constants, graphics, speakers, facesImage) {
+], function(_, constants, graphics, direction, actorRenderer, speakers, facesImage) {
     "use strict";
 
     var STATUS_WINDOW_WIDTH = 36, STATUS_WINDOW_HEIGHT = 44;
@@ -61,6 +63,7 @@ define(["underscore",
         var color = ally.isActive ? constants.HILIGHT_WINDOW_BG_COLOR : null;
         color = _(ally).result("hp") > 0 ? color : constants.DEAD_WINDOW_BG_COLOR;
 
+        actorRenderer.drawArchetypeFrame(ally.archetype, 0, direction.DOWN, x, y - constants.ACTOR_HEIGHT);
         this.drawTextWindow(x, y, STATUS_WINDOW_WIDTH, STATUS_WINDOW_HEIGHT, [
             _(ally).result("name").toUpperCase(),
             constants.chars.HEART + (""+_(ally).result("hp")).rset(4),

@@ -9,6 +9,7 @@ define(["constants", "pawns/pawn-base"], function(constants, PawnBase) {
         this.type = 'player';
         this.restoreMpOnNextHit = true;
         this.equipment = character.equipment;
+        this.archetype = character.archetype;
     };
 
     CharacterPawn.prototype = new PawnBase();
