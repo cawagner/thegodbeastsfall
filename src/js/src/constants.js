@@ -20,6 +20,7 @@ define({
     chars: {
         HEART: "&",
         STAR: "<",
-        POINTER: ">"
+        POINTER: ">",
+        REFRESH: "^"
     }
 });
