@@ -20,9 +20,10 @@ define(["underscore",
             graphics.setFillColor(bgColor || constants.WINDOW_BG_COLOR);
             graphics.drawFilledRect(x - 3, y - 3, width + 6, height + 6);
         },
-        drawTextWindow: function(x, y, width, height, lines, charactersRevealed, font, bgColor) {
-            renderer.drawWindowRect(x, y, width, height, bgColor);
-            renderer.drawTextLines(x, y, lines, charactersRevealed, font);
+        drawTextWindow: function(x, y, width, height, lines, options, charactersRevealed) {
+            options = options || {};
+            renderer.drawWindowRect(x, y, width, height, options.bgColor);
+            renderer.drawTextLines(x, y, lines, charactersRevealed, options.font);
         },
         drawTextLines: function(x, y, lines, charactersRevealed, font) {
             var charsSoFar = 0, charsInLine;
@@ -62,7 +63,7 @@ define(["underscore",
                 _(ally).result("name").toUpperCase(),
                 constants.chars.HEART + (""+_(ally).result("hp")).rset(4),
                 constants.chars.STAR + (""+_(ally).result("mp")).rset(4)
-            ], undefined, 'normal', color);
+            ], { bgColor: color });
         },
         drawPointer: function(x, y) {
             graphics.drawText(x, y + 4, constants.chars.POINTER);
