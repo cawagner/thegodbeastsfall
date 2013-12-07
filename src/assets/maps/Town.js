@@ -40,7 +40,7 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
         debugMenu.owner = map.npcs.barrel1;
 
         [map.npcs.oldman, map.npcs.littlegirl, map.npcs.earl].forEach(function(npc) {
-            npc.addBeforeTalk(learnAboutMirv);
+            npc.on('beforeTalk', learnAboutMirv);
         });
 
         map.npcs.barrel1.addAfterTalk(function() {
@@ -57,12 +57,4 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
             }
         });
     };
-
-    // map.npcs.earl2.addAfterTalk(function() {
-    //     if (gameState.inventory.addItem("potion", 1)) {
-    //         this.runDialogue("potion");
-    //     } else {
-    //         this.runDialogue("wazoo");
-    //     }
-    // });
 });

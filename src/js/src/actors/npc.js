@@ -1,6 +1,13 @@
 define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, npcBehaviors, direction) {
     "use strict";
 
+    function EventArgs() {
+        this.defaultPrevented = false;
+    }
+    EventArgs.prototype.preventDefault = function() {
+        this.defaultPrevented = true;
+    };
+
     function Npc(properties) {
         var beforeTalkHandlers = [];
         var afterTalkHandlers = [];
@@ -22,10 +29,6 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
 
         this.onUpdate = function(timeScale) {
             this.wander();
-        };
-
-        this.addBeforeTalk = function(fn) {
-            beforeTalkHandlers.push(fn);
         };
 
         this.addAfterTalk = function(fn) {
@@ -53,17 +56,15 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             var cancelled = false;
             var sayProperties;
 
-            beforeTalkHandlers.forEach(function(fn){
-                cancelled = cancelled || (fn.call(self) === false);
-            });
+            var e = new EventArgs({ sender: self });
+            this.trigger('beforeTalk', [e]);
 
-            if (!cancelled) {
+            if (!e.defaultPrevented) {
                 this.runDialogue("say").then(function() {
-                    _(afterTalkHandlers).each(function(fn) {
-                        fn.call(self);
-                    });
+                    var e = new EventArgs({ sender: self });
+                    this.trigger('afterTalk', [e]);
                 });
-            };
+            }
         }
     };
 

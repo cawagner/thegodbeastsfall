@@ -17,7 +17,7 @@ define(['actors/npc', 'battle', 'game-state'], function(Npc, Battle, gameState) 
             moveClurichaunInFrontOfDoor();
         }
 
-        clurichaun.addAfterTalk(function() {
+        clurichaun.on('afterTalk', function() {
             var battle = new Battle(["clurichaun"], { isBoss: true });
             battle.onWon = function() {
                 flags.beatenClurichaun = true;
@@ -31,10 +31,12 @@ define(['actors/npc', 'battle', 'game-state'], function(Npc, Battle, gameState) 
             battle.start();
         });
 
-        map.npcs.drachma.addBeforeTalk(function() {
-            return !flags.haveDrachma;
+        map.npcs.drachma.on('beforeTalk', function(e) {
+            if (flags.haveDrachma) {
+                e.preventDefault();
+            }
         });
-        map.npcs.drachma.addBeforeTalk(function() {
+        map.npcs.drachma.on('beforeTalk', function() {
             flags.haveDrachma = true;
             moveClurichaunInFrontOfDoor();
         });
