@@ -4,6 +4,7 @@ define([
     'graphics',
     'state-events',
     'keyboard-input',
+    'touch-input',
     'constants'
 ], function(
     _,
@@ -11,6 +12,7 @@ define([
     graphics,
     stateEvents,
     input,
+    touchInput,
     constants
 ) {
     "use strict";
@@ -78,6 +80,7 @@ define([
         canvas = document.getElementById("gameCanvas");
 
         input.init();
+        touchInput.init(canvas);
 
         stateEvents.init();
 

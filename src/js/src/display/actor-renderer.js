@@ -1,4 +1,4 @@
-define(["json!archetypes.json", "image-loader", "graphics", "constants"], function(archetypes, imageLoader, graphics, constants) {
+define(["underscore", "json!archetypes.json", "image-loader", "graphics", "constants"], function(_, archetypes, imageLoader, graphics, constants) {
     "use strict";
 
     // TODO: doesn't really live here...
