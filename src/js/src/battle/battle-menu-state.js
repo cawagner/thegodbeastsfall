@@ -88,20 +88,21 @@ define([
                     })
                 }
             ],
-            cancel: function() {
+            cancel: function(e) {
                 if (self.partyIndex > 0) {
                     // TODO: handle >2 party members
                     if (!self.battleState.playerPawns[self.partyIndex - 1].isAlive()) {
-                        return false;
+                        e.preventDefault();
+                        return;
                     }
                     self.partyIndex--;
                     self.actions.pop();
                     setTimeout(function() {
                         self.menu = self.getMenu().open();
                     }, 1);
-                    return true;
+                } else {
+                    e.preventDefault()
                 }
-                return false;
             }
         });
     };
