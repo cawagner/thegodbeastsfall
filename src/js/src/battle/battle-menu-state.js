@@ -77,12 +77,12 @@ define([
                         cols: 3,
                         x: 10,
                         y: 200,
-                        select: function(index, item) {
-                            this.close();
-                            self.setAction(item.action, {
-                                skill: item.skill,
+                        select: function(e) {
+                            e.sender.close();
+                            self.setAction(e.item.action, {
+                                skill: e.item.skill,
                                 targets: [self.currentPawn()],
-                                priorityBoost: item.priorityBoost
+                                priorityBoost: e.item.priorityBoost
                             });
                         }
                     })
@@ -161,12 +161,11 @@ define([
                 rows: 2,
                 cols: 3,
                 items: items,
-                select: function(index, item) {
-                    var itemsMenu = this;
-                    self.getTargetMenu(member, item.item.target, function(targets) {
-                        itemsMenu.close();
+                select: function(e) {
+                    self.getTargetMenu(member, e.item.item.target, function(targets) {
+                        e.sender.close();
                         self.setAction("item", {
-                            item: item.item,
+                            item: e.item.item,
                             targets: targets
                         });
                     }).open();
@@ -179,16 +178,16 @@ define([
         var confirmMultiTargetMenu = function(targetText, pawns) {
             return new Menu({
                 items: [targetText],
-                select: function() {
-                    this.close();
+                select: function(e) {
+                    e.sender.close();
                     setTarget(pawns);
                 }
             });
         };
         if (targetType === "enemy" || targetType === "player") {
-            return this.targetPawn(targetType).select(function(index, item) {
-                this.close();
-                setTarget([item.target]);
+            return this.targetPawn(targetType).on('select', function(e) {
+                e.sender.close();
+                setTarget([e.item.target]);
             });
         } else if (targetType === "enemies") {
             return confirmMultiTargetMenu("All Enemies", this.battleState.enemyPawns);
@@ -222,12 +221,11 @@ define([
                 rows: 2,
                 cols: 3,
                 draw: _(self.drawSkillInfo).bind(self),
-                select: function(index, item) {
-                    var skillMenu = this;
-                    self.getTargetMenu(member, item.skill.target, function(targets) {
-                        skillMenu.close();
+                select: function(e) {
+                    self.getTargetMenu(member, e.item.skill.target, function(targets) {
+                        e.sender.close();
                         self.setAction("skill", {
-                            skill: item.skill,
+                            skill: e.item.skill,
                             targets: targets
                         });
                     }).open();

@@ -25,7 +25,7 @@ define(["underscore", "battle"], function(_, Battle) {
     Encounter.prototype.trigger = function() {
         this.timesTriggered++;
 
-        new Battle(_(this.parties).randomElement()).start();
+        new Battle(_(this.parties).sample()).start();
 
         this.reset();
     };

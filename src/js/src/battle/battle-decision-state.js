@@ -32,7 +32,7 @@ define([
             var livingHumans = _(battleState.playerPawns).filter(function(human) {
                 return human.isAlive();
             });
-            return _(livingHumans).randomElement();
+            return _(livingHumans).sample();
         };
         this.start = function(commands) {
             var actions = [];
@@ -59,7 +59,7 @@ define([
 
             _(battleState.enemyPawns).each(function(enemy) {
                 var usableSkills = enemy.usableSkills();
-                var skill = _(usableSkills).randomElement();
+                var skill = _(usableSkills).sample();
                 var target;
                 // still missing some target types...
                 if (skills[skill].target === "enemy") {

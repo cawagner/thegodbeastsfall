@@ -2,7 +2,7 @@ define([], function() {
     "use strict";
 
     var randomUpperishHumanBodyPart = function() {
-        return _(["knee", "scalp", "nose", "wrist", "arm", "fingers", "cheeks", "neck"]).randomElement();
+        return _(["knee", "scalp", "nose", "wrist", "arm", "fingers", "cheeks", "neck"]).sample();
     };
 
     return {

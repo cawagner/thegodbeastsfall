@@ -1,6 +1,14 @@
 define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-input", "states/noop-state"], function(radio, _, game, graphics, gui, sound, input, NoopState) {
     "use strict";
 
+    function EventArgs(options) {
+        _(this).extend(options || {});
+        this.defaultPrevented = false;
+    }
+    EventArgs.prototype.preventDefault = function() {
+        this.defaultPrevented = true;
+    };
+
     function MenuState(menu) {
         this.menu = menu;
         this.previousState = new NoopState();
@@ -23,6 +31,7 @@ define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-inp
     };
 
     MenuState.prototype.update = function() {
+        var e;
         this.openProgress = Math.min(1, this.openProgress + 0.2);
 
         if (!this.isPaused) {
@@ -40,12 +49,20 @@ define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-inp
             }
             if (input.wasConfirmPressed()) {
                 if (!_(this.menu.items[this.selectionIndex]).result("disabled")) {
-                    this.menu.triggerSelect(this.selectionIndex, this.menu.items[this.selectionIndex]);
+                    this.menu.trigger('select', [{
+                        sender: this.menu,
+                        index: this.selectionIndex,
+                        item: this.menu.items[this.selectionIndex]
+                    }]);
                     sound.playSound("confirm");
                 }
             }
             if (input.wasCancelPressed()) {
-                this.menu.triggerCancel();
+                e = new EventArgs({ sender: this.menu });
+                this.menu.trigger('cancel', [e]);
+                if (!e.defaultPrevented) {
+                    this.menu.close();
+                }
                 sound.playSound("cancel");
             }
         }

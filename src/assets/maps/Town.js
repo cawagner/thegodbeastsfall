@@ -15,8 +15,8 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
 
     var debugMenu = new Menu({
         items: ["Get Potions", "Get Mierv"],
-        select: function(index, item) {
-            if (item === "Get Mierv") {
+        select: function(e) {
+            if (e.item === "Get Mierv") {
                 if (gameState.party.length < 2) {
                     gameState.party.push(Character.create(campaign["heroine"]));
                 } else {
@@ -29,10 +29,7 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
                 gameState.inventory.addItem("soma");
                 gameState.inventory.addItem("antidote");
             }
-            this.close();
-        },
-        cancel: function() {
-            this.close();
+            e.sender.close();
         }
     });
 
@@ -40,10 +37,10 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
         debugMenu.owner = map.npcs.barrel1;
 
         [map.npcs.oldman, map.npcs.littlegirl, map.npcs.earl].forEach(function(npc) {
-            npc.addBeforeTalk(learnAboutMirv);
+            npc.on('beforeTalk', learnAboutMirv);
         });
 
-        map.npcs.barrel1.addAfterTalk(function() {
+        map.npcs.barrel1.on('afterTalk', function() {
             debugMenu.open();
         });
 
@@ -57,12 +54,4 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
             }
         });
     };
-
-    // map.npcs.earl2.addAfterTalk(function() {
-    //     if (gameState.inventory.addItem("potion", 1)) {
-    //         this.runDialogue("potion");
-    //     } else {
-    //         this.runDialogue("wazoo");
-    //     }
-    // });
 });

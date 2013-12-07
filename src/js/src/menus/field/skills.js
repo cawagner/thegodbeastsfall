@@ -64,25 +64,9 @@ define([
             };
         }).value();
 
-        var userPartyMemberSelected = function(index) {
-            var skillMenu = this;
-            var fieldSkill = fieldSkills[index];
-            var targetPartyMenuSelected = function(index) {
-                var targetPawn = gameState.party[index] === member
-                    ? pawn
-                    : new CharacterPawn(gameState.party[index]);
-                var messages = [];
-                var executor = createEffectExecutor({
-                    user: pawn,
-                    skill: fieldSkill.skill,
-                    targets: [targetPawn]
-                }, messages);
-                skillUser.useSkill(executor);
-                executor.state.runAll();
-                radio("/npc/talk").broadcast({
-                    text: messages
-                });
-            };
+        var userPartyMemberSelected = function(e) {
+            var skillMenu = e.sender;
+            var fieldSkill = fieldSkills[e.index];
             var skillIsUsable = function() {
                 return !pawn.canUseSkill(fieldSkill.skill);
             };
@@ -92,9 +76,23 @@ define([
                         text: member.name,
                         disabled: skillIsUsable
                     };
-                }),
-                select: targetPartyMenuSelected
-            }).open();
+                })
+            });
+            targetMenu.on('select', function(e) {
+                var targetPawn = gameState.party[e.index] === member
+                    ? pawn
+                    : new CharacterPawn(gameState.party[e.index]);
+                var messages = [];
+                var executor = createEffectExecutor({
+                    user: pawn,
+                    skill: fieldSkill.skill,
+                    targets: [targetPawn]
+                }, messages);
+                skillUser.useSkill(executor);
+                executor.state.runAll();
+                radio("/npc/talk").broadcast({ text: messages });
+            });
+            targetMenu.open();
         };
 
         return {

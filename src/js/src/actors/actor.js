@@ -1,4 +1,4 @@
-define(['rsvp', 'radio', 'direction'], function(RSVP, radio, direction) {
+define(['rsvp', 'radio', 'ee', 'direction'], function(RSVP, radio, EventEmitter, direction) {
     "use strict";
 
     var MOVE_SPEED = 0.1;
@@ -7,6 +7,8 @@ define(['rsvp', 'radio', 'direction'], function(RSVP, radio, direction) {
         var self = this;
         var moveX = 0, moveY = 0;
         var moveRemaining = 0;
+
+        var ee = new EventEmitter();
 
         var moveTowardNewSquare = function(timeScale) {
             if (self.canMove()) {
@@ -74,6 +76,7 @@ define(['rsvp', 'radio', 'direction'], function(RSVP, radio, direction) {
         this.frame = 0;
         this.font = undefined;
     };
+    Actor.prototype = Object.create(EventEmitter.prototype);
 
     Actor.prototype.warpTo = function(x, y, direction) {
         this.destX = x;

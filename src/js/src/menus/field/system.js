@@ -15,16 +15,14 @@ define(["menu", "radio", "game-state"], function(Menu, radio, gameState) {
                 {
                     text: "Load",
                     disabled: function() { return !localStorage.getItem("saveGame0"); },
-                    select: function(menu) {
+                    select: function(e) {
                         gameState.load(0);
-                        menu.close();
-                        // TODO: close parent menu again...
-                        // self.menu.close();
+                        e.sender.close();
                     }
                 }
             ],
-            select: function(index, item) {
-                item.select(this);
+            select: function(e) {
+                e.item.select(e);
             }
         }),
     };

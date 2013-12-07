@@ -17,31 +17,27 @@ define(['actors/npc', 'battle', 'game-state'], function(Npc, Battle, gameState) 
             moveClurichaunInFrontOfDoor();
         }
 
-        clurichaun.addAfterTalk(function() {
-            var battle = new Battle(["clurichaun"], { isBoss: true });
-            battle.onWon = function() {
-                flags.beatenClurichaun = true;
-                clurichaun.runDialogue("lost").then(function() {
-                    map.removeActor(clurichaun);
-                });
-            };
-            battle.onRan = function() {
-                clurichaun.runDialogue("ran");
-            };
-            battle.start();
+        clurichaun.on('afterTalk', function() {
+            new Battle(["clurichaun"], { isBoss: true })
+                .on('won', function() {
+                    flags.beatenClurichaun = true;
+                    clurichaun.runDialogue("lost").then(function() {
+                        map.removeActor(clurichaun);
+                    });
+                })
+                .on('ran', function() {
+                    clurichaun.runDialogue("ran");
+                })
+                .start();
         });
 
-        map.npcs.drachma.addBeforeTalk(function() {
-            return !flags.haveDrachma;
-        });
-        map.npcs.drachma.addBeforeTalk(function() {
-            flags.haveDrachma = true;
-            moveClurichaunInFrontOfDoor();
-        });
-
-        _(map.npcs.drachma).chain().clone().tap(function(d2) {
-            d2.warpTo(map.npcs.drachma.x - 1, map.npcs.drachma.y);
-            map.addActor(d2);
+        map.npcs.drachma.on('beforeTalk', function(e) {
+            if (flags.haveDrachma) {
+                e.preventDefault();
+            } else {
+                flags.haveDrachma = true;
+                moveClurichaunInFrontOfDoor();
+            }
         });
     };
 });

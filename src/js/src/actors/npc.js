@@ -1,10 +1,15 @@
-define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, npcBehaviors, direction) {
+define(['underscore', 'actors/actor', 'actors/npc-behaviors', 'direction'], function(_, Actor, npcBehaviors, direction) {
     "use strict";
 
-    function Npc(properties) {
-        var beforeTalkHandlers = [];
-        var afterTalkHandlers = [];
+    function EventArgs(options) {
+        _(this).extend(options);
+        this.defaultPrevented = false;
+    }
+    EventArgs.prototype.preventDefault = function() {
+        this.defaultPrevented = true;
+    };
 
+    function Npc(properties) {
         _.defaults(properties, {
             "archetype": "bgobj",
             "behavior": "stationary"
@@ -24,14 +29,6 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             this.wander();
         };
 
-        this.addBeforeTalk = function(fn) {
-            beforeTalkHandlers.push(fn);
-        };
-
-        this.addAfterTalk = function(fn) {
-            afterTalkHandlers.push(fn);
-        };
-
         this.runDialogue = function(dialogueName) {
             var self = this;
             var text = _(properties).valuesOfPropertiesStartingWith(dialogueName);
@@ -48,22 +45,18 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
         };
 
         this.onTalk = function() {
-            var self = this;
-            var text = [];
-            var cancelled = false;
-            var sayProperties;
+            var actorSpokenTo = this;
+            var e = new EventArgs({ sender: actorSpokenTo });
 
-            beforeTalkHandlers.forEach(function(fn){
-                cancelled = cancelled || (fn.call(self) === false);
+            this.trigger('beforeTalk', [e]);
+
+            if (e.defaultPrevented)
+                return;
+
+            this.runDialogue("say").then(function() {
+                var e = new EventArgs({ sender: actorSpokenTo });
+                actorSpokenTo.trigger('afterTalk', [e]);
             });
-
-            if (!cancelled) {
-                this.runDialogue("say").then(function() {
-                    _(afterTalkHandlers).each(function(fn) {
-                        fn.call(self);
-                    });
-                });
-            };
         }
     };
 
