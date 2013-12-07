@@ -15,7 +15,7 @@ define(['menu'], function(Menu) {
         });
 
         norodelFan.menu = menu;
-        norodelFan.addAfterTalk(function() {
+        norodelFan.on('afterTalk', function() {
             norodelFan.menu.open();
         });
     };

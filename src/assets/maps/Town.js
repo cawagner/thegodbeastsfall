@@ -43,7 +43,7 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
             npc.on('beforeTalk', learnAboutMirv);
         });
 
-        map.npcs.barrel1.addAfterTalk(function() {
+        map.npcs.barrel1.on('afterTalk', function() {
             debugMenu.open();
         });
 

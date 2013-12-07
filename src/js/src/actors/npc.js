@@ -9,9 +9,6 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
     };
 
     function Npc(properties) {
-        var beforeTalkHandlers = [];
-        var afterTalkHandlers = [];
-
         _.defaults(properties, {
             "archetype": "bgobj",
             "behavior": "stationary"
@@ -31,10 +28,6 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
             this.wander();
         };
 
-        this.addAfterTalk = function(fn) {
-            afterTalkHandlers.push(fn);
-        };
-
         this.runDialogue = function(dialogueName) {
             var self = this;
             var text = _(properties).valuesOfPropertiesStartingWith(dialogueName);
@@ -51,20 +44,18 @@ define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, np
         };
 
         this.onTalk = function() {
-            var self = this;
-            var text = [];
-            var cancelled = false;
-            var sayProperties;
+            var actorSpokenTo = this;
+            var e = new EventArgs({ sender: actorSpokenTo });
 
-            var e = new EventArgs({ sender: self });
             this.trigger('beforeTalk', [e]);
 
-            if (!e.defaultPrevented) {
-                this.runDialogue("say").then(function() {
-                    var e = new EventArgs({ sender: self });
-                    this.trigger('afterTalk', [e]);
-                });
-            }
+            if (e.defaultPrevented)
+                return;
+
+            this.runDialogue("say").then(function() {
+                var e = new EventArgs({ sender: actorSpokenTo });
+                actorSpokenTo.trigger('afterTalk', [e]);
+            });
         }
     };
 
