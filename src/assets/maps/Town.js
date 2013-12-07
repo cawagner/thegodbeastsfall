@@ -24,7 +24,7 @@ define(["game-state", "battle", "menu", "character", "json!campaign.json"], func
                         debugMenu.owner.say(["Don't get greedy. You've already got a Mierv!"]);
                     }, 0);
                 }
-            } else if (item === "Get Potions") {
+            } else if (e.item === "Get Potions") {
                 gameState.inventory.addItem("potion");
                 gameState.inventory.addItem("soma");
                 gameState.inventory.addItem("antidote");
