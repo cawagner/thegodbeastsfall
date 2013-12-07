@@ -13,11 +13,12 @@ define(["menu", "radio", "game-state"], function(Menu, radio, gameState) {
             });
             var itemsMenu = new Menu({items: items});
             itemsMenu.on('select', function(e) {
+                var selectedItem = e.item.item;
                 var itemVerbMenu = new Menu({
                     items: [
                         {
-                            text: "Use " + e.item.item.name,
-                            disabled: !(e.item.item.isFieldUsable || e.item.item.equipment)
+                            text: "Use " + selectedItem.name,
+                            disabled: !(selectedItem.isFieldUsable || selectedItem.equipment)
                         },
                         "Look"
                     ],
@@ -25,17 +26,17 @@ define(["menu", "radio", "game-state"], function(Menu, radio, gameState) {
                 itemVerbMenu.on('select', function(e) {
                     var oldItem,
                         text,
-                        member = gameState.party[0],
-                        newItem = e.item.item;
+                        member = gameState.party[0];
+
                     if (e.index === 0) {
                         // TODO: don't just try to equip it to Held...
-                        if (newItem.equipment) {
-                            oldItem = member.equipment.wear(newItem);
+                        if (selectedItem.equipment) {
+                            oldItem = member.equipment.wear(selectedItem);
                             // TODO: remove new item from inventory, add old item to inventory
 
                             text = oldItem
-                                ? member.name + " took off " + oldItem.name + " and wore " + newItem.name + "."
-                                : member.name + " wore " + newItem.name + ".";
+                                ? member.name + " took off " + oldItem.name + " and wore " + selectedItem.name + "."
+                                : member.name + " wore " + selectedItem.name + ".";
 
                             e.sender.close();
                             itemsMenu.close();
@@ -44,7 +45,7 @@ define(["menu", "radio", "game-state"], function(Menu, radio, gameState) {
                         }
                     }
                     if (e.index === 1) {
-                        radio("/npc/talk").broadcast({ text: [item.item.desc] });
+                        radio("/npc/talk").broadcast({ text: [selectedItem.desc] });
                     }
                 });
                 itemVerbMenu.open();
