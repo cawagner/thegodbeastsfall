@@ -11,6 +11,7 @@
             "radio": "../lib/radio.min",
             "rsvp": "../lib/rsvp-latest.amd",
             "underscore": "../lib/underscore",
+            "ee": "../lib/EventEmitter",
             "text": "../lib/requirejs-plugins/text",
             "image": '../lib/requirejs-plugins/image',
             "json": '../lib/requirejs-plugins/json',
