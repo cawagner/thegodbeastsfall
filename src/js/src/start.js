@@ -11,6 +11,7 @@
             "radio": "../lib/radio.min",
             "rsvp": "../lib/rsvp-latest.amd",
             "underscore": "../lib/underscore",
+            "handjs": "../lib/hand-1.2.2",
             "ee": "../lib/EventEmitter",
             "text": "../lib/requirejs-plugins/text",
             "image": '../lib/requirejs-plugins/image',

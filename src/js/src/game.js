@@ -1,4 +1,4 @@
-define(['underscore', 'states/main-menu-state', 'graphics'], function(_, MainMenuState, graphics) {
+define(['underscore', 'states/main-menu-state', 'graphics', "touch-input"], function(_, MainMenuState, graphics, touchInput) {
     "use strict";
 
     var gameStates = [ new MainMenuState() ];
@@ -35,6 +35,8 @@ define(['underscore', 'states/main-menu-state', 'graphics'], function(_, MainMen
             // graphics.cls();
 
             this.currentState().draw(timeScale);
+
+            touchInput.draw();
 
             graphics.swapBuffers();
         }
