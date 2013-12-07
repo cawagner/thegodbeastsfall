@@ -1,4 +1,4 @@
-define(["graphics", "handjs"], function(graphics) {
+define(["graphics", "underscore", "ee", "handjs"], function(graphics, _, EventEmitter) {
     "use strict";
 
     var controllerImage = new Image();
@@ -48,9 +48,11 @@ define(["graphics", "handjs"], function(graphics) {
         return { x: x, y: y};
     };
 
+    var lastTappedLocation = {};
+
     var controllerImage;
 
-    return {
+    var touchInput = _(Object.create(EventEmitter.prototype)).extend({
         isEnabled: isTouchDevice,
         init: function(canvas) {
             if (!isTouchDevice)
@@ -58,6 +60,8 @@ define(["graphics", "handjs"], function(graphics) {
 
             canvas.addEventListener("pointerdown", function(e) {
                 var c = normalizedCoordinates(e, canvas);
+
+                lastTappedLocation[e.pointerId] = c;
 
                 buttons.forEach(function(button) {
                     if (c.x >= button.left && c.y >= button.top && c.x <= button.right && c.y <= button.bottom) {
@@ -72,6 +76,11 @@ define(["graphics", "handjs"], function(graphics) {
             });
             canvas.addEventListener("pointerup", function(e) {
                 var c = normalizedCoordinates(e, canvas);
+                var o = lastTappedLocation[e.pointerId];
+                if (Math.abs(c.x - o.x) < 10 &&
+                    Math.abs(c.y - o.y) < 10) {
+                    touchInput.trigger('tap', [c]);
+                }
 
                 buttons.forEach(function(button) {
                     if (button.pressedBy === e.pointerId) {
@@ -112,5 +121,6 @@ define(["graphics", "handjs"], function(graphics) {
                 graphics.setAlpha(1);
             }
         }
-    }
+    });
+    return touchInput;
 });

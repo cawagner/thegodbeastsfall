@@ -1,5 +1,11 @@
-define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-input", "states/noop-state"], function(radio, _, game, graphics, gui, sound, input, NoopState) {
+define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-input", "touch-input", "states/noop-state"], function(radio, _, game, graphics, gui, sound, input, touchInput, NoopState) {
     "use strict";
+
+    var tap = null, tapped;
+
+    touchInput.on('tap', function(e) {
+        tap = e;
+    });
 
     function EventArgs(options) {
         _(this).extend(options || {});
@@ -27,7 +33,10 @@ define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-inp
     }
 
     MenuState.prototype.start = function(previousState) {
+        var self = this;
         this.previousState = previousState;
+        tap = null;
+        tapped = false;
     };
 
     MenuState.prototype.update = function() {
@@ -47,7 +56,8 @@ define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-inp
             if (input.wasRightPressed()) {
                 this.selectionIndex = Math.min(this.menu.items.length - 1, this.selectionIndex + 1);
             }
-            if (input.wasConfirmPressed()) {
+            if (tapped || input.wasConfirmPressed()) {
+                tapped = false;
                 if (!_(this.menu.items[this.selectionIndex]).result("disabled")) {
                     this.menu.trigger('select', [{
                         sender: this.menu,
@@ -72,6 +82,7 @@ define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-inp
 
     MenuState.prototype.draw = function(delta) {
         var i, x, y, item, colWidth = this.menu.colWidth, disabled;
+        var drawX, drawY;
 
         if (this.menu.options.captureDraw) {
             if (this.menu.options.draw) {
@@ -89,7 +100,21 @@ define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-inp
             x = i % this.menu.cols;
             y = Math.floor(i / this.menu.cols);
             disabled = _(this.menu.items[i]).result("disabled");
-            graphics.drawText(this.menu.x + x * colWidth + 12, 4 + this.menu.y + y * gui.lineHeight, item, disabled ? "disabled" : null);
+            drawX = this.menu.x + x * colWidth + 12;
+            drawY = 4 + this.menu.y + y * gui.lineHeight;
+            graphics.drawText(drawX, drawY, item, disabled ? "disabled" : null);
+
+            if (this.isPaused)
+                continue;
+
+            if (tap && (tap.x >= drawX) && (tap.x <= drawX + colWidth) && (tap.y >= drawY) && (tap.y <= drawY + gui.lineHeight)) {
+                if (this.selectionIndex !== i) {
+                    this.selectionIndex = i;
+                } else {
+                    tapped = true;
+                }
+                tap = null;
+            }
         }
 
         x = this.selectionIndex % this.menu.cols;
