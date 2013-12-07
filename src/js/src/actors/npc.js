@@ -1,7 +1,8 @@
-define(['actors/actor', 'actors/npc-behaviors', 'direction'], function(Actor, npcBehaviors, direction) {
+define(['underscore', 'actors/actor', 'actors/npc-behaviors', 'direction'], function(_, Actor, npcBehaviors, direction) {
     "use strict";
 
-    function EventArgs() {
+    function EventArgs(options) {
+        _(this).extend(options);
         this.defaultPrevented = false;
     }
     EventArgs.prototype.preventDefault = function() {

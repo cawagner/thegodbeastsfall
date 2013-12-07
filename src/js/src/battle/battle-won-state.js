@@ -33,20 +33,22 @@ define([
     };
 
     var levelCharacters = function() {
+        var levelUpMenu;
         character = nextCharacterToLevel();
         if (character) {
-            new Menu({
+            levelUpMenu = new Menu({
                 items: [
                     { text: "STR", stat: 'strength', disabled: character.lastStatIncreased === "strength" },
                     { text: "AGI", stat: 'agility', disabled: character.lastStatIncreased === "agility" },
                     { text: "INT", stat: 'intelligence', disabled: character.lastStatIncreased === "intelligence" },
                     { text: "LUK", stat: 'luck', disabled: character.lastStatIncreased === "luck" }
                 ]
-            }).select(function(index, item) {
-                var gains = character.gainLevel(item.stat);
+            });
+            levelUpMenu.on('select', function(e) {
+                var gains = character.gainLevel(e.item.stat);
                 var growthText = [];
 
-                this.close();
+                e.sender.close();
 
                 character = null;
 
@@ -66,7 +68,8 @@ define([
                         setTimeout(levelCharacters, 1);
                     }
                 ));
-            }).open();
+            });
+            levelUpMenu.open();
         } else {
             setTimeout(function() {
                 radio("/battle/end").broadcast({ won: true });

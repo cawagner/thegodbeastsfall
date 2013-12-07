@@ -4,19 +4,18 @@ define(['menu'], function(Menu) {
     var setupNorodelFan = function(norodelFan) {
         var menu = new Menu({
             items: ["Yes", "No"],
-            select: function(index, item) {
-                this.close();
-                norodelFan.runDialogue("answer" + item);
+            select: function(e) {
+                e.sender.close();
+                norodelFan.runDialogue("answer" + e.item);
             },
-            cancel: function() {
-                this.close();
+            cancel: function(e) {
+                e.sender.close();
                 norodelFan.runDialogue("cancel");
             }
         });
 
-        norodelFan.menu = menu;
         norodelFan.on('afterTalk', function() {
-            norodelFan.menu.open();
+            menu.open();
         });
     };
 
