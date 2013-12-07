@@ -36,13 +36,6 @@ define(["underscore"], function(_) {
                 }
             });
             return result;
-        },
-        formatList: function(collection) {
-            var slice = Array.prototype.slice.call(collection, 0);
-            if (slice.length > 1) {
-                slice[slice.length - 1] = "and " + slice[slice.length - 1];
-            }
-            return slice.length === 1 ? slice[0] : slice.join(slice.length > 2 ? ", " : " ");
         }
     });
 });
