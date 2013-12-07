@@ -28,9 +28,6 @@ define(["underscore"], function(_) {
         pluckResult: function(collection, field) {
             return _(collection).map(function(item) { return _(item).result(field); });
         },
-        randomElement: function(collection) {
-            return collection[Math.floor(collection.length * Math.random())];
-        },
         valuesOfPropertiesStartingWith: function(obj, initial) {
             var result = [];
             _(obj).each(function(value, key) {
