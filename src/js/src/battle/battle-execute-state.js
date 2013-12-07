@@ -54,7 +54,7 @@ define([
             ]));
 
             battleState.enqueueFunc(function() {
-                radio("/battle/end").broadcast({ won: false });
+                radio("/battle/end").broadcast({ result: 'lost' });
             });
         }
 

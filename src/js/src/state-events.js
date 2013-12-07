@@ -35,6 +35,7 @@ define([
 
     var firstMap = true;
     var inDungeon = false;
+    var inBattle = false;
 
     return {
         init: function() {
@@ -102,8 +103,15 @@ define([
             });
 
             radio("/battle/start").subscribe(function(enemies, flags) {
-                var battleState = new BattleState(enemies);
-                var transition = new ScrollTransitionState(battleState);
+                var battleState, transition;
+
+                if (inBattle)
+                    return;
+
+                inBattle = true;
+
+                battleState = new BattleState(enemies);
+                transition = new ScrollTransitionState(battleState);
 
                 oldMusic = sound.getCurrentMusic();
 
@@ -118,6 +126,7 @@ define([
             });
 
             radio("/battle/end").subscribe(function() {
+                inBattle = false;
                 // TODO: transition!
                 sound.playMusic(oldMusic);
                 game.popState();

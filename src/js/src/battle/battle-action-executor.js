@@ -86,7 +86,7 @@ define([
             var state = guardedState(action, battleState);
             state.enqueueState(new BattleMessageState([textProvider.getMessage("ranAway", { user: action.user.name })]));
             state.enqueueFunc(function() {
-                radio("/battle/end").broadcast({ ran: true });
+                radio("/battle/end").broadcast({ result: 'ran' });
             });
             return state;
         },

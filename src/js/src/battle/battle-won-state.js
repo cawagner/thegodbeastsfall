@@ -72,7 +72,7 @@ define([
             levelUpMenu.open();
         } else {
             setTimeout(function() {
-                radio("/battle/end").broadcast({ won: true });
+                radio("/battle/end").broadcast({ result: 'won' });
             }, 1);
         }
     };
