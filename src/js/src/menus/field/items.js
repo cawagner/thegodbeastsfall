@@ -32,7 +32,11 @@ define(["menu", "radio", "game-state"], function(Menu, radio, gameState) {
                         // TODO: don't just try to equip it to Held...
                         if (selectedItem.equipment) {
                             oldItem = member.equipment.wear(selectedItem);
-                            // TODO: remove new item from inventory, add old item to inventory
+
+                            if (oldItem) {
+                                gameState.inventory.addItem(oldItem.id);
+                            }
+                            gameState.inventory.removeItem(selectedItem.id);
 
                             text = oldItem
                                 ? member.name + " took off " + oldItem.name + " and wore " + selectedItem.name + "."
