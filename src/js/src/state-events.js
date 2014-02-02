@@ -70,7 +70,7 @@ define([
             });
 
             radio("/hero/menu").subscribe(function() {
-                fieldMenu.open();
+                fieldMenu().open();
             });
 
             radio("/map/loading").subscribe(function() {

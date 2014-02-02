@@ -1,10 +1,11 @@
 define([
     "underscore",
+    "game",
     "map-loader",
     "character",
     "inventory",
     "json!campaign.json"
-], function(_, mapLoader, Character, Inventory, campaign) {
+], function(_, game, mapLoader, Character, Inventory, campaign) {
     "use strict";
 
     return {
@@ -57,7 +58,10 @@ define([
             this.inventory = Inventory.deserialize(json.inventory);
             this.location = json.location;
 
-            mapLoader.goToMap(this.location.currentMap, this.location);
+            setTimeout(function() {
+                game.resetStates();
+                mapLoader.goToMap(json.location.currentMap, json.location);
+            }, 0);
         },
 
         save: function(slot) {

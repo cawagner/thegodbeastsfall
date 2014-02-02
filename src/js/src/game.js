@@ -5,6 +5,11 @@ define(['underscore', 'states/main-menu-state', 'graphics', "touch-input"], func
 
     return {
         states: gameStates,
+        resetStates: function() {
+            while (gameStates.length > 1) {
+                gameStates.pop();
+            }
+        },
         currentState: function() {
             return gameStates[gameStates.length - 1];
         },

@@ -17,25 +17,27 @@ define([
 ) {
     "use strict";
 
-    return new Menu({
-        rows: 2,
-        cols: 2,
-        hierarchical: true,
-        items: [
-            statusMenu,
-            skillsMenu,
-            itemsMenu,
-            systemMenu
-        ],
-        draw: function() {
-            var party = gameState.party,
-                x = 260 - 60 * (party.length - 1),
-                i;
+    return function() {
+        return new Menu({
+            rows: 2,
+            cols: 2,
+            hierarchical: true,
+            items: [
+                statusMenu,
+                skillsMenu,
+                itemsMenu,
+                systemMenu
+            ],
+            draw: function() {
+                var party = gameState.party,
+                    x = 260 - 60 * (party.length - 1),
+                    i;
 
-            for (i = 0; i < party.length; ++i) {
-                gui.drawStatus(x, 180, party[i]);
-                x += 60;
+                for (i = 0; i < party.length; ++i) {
+                    gui.drawStatus(x, 180, party[i]);
+                    x += 60;
+                }
             }
-        }
-    });
+        });
+    };
 });

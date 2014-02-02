@@ -28,6 +28,7 @@ define(["radio", "underscore", "game", "graphics", "gui", "sound", "keyboard-inp
             if (menuToClose === menu) {
                 radio("/menu/close").unsubscribe(closeMenu);
                 game.popState();
+                menuToClose.emit("closed", { sender: menu });
             }
         });
     }
