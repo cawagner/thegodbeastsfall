@@ -66,12 +66,18 @@ define(["constants", "pawns/pawn-base"], function(constants, PawnBase) {
 
     CharacterPawn.prototype.criticalChance = function() {
         var chance = PawnBase.prototype.criticalChance.call(this);
-        return this.isDying ? chance * 3 : chance;
+        return this.isDying ? chance * 10 : chance;
     };
 
     CharacterPawn.prototype.priority = function() {
         var priority = PawnBase.prototype.priority.call(this);
-        return this.isDying ? -Math.floor(Math.random() * 5) : priority;
+        if (this.isDying) {
+            return -Math.floor(Math.random() * 5);
+        } else if (this.hp() < this.maxHp() * .5) {
+            return priority * (this.hp() / this.maxHp());
+        } else {
+            return priority;
+        }
     };
 
     CharacterPawn.prototype.accuracy = function() {
