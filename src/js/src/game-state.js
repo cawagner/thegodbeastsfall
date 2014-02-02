@@ -42,7 +42,7 @@ define([
                 location: this.location,
                 description: this.totalSteps + " steps taken"
             };
-            return JSON.stringify(json);
+            return json;
         },
 
         loadJSON: function(src) {
@@ -61,7 +61,7 @@ define([
         },
 
         save: function(slot) {
-            localStorage.setItem("saveGame" + slot, this.toJSON());
+            localStorage.setItem("saveGame" + slot, JSON.stringify(this.toJSON()));
         },
 
         load: function(slot) {

@@ -11,6 +11,8 @@ define(["underscore", "dice", "equipment"], function(_, Dice, Equipment) {
         };
 
         _(this).chain().extend(options).defaults(defaults);
+
+        this.equipment = new Equipment(this.equipment || {});
     }
 
     Character.create = function(options) {
@@ -30,8 +32,6 @@ define(["underscore", "dice", "equipment"], function(_, Dice, Equipment) {
         character.face = options.face;
 
         character.lastStatIncreased = options.lastStatIncreased;
-
-        character.equipment = new Equipment();
 
         while (character.level < (options.level || 1)) {
             character.gainLevel('');
@@ -119,7 +119,9 @@ define(["underscore", "dice", "equipment"], function(_, Dice, Equipment) {
 
     Character.prototype.toJSON = function() {
         var exclude = _(Character.prototype).keys().concat(['learnSet']);
-        return _(this).omit(exclude);
+        var result = _(this).omit(exclude);
+        result.equipment = this.equipment.toJSON();
+        return result;
     };
 
     return Character;

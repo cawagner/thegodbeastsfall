@@ -1,8 +1,18 @@
-define([], function() {
+define(["data/items"], function(items) {
     "use strict";
 
-    function Equipment() {
+    function Equipment(wearing) {
         this.slots = {};
+        this.populateFromJSON(wearing);
+    };
+
+    Equipment.prototype.populateFromJSON = function(wearing) {
+        var slot;
+        for (slot in wearing) {
+            if (wearing.hasOwnProperty(slot)) {
+                this.slots[slot] = items[wearing[slot]];
+            }
+        }
     };
 
     Equipment.prototype.get = function(slot) {
@@ -23,6 +33,17 @@ define([], function() {
             sum += item.equipment[stat] || 0;
         }
         return sum;
+    };
+
+    Equipment.prototype.toJSON = function() {
+        var obj = {};
+        var slot;
+        for (slot in this.slots) {
+            if (this.slots.hasOwnProperty(slot)) {
+                obj[slot] = this.slots[slot].id;
+            }
+        }
+        return obj;
     };
 
     return Equipment;
