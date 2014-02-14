@@ -43,14 +43,14 @@ define([
         game.update(timeScale);
         collected -= 16.6;
 
-        while (collected > 16.7) {
+        while (collected >= 16.7) {
             game.update(timeScale);
             collected -= 16.6;
         }
         game.draw(timeScale);
 
         endFrame = Date.now();
-        collected += Math.min(16 * 5, endFrame - startFrame);
+        collected = Math.min(16*5, collected + endFrame - startFrame);
 
         requestAnimationFrame(mainLoop, graphics.canvas);
     };
@@ -61,15 +61,15 @@ define([
         var newAspectRatio = newWidth / newHeight;
 
         if (newAspectRatio > aspectRatio) {
-            newWidth = newHeight * aspectRatio;
+            newWidth = (newHeight * aspectRatio) | 0;
         } else {
-            newHeight = newWidth / aspectRatio;
+            newHeight = (newWidth / aspectRatio) | 0;
         }
 
         container.style.width = newWidth + "px";
         container.style.height = newHeight + "px";
-        container.style.marginTop = (-newHeight / 2) + "px";
-        container.style.marginLeft = (-newWidth / 2) + "px";
+        container.style.marginTop = ((-newHeight / 2) | 0) + "px";
+        container.style.marginLeft = ((-newWidth / 2) | 0) + "px";
     };
 
     var init = function() {
