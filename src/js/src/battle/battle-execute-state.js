@@ -50,7 +50,7 @@ define([
             sound.playMusic("defeat");
 
             battleState.enqueueState(new BattleMessageState([
-                "It looks like you got your head handed to you...."
+                "Your party was wiped out."
             ]));
 
             battleState.enqueueFunc(function() {
