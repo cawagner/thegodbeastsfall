@@ -5,7 +5,8 @@ define([
     'state-events',
     'keyboard-input',
     'touch-input',
-    'constants'
+    'constants',
+    'battle/spell-animations'
 ], function(
     _,
     game,
@@ -13,7 +14,8 @@ define([
     stateEvents,
     input,
     touchInput,
-    constants
+    constants,
+    spellAnimations
 ) {
     "use strict";
 
@@ -81,6 +83,7 @@ define([
 
         input.init();
         touchInput.init(canvas);
+        spellAnimations.loadImages(); // hopefully, we don't get into a battle before the animations load...
 
         stateEvents.init();
 

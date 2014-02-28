@@ -26,6 +26,7 @@
             "items": '../../assets/data/items',
             "archetypes": '../../assets/data/archetypes',
             "speakers": '../../assets/data/speakers',
+            "spell-animations": '../../assets/data/spell-animations',
             "skill-text-functions": "../../assets/code/skill-text-functions",
             "battle-messages": "../../assets/text/battle-messages"
         }

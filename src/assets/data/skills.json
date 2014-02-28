@@ -16,7 +16,8 @@
         "text": "{{user}}'s attack!",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "1d8"
+        "power": "1d8",
+        "animation": "slash"
     },
     "stab": {
         "name": "Stab",
