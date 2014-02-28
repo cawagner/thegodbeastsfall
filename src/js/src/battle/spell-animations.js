@@ -44,8 +44,8 @@ define([
                 sourceRect = graphics.getRectForFrame(frameIndex, image.width, settings.width, settings.height);
             };
             var destRect = {
-                x: target.x + (target.rect ? target.rect.width / 2 : 0) - image.width / 2,
-                y: target.y,
+                x: target.x + (target.rect ? target.rect.width / 2 : 0) - image.width / 2 + settings.offset.x,
+                y: target.y + settings.offset.y,
                 width: settings.width,
                 height: settings.height
             };
