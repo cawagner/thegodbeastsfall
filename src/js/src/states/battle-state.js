@@ -9,7 +9,7 @@ define([
     "battle/battle-menu-state",
     "battle/battle-decision-state",
     "states/composite-state",
-    "battle/battle-animations",
+    "battle/enemy-animations",
     "battle/battle-text-provider"
 ], function(
     _,
