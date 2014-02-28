@@ -16,7 +16,8 @@
         "text": "{{user}}'s attack!",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "1d8"
+        "power": "1d8",
+        "animation": "slash"
     },
     "stab": {
         "name": "Stab",
@@ -167,7 +168,8 @@
         "text": "{{user}} wields its claws!",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "2+1d4"
+        "power": "2+1d4",
+        "animation": "slash"
     },
     "drink": {
         "name": "Drink",
@@ -182,7 +184,8 @@
         "text": "{{user}} punches {{target}}!",
         "target": "enemy",
         "effect": "damage/melee",
-        "power": "1+1d6"
+        "power": "1+1d6",
+        "animation": "slash"
     },
     "brawl": {
         "name": "Brawl",
@@ -190,7 +193,8 @@
         "target": "enemy",
         "effect": "damage/melee/2",
         "power": "1d4",
-        "cooldown": 1
+        "cooldown": 1,
+        "animation": "slash"
     },
     "rant": {
         "name": "Rant",

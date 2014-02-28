@@ -1,0 +1,13 @@
+{
+    "slash": {
+        "type": "column",
+        "top": 0,
+        "left": 0,
+        "width": 64,
+        "height": 64,
+        "offset": { "x": 16, "y": -20 },
+        "file": "slash.png",
+        "frameDelay": 2,
+        "frameCount": 6
+    }
+}

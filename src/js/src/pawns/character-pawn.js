@@ -1,7 +1,7 @@
 define(["constants", "pawns/pawn-base"], function(constants, PawnBase) {
     "use strict";
 
-    function CharacterPawn(character) {
+    function CharacterPawn(character, isBattle) {
         PawnBase.call(this, character);
         this.character = character;
         this.isDying = false;
@@ -10,6 +10,7 @@ define(["constants", "pawns/pawn-base"], function(constants, PawnBase) {
         this.restoreMpOnNextHit = true;
         this.equipment = character.equipment;
         this.archetype = character.archetype;
+        this.isBattle = isBattle;
     };
 
     CharacterPawn.prototype = new PawnBase();
@@ -71,13 +72,14 @@ define(["constants", "pawns/pawn-base"], function(constants, PawnBase) {
 
     CharacterPawn.prototype.priority = function() {
         var priority = PawnBase.prototype.priority.call(this);
-        if (this.isDying) {
-            return -Math.floor(Math.random() * 5);
-        } else if (this.hp() < this.maxHp() * .5) {
-            return priority * (this.hp() / this.maxHp());
-        } else {
-            return priority;
+        if (this.isBattle) {
+            if (this.isDying) {
+                return -Math.floor(Math.random() * 5);
+            } else if (this.hp() < this.maxHp() * .5) {
+                return priority * (this.hp() / this.maxHp());
+            }
         }
+        return priority;
     };
 
     CharacterPawn.prototype.accuracy = function() {

@@ -9,8 +9,9 @@ define([
     "battle/battle-menu-state",
     "battle/battle-decision-state",
     "states/composite-state",
-    "battle/battle-animations",
-    "battle/battle-text-provider"
+    "battle/enemy-animations",
+    "battle/battle-text-provider",
+    "battle/spell-animations"
 ], function(
     _,
     subscriptionSet,
@@ -22,8 +23,9 @@ define([
     BattleMenuState,
     BattleDecisionState,
     CompositeState,
-    battleAnimations,
-    textProvider
+    enemyAnimations,
+    textProvider,
+    spellAnimations
 ) {
     "use strict";
 
@@ -33,14 +35,16 @@ define([
         var self = this;
 
         this.playerPawns = _(gameState.party).map(function(character) {
-            return new pawns.CharacterPawn(character);
+            return new pawns.CharacterPawn(character, true);
         });
 
         this.enemyPawns = _(enemies).map(function(enemyId) {
             var pawn = new pawns.EnemyPawn(enemyId);
-            pawn.display.effects.push(battleAnimations[pawn.enemy.idle || "slowWiggle"](pawn));
+            pawn.display.effects.push(enemyAnimations[pawn.enemy.idle || "slowWiggle"](pawn));
             return pawn;
         });
+
+        this.animations = [];
 
         this.rootState = new CompositeState();
 
@@ -50,12 +54,15 @@ define([
 
         this.subscriptions = subscriptionSet();
         this.subscriptions.subscribe("/display/miss", function(pawn) {
-            pawn.display.effects.push(battleAnimations.pushUp());
+            pawn.display.effects.push(enemyAnimations.pushUp());
         });
         this.subscriptions.subscribe("/kill", function(pawn) {
             if (pawn.type === 'enemy') {
-                pawn.display.effects.push(battleAnimations.shrinkDie(pawn));
+                pawn.display.effects.push(enemyAnimations.shrinkDie(pawn));
             }
+        });
+        this.subscriptions.subscribe("/display/animation", function(settings) {
+            self.animations.push(spellAnimations.createAnimation(settings.animation, settings.target));
         });
 
         this.rootState.start();
@@ -80,6 +87,10 @@ define([
 
         _(this.playerPawns).each(updatePawnEffects);
         _(this.enemyPawns).each(updatePawnEffects);
+
+        this.animations = this.animations.filter(function(animation) {
+            return !animation.update();
+        });
     };
 
     BattleState.prototype.end = function() {
@@ -98,7 +109,7 @@ define([
 
         return {
             start: function() {
-                pawn.display.effects.push(battleAnimations.pushDown());
+                pawn.display.effects.push(enemyAnimations.pushDown());
             },
             update: function() {
                 y = Math.min(pawn.y - 20, y + ym);
@@ -118,7 +129,7 @@ define([
 
     BattleState.prototype.displayAttack = function(pawn, effect) {
         return function() {
-            pawn.display.effects.push(battleAnimations.wiggleAttack());
+            pawn.display.effects.push(enemyAnimations.wiggleAttack());
         };
     };
 
@@ -128,6 +139,7 @@ define([
 
         this.drawEnemies();
         this.drawAllies();
+        this.drawAnimations();
 
         this.rootState.draw();
     };
@@ -168,6 +180,10 @@ define([
 
             gui.drawStatus(pawn.x - 18, pawn.y - 5, pawn);
         });
+    };
+
+    BattleState.prototype.drawAnimations = function() {
+        _(this.animations).invoke("draw");
     };
 
     BattleState.prototype.wonBattle = function() {

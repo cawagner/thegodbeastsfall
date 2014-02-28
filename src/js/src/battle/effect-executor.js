@@ -19,6 +19,15 @@ function(_, radio, textProvider, statusFactory, sound) {
         var self = this;
         effects.forEach(function(effect) {
             self.state.enqueueFunc(function() {
+                var animation = effect.animation || (effect.skill && effect.skill.animation);
+                if (animation && effect.missed !== true && effect.success !== false) {
+                    self.state.enqueueFunc(function() {
+                        radio("/display/animation").broadcast({
+                            animation: animation,
+                            target: effect.target
+                        });
+                    });
+                }
                 self[effect.type](effect);
             });
         });
