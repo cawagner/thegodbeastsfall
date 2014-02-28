@@ -35,7 +35,7 @@ define([
         var self = this;
 
         this.playerPawns = _(gameState.party).map(function(character) {
-            return new pawns.CharacterPawn(character);
+            return new pawns.CharacterPawn(character, true);
         });
 
         this.enemyPawns = _(enemies).map(function(enemyId) {
