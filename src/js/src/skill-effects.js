@@ -222,6 +222,7 @@ define(["underscore", "dice", "data/skills"], function(_, Dice, skills) {
         "damage/melee": standardSkillEffect(standardDamage),
         "damage/melee/vampire": standardSkillEffect(vampire),
         "damage/melee/2": standardSkillEffect([standardDamage, standardDamage]),
+        "damage/melee/5": standardSkillEffect([standardDamage, standardDamage, standardDamage, standardDamage, standardDamage]),
         "damage/magic": standardSkillEffect(magicDamage),
         "damage/magic/family": standardSkillEffect(magicDamageToFamily),
         "heal/normal": standardSkillEffect(standardHeal),

@@ -18,6 +18,17 @@
         "effect": "damage/melee",
         "power": "1d8"
     },
+    "swordDance": {
+        "name": "S. Dance",
+        "desc": "A powerful, but dangerous attack.",
+        "text": "{{user}}'s blade flashes wildly!",
+        "target": "enemy",
+        "effect": "damage/melee/5",
+        "power": "1d6",
+        "accuracy": 1.5,
+        "criticalChance": 0,
+        "hp": 20
+    },
     "stab": {
         "name": "Stab",
         "desc": "Attack normally.",

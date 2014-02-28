@@ -28,6 +28,10 @@ define(["constants", "pawns/pawn-base"], function(constants, PawnBase) {
         }
     };
 
+    CharacterPawn.prototype.consumeHp = function(amount) {
+        this.character.hp = Math.max(1, this.character.hp - amount);
+    },
+
     CharacterPawn.prototype.consumeMp = function(amount) {
         this.character.mp -= amount;
     };
@@ -46,6 +50,9 @@ define(["constants", "pawns/pawn-base"], function(constants, PawnBase) {
         }
         if (skill.mp) {
             return constants.chars.STAR + (""+skill.mp).rset(2);
+        }
+        if (skill.hp) {
+            return constants.chars.HEART + (""+skill.hp).rset(2);
         }
         return "";
     };

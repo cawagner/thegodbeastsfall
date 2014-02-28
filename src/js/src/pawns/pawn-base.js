@@ -106,6 +106,9 @@ define(["underscore"], function(_) {
             if (skill.mp) {
                 usable = usable && (this.mp() >= skill.mp);
             }
+            if (skill.hp) {
+                usable = usable && (this.hp() >= skill.hp);
+            }
             return usable;
         },
         useSkill: function(skill) {
@@ -114,6 +117,9 @@ define(["underscore"], function(_) {
             }
             if (skill.mp) {
                 this.consumeMp(skill.mp);
+            }
+            if (skill.hp) {
+                this.consumeHp(skill.hp);
             }
         },
         addBuff: function(stat, amount, duration) {

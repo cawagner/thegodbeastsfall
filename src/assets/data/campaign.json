@@ -19,7 +19,7 @@
             "Fight": {
                 "hard": { "maxHp": 36 },
                 "spin": { "agility": 11, "strength": 16 },
-                "slash2": { "agility": 15, "@replace": "slash" }
+                "swordDance": { "strength": 16 }
             },
             "Magic": {
                 "braver": { "maxMp": 7 },
