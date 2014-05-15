@@ -28,13 +28,14 @@ define([
 
         this.drawText = function(graphics, x, y, text) {
             var i, srcRect, dstRect = { x: x, y: y, width: 6, height: 18 };
-
-            for (i = 0; i < text.length; ++i) {
-                srcRect = table[text[i]];
+            var L = text.length;
+            for (i = 0; i < L; ++i) {
+                srcRect = table[text.charAt(i)];
+                dstRect.x = x;
                 if (srcRect) {
                     graphics.drawImageRect(image, srcRect, dstRect);
                 }
-                dstRect.x += 6;
+                x += 6;
             }
         };
     };
